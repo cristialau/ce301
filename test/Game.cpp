@@ -28,8 +28,11 @@ void Game::InitWindow()
 
     if (ifs.is_open()) {
         std::getline(ifs, title);
+        ifs.ignore(256, '=');
         ifs >> window_bounds.width >> window_bounds.height;
+        ifs.ignore(256, '=');
         ifs >> framerate_limit;
+        ifs.ignore(256, '=');
         ifs >> vertical_sync_enabled;
     }
     ifs.close();
