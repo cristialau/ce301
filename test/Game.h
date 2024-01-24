@@ -24,15 +24,18 @@ private:
 	float dt = 0;
 
 	float tileSize = 16;
+	float scale = 3;
 
 	FrameRate frameRate;
 
-	Player player = Player(8 * tileSize, 8 * tileSize);
+	Player player = Player(208.f, 100.f);
 
-	NPC npc1 = NPC(30 * tileSize, 30 * tileSize);
+	NPC npc1 = NPC(208.f + 0 * tileSize * scale, 100.f + 7 * tileSize * scale);
 
 	Map map1 = Map("Textures/16x16 TopDown Nature/4_Seasons_Ground_Tiles.png");
 	//Map map2 = Map("Textures/16x16 TopDown Nature/4_Seasons_Trees.png");
+
+	int level;
 
 private:
 	//Initialize

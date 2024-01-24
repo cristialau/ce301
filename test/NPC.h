@@ -17,8 +17,8 @@ public:
 	
 	void Initialize();
 	void Load();
-	void Update(float dt);
-	void Draw(sf::RenderWindow &window);
+	void Update(float dt, int level);
+	void Draw(sf::RenderWindow &window, int level);
 };
 
 #endif

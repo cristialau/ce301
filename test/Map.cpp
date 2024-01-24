@@ -39,24 +39,57 @@ void Map::Load()
 
 	for (int y = 0; y < 8; y++) {
 		for (int x = 0; x < 8; x++) {
-			int i = map[y][x]; //ok
-			sprites[x][y].setTexture(texture);
-			sprites[x][y].setTextureRect(sf::IntRect(tiles[i].position.x, tiles[i].position.y, tileX, tileY));
-			sprites[x][y].setScale(sf::Vector2f(scale, scale));
-			sprites[x][y].setPosition(sf::Vector2f(208.f + x * tileX * scale, 100.f + y * tileY * scale));
+			int i = map1[y][x]; //ok
+			sprites1[x][y].setTexture(texture);
+			sprites1[x][y].setTextureRect(sf::IntRect(tiles[i].position.x, tiles[i].position.y, tileX, tileY));
+			sprites1[x][y].setScale(sf::Vector2f(scale, scale));
+			sprites1[x][y].setPosition(sf::Vector2f(208.f + x * tileX * scale, 100.f + y * tileY * scale));
+		}
+	}
+
+	for (int y = 0; y < 8; y++) {
+		for (int x = 0; x < 8; x++) {
+			int i = map2[y][x]; //ok
+			sprites2[x][y].setTexture(texture);
+			sprites2[x][y].setTextureRect(sf::IntRect(tiles[i].position.x, tiles[i].position.y, tileX, tileY));
+			sprites2[x][y].setScale(sf::Vector2f(scale, scale));
+			sprites2[x][y].setPosition(sf::Vector2f(208.f + x * tileX * scale, 100.f + y * tileY * scale));
+		}
+	}
+
+	for (int y = 0; y < 8; y++) {
+		for (int x = 0; x < 8; x++) {
+			int i = map3[y][x]; //ok
+			sprites3[x][y].setTexture(texture);
+			sprites3[x][y].setTextureRect(sf::IntRect(tiles[i].position.x, tiles[i].position.y, tileX, tileY));
+			sprites3[x][y].setScale(sf::Vector2f(scale, scale));
+			sprites3[x][y].setPosition(sf::Vector2f(208.f + x * tileX * scale, 100.f + y * tileY * scale));
 		}
 	}
 }
 
-void Map::Update(float dt)
+void Map::Update(float dt, int level)
 {
 }
 
-void Map::Draw(sf::RenderWindow &window)
+void Map::Draw(sf::RenderWindow &window, int level)
 {
-	for (int y = 0; y < 8; y++) {
-		for (int x = 0; x < 8; x++) {
-			window.draw(sprites[x][y]);
+	if (level == 1) {
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 8; x++)
+				window.draw(sprites1[x][y]);
+		}
+	}
+	if (level == 2) {
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 8; x++)
+				window.draw(sprites2[x][y]);
+		}
+	}
+	if (level == 3) {
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 8; x++)
+				window.draw(sprites3[x][y]);
 		}
 	}
 }

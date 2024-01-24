@@ -73,10 +73,12 @@ void Game::UpdateSFML()
 
 void Game::Update()
 {
+    this->level = player.GetLevel();
+
     frameRate.Update(dt);
     player.Update(dt);
-    npc1.Update(dt);
-    map1.Update(dt);
+    npc1.Update(dt, level);
+    map1.Update(dt, level);
     //map2.Update(dt);
 }
 
@@ -84,10 +86,10 @@ void Game::Draw()
 {
     this->window->clear();
 
-    map1.Draw(*window);
+    map1.Draw(*window, level);
     //map2.Draw(*window);
     
-    npc1.Draw(*window);
+    npc1.Draw(*window, level);
 
     player.Draw(*window);
 

@@ -28,12 +28,12 @@ void NPC::Load()
 	}
 }
 
-void NPC::Update(float dt)
+void NPC::Update(float dt, int level)
 {
 	
 }
 
-void NPC::Draw(sf::RenderWindow &window)
+void NPC::Draw(sf::RenderWindow &window, int level)
 {
 	window.draw(sprite);
 }
