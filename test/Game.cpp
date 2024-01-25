@@ -47,6 +47,8 @@ void Game::InitGame()
     frameRate.Initialize();
     player.Initialize();
     npc1.Initialize();
+    npc2.Initialize();
+    npc3.Initialize();
     map1.Initialize();
     //map2.Initialize();
 }
@@ -56,6 +58,8 @@ void Game::LoadGame()
     frameRate.Load();
     player.Load();
     npc1.Load();
+    npc2.Load();
+    npc3.Load();
     map1.Load();
     //map2.Load();
 }
@@ -78,6 +82,8 @@ void Game::Update()
     frameRate.Update(dt);
     player.Update(dt);
     npc1.Update(dt, level);
+    npc2.Update(dt, level);
+    npc3.Update(dt, level);
     map1.Update(dt, level);
     //map2.Update(dt);
 }
@@ -90,6 +96,8 @@ void Game::Draw()
     //map2.Draw(*window);
     
     npc1.Draw(*window, level);
+    npc2.Draw(*window, level);
+    npc3.Draw(*window, level);
 
     player.Draw(*window);
 

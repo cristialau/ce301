@@ -1,10 +1,11 @@
 #include "NPC.h"
 #include <iostream>
 
-NPC::NPC(float positionX, float positionY)
+NPC::NPC(float positionX, float positionY, int level)
 {
 	this->positionX = positionX;
 	this->positionY = positionY;
+	this->level = level;
 }
 
 NPC::~NPC()
@@ -30,10 +31,13 @@ void NPC::Load()
 
 void NPC::Update(float dt, int level)
 {
-	
+	if (level == this->level) {
+
+	}
 }
 
 void NPC::Draw(sf::RenderWindow &window, int level)
 {
-	window.draw(sprite);
+	if (level == this->level)
+		window.draw(sprite);
 }

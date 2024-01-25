@@ -12,7 +12,7 @@ Player::~Player()
 
 void Player::Initialize()
 {
-	this->level = 1;
+	//this->level = 1;
 }
 
 void Player::Load()
@@ -30,76 +30,89 @@ void Player::Load()
 
 void Player::Update(float dt)
 {
-	playerMap[playerPosX][playerPosY] = playerNumber;
+	if(!isLoadedLevel)
+		LoadLevel(level);
 
-	//sf::Vector2f position = sprite.getPosition();
+	playerMap[playerPosY][playerPosX] = playerNumber;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		if (playerMap[playerPosX][playerPosY + 1] == 1) {
+		if (playerMap[playerPosY][playerPosX + 1] == 1) {
 			int tempX = playerPosX;
 			int tempY = playerPosY;
-			playerMap[playerPosX][playerPosY + 1] = playerMap[playerPosX][playerPosY];
-			playerPosY = playerPosY + 1;
-			playerMap[tempX][tempY] = 1;
+			playerMap[playerPosY][playerPosX + 1] = playerMap[playerPosY][playerPosX];
+			playerPosX = playerPosX + 1;
+			playerMap[tempY][tempX] = 1;
 			sprite.move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
 		}
-		if (playerMap[playerPosX][playerPosY + 1] == 2) {
-			ChangeLevel(2);
+		if (playerMap[playerPosY][playerPosX + 1] == 2) {
+			ChangeLevel(currentLevel + 1);
 		}
-		if (playerMap[playerPosX][playerPosY + 1] == 8) {
+		if (playerMap[playerPosY][playerPosX + 1] == 3) {
+			ChangeLevel(currentLevel - 1);
+		}
+		if (playerMap[playerPosY][playerPosX + 1] == 8) {
 			StartConversation();
 		}
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		if (playerMap[playerPosX][playerPosY - 1] == 1) {
+		if (playerMap[playerPosY][playerPosX - 1] == 1) {
 			int tempX = playerPosX;
 			int tempY = playerPosY;
-			playerMap[playerPosX][playerPosY - 1] = playerMap[playerPosX][playerPosY];
-			playerPosY = playerPosY - 1;
-			playerMap[tempX][tempY] = 1;
+			playerMap[playerPosY][playerPosX - 1] = playerMap[playerPosY][playerPosX];
+			playerPosX = playerPosX - 1;
+			playerMap[tempY][tempX] = 1;
 			sprite.move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
 		}
-		if (playerMap[playerPosX][playerPosY - 1] == 2) {
-			ChangeLevel(2);
+		if (playerMap[playerPosY][playerPosX - 1] == 2) {
+			ChangeLevel(currentLevel + 1);
 		}
-		if (playerMap[playerPosX][playerPosY - 1] == 8) {
+		if (playerMap[playerPosY][playerPosX - 1] == 3) {
+			ChangeLevel(currentLevel - 1);
+		}
+		if (playerMap[playerPosY][playerPosX - 1] == 8) {
 			StartConversation();
 		}
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		if (playerMap[playerPosX - 1][playerPosY] == 1) {
+		if (playerMap[playerPosY - 1][playerPosX] == 1) {
 			int tempX = playerPosX;
 			int tempY = playerPosY;
-			playerMap[playerPosX - 1][playerPosY] = playerMap[playerPosX][playerPosY];
-			playerPosX = playerPosX - 1;
-			playerMap[tempX][tempY] = 1;
+			playerMap[playerPosY - 1][playerPosX] = playerMap[playerPosY][playerPosX];
+			playerPosY = playerPosY - 1;
+			playerMap[tempY][tempX] = 1;
 			sprite.move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
 		}
-		if (playerMap[playerPosX - 1][playerPosY] == 2) {
-			ChangeLevel(2);
+		if (playerMap[playerPosY - 1][playerPosX] == 2) {
+			ChangeLevel(currentLevel + 1);
 		}
-		if (playerMap[playerPosX - 1][playerPosY] == 8) {
+		if (playerMap[playerPosY - 1][playerPosX] == 3) {
+			ChangeLevel(currentLevel - 1);
+		}
+		if (playerMap[playerPosY - 1][playerPosX] == 8) {
 			StartConversation();
 		}
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		if (playerMap[playerPosX + 1][playerPosY] == 1) {
+		if (playerMap[playerPosY + 1][playerPosX] == 1) {
 			int tempX = playerPosX;
 			int tempY = playerPosY;
-			playerMap[playerPosX + 1][playerPosY] = playerMap[playerPosX][playerPosY];
-			playerPosX = playerPosX + 1;
-			playerMap[tempX][tempY] = 1;
+			playerMap[playerPosY + 1][playerPosX] = playerMap[playerPosY][playerPosX];
+			playerPosY = playerPosY + 1;
+			playerMap[tempY][tempX] = 1;
 			sprite.move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
 		}
-		if (playerMap[playerPosX + 1][playerPosY] == 2) {
-			ChangeLevel(1);
+		if (playerMap[playerPosY + 1][playerPosX] == 2) {
+			ChangeLevel(currentLevel + 1);
 		}
-		if (playerMap[playerPosX + 1][playerPosY] == 8) {
+		if (playerMap[playerPosY + 1][playerPosX] == 3) {
+			ChangeLevel(currentLevel - 1);
+		}
+		if (playerMap[playerPosY + 1][playerPosX] == 8) {
 			StartConversation();
 		}
     }
 
-	std::cout << GetLevel() << std::endl;
+	std::cout << level << std::endl;
 
 	/*for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 9; j++) {
@@ -114,6 +127,7 @@ void Player::Draw(sf::RenderWindow& window)
 	window.draw(sprite);
 }
 
+//functions
 std::string Player::StartConversation()
 {
 	std::string str = "Hello";
@@ -129,4 +143,76 @@ int Player::GetLevel()
 void Player::ChangeLevel(int level)
 {
 	this->level = level;
+	isLoadedLevel = false;
+}
+
+void Player::LoadLevel(int level)
+{
+	switch (level) {
+		case 1:
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++)
+					playerMap[i][j] = playerMap1[i][j];
+			}
+
+			if (currentLevel == 1) {
+				this->playerPosX = 1;
+				this->playerPosY = 1;
+				sprite.setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
+			}
+			else if (currentLevel == 2) {
+				this->playerPosX = 8;
+				this->playerPosY = 7;
+				sprite.setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
+			}
+
+			currentLevel = 1;
+
+			break;
+		
+		case 2:
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++)
+					playerMap[i][j] = playerMap2[i][j];
+			}
+
+			if (currentLevel == 1) {
+				this->playerPosX = 1;
+				this->playerPosY = 2;
+				sprite.setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
+			}
+			else if (currentLevel == 2) {
+
+			}
+			else if (currentLevel == 3) {
+				this->playerPosX = 8;
+				this->playerPosY = 7;
+				sprite.setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
+			}
+
+			currentLevel = 2;
+
+			break;
+
+		case 3:
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++)
+					playerMap[i][j] = playerMap3[i][j];
+			}
+
+			if (currentLevel == 2) {
+				this->playerPosX = 1;
+				this->playerPosY = 2;
+				sprite.setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
+			}
+			else if (currentLevel == 3) {
+				
+			}
+
+			currentLevel = 3;
+
+			break;
+	}
+
+	isLoadedLevel = true;
 }
