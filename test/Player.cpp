@@ -1,7 +1,8 @@
 #include "Player.h"
 
-Player::Player(float positionX, float positionY)
+Player::Player(std::string textureName, float positionX, float positionY)
 {
+	this->textureName = textureName;
 	this->positionX = positionX;
 	this->positionY = positionY;
 }
@@ -17,7 +18,7 @@ void Player::Initialize()
 
 void Player::Load()
 {
-	if (texture.loadFromFile("Textures/player.png")) {
+	if (texture.loadFromFile(textureName)) {
 		std::cout << "Player texture loaded" << std::endl;
 		sprite.setTexture(texture);
 

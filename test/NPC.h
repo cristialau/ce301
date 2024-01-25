@@ -6,6 +6,8 @@
 class NPC
 {
 private:
+	std::string textureName;
+
 	sf::Texture texture;
 	sf::Sprite sprite;
 
@@ -18,7 +20,7 @@ private:
 	int level = 0;
 
 public:
-	NPC(float positionX, float positionY, int level);
+	NPC(std::string textureName, float positionX, float positionY, int level);
 	~NPC();
 	
 	void Initialize();

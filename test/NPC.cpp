@@ -1,8 +1,9 @@
 #include "NPC.h"
 #include <iostream>
 
-NPC::NPC(float positionX, float positionY, int level)
+NPC::NPC(std::string textureName, float positionX, float positionY, int level)
 {
+	this->textureName = textureName;
 	this->positionX = positionX;
 	this->positionY = positionY;
 	this->level = level;
@@ -18,7 +19,7 @@ void NPC::Initialize()
 
 void NPC::Load()
 {
-	if (texture.loadFromFile("Textures/npc.png")) {
+	if (texture.loadFromFile(textureName)) {
 		std::cout << "NPC texture loaded" << std::endl;
 		sprite.setTexture(texture);
 

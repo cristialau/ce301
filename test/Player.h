@@ -8,6 +8,8 @@
 class Player
 {
 private:
+	std::string textureName;
+
 	sf::Texture texture;
 	sf::Sprite sprite;
 
@@ -61,7 +63,7 @@ private:
 	bool isLoadedLevel = false;
 
 public:
-	Player(float positionX, float positionY);
+	Player(std::string textureName, float positionX, float positionY);
 	~Player();
 
 	void Initialize();
