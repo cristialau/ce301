@@ -74,22 +74,24 @@ void Map::Update(float dt, int level)
 
 void Map::Draw(sf::RenderWindow &window, int level)
 {
-	if (level == 1) {
+	switch(level) {
+	case 1:
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++)
 				window.draw(sprites1[x][y]);
 		}
-	}
-	if (level == 2) {
+		break;
+	case 2:
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++)
 				window.draw(sprites2[x][y]);
 		}
-	}
-	if (level == 3) {
+		break;
+	case 3:
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++)
 				window.draw(sprites3[x][y]);
 		}
+		break;
 	}
 }
