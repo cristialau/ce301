@@ -29,21 +29,25 @@ void Player::Load()
 	}
 }
 
-void Player::Update(float dt)
+void Player::Update(float dt, sf::View &view)
 {
+	view.setCenter(sprite.getPosition());
+
 	if(!isLoadedLevel)
 		LoadLevel(level);
 
 	playerMap[playerPosY][playerPosX] = playerNumber;
 
-	int PlayerNextMapNumber = 0; //player's next map's number
-	int tempX = playerPosX; //save player positionX
-	int tempY = playerPosY; //save player positionY
+	int PlayerNextMapNumber = 0;
+	int tempX = 0;
+	int tempY = 0;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		PlayerNextMapNumber = playerMap[playerPosY][playerPosX + 1];
 		switch (PlayerNextMapNumber) {
 		case 1:
+			tempX = playerPosX;
+			tempY = playerPosY;
 			playerMap[playerPosY][playerPosX + 1] = playerMap[playerPosY][playerPosX];
 			playerPosX = playerPosX + 1;
 			playerMap[tempY][tempX] = 1;
@@ -64,6 +68,8 @@ void Player::Update(float dt)
 		PlayerNextMapNumber = playerMap[playerPosY][playerPosX - 1];
 		switch (PlayerNextMapNumber) {
 		case 1:
+			tempX = playerPosX;
+			tempY = playerPosY;
 			playerMap[playerPosY][playerPosX - 1] = playerMap[playerPosY][playerPosX];
 			playerPosX = playerPosX - 1;
 			playerMap[tempY][tempX] = 1;
@@ -84,6 +90,8 @@ void Player::Update(float dt)
 		PlayerNextMapNumber = playerMap[playerPosY - 1][playerPosX];
 		switch (PlayerNextMapNumber) {
 		case 1:
+			tempX = playerPosX;
+			tempY = playerPosY;
 			playerMap[playerPosY - 1][playerPosX] = playerMap[playerPosY][playerPosX];
 			playerPosY = playerPosY - 1;
 			playerMap[tempY][tempX] = 1;
@@ -104,6 +112,8 @@ void Player::Update(float dt)
 		PlayerNextMapNumber = playerMap[playerPosY + 1][playerPosX];
 		switch (PlayerNextMapNumber) {
 		case 1:
+			tempX = playerPosX;
+			tempY = playerPosY;
 			playerMap[playerPosY + 1][playerPosX] = playerMap[playerPosY][playerPosX];
 			playerPosY = playerPosY + 1;
 			playerMap[tempY][tempX] = 1;
@@ -123,12 +133,12 @@ void Player::Update(float dt)
 
 	std::cout << level << std::endl;
 
-	/*for (int i = 0; i < 9; i++) {
+	for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 9; j++) {
 			std::cout << playerMap[i][j] << " ";
 		}
 		std::cout << std::endl;
-	}*/
+	}
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -210,7 +220,7 @@ void Player::LoadLevel(int level)
 				playerMap[i][j] = playerMap3[i][j];
 		}
 
-		switch (level) {
+		switch (currentLevel) {
 		case 1:
 			break;
 		case 2:
@@ -227,4 +237,14 @@ void Player::LoadLevel(int level)
 	}
 
 	isLoadedLevel = true;
+}
+
+float Player::GetPositionX()
+{
+	return playerPosX;
+}
+
+float Player::GetPositionY()
+{
+	return playerPosY;
 }

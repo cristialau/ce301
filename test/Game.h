@@ -26,6 +26,8 @@ private:
 	float tileSize = 16;
 	float scale = 3;
 
+	sf::View view;
+
 	FrameRate frameRate;
 
 	Player player = Player("Textures/player.png", 208.f, 100.f);

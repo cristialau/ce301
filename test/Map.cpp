@@ -70,28 +70,49 @@ void Map::Load()
 
 void Map::Update(float dt, int level)
 {
+	
 }
 
-void Map::Draw(sf::RenderWindow &window, int level)
+void Map::Draw(sf::RenderWindow &window, Player player, int level)
 {
-	switch(level) {
-	case 1:
-		for (int y = 0; y < 8; y++) {
-			for (int x = 0; x < 8; x++)
+	this->fromX = player.GetPositionX() - 3;
+	this->fromY = player.GetPositionY() - 3;
+	this->toX = player.GetPositionX() + 2;
+	this->toY = player.GetPositionY() + 2;
+
+	if (fromX < 0)
+		this->fromX = 0;
+	else if (fromX >= mapSize)
+		this->fromX = mapSize - 1;
+
+	if (fromY < 0)
+		this->fromY = 0;
+	else if (fromY >= mapSize)
+		this->fromY = mapSize - 1;
+
+	if (toX < 0)
+		this->toX = 0;
+	else if (toX >= mapSize)
+		this->toX = mapSize - 1;
+
+	if (toY < 0)
+		this->toY = 0;
+	else if (toY >= mapSize)
+		this->toY = mapSize - 1;
+
+	for (int y = (int)fromY; y < (int)toY; y++) {
+		for (int x = (int)fromX; x < (int)toX; x++) {
+			switch (level) {
+			case 1:
 				window.draw(sprites1[x][y]);
-		}
-		break;
-	case 2:
-		for (int y = 0; y < 8; y++) {
-			for (int x = 0; x < 8; x++)
+				break;
+			case 2:
 				window.draw(sprites2[x][y]);
-		}
-		break;
-	case 3:
-		for (int y = 0; y < 8; y++) {
-			for (int x = 0; x < 8; x++)
+				break;
+			case 3:
 				window.draw(sprites3[x][y]);
+				break;
+			}
 		}
-		break;
 	}
 }

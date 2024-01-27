@@ -21,8 +21,10 @@ void FrameRate::Load()
 	}
 }
 
-void FrameRate::Update(float dt)
+void FrameRate::Update(float dt, sf::View &view)
 {
+	text.setPosition(20.f, 20.f);
+
 	timer += dt;
 
 	if (timer >= 1000.0f) {

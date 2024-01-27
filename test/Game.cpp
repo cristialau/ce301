@@ -40,6 +40,9 @@ void Game::InitWindow()
     this->window = new sf::RenderWindow(window_bounds, title);
     this->window->setFramerateLimit(framerate_limit);
     this->window->setVerticalSyncEnabled(vertical_sync_enabled);
+
+    view.setSize(window_bounds.width, window_bounds.height);
+    view.setCenter(window->getSize().x / 2.f, window->getSize().y / 2);
 }
 
 void Game::InitGame()
@@ -68,7 +71,7 @@ void Game::UpdateSFML()
 {
     this->dtTimer = this->clock.restart();
     this->dt = this->dtTimer.asMilliseconds();
-
+    
     while (this->window->pollEvent(event)) {
         if (event.type == sf::Event::Closed)
             EndApplication();
@@ -79,8 +82,8 @@ void Game::Update()
 {
     this->level = player.GetLevel();
 
-    frameRate.Update(dt);
-    player.Update(dt);
+    frameRate.Update(dt, view);
+    player.Update(dt, view);
     npc1.Update(dt, level);
     npc2.Update(dt, level);
     npc3.Update(dt, level);
@@ -91,8 +94,9 @@ void Game::Update()
 void Game::Draw()
 {
     this->window->clear();
+    this->window->setView(view);
 
-    map1.Draw(*window, level);
+    map1.Draw(*window, player, level);
     //map2.Draw(*window);
     
     npc1.Draw(*window, level);
@@ -100,6 +104,8 @@ void Game::Draw()
     npc3.Draw(*window, level);
 
     player.Draw(*window);
+
+    this->window->setView(window->getDefaultView());
 
     frameRate.Draw(*window);
 

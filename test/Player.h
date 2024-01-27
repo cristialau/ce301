@@ -68,13 +68,15 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(float dt);
+	void Update(float dt, sf::View &view);
 	void Draw(sf::RenderWindow& window);
 
 	std::string StartConversation();
 	int GetLevel();
 	void ChangeLevel(int level);
 	void LoadLevel(int level);
+	float GetPositionX();
+	float GetPositionY();
 };
 
 #endif
