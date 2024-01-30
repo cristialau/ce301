@@ -239,12 +239,12 @@ void Player::LoadLevel(int level)
 	isLoadedLevel = true;
 }
 
-float Player::GetPositionX()
+float Player::GetMapPositionX()
 {
 	return playerPosX;
 }
 
-float Player::GetPositionY()
+float Player::GetMapPositionY()
 {
 	return playerPosY;
 }

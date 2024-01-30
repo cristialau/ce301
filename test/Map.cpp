@@ -75,10 +75,10 @@ void Map::Update(float dt, int level)
 
 void Map::Draw(sf::RenderWindow &window, Player player, int level)
 {
-	this->fromX = player.GetPositionX() - 3;
-	this->fromY = player.GetPositionY() - 3;
-	this->toX = player.GetPositionX() + 2;
-	this->toY = player.GetPositionY() + 2;
+	this->fromX = player.GetMapPositionX() - 3;
+	this->fromY = player.GetMapPositionY() - 3;
+	this->toX = player.GetMapPositionX() + 2;
+	this->toY = player.GetMapPositionY() + 2;
 
 	if (fromX < 0)
 		this->fromX = 0;

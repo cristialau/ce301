@@ -75,8 +75,8 @@ public:
 	int GetLevel();
 	void ChangeLevel(int level);
 	void LoadLevel(int level);
-	float GetPositionX();
-	float GetPositionY();
+	float GetMapPositionX();
+	float GetMapPositionY();
 };
 
 #endif
