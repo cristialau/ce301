@@ -30,10 +30,6 @@ void Player::Initialize()
 	stats.observation = 10;
 	stats.conversation = 10;
 
-	stats.weapon = "hand";
-	stats.skill1 = "";
-	stats.skill2 = "";
-
 	stats.inventorySize = 10;
 	stats.G = 0;
 	stats.S = 50;

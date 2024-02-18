@@ -4,6 +4,7 @@
 //#include "Game.h"
 #include "item.h"
 #include "ostream"
+#include "vector"
 
 class Stats
 {
@@ -12,6 +13,7 @@ private:
 public:
 	std::string name;
 	std::string race;
+	std::string job;
 
 	int hitPoint;
 	int staminaPoint;

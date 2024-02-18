@@ -8,6 +8,7 @@ Battle::Battle(int enemyNumber)
 	this->isCharacterB = isCharacterB;
 	this->playerStatus = "Normal";
 	this->playerBuffRound = -1;
+	/*
 	if (isCharacterA && isCharacterB) {
 		playerTeamHPMax = characterAHPMax + characterBHPMax;
 		playerTeamHP = characterAHP + characterBHP;
@@ -41,6 +42,7 @@ Battle::Battle(int enemyNumber)
 		this->enemyAttackDmg = ;
 		this->enemyDefence = ;
 	}
+	*/
 }
 
 Battle::~Battle()
@@ -104,7 +106,7 @@ void Battle::Passive()
 
 void Battle::BattleScene()
 {
-	int option;
+	int option = -1;
 
 	while (isBattle) {
 		if (playerTeamHP <= 0 || enemyTeamHP <= 0)
@@ -168,7 +170,7 @@ void Battle::BattleScene()
 			}
 		}
 		//if only character A is in battle
-		else if (isCharacterA && !isCharacterB) {
+		if (isCharacterA && !isCharacterB) {
 			std::cout << "Player options: 1. Basic Attack 2. Skill" << std::endl;
 			while (!std::cin >> option || !(option > 0 && option < 3)) {
 				std::cout << "Please enter an integer between 1 to 2" << std::endl;
@@ -187,10 +189,10 @@ void Battle::BattleScene()
 			}
 		}
 		//if only character B is in battle
-		else if (!isCharacterA && isCharacterB) {
+		if (!isCharacterA && isCharacterB) {
 			std::cout << "Player options: 1. Heal 2. Buff" << std::endl;
-			while (!std::cin >> option || !(option > 0 && option < 5)) {
-				std::cout << "Please enter an integer between 1 to 4" << std::endl;
+			while (!std::cin >> option || !(option > 0 && option < 3)) {
+				std::cout << "Please enter an integer between 1 to 2" << std::endl;
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			}
