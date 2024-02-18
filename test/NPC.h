@@ -1,6 +1,7 @@
 #ifndef NPC_H
 #define NPC_H
 
+#include "Stats.h"
 #include "SFML/Graphics.hpp"
 
 class NPC
@@ -20,6 +21,8 @@ private:
 	int level = 0;
 
 public:
+	Stats stats;
+
 	NPC(std::string textureName, float positionX, float positionY, int level);
 	~NPC();
 	

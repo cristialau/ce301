@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "Stats.h"
 #include "SFML/Graphics.hpp"
 
 #include <iostream>
@@ -62,7 +63,13 @@ private:
 	int currentLevel = 1;
 	bool isLoadedLevel = false;
 
+	//std::string playerState;
+	//Stats stats;
+
 public:
+	std::string playerState;
+	Stats stats;
+
 	Player(std::string textureName, float positionX, float positionY);
 	~Player();
 
@@ -71,12 +78,18 @@ public:
 	void Update(float dt, sf::View &view);
 	void Draw(sf::RenderWindow& window);
 
-	std::string StartConversation();
+	std::string NormalState();
+	std::string TradeState();
+	std::string BattleState();
+
 	int GetLevel();
 	void ChangeLevel(int level);
 	void LoadLevel(int level);
 	float GetMapPositionX();
 	float GetMapPositionY();
+
+	void SkillActivate();
+	void BuffActivate();
 };
 
 #endif

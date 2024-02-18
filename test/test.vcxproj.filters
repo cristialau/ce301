@@ -24,9 +24,6 @@
     <ClCompile Include="NPC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Stats.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -34,6 +31,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FrameRate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Battle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Trade.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -57,6 +60,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Battle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Trade.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -14,6 +14,30 @@ Player::~Player()
 void Player::Initialize()
 {
 	//this->level = 1;
+	stats.name = "player";
+	stats.race = "undefined";
+	stats.job = "merchant";
+
+	stats.hitPoint = 100;
+	stats.staminaPoint = 100;
+	stats.attackDamage = 10;
+	stats.defence = 5;
+	//stats.speed = 100;
+	stats.criticalChance = 0.5;
+	stats.criticalDamage = 1.5;
+
+	stats.knowledge = 10;
+	stats.observation = 10;
+	stats.conversation = 10;
+
+	stats.weapon = "hand";
+	stats.skill1 = "";
+	stats.skill2 = "";
+
+	stats.inventorySize = 10;
+	stats.G = 0;
+	stats.S = 50;
+	stats.C = 50;
 }
 
 void Player::Load()
@@ -27,6 +51,8 @@ void Player::Load()
 	else {
 		std::cout << "Player texture failed to load" << std::endl;
 	}
+
+	NormalState();
 }
 
 void Player::Update(float dt, sf::View &view)
@@ -42,103 +68,127 @@ void Player::Update(float dt, sf::View &view)
 	int tempX = 0;
 	int tempY = 0;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		PlayerNextMapNumber = playerMap[playerPosY][playerPosX + 1];
-		switch (PlayerNextMapNumber) {
-		case 1:
-			tempX = playerPosX;
-			tempY = playerPosY;
-			playerMap[playerPosY][playerPosX + 1] = playerMap[playerPosY][playerPosX];
-			playerPosX = playerPosX + 1;
-			playerMap[tempY][tempX] = 1;
-			sprite.move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
-			break;
-		case 2:
-			ChangeLevel(currentLevel + 1);
-			break;
-		case 3:
-			ChangeLevel(currentLevel - 1);
-			break;
-		case 8:
-			StartConversation();
-			break;
+	if (playerState == "normal") {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			PlayerNextMapNumber = playerMap[playerPosY][playerPosX + 1];
+			switch (PlayerNextMapNumber) {
+			case 1:
+				tempX = playerPosX;
+				tempY = playerPosY;
+				playerMap[playerPosY][playerPosX + 1] = playerMap[playerPosY][playerPosX];
+				playerPosX = playerPosX + 1;
+				playerMap[tempY][tempX] = 1;
+				sprite.move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
+				break;
+			case 2:
+				ChangeLevel(currentLevel + 1);
+				break;
+			case 3:
+				ChangeLevel(currentLevel - 1);
+				break;
+			case 7:
+				BattleState();
+				break;
+			case 8:
+				TradeState();
+				break;
+			}
 		}
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		PlayerNextMapNumber = playerMap[playerPosY][playerPosX - 1];
-		switch (PlayerNextMapNumber) {
-		case 1:
-			tempX = playerPosX;
-			tempY = playerPosY;
-			playerMap[playerPosY][playerPosX - 1] = playerMap[playerPosY][playerPosX];
-			playerPosX = playerPosX - 1;
-			playerMap[tempY][tempX] = 1;
-			sprite.move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
-			break;
-		case 2:
-			ChangeLevel(currentLevel + 1);
-			break;
-		case 3:
-			ChangeLevel(currentLevel - 1);
-			break;
-		case 8:
-			StartConversation();
-			break;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			PlayerNextMapNumber = playerMap[playerPosY][playerPosX - 1];
+			switch (PlayerNextMapNumber) {
+			case 1:
+				tempX = playerPosX;
+				tempY = playerPosY;
+				playerMap[playerPosY][playerPosX - 1] = playerMap[playerPosY][playerPosX];
+				playerPosX = playerPosX - 1;
+				playerMap[tempY][tempX] = 1;
+				sprite.move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
+				break;
+			case 2:
+				ChangeLevel(currentLevel + 1);
+				break;
+			case 3:
+				ChangeLevel(currentLevel - 1);
+				break;
+			case 7:
+				BattleState();
+				break;
+			case 8:
+				TradeState();
+				break;
+			}
 		}
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		PlayerNextMapNumber = playerMap[playerPosY - 1][playerPosX];
-		switch (PlayerNextMapNumber) {
-		case 1:
-			tempX = playerPosX;
-			tempY = playerPosY;
-			playerMap[playerPosY - 1][playerPosX] = playerMap[playerPosY][playerPosX];
-			playerPosY = playerPosY - 1;
-			playerMap[tempY][tempX] = 1;
-			sprite.move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
-			break;
-		case 2:
-			ChangeLevel(currentLevel + 1);
-			break;
-		case 3:
-			ChangeLevel(currentLevel - 1);
-			break;
-		case 8:
-			StartConversation();
-			break;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			PlayerNextMapNumber = playerMap[playerPosY - 1][playerPosX];
+			switch (PlayerNextMapNumber) {
+			case 1:
+				tempX = playerPosX;
+				tempY = playerPosY;
+				playerMap[playerPosY - 1][playerPosX] = playerMap[playerPosY][playerPosX];
+				playerPosY = playerPosY - 1;
+				playerMap[tempY][tempX] = 1;
+				sprite.move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
+				break;
+			case 2:
+				ChangeLevel(currentLevel + 1);
+				break;
+			case 3:
+				ChangeLevel(currentLevel - 1);
+				break;
+			case 7:
+				BattleState();
+				break;
+			case 8:
+				TradeState();
+				break;
+			}
 		}
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		PlayerNextMapNumber = playerMap[playerPosY + 1][playerPosX];
-		switch (PlayerNextMapNumber) {
-		case 1:
-			tempX = playerPosX;
-			tempY = playerPosY;
-			playerMap[playerPosY + 1][playerPosX] = playerMap[playerPosY][playerPosX];
-			playerPosY = playerPosY + 1;
-			playerMap[tempY][tempX] = 1;
-			sprite.move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
-			break;
-		case 2:
-			ChangeLevel(currentLevel + 1);
-			break;
-		case 3:
-			ChangeLevel(currentLevel - 1);
-			break;
-		case 8:
-			StartConversation();
-			break;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			PlayerNextMapNumber = playerMap[playerPosY + 1][playerPosX];
+			switch (PlayerNextMapNumber) {
+			case 1:
+				tempX = playerPosX;
+				tempY = playerPosY;
+				playerMap[playerPosY + 1][playerPosX] = playerMap[playerPosY][playerPosX];
+				playerPosY = playerPosY + 1;
+				playerMap[tempY][tempX] = 1;
+				sprite.move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
+				break;
+			case 2:
+				ChangeLevel(currentLevel + 1);
+				break;
+			case 3:
+				ChangeLevel(currentLevel - 1);
+				break;
+			case 7:
+				BattleState();
+				break;
+			case 8:
+				TradeState();
+				break;
+			}
 		}
-    }
+	}
+	else if (playerState == "trade") {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+			playerState = "normal";
+		}
+	}
+	else if (playerState == "battle") {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+			playerState = "normal";
+		}
+	}
 
 	std::cout << level << std::endl;
 
-	for (int i = 0; i < 9; i++) {
+	/*for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 9; j++) {
 			std::cout << playerMap[i][j] << " ";
 		}
 		std::cout << std::endl;
-	}
+	}*/
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -147,9 +197,28 @@ void Player::Draw(sf::RenderWindow& window)
 }
 
 //functions
-std::string Player::StartConversation()
+std::string Player::NormalState() {
+	playerState = "normal";
+
+	std::string str = "Normal";
+	std::cout << str << std::endl;
+	return str;
+}
+
+std::string Player::TradeState()
 {
-	std::string str = "Hello";
+	playerState = "trade";
+
+	std::string str = "Trading";
+	std::cout << str << std::endl;
+	return str;
+}
+
+std::string Player::BattleState()
+{
+	playerState = "battle";
+
+	std::string str = "Into a combat";
 	std::cout << str << std::endl;
 	return str;
 }
@@ -247,4 +316,12 @@ float Player::GetMapPositionX()
 float Player::GetMapPositionY()
 {
 	return playerPosY;
+}
+
+void Player::SkillActivate()
+{
+}
+
+void Player::BuffActivate()
+{
 }
