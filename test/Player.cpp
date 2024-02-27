@@ -14,26 +14,26 @@ Player::~Player()
 void Player::Initialize()
 {
 	//this->level = 1;
-	stats.name = "player";
-	stats.race = "undefined";
-	stats.job = "merchant";
+	status.name = "player";
+	status.race = "human";
+	status.job = "merchant";
 
-	stats.hitPoint = 100;
-	stats.staminaPoint = 100;
-	stats.attackDamage = 10;
-	stats.defence = 5;
-	//stats.speed = 100;
-	stats.criticalChance = 0.5;
-	stats.criticalDamage = 1.5;
+	status.hitPoint = 100;
+	status.staminaPoint = 100;
+	status.attackDamage = 10;
+	status.defence = 5;
+	//status.speed = 100;
+	status.criticalChance = 0.5;
+	status.criticalDamage = 1.5;
 
-	stats.knowledge = 10;
-	stats.observation = 10;
-	stats.conversation = 10;
+	status.knowledge = 10;
+	status.observation = 10;
+	status.conversation = 10;
 
-	stats.inventorySize = 10;
-	stats.G = 0;
-	stats.S = 50;
-	stats.C = 50;
+	status.inventorySize = 10;
+	status.G = 0;
+	status.S = 50;
+	status.C = 50;
 }
 
 void Player::Load()
@@ -60,12 +60,8 @@ void Player::Update(float dt, sf::View &view)
 
 	playerMap[playerPosY][playerPosX] = playerNumber;
 
-	int PlayerNextMapNumber = 0;
-	int tempX = 0;
-	int tempY = 0;
-
-	if (playerState == "normal") {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+	if (state == "Normal") {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !isRight) {
 			PlayerNextMapNumber = playerMap[playerPosY][playerPosX + 1];
 			switch (PlayerNextMapNumber) {
 			case 1:
@@ -75,6 +71,7 @@ void Player::Update(float dt, sf::View &view)
 				playerPosX = playerPosX + 1;
 				playerMap[tempY][tempX] = 1;
 				sprite.move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
+				isRight = true;
 				break;
 			case 2:
 				ChangeLevel(currentLevel + 1);
@@ -89,8 +86,10 @@ void Player::Update(float dt, sf::View &view)
 				TradeState();
 				break;
 			}
+			
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !isLeft) {
+			
 			PlayerNextMapNumber = playerMap[playerPosY][playerPosX - 1];
 			switch (PlayerNextMapNumber) {
 			case 1:
@@ -100,6 +99,7 @@ void Player::Update(float dt, sf::View &view)
 				playerPosX = playerPosX - 1;
 				playerMap[tempY][tempX] = 1;
 				sprite.move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
+				isLeft = true;
 				break;
 			case 2:
 				ChangeLevel(currentLevel + 1);
@@ -114,8 +114,10 @@ void Player::Update(float dt, sf::View &view)
 				TradeState();
 				break;
 			}
+			
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !isUp) {
+			
 			PlayerNextMapNumber = playerMap[playerPosY - 1][playerPosX];
 			switch (PlayerNextMapNumber) {
 			case 1:
@@ -125,6 +127,7 @@ void Player::Update(float dt, sf::View &view)
 				playerPosY = playerPosY - 1;
 				playerMap[tempY][tempX] = 1;
 				sprite.move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
+				isUp = true;
 				break;
 			case 2:
 				ChangeLevel(currentLevel + 1);
@@ -139,8 +142,10 @@ void Player::Update(float dt, sf::View &view)
 				TradeState();
 				break;
 			}
+			
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !isDown) {
+			
 			PlayerNextMapNumber = playerMap[playerPosY + 1][playerPosX];
 			switch (PlayerNextMapNumber) {
 			case 1:
@@ -150,6 +155,7 @@ void Player::Update(float dt, sf::View &view)
 				playerPosY = playerPosY + 1;
 				playerMap[tempY][tempX] = 1;
 				sprite.move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
+				isDown = true;
 				break;
 			case 2:
 				ChangeLevel(currentLevel + 1);
@@ -166,16 +172,26 @@ void Player::Update(float dt, sf::View &view)
 			}
 		}
 	}
-	else if (playerState == "trade") {
+	else if (state == "Trading") {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-			playerState = "normal";
+			state = "Normal";
 		}
 	}
-	else if (playerState == "battle") {
+	else if (state == "Battle") {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-			playerState = "normal";
+			state = "Normal";
 		}
 	}
+
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		isRight = false;
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		isLeft = false;
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		isUp = false;
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		isDown = false;
+
 
 	std::cout << level << std::endl;
 
@@ -193,30 +209,27 @@ void Player::Draw(sf::RenderWindow& window)
 }
 
 //functions
-std::string Player::NormalState() {
-	playerState = "normal";
+void Player::NormalState() {
+	state = "Normal";
 
 	std::string str = "Normal";
 	std::cout << str << std::endl;
-	return str;
 }
 
-std::string Player::TradeState()
+void Player::TradeState()
 {
-	playerState = "trade";
+	state = "Trading";
 
 	std::string str = "Trading";
 	std::cout << str << std::endl;
-	return str;
 }
 
-std::string Player::BattleState()
+void Player::BattleState()
 {
-	playerState = "battle";
+	state = "Battle";
 
 	std::string str = "Into a combat";
 	std::cout << str << std::endl;
-	return str;
 }
 
 int Player::GetLevel()
@@ -312,6 +325,11 @@ float Player::GetMapPositionX()
 float Player::GetMapPositionY()
 {
 	return playerPosY;
+}
+
+void Player::SetState(std::string state)
+{
+	this->state = state;
 }
 
 void Player::SkillActivate()

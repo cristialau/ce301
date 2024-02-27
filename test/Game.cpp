@@ -47,7 +47,7 @@ void Game::InitWindow()
 
 void Game::InitGame()
 {
-    frameRate.Initialize();
+    interface.Initialize();
     player.Initialize();
     npc1.Initialize();
     npc2.Initialize();
@@ -58,7 +58,7 @@ void Game::InitGame()
 
 void Game::LoadGame()
 {
-    frameRate.Load();
+    interface.Load();
     player.Load();
     npc1.Load();
     npc2.Load();
@@ -82,7 +82,7 @@ void Game::Update()
 {
     this->level = player.GetLevel();
 
-    frameRate.Update(dt, view);
+    interface.Update(dt, view);
     player.Update(dt, view);
     npc1.Update(dt, level);
     npc2.Update(dt, level);
@@ -107,7 +107,7 @@ void Game::Draw()
 
     this->window->setView(window->getDefaultView());
 
-    frameRate.Draw(*window);
+    interface.Draw(*window);
 
     this->window->display();
 }

@@ -1,12 +1,12 @@
-#ifndef STATS_H
-#define STATS_H
+#ifndef STATUS_H
+#define STATUS_H
 
 //#include "Game.h"
 #include "item.h"
 #include "ostream"
 #include "vector"
 
-class Stats
+class Status
 {
 private:
 
@@ -23,6 +23,7 @@ public:
 	float criticalChance;
 	float criticalDamage;
 
+	//trade attributes
 	int knowledge;
 	int observation;
 	int conversation;

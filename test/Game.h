@@ -5,7 +5,7 @@
 #include "NPC.h"
 #include "Player.h"
 #include "Map.h"
-#include "FrameRate.h"
+#include "Interface.h"
 
 #include <fstream>
 //#include "SFML/Graphics.hpp"
@@ -28,7 +28,7 @@ private:
 
 	sf::View view;
 
-	FrameRate frameRate;
+	Interface interface;
 
 	Player player = Player("Textures/player.png", 208.f, 100.f);
 
