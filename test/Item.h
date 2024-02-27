@@ -1,13 +1,10 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include "ostream"
-
-class Item
+struct Item
 {
-private:
+	int id = -1;
 
-public:
 	std::string name;
 	std::string type;
 	std::string description;

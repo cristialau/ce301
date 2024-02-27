@@ -6,11 +6,8 @@
 #include "ostream"
 #include "vector"
 
-class Status
+struct Status
 {
-private:
-
-public:
 	std::string name;
 	std::string race;
 	std::string job;

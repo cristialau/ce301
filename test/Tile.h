@@ -3,7 +3,8 @@
 
 #include "SFML/Graphics.hpp"
 
-struct Tile {
+struct Tile
+{
 	int id = -1;
 	sf::Vector2i position;
 };
