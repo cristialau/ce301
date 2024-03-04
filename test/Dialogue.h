@@ -26,6 +26,7 @@ public:
 	void Draw(sf::RenderWindow& window);
 
 	//Function
+	void ShowDialogue();
 	void CloseDialogue();
 	void ReturnMap(Player& player);
 	void StartTrade(Player &player, Character character);

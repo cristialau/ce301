@@ -147,10 +147,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="Trade.cpp" />
+    <ClCompile Include="Travel.cpp" />
     <ClCompile Include="WorldMap.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,12 +165,14 @@
     <ClInclude Include="Location.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Quest.h" />
     <ClInclude Include="Status.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Trade.h" />
+    <ClInclude Include="Travel.h" />
     <ClInclude Include="WorldMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

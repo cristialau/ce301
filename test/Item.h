@@ -9,9 +9,8 @@ struct Item
 	std::string type;
 	std::string description;
 
-	int number;
 	int weight;
-	int value;
+	int amount;
 	int durability;
 };
 

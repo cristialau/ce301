@@ -19,6 +19,8 @@ void Dialogue::Load()
 
 void Dialogue::Update(Player player, Character character)
 {
+	ShowDialogue();
+
 	int option = 0;
 
 	if (character.GetRelationship() == "friend") {
@@ -146,6 +148,11 @@ void Dialogue::Draw(sf::RenderWindow& window)
 	if (isDisplay) {
 		window.draw();
 	}
+}
+
+void Dialogue::ShowDialogue()
+{
+	isDisplay = true;
 }
 
 void Dialogue::CloseDialogue()

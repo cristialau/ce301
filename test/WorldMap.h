@@ -2,14 +2,16 @@
 #define WORLDMAP_H
 
 #include "Location.h"
+#include "Player.h"
 #include <iostream>
 #include <vector>
 
 class WorldMap
 {
 private:
-	std::vector<Location> locationSpots;
-	int selected = 0;
+	bool display = true;
+	int totalSpots = 6;
+	Location *locations;
 
 public:
 	WorldMap();
@@ -17,8 +19,15 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update();
+	void Update(Player player, int currentLocation);
 	void Draw();
+
+	//Functions
+	void ShowWorldMap();
+	void CloseWorldMap();
+	void StartTravel(Player player);
+	void ReturnMap(Player player);
+	int TravelTime(int currentLocation, int selected);
 };
 
 #endif
