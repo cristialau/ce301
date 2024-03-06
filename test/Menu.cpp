@@ -88,7 +88,14 @@ void Menu::Inventory(Player player)
 		weight += inventory[i].weight;
 	}
 	std::cout << "Weight " << weight << " / " << player.getInventoryWeightMax();
+
 	int selected = 0;
+	std::cout << "Please select an item" << std::endl;
+	while (!std::cin >> selected || !(selected > 0 && selected < inventory.size())) {
+		std::cout << "Please enter an integer from 1 to 5" << std::endl;
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
 	ShowDescription(inventory[selected].description);
 }
 
@@ -104,7 +111,14 @@ void Menu::Quest(Player player)
 			finished++;
 	}
 	std::cout << "Finished Quest " << finished << " / " << player.getQuestTotal();
+	
 	int selected = 0;
+	std::cout << "Please select a quest" << std::endl;
+	while (!std::cin >> selected || !(selected > 0 && selected < quest.size())) {
+		std::cout << "Please enter an integer from 1 to 5" << std::endl;
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
 	ShowDescription(quest[selected].description);
 }
 
