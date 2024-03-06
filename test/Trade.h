@@ -41,9 +41,13 @@ public:
 	void ChangeElement(int selected1, int selected2);
 	void CalculateScore();
 	void CheckI(int i, int& o, int& c, int& k);
+	bool CheckICondition(int i, int j, int same2);
 	void CheckJ(int j, int& o, int& c, int& k);
-	void CheckDiag(int& o, int& c, int& k);
-	void CheckDiagX(int& o, int& c, int& k);
+	bool CheckJCondition(int i, int j, int same2);
+	void CheckDiag(int i, int j, int& o, int& c, int& k);
+	bool CheckDiagCondition(int i, int j, int same2);
+	void CheckDiagX(int i, int j, int& o, int& c, int& k);
+	bool CheckDiagXCondition(int i, int j, int same2);
 	void AddMultiplier(int temp, char element, int &o, int &c, int &k);
 };
 
