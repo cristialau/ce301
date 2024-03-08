@@ -7,7 +7,7 @@
 class Trade
 {
 private:
-	//10 seconds count down
+	int move = 10;
 
 	char gamepanel[5][5] = { '0' };
 	char playerGamepanel[5][5] = { '0' };
@@ -38,7 +38,7 @@ public:
 	//Functions
 	void SetUpGamePanel();
 	bool HaveLuck();
-	void ChangeElement(int selected1, int selected2);
+	void ChangeElement(int selected1, int selected2, int &move);
 	void CalculateScore();
 	void CheckI(int i, int& o, int& c, int& k);
 	bool CheckICondition(int i, int j, int same2);

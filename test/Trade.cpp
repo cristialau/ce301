@@ -2,6 +2,7 @@
 
 Trade::Trade()
 {
+	SetUpGamePanel();
 }
 
 Trade::~Trade()
@@ -13,16 +14,14 @@ void Trade::Initialize()
 }
 
 void Trade::Load()
-{
+{	
 }
 
 void Trade::Update()
 {
-	SetUpGamePanel();
-
 	//Player control
 
-	if(time <= 0)
+	if (move <= 0)
 		CalculateScore();
 }
 
@@ -62,7 +61,7 @@ bool Trade::HaveLuck()
 	return false;
 }
 
-void Trade::ChangeElement(int selected1, int selected2)
+void Trade::ChangeElement(int selected1, int selected2, int &move)
 {
 	if (gamepanel[selected1][selected2] == observation)
 		gamepanel[selected1][selected2] = communication;
@@ -76,6 +75,8 @@ void Trade::ChangeElement(int selected1, int selected2)
 	}
 	else if (gamepanel[selected1][selected2] == luck)
 		gamepanel[selected1][selected2] = observation;
+
+	move--;
 }
 
 void Trade::CalculateScore()
