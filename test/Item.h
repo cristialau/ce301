@@ -1,6 +1,8 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include <iostream>
+
 struct Item
 {
 	int id = -1;

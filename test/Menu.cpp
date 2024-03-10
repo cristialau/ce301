@@ -34,19 +34,19 @@ void Menu::Update(Player player)
 	}
 	switch (selected) {
 	case 1:
-		Character(player);
+		OpenCharacter(player);
 		break;
 	case 2:
-		WorldMap(player);
+		OpenWorldMap(player);
 		break;
 	case 3:
-		Inventory(player);
+		OpenInventory(player);
 		break;
 	case 4:
-		Quest(player);
+		OpenQuest(player);
 		break;
 	case 5:
-		Setting();
+		OpenSetting();
 		break;
 	}
 }
@@ -55,7 +55,7 @@ void Menu::Draw()
 {
 }
 
-void Menu::Character(Player player)
+void Menu::OpenCharacter(Player player)
 {
 	std::cout << "Character List:" << std::endl;
 	std::string characterName = player.getName();
@@ -69,12 +69,12 @@ void Menu::Character(Player player)
 
 }
 
-void Menu::WorldMap(Player player)
+void Menu::OpenWorldMap(Player player)
 {
 	player.getWorldMap();
 }
 
-void Menu::Inventory(Player player)
+void Menu::OpenInventory(Player player)
 {
 	std::cout << "Inventory" << std::endl;
 	std::vector<Item> inventory = player.getInventory();
@@ -99,9 +99,9 @@ void Menu::Inventory(Player player)
 	ShowDescription(inventory[selected].description);
 }
 
-void Menu::Quest(Player player)
+void Menu::OpenQuest(Player player)
 {
-	std::cout << "Qeust" << std::endl;
+	std::cout << "Quest" << std::endl;
 	std::vector<Quest> quest = player.getQuest();
 	int finished = 0;
 	for (int i = 0; i < quest.size(); i++) {
@@ -122,7 +122,7 @@ void Menu::Quest(Player player)
 	ShowDescription(quest[selected].description);
 }
 
-void Menu::Setting()
+void Menu::OpenSetting()
 {
 }
 

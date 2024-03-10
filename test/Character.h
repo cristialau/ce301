@@ -26,6 +26,11 @@ public:
 	std::string GetRelationship();
 	std::string GetJob();
 	int GetState();
+
+	bool HaveQuest();
+	bool isAccepted();
+	std::string QuestDescription();
+	std::string BattleDescription();
 };
 
 #endif

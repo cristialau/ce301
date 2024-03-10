@@ -100,14 +100,14 @@ void Trade::CalculateScore()
 		CheckI(i, o, c, k);
 	for (int j = 0; j < 4; j++)
 		CheckJ(j, o, c, k);
-	for (int i = 0, int j = 0; i < 2; i++)
-		CheckDiag(i, j, o, c, k);
-	for (int i = 0, int j = 1; j < 2; j++)
-		CheckDiag(i, j, o, c, k);
-	for (int i = 0, int j = 4; i < 2; i++)
-		CheckDiagX(i, j, o, c, k);
-	for (int i = 0, int j = 4; j < 2; j--)
-		CheckDiagX(i, j, o, c, k);
+	for (int i = 0; i < 2; i++)
+		CheckDiag(i, 0, o, c, k);
+	for (int j = 1; j < 2; j++)
+		CheckDiag(0, j, o, c, k);
+	for (int i = 0; i < 2; i++)
+		CheckDiagX(i, 4, o, c, k);
+	for (int j = 4; j > 2; j--)
+		CheckDiagX(0, j, o, c, k);
 	
 	observationScore = o * observationMultiplier;
 	communicationScore = c * communicationMultiplier;

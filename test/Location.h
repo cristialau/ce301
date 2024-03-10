@@ -1,6 +1,8 @@
 #ifndef LOCATION_H
 #define LOACTION_H
 
+#include <iostream>
+
 struct Location
 {
 	int id = -1;

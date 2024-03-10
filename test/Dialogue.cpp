@@ -132,7 +132,7 @@ void Dialogue::Update(Player player, Character character)
 			switch (option) {
 			case 1:
 				CloseDialogue();
-				StartBattle(player);
+				StartBattle(player, character);
 				break;
 			case 2:
 				CloseDialogue();
@@ -146,7 +146,7 @@ void Dialogue::Update(Player player, Character character)
 void Dialogue::Draw(sf::RenderWindow& window)
 {
 	if (isDisplay) {
-		window.draw();
+		//window.draw();
 	}
 }
 
@@ -173,8 +173,8 @@ void Dialogue::StartTrade(Player &player, Character character)
 void Dialogue::StartQuest(Player &player, Character character)
 {
 	if (character.HaveQuest()) {
-		if (character.isAccept()) {
-			std::cout << description << std::endl;
+		if (character.isAccepted()) {
+			std::cout << character.QuestDescription() << std::endl;
 			std::cout << "Please select: 1. Accept 2. Leave" << std::endl;
 			int option = 0;
 			while (!std::cin >> option || !(option > 0 && option < 3)) {
@@ -182,13 +182,14 @@ void Dialogue::StartQuest(Player &player, Character character)
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			}
+			int option1 = 0;
 			switch (option) {
 			case 1:
 				player.QuestList(character.getQuest());
-				std::cout << character.Questdescription() << std::endl;
+				std::cout << character.QuestDescription() << std::endl;
 				std::cout << "Please select: 1. Leave" << std::endl;
-				int option = 0;
-				while (!std::cin >> option || !(option > 0 && option < 2)) {
+				
+				while (!std::cin >> option1 || !(option1 > 0 && option1 < 2)) {
 					std::cout << "Please enter an integer between 1" << std::endl;
 					std::cin.clear();
 					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -201,7 +202,7 @@ void Dialogue::StartQuest(Player &player, Character character)
 			}
 		}
 		else {
-			std::cout << character.Questdescription() << std::endl;
+			std::cout << character.QuestDescription() << std::endl;
 			std::cout << "Please select: 1. Leave" << std::endl;
 			int option = 0;
 			while (!std::cin >> option || !(option > 0 && option < 2)) {
@@ -220,7 +221,7 @@ void Dialogue::StartQuest(Player &player, Character character)
 
 void Dialogue::StartBattle(Player &player, Character character)
 {
-	std::cout << character.description() << std::endl;
+	std::cout << character.BattleDescription() << std::endl;
 	std::cout << "Please select: 1. Continue" << std::endl;
 	int option = 0;
 	while (!std::cin >> option || !(option > 0 && option < 2)) {

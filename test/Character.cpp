@@ -46,3 +46,23 @@ int Character::GetState()
 {
 	return 0;
 }
+
+bool Character::HaveQuest()
+{
+	return false;
+}
+
+bool Character::isAccepted()
+{
+	return false;
+}
+
+std::string Character::QuestDescription()
+{
+	return std::string();
+}
+
+std::string Character::BattleDescription()
+{
+	return std::string();
+}

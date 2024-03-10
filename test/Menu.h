@@ -2,6 +2,7 @@
 #define MENU_H
 
 #include "Player.h"
+#include "Quest.h"
 #include <iostream>
 #include <vector>
 
@@ -24,11 +25,11 @@ public:
 	void Draw();
 
 	//Functions
-	void Character(Player player);
-	void WorldMap(Player player);
-	void Inventory(Player player);
-	void Quest(Player player);
-	void Setting();
+	void OpenCharacter(Player player);
+	void OpenWorldMap(Player player);
+	void OpenInventory(Player player);
+	void OpenQuest(Player player);
+	void OpenSetting();
 
 	void ShowDescription(std::string description);
 };
