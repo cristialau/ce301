@@ -8,6 +8,8 @@ class Map
 {
 private:
 	std::string textureName;
+	sf::Texture texture;
+	Tile* tiles;
 
 	int tileX;
 	int tileY;
@@ -15,9 +17,6 @@ private:
 	int totalTileX = 0;
 	int totalTileY = 0;
 	int totalTile = 0;
-
-	sf::Texture texture;
-	Tile *tiles;
 
 	const static int mapSize = 9;
 

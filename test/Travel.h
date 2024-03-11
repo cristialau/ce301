@@ -1,12 +1,17 @@
 #ifndef	TRAVEL_H
 #define TRAVEL_H
 
+#include "SFML/Graphics.hpp"
 #include "iostream"
 
 class Travel
 {
 private:
 	//random background image
+	std::vector<std::string> textureName;
+	std::vector<sf::Texture> texture;
+	sf::Sprite sprite;
+
 	bool display = true;
 
 public:

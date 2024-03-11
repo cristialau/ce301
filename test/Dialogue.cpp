@@ -17,15 +17,15 @@ void Dialogue::Load()
 {
 }
 
-void Dialogue::Update(Player player, Character character)
+void Dialogue::Update(Player player, NPC npc)
 {
 	ShowDialogue();
 
 	int option = 0;
 
-	if (character.GetRelationship() == "friend") {
-		if (character.GetJob() == "shop") {
-			if (character.GetState() == 1) {
+	if (npc.GetRelationship() >= 50) {
+		if (npc.GetJob() == "shop") {
+			if (npc.GetNPCState() == 1) {
 				std::cout << "Welcome to my shop." << std::endl;
 				std::cout << "Please select: 1. Trade 2. Leave" << std::endl;
 				while (!std::cin >> option || !(option > 0 && option < 3)) {
@@ -36,14 +36,14 @@ void Dialogue::Update(Player player, Character character)
 				switch (option) {
 				case 1:
 					CloseDialogue();
-					StartTrade(player, character);
+					StartTrade(player, npc);
 					break;
 				case 2:
 					CloseDialogue();
 					ReturnMap(player);
 					break;
 				}
-			}else if (character.GetState() == 2) {
+			}else if (npc.GetNPCState() == 2) {
 				std::cout << "The shop is currently closed" << std::endl;
 				std::cout << "Please select: 1. Leave" << std::endl;
 				while (!std::cin >> option || !(option > 0 && option < 2)) {
@@ -66,11 +66,11 @@ void Dialogue::Update(Player player, Character character)
 			switch (option) {
 			case 1:
 				CloseDialogue();
-				StartTrade(player, character);
+				StartTrade(player, npc);
 				break;
 			case 2:
 				CloseDialogue();
-				StartQuest(player, character);
+				StartQuest(player, npc);
 				break;
 			case 3:
 				CloseDialogue();
@@ -78,8 +78,8 @@ void Dialogue::Update(Player player, Character character)
 				break;
 			}
 		}
-	}else if (character.GetRelationship() == "enemy") {
-		if (character.GetState() == 11) {
+	}else if (npc.GetRelationship() <= 50) {
+		if (npc.GetNPCState() == 11) {
 			std::cout << "Encounter enemy" << std::endl;
 			std::cout << "Please select: 1. Battle 2. Surrender 3. Leave" << std::endl;
 			while (!std::cin >> option || !(option > 0 && option < 4)) {
@@ -90,7 +90,7 @@ void Dialogue::Update(Player player, Character character)
 			switch (option) {
 			case 1:
 				CloseDialogue();
-				StartBattle(player, character);
+				StartBattle(player, npc);
 				break;
 			case 2:
 				CloseDialogue();
@@ -102,7 +102,7 @@ void Dialogue::Update(Player player, Character character)
 				break;
 			}
 		}
-		else if (character.GetState() == 12) {
+		else if (npc.GetNPCState() == 12) {
 			std::cout << "Encounter enemy" << std::endl;
 			std::cout << "Please select: 1. Battle 2. Leave" << std::endl;
 			while (!std::cin >> option || !(option > 0 && option < 3)) {
@@ -113,7 +113,7 @@ void Dialogue::Update(Player player, Character character)
 			switch (option) {
 			case 1:
 				CloseDialogue();
-				StartBattle(player, character);
+				StartBattle(player, npc);
 				break;
 			case 2:
 				CloseDialogue();
@@ -121,7 +121,7 @@ void Dialogue::Update(Player player, Character character)
 				break;
 			}
 		}
-		else if (character.GetState() == 13) {
+		else if (npc.GetNPCState() == 13) {
 			std::cout << "Encounter enemy" << std::endl;
 			std::cout << "Please select: 1. Battle 2. Surrender" << std::endl;
 			while (!std::cin >> option || !(option > 0 && option < 3)) {
@@ -132,7 +132,7 @@ void Dialogue::Update(Player player, Character character)
 			switch (option) {
 			case 1:
 				CloseDialogue();
-				StartBattle(player, character);
+				StartBattle(player, npc);
 				break;
 			case 2:
 				CloseDialogue();
@@ -162,19 +162,19 @@ void Dialogue::CloseDialogue()
 
 void Dialogue::ReturnMap(Player &player)
 {
-	player.SetState("Normal");
+	player.SetPlayerState("Normal");
 }
 
-void Dialogue::StartTrade(Player &player, Character character)
+void Dialogue::StartTrade(Player &player, NPC npc)
 {
-	player.SetState("Trading");
+	player.SetPlayerState("Trading");
 }
 
-void Dialogue::StartQuest(Player &player, Character character)
+void Dialogue::StartQuest(Player &player, NPC npc)
 {
-	if (character.HaveQuest()) {
-		if (character.isAccepted()) {
-			std::cout << character.QuestDescription() << std::endl;
+	if (npc.HaveQuest()) {
+		if (npc.isAccepted()) {
+			std::cout << npc.QuestDescription() << std::endl;
 			std::cout << "Please select: 1. Accept 2. Leave" << std::endl;
 			int option = 0;
 			while (!std::cin >> option || !(option > 0 && option < 3)) {
@@ -185,8 +185,8 @@ void Dialogue::StartQuest(Player &player, Character character)
 			int option1 = 0;
 			switch (option) {
 			case 1:
-				player.QuestList(character.getQuest());
-				std::cout << character.QuestDescription() << std::endl;
+				player.QuestList(npc.getQuest());
+				std::cout << npc.QuestDescription() << std::endl;
 				std::cout << "Please select: 1. Leave" << std::endl;
 				
 				while (!std::cin >> option1 || !(option1 > 0 && option1 < 2)) {
@@ -202,7 +202,7 @@ void Dialogue::StartQuest(Player &player, Character character)
 			}
 		}
 		else {
-			std::cout << character.QuestDescription() << std::endl;
+			std::cout << npc.QuestDescription() << std::endl;
 			std::cout << "Please select: 1. Leave" << std::endl;
 			int option = 0;
 			while (!std::cin >> option || !(option > 0 && option < 2)) {
@@ -219,9 +219,9 @@ void Dialogue::StartQuest(Player &player, Character character)
 	
 }
 
-void Dialogue::StartBattle(Player &player, Character character)
+void Dialogue::StartBattle(Player &player, NPC npc)
 {
-	std::cout << character.BattleDescription() << std::endl;
+	std::cout << npc.BattleDescription() << std::endl;
 	std::cout << "Please select: 1. Continue" << std::endl;
 	int option = 0;
 	while (!std::cin >> option || !(option > 0 && option < 2)) {
@@ -230,7 +230,7 @@ void Dialogue::StartBattle(Player &player, Character character)
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 	CloseDialogue();
-	player.SetState("Battle");
+	player.SetPlayerState("Battle");
 }
 
 void Dialogue::Surrender(Player &player)

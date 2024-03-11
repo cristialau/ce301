@@ -72,12 +72,12 @@ void WorldMap::CloseWorldMap()
 
 void WorldMap::StartTravel(Player player)
 {
-	player.SetState("Traveling");
+	player.SetPlayerState("Traveling");
 }
 
 void WorldMap::ReturnMap(Player player)
 {
-	player.SetState("Normal");
+	player.SetPlayerState("Normal");
 }
 
 int WorldMap::TravelTime(int currentLocation, int selected)

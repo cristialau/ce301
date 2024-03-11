@@ -1,24 +1,22 @@
 #ifndef QUEST_H
 #define	QUEST_H
 
+#include "SFML/Graphics.hpp"
 #include <iostream>
 
-class Quest
+struct Quest
 {
-private:
+	int id = -1;
+
+	std::string textureName;
+	sf::Texture texture;
+	sf::Sprite icon;
+
 	std::string name;
-	bool accepted = false;
-	bool finished = false;
 	std::string description;
 
-public:
-	Quest();
-	~Quest();
-
-	void Initialize();
-	void Load();
-	void Update();
-	void Draw();
+	bool accepted = false;
+	bool finished = false;
 };
 	
 #endif

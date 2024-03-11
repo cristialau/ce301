@@ -10,7 +10,6 @@ private:
 	std::string title;
 
 	bool showMainMenu = true;
-	int selected = 1;
 
 public:
 	MainMenu(std::string title);
@@ -22,11 +21,6 @@ public:
 	void Draw(sf::RenderWindow& window);
 
 	//Functions
-	//Change Menu States
-	void StartGame(std::string& gameState);
-	void LoadGame(std::string& gameState);
-	void OptionMenu(std::string& gameState);
-	void QuitGame(std::string& gameState);
 };
 
 #endif

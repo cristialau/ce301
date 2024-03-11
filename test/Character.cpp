@@ -1,12 +1,10 @@
 #include "Character.h"
 
-Character::Character(bool isPlayerCharacter, std::string textureName, std::string name, int relationship, std::string job, int totalHp, int totalSp, int attack, int defence, int luck, int observation, int conversation, int knowledge, std::string passive1, std::string passive2, std::vector<Item> inventory, int inventoryWeight, int gold)
+Character::Character(bool isPlayerCharacter, std::string textureName, std::string name, int totalHp, int totalSp, int attack, int defence, int luck, int observation, int conversation, int knowledge, std::string passive1, std::string passive2, std::vector<Item> inventory, int inventoryWeight, int gold)
 {
 	this->isPlayerCharacter = isPlayerCharacter;
 	this->textureName = textureName;
 	this->name = name;
-	this->relationship = relationship;
-	this->job = job;
 	this->totalHp = totalHp;
 	this->hp = totalHp;
 	this->totalSp = totalSp;
@@ -76,16 +74,6 @@ sf::Sprite Character::GetSprite()
 std::string Character::GetName()
 {
 	return name;
-}
-
-int Character::GetRelationship()
-{
-	return relationship;
-}
-
-std::string Character::GetJob()
-{
-	return job;
 }
 
 int Character::GetTotalHp()
@@ -165,7 +153,7 @@ int Character::GetGold()
 
 bool Character::GetWarning()
 {
-	return Warning;
+	return warning;
 }
 
 void Character::SetWarning(bool warning)
@@ -174,20 +162,6 @@ void Character::SetWarning(bool warning)
 }
 
 //Getters
-
-void Character::AddRel(int rel)
-{
-	relationship += rel;
-	if (relationship > 100)
-		relationship = 100;
-}
-
-void Character::MinRel(int rel)
-{
-	relationship -= rel;
-	if (relationship < 0)
-		relationship = 0;
-}
 
 void Character::AddHp(int hp)
 {
@@ -338,5 +312,36 @@ void Character::SpendGold(int gold)
 	if (this->gold < 0) {
 		this->gold = gold;
 		warning = true;
+	}
+}
+
+void Character::Consume(int inventoryNumber)
+{
+	if (inventory[inventoryNumber].isConsumable)
+		inventory[inventoryNumber].amount--;
+	else if (inventory[inventoryNumber].haveDurability)
+		inventory[inventoryNumber].durability--;
+
+	if (inventory[inventoryNumber].amount <= 0 || inventory[inventoryNumber].durability <= 0)
+		inventory.erase(inventory.begin() + inventoryNumber - 1);
+}
+
+void Character::Rust(int inventoryNumber)
+{
+	if (inventory[inventoryNumber].haveDurability) {
+		inventory[inventoryNumber].durability--;
+		if (inventory[inventoryNumber].durability <= 0) {
+			inventory.erase(inventory.begin() + inventoryNumber - 1);
+			std::cout << inventory[inventoryNumber].name << " is destoryed due to no durability" << std::endl;
+		}
+	}
+}
+
+void Character::Effect(Item item)
+{
+	//bread
+	if (item.name == "bread") {
+		AddHp(10);
+		std::cout << name << " eat a bread" << std::endl;
 	}
 }

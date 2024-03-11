@@ -2,8 +2,8 @@
 #define PLAYER_H
 
 #include "Character.h"
+#include "Quest.h"
 #include "SFML/Graphics.hpp"
-
 #include <iostream>
 
 class Player
@@ -107,7 +107,20 @@ public:
 	bool GetIsC1();		
 	bool GetIsC2();
 	bool GetBothC();
+	std::string GetName();
+	int GetAtk();
+	int GetDef();
+	int GetGold();
+	std::string GetEquip(int equipNumber);
+	std::vector<Item> GetInventory();
+	int GetInventoryWeight();
+	void Consume(int inventoryNumber);
+	void Effect(Item item);
+	std::vector<Quest> GetQuest();
 
+
+	void WorldMap();
+	void ChangeEquip(int equipNumber);
 	void SkillActivate(); //Player activate skills
 	void BuffActivate(); //Player activate buffs
 

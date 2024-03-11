@@ -2,7 +2,9 @@
 #define NPC_H
 
 #include "Character.h"
+#include "Quest.h"
 #include "SFML/Graphics.hpp"
+#include <iostream>
 
 class NPC
 {
@@ -13,11 +15,16 @@ private:
 	float scale = 3.f;
 	int level = 0;
 
+	//Npc current state
+	std::string npcState;
+
 	//Character
 	Character c;
+	int relationship;			//relationship to player - 100 -> friendly | 0 -> enemy
+	std::string job;			//character job
 
 public:
-	NPC(Character character, float positionX, float positionY, int level);
+	NPC(Character& character, float positionX, float positionY, int level);
 	~NPC();
 	
 	void Initialize();
@@ -30,6 +37,13 @@ public:
 	bool isAccepted();
 	std::string QuestDescription();
 	std::string BattleDescription();
+
+	//Getters
+	int GetRelationship();
+	std::string GetJob();
+
+	void AddRls(int rls);
+	void MinRls(int rls);
 };
 
 #endif

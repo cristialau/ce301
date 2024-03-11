@@ -6,7 +6,8 @@
 #include "Player.h"
 #include "Map.h"
 #include "Interface.h"
-
+#include "MainMenu.h"
+#include "Menu.h"
 #include <fstream>
 //#include "SFML/Graphics.hpp"
 //#include "SFML/System.hpp"
@@ -16,6 +17,8 @@
 class Game
 {
 private:
+	std::string title = "Testing";
+
 	//Variables
 	sf::RenderWindow *window;
 	sf::Event event;
@@ -43,16 +46,20 @@ private:
 
 	int level;
 
-private:
-	//Initialize
-	void InitWindow();
-	void InitGame();
-	void LoadGame();
+	Item* item;
+
+	MainMenu mainMenu = MainMenu(title);
+	Menu menu = Menu();
 
 public:
 	Game();
 
 	void Run();
+
+	//Initialize
+	void InitWindow();
+	void InitGame();
+	void LoadGame();
 
 	//Update
 	void UpdateSFML();
@@ -63,6 +70,7 @@ public:
 
 	//Function
 	void EndApplication();
+	void ItemList();
 };
 
 #endif

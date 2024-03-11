@@ -16,8 +16,6 @@ private:
 	sf::Sprite sprite;			//character sprite
 
 	std::string name;			//character name
-	int relationship;			//relationship to player - 100 -> friendly | 0 -> enemy
-	std::string job;			//character job - effect whole character sheet
 
 	//Battle attributes
 	int totalHp;				//total hp
@@ -52,8 +50,6 @@ public:
 		bool isPlayerCharacter,
 		std::string textureName,
 		std::string name,
-		int relationship,
-		std::string job,
 		int totalHp,
 		int totalSp,
 		int attack,
@@ -82,8 +78,6 @@ public:
 	sf::Sprite GetSprite();
 
 	std::string GetName();
-	int GetRelationship();
-	std::string GetJob();
 	int GetTotalHp();
 	int GetHp();
 	int GetTotalSp();
@@ -104,8 +98,6 @@ public:
 	void SetWarning(bool warning);
 
 	//int GetState();
-	void AddRel(int rel);
-	void MinRel(int rel);
 	void AddHp(int hp);
 	void MinHp(int hp);
 	void AddSp(int sp);
@@ -121,13 +113,17 @@ public:
 	void MinCvs(int cvs);
 	void AddKlg(int klg);
 	void MinKlg(int klg);
-	void AddItem(Item item);
-	void MinItem(int inventoryNumber); //delete/transfer item 
+	void AddItem(Item item);			//add item into inventory
+	void MinItem(int inventoryNumber); //delete/transfer item from inventory
 	void AddIvW(int IvW);
 	void MinIvW(int IvW);
 	void AddGold(int gold);
 	void MinGold(int gold);
 	void SpendGold(int gold);
+
+	void Consume(int inventoryNumber); //use item from inventory
+	void Rust(int inventoryNumber);	 //item auto delete in inventory
+	void Effect(Item item); // Item effects
 };
 
 #endif

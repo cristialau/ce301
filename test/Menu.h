@@ -15,23 +15,32 @@ private:
 	int isQuest = 4;
 	int isSetting = 5;
 
+	bool showMenu = false;
+	bool isOpenCharacter = false;
+	bool isOpenWorldMap = false;
+	bool isOpenInventory = false;
+	bool isOpenQuest = false;
+	bool isOpenSetting = false;
+
 public:
 	Menu();
 	~Menu();
 
 	void Initialize();
 	void Load();
-	void Update(Player player);
+	void Update(Player player, int day, int time);
 	void Draw();
 
 	//Functions
+	void SetShowMenu(bool showMenu);
 	void OpenCharacter(Player player);
 	void OpenWorldMap(Player player);
 	void OpenInventory(Player player);
 	void OpenQuest(Player player);
 	void OpenSetting();
 
-	void ShowDescription(std::string description);
+	//Show description under
+	void ShowDescription(std::string name, std::string description);
 };
 
 #endif

@@ -282,12 +282,12 @@ void Player::LoadLevel(int level)
 
 float Player::GetMapPositionX()
 {
-	return playerPosX;
+	return (float)playerPosX;
 }
 
 float Player::GetMapPositionY()
 {
-	return playerPosY;
+	return (float)playerPosY;
 }
 
 std::string Player::GetPlayerState()
@@ -308,6 +308,7 @@ void Player::BuffActivate()
 {
 }
 
+//Getters
 bool Player::GetIsC1()
 {
 	return isC1;
@@ -322,3 +323,14 @@ bool Player::GetBothC()
 {
 	return BothCharacter;
 }
+
+std::vector<Quest> Player::GetQuest()
+{
+	return std::vector<Quest>();
+}
+
+int Player::GetGold()
+{
+	return c1.GetGold();
+}
+//Getters

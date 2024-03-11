@@ -1,9 +1,9 @@
 #ifndef DIALOGUE_H
 #define DIALOGUE_H
 
-#include "SFML/Graphics.hpp"
-#include "Character.h"
 #include "Player.h"
+#include "NPC.h"
+#include "SFML/Graphics.hpp"
 #include <iostream>
 
 class Dialogue
@@ -22,16 +22,16 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(Player player, Character character);
+	void Update(Player player, NPC npc);
 	void Draw(sf::RenderWindow& window);
 
 	//Function
 	void ShowDialogue();
 	void CloseDialogue();
 	void ReturnMap(Player& player);
-	void StartTrade(Player &player, Character character);
-	void StartQuest(Player &player, Character character);
-	void StartBattle(Player &player, Character character);
+	void StartTrade(Player &player, NPC npc);
+	void StartQuest(Player &player, NPC npc);
+	void StartBattle(Player &player, NPC npc);
 	void Surrender(Player &player);
 };
 

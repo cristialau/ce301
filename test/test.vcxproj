@@ -144,14 +144,12 @@
     <ClCompile Include="Dialogue.cpp" />
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Quest.cpp" />
     <ClCompile Include="Trade.cpp" />
     <ClCompile Include="Travel.cpp" />
     <ClCompile Include="WorldMap.cpp" />

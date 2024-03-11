@@ -73,7 +73,7 @@ void Game::UpdateSFML()
     this->dt = this->dtTimer.asMilliseconds();
     
     while (this->window->pollEvent(event)) {
-        if (event.type == sf::Event::Closed)
+        if (event.type == sf::Event::Closed || gameState == "QuitGame")
             EndApplication();
     }
 }
@@ -117,3 +117,25 @@ void Game::EndApplication()
     std::cout << "Ending Application" << "\n";
     this->window->close();
 }
+
+void Game::ItemList()
+{
+    //bread	
+    if (item->name == "bread") {
+        item->id = 1;
+        //icon
+        //item->name = "bread";
+        item->type = "food";
+        item->description = "Bread, you can eat it.";
+        item->effect = "+10 HP";
+        //amount
+        //durability
+        item->weight = 1;
+        item->isConsumable = true;
+        item->haveDurability = true;
+    }
+    else {
+        std::cout << "Error: No " << item->name << " in data" << std::endl;
+    }
+}
+
