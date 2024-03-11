@@ -12,6 +12,8 @@ Item::Item(std::string name, int amount, int durability)
 		description = "Bread, you can eat it.";
 		effect = "+10 HP";
 		weight = 1;
+		isConsumable = true;
+		haveDurability = true;
 	}
 	else {
 		std::cout << "Error: No " << name << " in data" << std::endl;
@@ -21,6 +23,8 @@ Item::Item(std::string name, int amount, int durability)
 Item::~Item()
 {
 }
+
+//Getters
 
 std::string Item::getName()
 {
@@ -50,6 +54,30 @@ int Item::getAmount()
 int Item::getDurability()
 {
 	return durability;
+}
+
+//Getters
+
+void Item::Consume(std::vector<Item> inventory, int inventoryNumber)
+{
+	if (isConsumable)
+		amount--;
+	else if (haveDurability)
+		durability--;
+
+	if (amount <= 0 || durability <= 0)
+		inventory.erase(inventory.begin() + inventoryNumber - 1);
+}
+
+void Item::Rust(std::vector<Item> inventory, int inventoryNumber)
+{
+	if (haveDurability) {
+		durability--;
+		if (durability <= 0) {
+			inventory.erase(inventory.begin() + inventoryNumber - 1);
+			std::cout << inventory[inventoryNumber].name << " is destoryed due to no durability" << std::endl;
+		}
+	}
 }
 
 void Item::Effect(Character character)

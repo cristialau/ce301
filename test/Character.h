@@ -122,7 +122,7 @@ public:
 	void AddKlg(int klg);
 	void MinKlg(int klg);
 	void AddItem(Item item);
-	void MinItem(int number);
+	void MinItem(int inventoryNumber); //delete/transfer item 
 	void AddIvW(int IvW);
 	void MinIvW(int IvW);
 	void AddGold(int gold);

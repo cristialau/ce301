@@ -52,7 +52,7 @@ void Character::Draw()
 {
 }
 
-//Getters start
+//Getters
 bool Character::GetIsPlayerCharacter()
 {
 	return isPlayerCharacter;
@@ -173,7 +173,7 @@ void Character::SetWarning(bool warning)
 	this->warning = warning;
 }
 
-//Getters end
+//Getters
 
 void Character::AddRel(int rel)
 {
@@ -301,9 +301,9 @@ void Character::AddItem(Item item)
 	inventory.push_back(item);
 }
 
-void Character::MinItem(int number)
+void Character::MinItem(int inventoryNumber)
 {
-	inventory.erase(inventory.begin() + number);
+	inventory.erase(inventory.begin() + inventoryNumber - 1);
 }
 
 void Character::AddIvW(int IvW)

@@ -28,7 +28,7 @@ void Player::Load()
 void Player::Update(float dt, sf::View &view)
 {
 	//View set focus on player
-	view.setCenter(sprite.getPosition());
+	view.setCenter(c1.GetSprite().getPosition());
 
 	if(!isLoadedLevel)
 		LoadLevel(level);
@@ -45,7 +45,7 @@ void Player::Update(float dt, sf::View &view)
 				playerMap[playerPosY][playerPosX + 1] = playerMap[playerPosY][playerPosX];
 				playerPosX = playerPosX + 1;
 				playerMap[tempY][tempX] = 1;
-				sprite.move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
+				c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
 				isRight = true;
 				break;
 			case 2:
@@ -72,7 +72,7 @@ void Player::Update(float dt, sf::View &view)
 				playerMap[playerPosY][playerPosX - 1] = playerMap[playerPosY][playerPosX];
 				playerPosX = playerPosX - 1;
 				playerMap[tempY][tempX] = 1;
-				sprite.move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
+				c1.GetSprite().move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
 				isLeft = true;
 				break;
 			case 2:
@@ -99,7 +99,7 @@ void Player::Update(float dt, sf::View &view)
 				playerMap[playerPosY - 1][playerPosX] = playerMap[playerPosY][playerPosX];
 				playerPosY = playerPosY - 1;
 				playerMap[tempY][tempX] = 1;
-				sprite.move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
+				c1.GetSprite().move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
 				isUp = true;
 				break;
 			case 2:
@@ -126,7 +126,7 @@ void Player::Update(float dt, sf::View &view)
 				playerMap[playerPosY + 1][playerPosX] = playerMap[playerPosY][playerPosX];
 				playerPosY = playerPosY + 1;
 				playerMap[tempY][tempX] = 1;
-				sprite.move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
+				c1.GetSprite().move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
 				isDown = true;
 				break;
 			case 2:
@@ -176,7 +176,7 @@ void Player::Update(float dt, sf::View &view)
 
 void Player::Draw(sf::RenderWindow& window)
 {
-	window.draw(sprite);
+	window.draw(c1.GetSprite());
 }
 
 //functions
@@ -219,12 +219,12 @@ void Player::LoadLevel(int level)
 		case 1:
 			this->playerPosX = 1;
 			this->playerPosY = 1;
-			sprite.setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
+			c1.GetSprite().setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
 			break;
 		case 2:
 			this->playerPosX = 8;
 			this->playerPosY = 7;
-			sprite.setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
+			c1.GetSprite().setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
 			break;
 		}
 
@@ -241,14 +241,14 @@ void Player::LoadLevel(int level)
 		case 1:
 			this->playerPosX = 1;
 			this->playerPosY = 2;
-			sprite.setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
+			c1.GetSprite().setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
 			break;
 		case 2:
 			break;
 		case 3:
 			this->playerPosX = 8;
 			this->playerPosY = 7;
-			sprite.setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
+			c1.GetSprite().setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
 			break;
 		}
 
@@ -267,7 +267,7 @@ void Player::LoadLevel(int level)
 		case 2:
 			this->playerPosX = 1;
 			this->playerPosY = 2;
-			sprite.setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
+			c1.GetSprite().setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
 			break;
 		case 3:
 			break;
