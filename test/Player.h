@@ -120,6 +120,10 @@ public:
 	void Effect(Item item);
 	std::vector<Quest> GetQuest();
 
+	void SetOsv(int osvScore);
+	void SetCvs(int cvsScore);
+	void SetKlg(int klgScore);
+
 	void WorldMap();
 	void ChangeEquip(int equipNumber); //while
 	void SkillActivate(); //Player activate skills

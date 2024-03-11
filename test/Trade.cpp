@@ -2,7 +2,6 @@
 
 Trade::Trade()
 {
-	SetUpGamePanel();
 }
 
 Trade::~Trade()
@@ -17,20 +16,80 @@ void Trade::Load()
 {	
 }
 
-void Trade::Update()
+void Trade::Update(Player player)
 {
-	//Player control
+	if(isStartTrading)
+		SetUpGamePanel();
 
-	if (move <= 0)
+	if (move <= 0) {
 		CalculateScore();
+		player.SetOsv(observationScore);
+		player.SetCvs(conversationScore);
+		player.SetKlg(knowledgeScore);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !isUp) {
+		if (playerGamepanel[selected1 + 1][selected2] == 1) 
+			playerGamepanel[selected1][selected2] = playerGamepanel[selected1 + 1][selected2];
+		isUp = true;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !isDown) {
+		if (playerGamepanel[selected1 - 1][selected2] == 1)
+			playerGamepanel[selected1][selected2] = playerGamepanel[selected1 - 1][selected2];
+		isDown = true;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !isLeft) {
+		if (playerGamepanel[selected1][selected2 - 1] == 1)
+			playerGamepanel[selected1][selected2] = playerGamepanel[selected1][selected2 - 1];
+		isLeft = true;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !isRight) {
+		if(playerGamepanel[selected1][selected2 + 1] == 1)
+			playerGamepanel[selected1][selected2] = playerGamepanel[selected1][selected2 + 1];
+		isRight = true;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && !isEnter) {
+		ChangeElement(selected1 - 1, selected2 - 1, move);
+	}
+	
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		isRight = false;
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		isLeft = false;
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		isUp = false;
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		isDown = false;
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+		isEnter = false;
+
+	for (int j = 0; j < 5; j++){
+		for(int i = 0; i < 5; i++)
+			std::cout << gamepanel[i][j];
+		std::cout << std::endl;
+	}
+	std::cout << "Gamepanel: " << selected1 - 1 << " " << selected2 - 1 << std::endl;
 }
 
 void Trade::Draw()
 {
 }
 
+void Trade::SetIsStartTrading(bool isStartTrading)
+{
+	this->isStartTrading = isStartTrading;
+}
+
+bool Trade::GetIsStartTrading()
+{
+	return isStartTrading;
+}
+
 void Trade::SetUpGamePanel()
 {
+	move = 10;
+
 	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < 5; i++) {
 			int random = 0;
@@ -42,12 +101,14 @@ void Trade::SetUpGamePanel()
 
 			switch (random) {
 			case 1:	gamepanel[i][j] = observation; break;
-			case 2: gamepanel[i][j] = communication; break;
+			case 2: gamepanel[i][j] = conversation; break;
 			case 3: gamepanel[i][j] = knowledge; break;
 			case 4: gamepanel[i][j] = luck; break;
 			}
 		}
 	}
+
+	isStartTrading = false;
 }
 
 bool Trade::HaveLuck()
@@ -64,8 +125,8 @@ bool Trade::HaveLuck()
 void Trade::ChangeElement(int selected1, int selected2, int &move)
 {
 	if (gamepanel[selected1][selected2] == observation)
-		gamepanel[selected1][selected2] = communication;
-	else if (gamepanel[selected1][selected2] == communication)
+		gamepanel[selected1][selected2] = conversation;
+	else if (gamepanel[selected1][selected2] == conversation)
 		gamepanel[selected1][selected2] = knowledge;
 	else if (gamepanel[selected1][selected2] == knowledge) {
 		if (HaveLuck())
@@ -89,7 +150,7 @@ void Trade::CalculateScore()
 		for (int i = 0; i < 5; i++) {
 			if (gamepanel[i][j] == observation)
 				o++;
-			else if (gamepanel[i][j] == communication)
+			else if (gamepanel[i][j] == conversation)
 				c++;
 			else if (gamepanel[i][j] == knowledge)
 				k++;
@@ -110,11 +171,11 @@ void Trade::CalculateScore()
 		CheckDiagX(0, j, o, c, k);
 	
 	observationScore = o * observationMultiplier;
-	communicationScore = c * communicationMultiplier;
+	conversationScore = c * conversationMultiplier;
 	knowledgeScore = k * knowledgeMultiplier;
 
 	std::cout << "Observation: " << observationScore << std::endl;
-	std::cout << "Communication: " << communicationScore << std::endl;
+	std::cout << "Communication: " << conversationScore << std::endl;
 	std::cout << "Knowledge: " << knowledgeScore << std::endl;
 }
 
@@ -364,8 +425,8 @@ void Trade::AddMultiplier(int temp, char element, int& o, int& c, int& k)
 	case 3:
 		if (element == observation)
 			observationMultiplier++;
-		else if (element == communication)
-			communicationMultiplier++;
+		else if (element == conversation)
+			conversationMultiplier++;
 		else if (element == knowledge)
 			knowledgeMultiplier++;
 		break;
@@ -374,8 +435,8 @@ void Trade::AddMultiplier(int temp, char element, int& o, int& c, int& k)
 			observationMultiplier++;
 			o++;
 		}
-		else if (element == communication) {
-			communicationMultiplier++;
+		else if (element == conversation) {
+			conversationMultiplier++;
 			c++;
 		}
 		else if (element == knowledge) {
@@ -388,8 +449,8 @@ void Trade::AddMultiplier(int temp, char element, int& o, int& c, int& k)
 			observationMultiplier++;
 			o += 2;
 		}
-		else if (element == communication) {
-			communicationMultiplier++;
+		else if (element == conversation) {
+			conversationMultiplier++;
 			c += 2;
 		}
 		else if (element == knowledge) {
