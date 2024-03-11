@@ -9,7 +9,8 @@ class MainMenu
 private:
 	std::string title;
 
-	int selected;
+	bool showMainMenu = true;
+	int selected = 1;
 
 public:
 	MainMenu(std::string title);
@@ -17,13 +18,15 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(float dt, int level);
-	void Draw(sf::RenderWindow& window, int level);
+	void Update(std::string& gameState);
+	void Draw(sf::RenderWindow& window);
 
-	//Function
-	void StartGame();
-	void LoadGame();
-	void OptionMenu();
+	//Functions
+	//Change Menu States
+	void StartGame(std::string& gameState);
+	void LoadGame(std::string& gameState);
+	void OptionMenu(std::string& gameState);
+	void QuitGame(std::string& gameState);
 };
 
 #endif

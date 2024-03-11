@@ -23,6 +23,8 @@ private:
 	sf::Time dtTimer;
 	float dt = 0;
 
+	std::string gameState;
+
 	float tileSize = 16;
 	float scale = 3;
 
