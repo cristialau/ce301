@@ -1,7 +1,8 @@
 #include "WorldMap.h"
 
-WorldMap::WorldMap()
+WorldMap::WorldMap(std::vector<Location> location)
 {
+	this->location = location;
 }
 
 WorldMap::~WorldMap()
@@ -14,80 +15,72 @@ void WorldMap::Initialize()
 
 void WorldMap::Load()
 {
-	locations = new Location[totalSpots];
-
-	for (int i = 0; i < totalSpots; i++) {
-		locations[i].id = i;
-	}
 }
 
-void WorldMap::Update(Player player, int currentLocation)
+void WorldMap::Update(Player player, Location currentLocation)
 {
-	ShowWorldMap();
+	if (showLocation) {
+		std::cout << "Select location" << std::endl;
+		for (int i = 0; i < location.size(); i++)
+			std::cout << i + 1 << ": " << location[i].name << std::endl;
 
-	int selected = 0;
-	std::cout << "Select location?" << std::endl;
-	while (!std::cin >> selected || !(selected > 0 && selected < totalSpots)) {
-		std::cout << "Please enter an integer between 1 to " << totalSpots << std::endl;
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		showLocation = false;
+		select = 1;
 	}
-	if (currentLocation == selected)
-		std::cout << "You are here" << std::endl;
-	else
-		std::cout << "Estimate travel time: " << TravelTime(currentLocation, selected) << " days" << std::endl;
 
-	int option = 0;
-	std::cout << "Please select: 1. Yes 2. Leave" << std::endl;
-	while (!std::cin >> option || !(option > 0 && option < 3)) {
-		std::cout << "Please enter an integer between 1 to 2" << std::endl;
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+		select++;
+		std::cout << select << std::endl;
 	}
-	switch (option) {
-	case 1:
-		CloseWorldMap();
-		StartTravel(player);
-		break;
-	case 2:
-		CloseWorldMap();
-		ReturnMap(player);
-		break;
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+		select--;
+		std::cout << select << std::endl;
+	}
+
+	if (select > (int)location.size())
+		select = 0;
+	if (select < 0)
+		select = (int)location.size();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+		if (currentLocation.name == location[select].name)
+			std::cout << "You are here" << std::endl;
+		else {
+			std::cout << "Estimate travel time: " << TravelTime(currentLocation, location[select]) << " hours" << std::endl;
+
+			std::cout << "Please select: 1. Confirm 2. Leave" << std::endl;
+
+			while (true) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					showMap = false;
+					player.StartTravel(currentLocation, location[select], TravelTime(currentLocation, location[select]));
+					player.SetPlayerState("Traveling");
+					break;
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+					showLocation = true;
+					break;
+				}
+			}
+		}
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+		showMap = false;
+		player.SetPlayerState("Menu");
 	}
 }
 
 void WorldMap::Draw()
 {
+	if (showMap) {
+
+	}
 }
 
-void WorldMap::ShowWorldMap()
+int WorldMap::TravelTime(Location currentLocation, Location selectLocation)
 {
-	display = true;
+	int travelingTime = currentLocation.time - selectLocation.time;
+	return abs(travelingTime);
 }
-
-void WorldMap::CloseWorldMap()
-{
-	display = false;
-}
-
-void WorldMap::StartTravel(Player player)
-{
-	player.SetPlayerState("Traveling");
-}
-
-void WorldMap::ReturnMap(Player player)
-{
-	player.SetPlayerState("Normal");
-}
-
-int WorldMap::TravelTime(int currentLocation, int selected)
-{
-	int day = 0;
-
-	if (currentLocation >= selected)
-		day = currentLocation - selected;
-	else
-		day = selected - currentLocation;
-
-	return day;
-}
+// 0a  10b  20c  30d

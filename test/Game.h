@@ -8,6 +8,8 @@
 #include "Interface.h"
 #include "MainMenu.h"
 #include "Menu.h"
+#include "Item.h"
+#include "Location.h"
 #include <fstream>
 //#include "SFML/Graphics.hpp"
 //#include "SFML/System.hpp"
@@ -47,6 +49,7 @@ private:
 	int level;
 
 	Item* item;
+	Location* location;
 
 	MainMenu mainMenu = MainMenu(title);
 	Menu menu = Menu();
@@ -71,6 +74,7 @@ public:
 	//Function
 	void EndApplication();
 	void ItemList();
+	void LocationList();
 };
 
 #endif

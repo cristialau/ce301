@@ -3,6 +3,7 @@
 
 #include "Character.h"
 #include "Quest.h"
+#include "Location.h"
 #include "SFML/Graphics.hpp"
 #include <iostream>
 
@@ -70,6 +71,7 @@ private:
 
 	//Player current state
 	std::string playerState;
+	//Normal, Battle, Trading, Traveling, WorldMap, Menu
 
 	//Characters
 	Character c1;
@@ -118,12 +120,12 @@ public:
 	void Effect(Item item);
 	std::vector<Quest> GetQuest();
 
-
 	void WorldMap();
-	void ChangeEquip(int equipNumber);
+	void ChangeEquip(int equipNumber); //while
 	void SkillActivate(); //Player activate skills
 	void BuffActivate(); //Player activate buffs
-
+	void RandomEvents();
+	void StartTravel(Location currentLocation, Location selectLocation, int travelTime);
 };
 
 #endif

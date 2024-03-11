@@ -8,7 +8,7 @@ class MainMenu
 {
 private:
 	std::string title;
-
+	int select = 1;
 	bool showMainMenu = true;
 
 public:

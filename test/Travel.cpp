@@ -16,27 +16,25 @@ void Travel::Load()
 {
 }
 
-void Travel::Update(int day)
+void Travel::Update(Player player, int day, int time, int travelingTime)
 {
-	int travelingTime = day * 24;
-
 	if (travelingTime > 0) {
+		std::cout << day << std::endl;
+		std::cout << time << std::endl;
 		std::cout << "Traveling" << std::endl;
+		std::cout << travelingTime << std::endl;
 
-		if (travelingTime % 6 == 0) {
-			RandomEvents();
-		}
+		if (travelingTime % 360 == 0)
+			player.RandomEvents();
 	}
 	else if (travelingTime <= 0) {
 		std::cout << "Arrived" << std::endl;
-		int option = 0;
-		std::cout << "Please select: 1. Leave" << std::endl;
-		while (!std::cin >> option || !(option > 0 && option < 3)) {
-			std::cout << "Please enter an integer 1" << std::endl;
-			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		while (isTraveling) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+				player.SetPlayerState("Normal");
+				isTraveling = false;
+			}
 		}
-		CloseTraveling();
 	}
 
 	//a bar showing progress
@@ -44,18 +42,17 @@ void Travel::Update(int day)
 
 void Travel::Draw()
 {
+	if (isTraveling) {
+
+	}
 }
 
-void Travel::ShowTraveling()
+void Travel::SetIsTraveling(bool isTraveling)
 {
-	display = true;
+	this->isTraveling = isTraveling;
 }
 
-void Travel::CloseTraveling()
+bool Travel::GetIsTraveling()
 {
-	display = false;
-}
-
-void Travel::RandomEvents()
-{
+	return isTraveling;
 }

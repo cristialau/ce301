@@ -36,9 +36,8 @@ void Menu::Update(Player player, int day, int time)
 		std::cout << "Gold " << player.GetGold() << std::endl;
 		std::cout << "Please select: 1. Character 2. WorldMap 3. Inventory 4. Quest 5. Setting" << std::endl;
 		showMenu = false;
+		select = 1;
 	}
-
-	int select = 1;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		select++;
@@ -112,23 +111,21 @@ void Menu::OpenCharacter(Player player)
 	std::string equip3 = player.GetEquip(3);
 	std::cout << "Equipment 3: " << equip3 << std::endl;
 
-	int select = 1;
-
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		select++;
-		std::cout << select << std::endl;
+		characterSelect++;
+		std::cout << characterSelect << std::endl;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		select--;
-		std::cout << select << std::endl;
+		characterSelect--;
+		std::cout << characterSelect << std::endl;
 	}
-	if (select > 3)
-		select = 1;
-	if (select < 1)
-		select = 3;
+	if (characterSelect > 3)
+		characterSelect = 1;
+	if (characterSelect < 1)
+		characterSelect = 3;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-		switch (select) {
+		switch (characterSelect) {
 		case 1:
 			player.ChangeEquip(1);
 			break;
@@ -142,8 +139,9 @@ void Menu::OpenCharacter(Player player)
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-		isOpenCharacter = false;
 		showMenu = true;
+		isOpenCharacter = false;
+		characterSelect = 1;
 	}
 }
 
@@ -152,8 +150,8 @@ void Menu::OpenWorldMap(Player player)
 	player.WorldMap();
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-		isOpenWorldMap = false;
 		showMenu = true;
+		isOpenWorldMap = false;
 	}
 }
 
@@ -175,32 +173,32 @@ void Menu::OpenInventory(Player player)
 
 	std::cout << "Please select an item" << std::endl;
 
-	int select = 1;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		select++;
-		ShowDescription(inventory[select].name, inventory[select].description);
-		std::cout << select << " / " << inventory.size() << std::endl;
+		inventorySelect++;
+		ShowDescription(inventory[inventorySelect].name, inventory[inventorySelect].description);
+		std::cout << inventorySelect + 1 << " / " << inventory.size() + 1 << std::endl;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		select--;
-		ShowDescription(inventory[select].name, inventory[select].description);
-		std::cout << select << " / " << inventory.size() << std::endl;
+		inventorySelect--;
+		ShowDescription(inventory[inventorySelect].name, inventory[inventorySelect].description);
+		std::cout << inventorySelect + 1 << " / " << inventory.size() + 1 << std::endl;
 	}
-	if (select > inventory.size())
-		select = 1;
-	if (select < 1)
-		select = (int)inventory.size();
+	if (inventorySelect > inventory.size())
+		inventorySelect = 0;
+	if (inventorySelect < 0)
+		inventorySelect = (int)inventory.size();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && inventory[select].isConsumable) {
-		player.Consume(select);
-		player.Effect(inventory[select]);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && inventory[inventorySelect].isConsumable) {
+		player.Consume(inventorySelect);
+		player.Effect(inventory[inventorySelect]);
 	}
 	else
 		std::cout << "You cannot use this item" << std::endl;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-		isOpenInventory = false;
 		showMenu = true;
+		isOpenInventory = false;
+		inventorySelect = 0;
 	}
 }
 
@@ -210,40 +208,39 @@ void Menu::OpenQuest(Player player)
 	std::vector<Quest> quest = player.GetQuest();
 	int finished = 0;
 	for (int i = 0; i < quest.size(); i++) {
-		std::cout << quest[i].finished << " "
-			<< quest[i].name << std::endl;
+		std::cout << quest[i].finished << " " << quest[i].name << std::endl;
 		if (quest[i].finished)
 			finished++;
 	}
 	std::cout << "Finished Quest " << finished << " / " << quest.size();
 	
-	int select = 1;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		select++;
-		ShowDescription(quest[select].name, quest[select].description);
-		std::cout << select << " / " << quest.size() << std::endl;
+		questSelect++;
+		ShowDescription(quest[questSelect].name, quest[questSelect].description);
+		std::cout << questSelect + 1 << " / " << quest.size() + 1 << std::endl;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		select--;
-		ShowDescription(quest[select].name, quest[select].description);
-		std::cout << select << " / " << quest.size() << std::endl;
+		questSelect--;
+		ShowDescription(quest[questSelect].name, quest[questSelect].description);
+		std::cout << questSelect + 1 << " / " << quest.size() + 1 << std::endl;
 	}
-	if (select > quest.size())
-		select = 1;
-	if (select < 1)
-		select = (int)quest.size();
+	if (questSelect > quest.size())
+		questSelect = 0;
+	if (questSelect < 0)
+		questSelect = (int)quest.size();
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 		showMenu = true;
-	}
 		isOpenQuest = false;
+		questSelect = 0;
+	}
 }
 
 void Menu::OpenSetting()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-		isOpenSetting = false;
 		showMenu = true;
+		isOpenSetting = false;
 	}
 }
 

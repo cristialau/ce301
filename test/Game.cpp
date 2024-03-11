@@ -139,3 +139,20 @@ void Game::ItemList()
     }
 }
 
+void Game::LocationList()
+{
+    //Location1	
+    if (location->name == "Location 1") {
+        location->id = 1;
+        //icon
+        //location->name = "location 1";
+        location->description = "Location 1.";
+        //location->travelingTime
+        
+        location->locationX = 0;
+        location->locationY = 0;
+    }
+    else {
+        std::cout << "Error: No " << location->name << " in data" << std::endl;
+    }
+}

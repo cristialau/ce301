@@ -9,25 +9,24 @@
 class WorldMap
 {
 private:
-	bool display = true;
+	bool showLocation = true;
+	bool showMap = true;
 	int totalSpots = 6;
-	Location *locations;
+	std::vector<Location> location;
+
+	int select = 1;
 
 public:
-	WorldMap();
+	WorldMap(std::vector<Location> location);
 	~WorldMap();
 
 	void Initialize();
 	void Load();
-	void Update(Player player, int currentLocation);
+	void Update(Player player, Location currentLocation);
 	void Draw();
 
 	//Functions
-	void ShowWorldMap();
-	void CloseWorldMap();
-	void StartTravel(Player player);
-	void ReturnMap(Player player);
-	int TravelTime(int currentLocation, int selected);
+	int TravelTime(Location currentLocation, Location selectLocation);
 };
 
 #endif

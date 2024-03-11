@@ -1,6 +1,7 @@
 #ifndef	TRAVEL_H
 #define TRAVEL_H
 
+#include "Player.h"
 #include "SFML/Graphics.hpp"
 #include "iostream"
 
@@ -12,7 +13,7 @@ private:
 	std::vector<sf::Texture> texture;
 	sf::Sprite sprite;
 
-	bool display = true;
+	bool isTraveling = true;
 
 public:
 	Travel();
@@ -20,13 +21,12 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(int travelingTime);
+	void Update(Player player, int day, int time, int travelingTime);
 	void Draw();
 
 	//Functions
-	void ShowTraveling();
-	void CloseTraveling();
-	void RandomEvents();
+	void SetIsTraveling(bool traveling);
+	bool GetIsTraveling();
 };
 
 #endif

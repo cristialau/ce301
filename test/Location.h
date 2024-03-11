@@ -1,5 +1,5 @@
 #ifndef LOCATION_H
-#define LOACTION_H
+#define LOCATION_H
 
 #include "SFML/Graphics.hpp"
 #include <iostream>
@@ -14,7 +14,7 @@ struct Location
 
 	std::string name;
 	std::string description;
-	int travelingTime;
+	int time;
 
 	int locationX;
 	int locationY;

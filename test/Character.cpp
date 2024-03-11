@@ -272,7 +272,17 @@ void Character::MinKlg(int klg)
 
 void Character::AddItem(Item item)
 {
-	inventory.push_back(item);
+	bool isAdd = false;
+	for (int i = 0; i < inventory.size(); i++) {
+		if (item.name == inventory[i].name && item.durability == inventory[i].durability) {
+			inventory[i].amount += item.amount;
+			isAdd = true;
+			break;
+		}
+	}
+
+	if(!isAdd)
+		inventory.push_back(item);
 }
 
 void Character::MinItem(int inventoryNumber)

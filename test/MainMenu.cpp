@@ -20,8 +20,6 @@ void MainMenu::Load()
 
 void MainMenu::Update(std::string& gameState)
 {
-	int select = 1;
-
 	if (showMainMenu) {
 		std::cout << title << std::endl;
 		std::cout << "1. Start" << std::endl;
@@ -30,6 +28,7 @@ void MainMenu::Update(std::string& gameState)
 		std::cout << "4. Quit" << std::endl;
 		std::cout << select << std::endl;
 		showMainMenu = false;
+		select = 1;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
