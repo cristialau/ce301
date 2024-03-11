@@ -1,10 +1,12 @@
 #include "Player.h"
 
-Player::Player(std::string textureName, float positionX, float positionY)
+Player::Player(Character& character1, Character& character2, float positionX, float positionY) : c1(character1), c2(character2)
 {
-	this->textureName = textureName;
 	this->positionX = positionX;
 	this->positionY = positionY;
+
+	//this->playerPosX = positionX - 208 + 1;
+	//this->playerPosY = positionY - 100 + 1;
 
 	NormalState();
 }
@@ -19,15 +21,8 @@ void Player::Initialize()
 
 void Player::Load()
 {
-	if (texture.loadFromFile(textureName)) {
-		std::cout << "Player texture loaded" << std::endl;
-		sprite.setTexture(texture);
-
-		sprite.setPosition(sf::Vector2f(positionX, positionY));
-	}
-	else {
-		std::cout << "Player texture failed to load" << std::endl;
-	}
+	c1.GetSprite().setPosition(sf::Vector2f(positionX, positionY));
+	c2.GetSprite().setPosition(sf::Vector2f(positionX, positionY));
 }
 
 void Player::Update(float dt, sf::View &view)
@@ -311,4 +306,19 @@ void Player::SkillActivate()
 
 void Player::BuffActivate()
 {
+}
+
+bool Player::GetIsC1()
+{
+	return isC1;
+}
+
+bool Player::GetIsC2()
+{
+	return isC2;
+}
+
+bool Player::GetBothC()
+{
+	return BothCharacter;
 }

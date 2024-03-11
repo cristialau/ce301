@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "Status.h"
+#include "Character.h"
 #include "SFML/Graphics.hpp"
 
 #include <iostream>
@@ -9,10 +9,6 @@
 class Player
 {
 private:
-	//Player sprite and texture
-	std::string textureName;
-	sf::Texture texture;
-	sf::Sprite sprite;
 	//Player sprite size
 	float tileSize = 16.f;
 	float scale = 3.f;
@@ -75,8 +71,17 @@ private:
 	//Player current state
 	std::string playerState;
 
+	//Characters
+	Character c1;
+	Character c2;
+	bool isC1 = false;
+	bool isC2 = false;
+	bool BothCharacter = true;
+
+
+
 public:
-	Player(std::string textureName, float positionX, float positionY);
+	Player(Character& character1, Character& character2, float positionX, float positionY);
 	~Player();
 
 	void Initialize();
@@ -98,8 +103,14 @@ public:
 	std::string GetPlayerState(); //getter
 	void SetPlayerState(std::string playerState);//setting
 
+	//getters
+	bool GetIsC1();		
+	bool GetIsC2();
+	bool GetBothC();
+
 	void SkillActivate(); //Player activate skills
 	void BuffActivate(); //Player activate buffs
+
 };
 
 #endif

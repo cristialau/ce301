@@ -1,8 +1,9 @@
 #include "Character.h"
 
-Character::Character(bool isPlayerCharacter, std::string name, int relationship, std::string job, int totalHp, int totalSp, int attack, int defence, int luck, int observation, int conversation, int knowledge, std::string passive1, std::string passive2, std::vector<Item> inventory, int inventoryWeight, int gold)
+Character::Character(bool isPlayerCharacter, std::string textureName, std::string name, int relationship, std::string job, int totalHp, int totalSp, int attack, int defence, int luck, int observation, int conversation, int knowledge, std::string passive1, std::string passive2, std::vector<Item> inventory, int inventoryWeight, int gold)
 {
 	this->isPlayerCharacter = isPlayerCharacter;
+	this->textureName = textureName;
 	this->name = name;
 	this->relationship = relationship;
 	this->job = job;
@@ -21,6 +22,7 @@ Character::Character(bool isPlayerCharacter, std::string name, int relationship,
 	this->inventory = inventory;
 	this->inventoryWeight = inventoryWeight;
 	this->gold = gold;
+	warning = false;
 }
 
 Character::~Character()
@@ -33,6 +35,13 @@ void Character::Initialize()
 
 void Character::Load()
 {
+	if (texture.loadFromFile(textureName)) {
+		std::cout << "Player texture loaded" << std::endl;
+		sprite.setTexture(texture);
+	}
+	else {
+		std::cout << "Player texture failed to load" << std::endl;
+	}
 }
 
 void Character::Update()
@@ -44,6 +53,26 @@ void Character::Draw()
 }
 
 //Getters start
+bool Character::GetIsPlayerCharacter()
+{
+	return isPlayerCharacter;
+}
+
+std::string Character::GetTextureName()
+{
+	return textureName;
+}
+
+sf::Texture Character::GetTexture()
+{
+	return texture;
+}
+
+sf::Sprite Character::GetSprite()
+{
+	return sprite;
+}
+
 std::string Character::GetName()
 {
 	return name;
@@ -88,43 +117,77 @@ int Character::GetDefence()
 {
 	return defence;
 }
+
 int Character::GetLuck()
 {
 	return luck;
 }
+
 int Character::GetObservation()
 {
 	return observation;
 }
+
 int Character::GetConversation()
 {
 	return conversation;
 }
+
 int Character::GetKnowledge()
 {
 	return knowledge;
 }
+
 std::string Character::GetPassive1()
 {
 	return passive1;
 }
+
 std::string Character::GetPassive2()
 {
 	return passive2;
 }
+
 std::vector<Item> Character::GetInventory()
 {
 	return inventory;
 }
+
 int Character::GetInventoryWeight()
 {
 	return inventoryWeight;
 }
+
 int Character::GetGold()
 {
 	return gold;
 }
+
+bool Character::GetWarning()
+{
+	return Warning;
+}
+
+void Character::SetWarning(bool warning)
+{
+	this->warning = warning;
+}
+
 //Getters end
+
+void Character::AddRel(int rel)
+{
+	relationship += rel;
+	if (relationship > 100)
+		relationship = 100;
+}
+
+void Character::MinRel(int rel)
+{
+	relationship -= rel;
+	if (relationship < 0)
+		relationship = 0;
+}
 
 void Character::AddHp(int hp)
 {
@@ -157,26 +220,123 @@ void Character::MinSp(int sp)
 void Character::MinSpSkill(int sp)
 {
 	this->sp -= sp;
-	if (this->sp < sp)
+	if (this->sp < sp) {
 		this->sp = sp;
+		warning = true;
+	}
 }
 
-bool Character::HaveQuest()
+void Character::AddAtk(int atk)
 {
-	return false;
+	attack += atk;
+	if (attack > 999)
+		attack = 999;
 }
 
-bool Character::isAccepted()
+void Character::MinAtk(int atk)
 {
-	return false;
+	attack -= atk;
+	if (attack < 0)
+		attack = 0;
 }
 
-std::string Character::QuestDescription()
+void Character::AddDef(int def)
 {
-	return std::string();
+	defence += def;
+	if (defence > 999)
+		defence = 999;
 }
 
-std::string Character::BattleDescription()
+void Character::MinDef(int def)
 {
-	return std::string();
+	defence -= def;
+	if (defence < 0)
+		defence = 0;
+}
+
+void Character::AddOsv(int osv)
+{
+	observation += osv;
+	if (observation > 100)
+		observation = 100;
+}
+
+void Character::MinOsv(int osv)
+{
+	observation -= osv;
+	if (observation < 10)
+		observation = 10;
+}
+
+void Character::AddCvs(int cvs)
+{
+	conversation += cvs;
+	if (conversation > 100)
+		conversation = 100;
+}
+
+void Character::MinCvs(int cvs)
+{
+	conversation -= cvs;
+	if (conversation < 10)
+		conversation = 10;
+}
+
+void Character::AddKlg(int klg)
+{
+	knowledge += klg;
+	if (knowledge > 100)
+		knowledge = 100;
+}
+
+void Character::MinKlg(int klg)
+{
+	knowledge -= klg;
+	if (knowledge < 10)
+		knowledge = 10;
+}
+
+void Character::AddItem(Item item)
+{
+	inventory.push_back(item);
+}
+
+void Character::MinItem(int number)
+{
+	inventory.erase(inventory.begin() + number);
+}
+
+void Character::AddIvW(int IvW)
+{
+	inventoryWeight += IvW;
+	if (inventoryWeight > 300)
+		inventoryWeight = 300;
+}
+
+void Character::MinIvW(int IvW)
+{
+	inventoryWeight -= IvW;
+	if (inventoryWeight < 50)
+		inventoryWeight = 50;
+}
+
+void Character::AddGold(int gold)
+{
+	this->gold += gold;
+}
+
+void Character::MinGold(int gold)
+{
+	this->gold -= gold;
+	if (this->gold < 0)
+		this->gold = 0;
+}
+
+void Character::SpendGold(int gold)
+{
+	this->gold -= gold;
+	if (this->gold < 0) {
+		this->gold = gold;
+		warning = true;
+	}
 }
