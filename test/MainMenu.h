@@ -7,8 +7,11 @@
 class MainMenu
 {
 private:
+	//Title
 	std::string title;
+	//player select
 	int select = 1;
+	//show menu
 	bool showMainMenu = true;
 
 public:

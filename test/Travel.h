@@ -9,11 +9,9 @@ class Travel
 {
 private:
 	//random background image
-	std::vector<std::string> textureName;
-	std::vector<sf::Texture> texture;
-	sf::Sprite sprite;
-
-	bool isTraveling = true;
+	std::vector<std::string> bgTextureName;
+	std::vector<sf::Texture> bgTexture;
+	sf::Sprite background;
 
 public:
 	Travel();
@@ -22,11 +20,7 @@ public:
 	void Initialize();
 	void Load();
 	void Update(Player player, int day, int time, int travelingTime);
-	void Draw();
-
-	//Functions
-	void SetIsTraveling(bool traveling);
-	bool GetIsTraveling();
+	void Draw(Player player);
 };
 
 #endif

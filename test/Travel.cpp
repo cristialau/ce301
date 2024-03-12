@@ -29,30 +29,16 @@ void Travel::Update(Player player, int day, int time, int travelingTime)
 	}
 	else if (travelingTime <= 0) {
 		std::cout << "Arrived" << std::endl;
-		while (isTraveling) {
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				player.SetPlayerState("Normal");
-				isTraveling = false;
-			}
-		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+			player.SetPlayerState("Normal");
 	}
 
 	//a bar showing progress
 }
 
-void Travel::Draw()
+void Travel::Draw(Player player)
 {
-	if (isTraveling) {
+	if (player.GetPlayerState() == "Traveling") {
 
 	}
-}
-
-void Travel::SetIsTraveling(bool isTraveling)
-{
-	this->isTraveling = isTraveling;
-}
-
-bool Travel::GetIsTraveling()
-{
-	return isTraveling;
 }

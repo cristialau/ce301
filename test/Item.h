@@ -6,12 +6,13 @@
 
 struct Item
 {
+	//id
 	int id = -1;
-
+	//icon
 	std::string textureName;
 	sf::Texture texture;
 	sf::Sprite icon;
-
+	//attritubes
 	std::string name;
 	std::string type;
 	std::string description;

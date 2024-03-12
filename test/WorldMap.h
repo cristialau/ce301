@@ -9,11 +9,12 @@
 class WorldMap
 {
 private:
+	//show Map
 	bool showLocation = true;
 	bool showMap = true;
-	int totalSpots = 6;
+	//location list
 	std::vector<Location> location;
-
+	//player select
 	int select = 1;
 
 public:

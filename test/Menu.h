@@ -9,19 +9,20 @@
 class Menu
 {
 private:
+	//menu pages
 	int isCharacterPage = 1;
 	int isWorldMap = 2;
 	int isInventory = 3;
 	int isQuest = 4;
 	int isSetting = 5;
-
+	//show menus
 	bool showMenu = false;
 	bool isOpenCharacter = false;
 	bool isOpenWorldMap = false;
 	bool isOpenInventory = false;
 	bool isOpenQuest = false;
 	bool isOpenSetting = false;
-
+	//player selects
 	int select = 1;
 	int characterSelect = 1;
 	int inventorySelect = 0;

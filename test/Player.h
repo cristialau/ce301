@@ -109,6 +109,8 @@ public:
 	bool GetIsC1();		
 	bool GetIsC2();
 	bool GetBothC();
+	Character GetC1();
+	Character GetC2();
 	std::string GetName();
 	int GetAtk();
 	int GetDef();

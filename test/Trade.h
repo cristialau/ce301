@@ -9,14 +9,16 @@
 class Trade
 {
 private:
+	//Trading
 	bool isStartTrading = true;
+	//Turn
 	int move = 10;
-
-	char gamepanel[5][5] = { {'0', '0', '0', '0', '0'},
+	//Game panels
+	char gamepanel[5][5] = {{'0', '0', '0', '0', '0'},
 							{'0', '0', '0', '0', '0'},
 							{'0', '0', '0', '0', '0'},
 							{'0', '0', '0', '0', '0'},
-							{'0', '0', '0', '0', '0'} };
+							{'0', '0', '0', '0', '0'}};
 	int playerGamepanel[7][7] = {{0, 0, 0, 0, 0, 0, 0},
 								{0, 1, 1, 1, 1, 1, 0},
 								{0, 1, 1, 1, 1, 1, 0},
@@ -24,21 +26,21 @@ private:
 								{0, 1, 1, 1, 1, 1, 0},
 								{0, 1, 1, 1, 1, 1, 0},
 								{0, 0, 0, 0, 0, 0, 0}};
+	//elements
 	char luck = 'l';
 	char observation = 'o';
 	char conversation = 'c';
 	char knowledge = 'k';
-
+	//player selects
 	int selected1 = 2;
 	int selected2 = 2;
-
+	//Scores and Multipliers
 	int observationScore = 0;
 	int observationMultiplier = 1;
 	int conversationScore = 0;
 	int conversationMultiplier = 1;
 	int knowledgeScore = 0;
 	int knowledgeMultiplier = 1;
-
 	//Player press arrowkeys
 	bool isRight = false;
 	bool isLeft = false;

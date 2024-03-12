@@ -6,12 +6,13 @@
 
 struct Quest
 {
+	//id
 	int id = -1;
-
+	//icon
 	std::string textureName;
 	sf::Texture texture;
 	sf::Sprite icon;
-
+	//attributes
 	std::string name;
 	std::string description;
 

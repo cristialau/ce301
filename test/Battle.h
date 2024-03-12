@@ -11,25 +11,28 @@ private:
 	bool isBattle;
 	int round;
 	
-	bool isCharacterA;
-	bool isCharacterB;
+	bool haveC1;
+	bool haveC2;
 	std::string playerStatus;
-	int playerBuffRound;
+	int playerBuffSustain;
 	int playerTeamHPMax;
 	int playerTeamHP;
-	int characterASPMax;
-	int characterASP;
-	int characterBSPMax;
-	int characterBSP;
+	int c1SPMax;
+	int c1SP;
+	int c2SPMax;
+	int c2SP;
 	int playerAttackDmg;
 	int playerDefence;
 
 	int enemyNumber;
 	std::string enemyStatus;
+	int enemyBuffSustain;
 	int enemyTeamHPMax;
 	int enemyTeamHP;
 	int enemyAttackDmg;
 	int enemyDefence;
+
+	int select = 1;
 
 public:
 	Battle(int enemyNumber);
@@ -37,11 +40,10 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update();
+	void Update(Player player);
 	void Draw();
 
 	//Functions
-	void SPrecovery(int SPMax, int& SP, int recover);
 	void SPconsume(int& SP, int consume);
 	void Attack(int c1DMG, int c2DEF, int &c2HP);
 	void Skill(int c1DMG, int c2DEF, int& c2HP, int &c1SP);

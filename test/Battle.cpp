@@ -2,12 +2,7 @@
 
 Battle::Battle(int enemyNumber)
 {
-	isBattle = true;
 	round = 1;
-	this->isCharacterA = isCharacterA;
-	this->isCharacterB = isCharacterB;
-	this->playerStatus = "Normal";
-	this->playerBuffRound = -1;
 	/*
 	if (isCharacterA && isCharacterB) {
 		playerTeamHPMax = characterAHPMax + characterBHPMax;
@@ -57,20 +52,30 @@ void Battle::Load()
 {
 }
 
-void Battle::Update()
-{	
+void Battle::Update(Player player)
+{
+	//if Player or enemy hp = 0
+	if (playerTeamHP <= 0)
+		Lose();
+	else if (enemyTeamHP <= 0)
+		Win();
+	//if c1 c2 in the battle
+	if (haveC1)
+		player.GetC1().AddSp(20);
+	if (haveC2)
+		player.GetC2().AddSp(30);
+	if (enemyNumber)
+	//if player got buffs
+	if (playerBuffSustain > 0)
+		playerBuffSustain--;
+	if (enemyBuffSustain > 0)
+		enemyBuffSustain--;
 }
 
 void Battle::Draw()
 {
 }
 
-void Battle::SPrecovery(int SPMax, int& SP, int recover)
-{
-	SP += recover;
-	if (SP > SPMax)
-		SPMax = SP;
-}
 
 void Battle::SPconsume(int &SP, int consume)
 {
@@ -106,20 +111,12 @@ void Battle::Passive()
 
 void Battle::BattleScene()
 {
-	int option = -1;
+	
+
 
 	while (isBattle) {
-		if (playerTeamHP <= 0 || enemyTeamHP <= 0)
-			break;
-		
-		if (isCharacterA)
-			SPrecovery(characterASPMax, characterASP, 20);
-		if (isCharacterB)
-			SPrecovery(characterBSPMax, characterBSP, 30);
 
-		if (playerBuffRound > 0) {
-			playerBuffRound--;
-		}
+		
 		if (playerBuffRound == 0){
 			playerAttackDmg /= 1.5;
 			playerStatus = "Normal";
@@ -249,11 +246,6 @@ void Battle::BattleScene()
 
 		round++;
 	}
-
-	if (playerTeamHP <= 0)
-		Lose();
-	else if (enemyTeamHP <= 0)
-		Win();
 }
 
 void Battle::Lose()
