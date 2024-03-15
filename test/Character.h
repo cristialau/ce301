@@ -20,8 +20,6 @@ private:
 	//Battle attributes
 	int totalHp;				//total hp
 	int hp;						//hp
-	int totalSp;				//total sp
-	int sp;						//sp
 	int attack;					//dmg
 	int defence;				//def
 
@@ -32,8 +30,8 @@ private:
 	int knowledge;				//brain
 
 	//Characeter passives
-	std::string passive1;
-	std::string passive2;
+	std::string skill1;
+	std::string skill2;
 
 	//Inventory setting
 	std::vector<Item> inventory;
@@ -51,15 +49,14 @@ public:
 		std::string textureName,
 		std::string name,
 		int totalHp,
-		int totalSp,
 		int attack,
 		int defence,
 		int luck,
 		int observation,
 		int conversation,
 		int knowledge,
-		std::string passive1,
-		std::string passive2,
+		std::string skill1,
+		std::string skill2,
 		std::vector<Item> inventory,
 		int inventoryWeight,
 		int gold);
@@ -80,8 +77,6 @@ public:
 	std::string GetName();
 	int GetTotalHp();
 	int GetHp();
-	int GetTotalSp();
-	int GetSp();
 	int GetAttack();
 	int GetDefence();
 	int GetLuck();
@@ -100,9 +95,6 @@ public:
 	//int GetState();
 	void AddHp(int hp);
 	void MinHp(int hp);
-	void AddSp(int sp);
-	void MinSp(int sp);
-	void MinSpSkill(int sp);
 	void AddAtk(int atk);
 	void MinAtk(int atk);
 	void AddDef(int def);

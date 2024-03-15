@@ -10,6 +10,9 @@
 class Player
 {
 private:
+	std::string textureName;	//character texture name
+	sf::Texture texture;		//character texture
+	sf::Sprite sprite;			//character sprite
 	//Player sprite size
 	float tileSize = 16.f;
 	float scale = 3.f;
@@ -64,26 +67,23 @@ private:
 	bool isLoadedLevel = false;
 
 	//Player press arrowkeys
-	bool isRight = false;
-	bool isLeft = false;
-	bool isUp = false;
-	bool isDown = false;
+	bool isPress = false;
 
 	//Player current state
 	std::string playerState;
 	//Normal, Battle, Trading, Traveling, WorldMap, Menu
 
 	//Characters
-	Character c1;
-	Character c2;
+	//Character c1;
+	//Character c2;
 	bool isC1 = false;
 	bool isC2 = false;
 	bool BothCharacter = true;
-
-
+	int totalSp;				//total sp
+	int sp;						//sp
 
 public:
-	Player(Character& character1, Character& character2, float positionX, float positionY);
+	Player(std::string TextureName, float positionX, float positionY);
 	~Player();
 
 	void Initialize();
@@ -127,11 +127,12 @@ public:
 	void SetKlg(int klgScore);
 
 	void WorldMap();
-	void ChangeEquip(int equipNumber); //while
+	void ChangeEquip(int equipNumber); //if change equip
 	void SkillActivate(); //Player activate skills
 	void BuffActivate(); //Player activate buffs
 	void RandomEvents();
 	void StartTravel(Location currentLocation, Location selectLocation, int travelTime);
+
 };
 
 #endif

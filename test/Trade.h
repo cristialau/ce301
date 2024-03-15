@@ -42,10 +42,7 @@ private:
 	int knowledgeScore = 0;
 	int knowledgeMultiplier = 1;
 	//Player press arrowkeys
-	bool isRight = false;
-	bool isLeft = false;
-	bool isUp = false;
-	bool isDown = false;
+	bool isPress = false;
 	bool isEnter = false;
 
 public:

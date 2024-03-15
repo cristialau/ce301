@@ -26,41 +26,37 @@ void Trade::Update(Player player)
 		player.SetOsv(observationScore);
 		player.SetCvs(conversationScore);
 		player.SetKlg(knowledgeScore);
+		player.SetKlg(knowledgeScore);
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !isUp) {
-		if (playerGamepanel[selected1 + 1][selected2] == 1) 
-			playerGamepanel[selected1][selected2] = playerGamepanel[selected1 + 1][selected2];
-		isUp = true;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !isDown) {
-		if (playerGamepanel[selected1 - 1][selected2] == 1)
-			playerGamepanel[selected1][selected2] = playerGamepanel[selected1 - 1][selected2];
-		isDown = true;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !isLeft) {
-		if (playerGamepanel[selected1][selected2 - 1] == 1)
-			playerGamepanel[selected1][selected2] = playerGamepanel[selected1][selected2 - 1];
-		isLeft = true;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !isRight) {
-		if(playerGamepanel[selected1][selected2 + 1] == 1)
-			playerGamepanel[selected1][selected2] = playerGamepanel[selected1][selected2 + 1];
-		isRight = true;
+	if (!isPress) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			if (playerGamepanel[selected1 + 1][selected2] == 1)
+				playerGamepanel[selected1][selected2] = playerGamepanel[selected1 + 1][selected2];
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			if (playerGamepanel[selected1 - 1][selected2] == 1)
+				playerGamepanel[selected1][selected2] = playerGamepanel[selected1 - 1][selected2];
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			if (playerGamepanel[selected1][selected2 - 1] == 1)
+				playerGamepanel[selected1][selected2] = playerGamepanel[selected1][selected2 - 1];
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			if (playerGamepanel[selected1][selected2 + 1] == 1)
+				playerGamepanel[selected1][selected2] = playerGamepanel[selected1][selected2 + 1];
+		}
+		isPress = true;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && !isEnter) {
 		ChangeElement(selected1 - 1, selected2 - 1, move);
+		isEnter = true;
 	}
 	
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		isRight = false;
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		isLeft = false;
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		isUp = false;
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		isDown = false;
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		isPress = false;
+		
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 		isEnter = false;
 

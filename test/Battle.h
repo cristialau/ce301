@@ -3,36 +3,40 @@
 
 #include "Player.h"
 #include "NPC.h"
+#include "SFML/Graphics.hpp"
 #include <vector>
 
 class Battle
 {
 private:
 	bool isBattle;
-	int round;
 	
-	bool haveC1;
-	bool haveC2;
-	std::string playerStatus;
-	int playerBuffSustain;
-	int playerTeamHPMax;
+	int round;		//rounds
+	
+	bool playerTurn;
+	bool haveC1;				//c1 in battle
+	bool haveC2;				//c2 in battle
+	std::string playerStatus;	//player battle status, normal, buff, debuff
+	bool playerBuff;			//player buff
+	bool playerDebuff;			//player debuff
+	int playerTeamHPMax;		//player's hp
 	int playerTeamHP;
-	int c1SPMax;
-	int c1SP;
-	int c2SPMax;
-	int c2SP;
-	int playerAttackDmg;
-	int playerDefence;
+	int playerTeamSPMax;		//player's sp
+	int playerTeamSP;
+	int playerAttackDmg;		//player's atk
+	int playerDefence;			//player's def
 
-	int enemyNumber;
-	std::string enemyStatus;
-	int enemyBuffSustain;
-	int enemyTeamHPMax;
+	bool enemyTurn;
+	int enemyNumber;			//enemy number
+	std::string enemyStatus;	//enemy battle status
+	bool enemyBuff;				//enemy buff
+	bool enemyDebuff;			//enemy debuff
+	int enemyTeamHPMax;			//enemy's hp
 	int enemyTeamHP;
-	int enemyAttackDmg;
-	int enemyDefence;
+	int enemyAttackDmg;			//enemy's atk
+	int enemyDefence;			//enemy's def
 
-	int select = 1;
+	int select = 1;				//player select
 
 public:
 	Battle(int enemyNumber);
@@ -42,17 +46,8 @@ public:
 	void Load();
 	void Update(Player player);
 	void Draw();
-
-	//Functions
-	void SPconsume(int& SP, int consume);
-	void Attack(int c1DMG, int c2DEF, int &c2HP);
-	void Skill(int c1DMG, int c2DEF, int& c2HP, int &c1SP);
-	void Heal(int &playerHP, int playerHPMax, int &c2SP);
-	//void Buff(Player player, int& c2SP);
-	void Passive();
-
-	void BattleScene();
 	
+	//Functions
 	void Lose();
 	void Win();
 };

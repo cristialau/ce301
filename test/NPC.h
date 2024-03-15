@@ -22,7 +22,7 @@ private:
 	Character c;
 	int relationship;			//relationship to player - 100 -> friendly | 0 -> enemy
 	std::string job;			//character job
-	//villager, merchant, bandit, hunter, soldier
+	//swordie, archer, thief, clergy
 
 public:
 	NPC(Character& character, float positionX, float positionY, int level);

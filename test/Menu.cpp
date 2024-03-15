@@ -39,45 +39,50 @@ void Menu::Update(Player player, int day, int time)
 		select = 1;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		select++;
-		std::cout << select << std::endl;
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		select--;
-		std::cout << select << std::endl;
-	}
+	if (!isSelected) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			select++;
+			std::cout << select << std::endl;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			select--;
+			std::cout << select << std::endl;
+		}
 
-	if (select > 5)
-		select = 1;
-	if (select < 1)
-		select = 5;
+		if (select > 5)
+			select = 1;
+		if (select < 1)
+			select = 5;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+			isSelected = true;
+		}
+	}
+	else {
 		switch (select) {
 		case 1:
 			isOpenCharacter = true;
-			while (isOpenCharacter)
+			if (isOpenCharacter)
 				OpenCharacter(player);
 			break;
 		case 2:
 			isOpenWorldMap = true;
-			while (isOpenWorldMap)
+			if (isOpenWorldMap)
 				OpenWorldMap(player);
 			break;
 		case 3:
 			isOpenInventory = true;
-			while (isOpenInventory)
+			if (isOpenInventory)
 				OpenInventory(player);
 			break;
 		case 4:
 			isOpenQuest = true;
-			while (isOpenQuest)
+			if (isOpenQuest)
 				OpenQuest(player);
 			break;
 		case 5:
 			isOpenSetting = true;
-			while (isOpenSetting)
+			if (isOpenSetting)
 				OpenSetting();
 			break;
 		}
@@ -140,6 +145,7 @@ void Menu::OpenCharacter(Player player)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 		showMenu = true;
+		isSelected = false;
 		isOpenCharacter = false;
 		characterSelect = 1;
 	}
@@ -151,6 +157,7 @@ void Menu::OpenWorldMap(Player player)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 		showMenu = true;
+		isSelected = false;
 		isOpenWorldMap = false;
 	}
 }
@@ -197,6 +204,7 @@ void Menu::OpenInventory(Player player)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 		showMenu = true;
+		isSelected = false;
 		isOpenInventory = false;
 		inventorySelect = 0;
 	}
@@ -231,6 +239,7 @@ void Menu::OpenQuest(Player player)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 		showMenu = true;
+		isSelected = false;
 		isOpenQuest = false;
 		questSelect = 0;
 	}
@@ -240,6 +249,7 @@ void Menu::OpenSetting()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 		showMenu = true;
+		isSelected = false;
 		isOpenSetting = false;
 	}
 }

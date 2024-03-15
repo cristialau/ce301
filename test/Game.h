@@ -35,15 +35,20 @@ private:
 
 	sf::View view;
 
-	Interface interface;
+	//Interface interface;
 
 	Player player = Player("Textures/player.png", 208.f, 100.f);
 
-	NPC npc1 = NPC("Textures/npc.png", 208.f + 0 * tileSize * scale, 100.f + 7 * tileSize * scale, 1);
-	NPC npc2 = NPC("Textures/npc.png", 208.f + 7 * tileSize * scale, 100.f + 0 * tileSize * scale, 2);
-	NPC npc3 = NPC("Textures/npc.png", 208.f + 7 * tileSize * scale, 100.f + 7 * tileSize * scale, 3);
+	//NPC npc1 = NPC("Textures/npc.png", 208.f + 0 * tileSize * scale, 100.f + 7 * tileSize * scale, 1);
+	//NPC npc2 = NPC("Textures/npc.png", 208.f + 7 * tileSize * scale, 100.f + 0 * tileSize * scale, 2);
+	//NPC npc3 = NPC("Textures/npc.png", 208.f + 7 * tileSize * scale, 100.f + 7 * tileSize * scale, 3);
 
-	Map map1 = Map("Textures/16x16 TopDown Nature/4_Seasons_Ground_Tiles.png");
+	int map[9][9] = {{ 3, 3, 3, 3, 3},
+					 { 3, 0, 1, 2, 3},
+					 { 3, 7, 8, 9, 3},
+					 { 3, 14, 15, 16, 3},
+					 { 3, 3, 3, 3, 3}};
+	Map map1 = Map("Textures/16x16 TopDown Nature/4_Seasons_Ground_Tiles.png", map);
 	//Map map2 = Map("Textures/16x16 TopDown Nature/4_Seasons_Trees.png");
 
 	int level;

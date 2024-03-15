@@ -1,9 +1,10 @@
 #include "Map.h"
 #include <iostream>
 
-Map::Map(std::string textureName) : tileX(16), tileY(16), scale(3)
+Map::Map(std::string textureName, int map1[9][9]) : tileX(16), tileY(16), scale(3)
 {
 	this->textureName = textureName;
+	this->map1[9][9] = map1[9][9];
 }
 
 Map::~Map()

@@ -24,6 +24,7 @@ private:
 	bool isOpenSetting = false;
 	//player selects
 	int select = 1;
+	bool isSelected = false;
 	int characterSelect = 1;
 	int inventorySelect = 0;
 	int questSelect = 0;

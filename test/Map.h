@@ -21,11 +21,14 @@ private:
 	const static int mapSize = 9;
 
 	sf::Sprite sprites1[mapSize][mapSize];
-	int map1[mapSize][mapSize] = {{ 3, 3, 3, 3, 3},
+	/*
+	* int map1[mapSize][mapSize] = {{3, 3, 3, 3, 3},
 					 { 3, 0, 1, 2, 3},
 					 { 3, 7, 8, 9, 3},
 					 { 3, 14, 15, 16, 3},
 					 { 3, 3, 3, 3, 3}};
+	*/
+	int map1[mapSize][mapSize];
 
 	sf::Sprite sprites2[mapSize][mapSize];
 	int map2[mapSize][mapSize] = { { 3, 3, 3, 3, 3},
@@ -47,7 +50,7 @@ private:
 	float toY = 0;
 
 public:
-	Map(std::string textureName);
+	Map(std::string textureName, int map1[9][9]);
 	~Map();
 
 	void Initialize();

@@ -11,6 +11,7 @@ private:
 	std::string title;
 	//player select
 	int select = 1;
+	bool isSelected = false;
 	//show menu
 	bool showMainMenu = true;
 

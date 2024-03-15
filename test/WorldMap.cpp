@@ -50,6 +50,7 @@ void WorldMap::Update(Player player, Location currentLocation)
 
 			std::cout << "Please select: 1. Confirm 2. Leave" << std::endl;
 
+			//change
 			while (true) {
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 					showMap = false;

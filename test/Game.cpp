@@ -47,22 +47,22 @@ void Game::InitWindow()
 
 void Game::InitGame()
 {
-    interface.Initialize();
+    //interface.Initialize();
     player.Initialize();
-    npc1.Initialize();
-    npc2.Initialize();
-    npc3.Initialize();
+    //npc1.Initialize();
+    //npc2.Initialize();
+    //npc3.Initialize();
     map1.Initialize();
     //map2.Initialize();
 }
 
 void Game::LoadGame()
 {
-    interface.Load();
+    //interface.Load();
     player.Load();
-    npc1.Load();
-    npc2.Load();
-    npc3.Load();
+    //npc1.Load();
+    //npc2.Load();
+    //npc3.Load();
     map1.Load();
     //map2.Load();
 }
@@ -82,11 +82,11 @@ void Game::Update()
 {
     this->level = player.GetLevel();
 
-    interface.Update(dt, view);
+    //interface.Update(dt, view);
     player.Update(dt, view);
-    npc1.Update(dt, level);
-    npc2.Update(dt, level);
-    npc3.Update(dt, level);
+    //npc1.Update(dt, level);
+    //npc2.Update(dt, level);
+    //npc3.Update(dt, level);
     map1.Update(dt, level);
     //map2.Update(dt);
 }
@@ -99,15 +99,15 @@ void Game::Draw()
     map1.Draw(*window, player, level);
     //map2.Draw(*window);
     
-    npc1.Draw(*window, level);
-    npc2.Draw(*window, level);
-    npc3.Draw(*window, level);
+    //npc1.Draw(*window, level);
+    //npc2.Draw(*window, level);
+    //npc3.Draw(*window, level);
 
     player.Draw(*window);
 
     this->window->setView(window->getDefaultView());
 
-    interface.Draw(*window);
+    //interface.Draw(*window);
 
     this->window->display();
 }
@@ -149,10 +149,11 @@ void Game::LocationList()
         location->description = "Location 1.";
         //location->travelingTime
         
-        location->locationX = 0;
-        location->locationY = 0;
+        location->positionX = 0;
+        location->positionY = 0;
     }
     else {
         std::cout << "Error: No " << location->name << " in data" << std::endl;
     }
 }
+
