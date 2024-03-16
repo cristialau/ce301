@@ -1,8 +1,9 @@
 #include "NPC.h"
-#include <iostream>
 
-NPC::NPC(Character& character, float positionX, float positionY, int level) : c(character)
+NPC::NPC(Character& character, int relationship, std::string job, float positionX, float positionY, int level) : c(character)
 {
+	this->relationship = relationship;
+	this->job = job;
 	this->positionX = positionX;
 	this->positionY = positionY;
 	this->level = level;

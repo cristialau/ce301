@@ -20,12 +20,12 @@ private:
 
 	//Character
 	Character c;
-	int relationship;			//relationship to player - 100 -> friendly | 0 -> enemy
-	std::string job;			//character job
+	int relationship = 0;			//relationship to player - 100 -> friendly | 0 -> enemy
+	std::string job = "none";		//character job
 	//swordie, archer, thief, clergy
 
 public:
-	NPC(Character& character, float positionX, float positionY, int level);
+	NPC(Character& character, int relationship, std::string job, float positionX, float positionY, int level);
 	~NPC();
 	
 	void Initialize();
@@ -40,6 +40,7 @@ public:
 	std::string BattleDescription();
 
 	//Getters
+	Character GetC();
 	int GetRelationship();
 	std::string GetJob();
 

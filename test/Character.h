@@ -83,8 +83,8 @@ public:
 	int GetObservation();
 	int GetConversation();
 	int GetKnowledge();
-	std::string GetPassive1();
-	std::string GetPassive2();
+	std::string GetSkill1();
+	std::string GetSkill2();
 	std::vector<Item> GetInventory();
 	int GetInventoryWeight();
 	int GetGold();

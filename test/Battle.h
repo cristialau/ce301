@@ -9,7 +9,8 @@
 class Battle
 {
 private:
-	bool isBattle;
+	bool startBattle = false;
+	std::string playerState;
 	
 	int round;		//rounds
 	
@@ -17,8 +18,6 @@ private:
 	bool haveC1;				//c1 in battle
 	bool haveC2;				//c2 in battle
 	std::string playerStatus;	//player battle status, normal, buff, debuff
-	bool playerBuff;			//player buff
-	bool playerDebuff;			//player debuff
 	int playerTeamHPMax;		//player's hp
 	int playerTeamHP;
 	int playerTeamSPMax;		//player's sp
@@ -29,27 +28,37 @@ private:
 	bool enemyTurn;
 	int enemyNumber;			//enemy number
 	std::string enemyStatus;	//enemy battle status
-	bool enemyBuff;				//enemy buff
-	bool enemyDebuff;			//enemy debuff
 	int enemyTeamHPMax;			//enemy's hp
 	int enemyTeamHP;
 	int enemyAttackDmg;			//enemy's atk
 	int enemyDefence;			//enemy's def
+	bool useEnemyAttack;
+	bool useEnemySkill1;
+	//bool useEnemySkill2;
+	int random = 0;
 
+	bool isPassive;
 	int select = 1;				//player select
 
 public:
-	Battle(int enemyNumber);
+	Battle();
 	~Battle();
 
 	void Initialize();
 	void Load();
-	void Update(Player player);
+	void Update(Player player, std::vector<NPC> enemy, std::string previousState);
 	void Draw();
 	
+	//bool GetIsBattle();
+	//void SetIsBattle(bool isBattle);
+
 	//Functions
-	void Lose();
-	void Win();
+	void SetUp(Player player, std::vector<NPC> enemy, std::string previousState);
+	void AddSp(int sp);
+	void Attack(int attackdmg);
+	void Skill(std::string skill);
+	void Lose(Player player);
+	void Win(Player player);
 };
 
 #endif

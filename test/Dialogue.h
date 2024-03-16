@@ -16,6 +16,9 @@ private:
 	sf::Font font;
 	//Dialogue background
 
+	int select = 1;
+	bool isSelected = false;
+
 public:
 	Dialogue();
 	~Dialogue();
@@ -26,7 +29,6 @@ public:
 	void Draw(sf::RenderWindow& window);
 
 	//Function
-	void ShowDialogue();
 	void CloseDialogue();
 	void ReturnMap(Player& player);
 	void StartTrade(Player &player, NPC npc);

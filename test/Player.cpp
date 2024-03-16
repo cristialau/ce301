@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(std::string TextureName, float positionX, float positionY)
+Player::Player(Character& c1, Character& c2, std::string TextureName, float positionX, float positionY) :c1(c1), c2(c2)
 {
 	this->textureName = textureName;
 	this->positionX = positionX;
@@ -301,14 +301,6 @@ std::string Player::GetPlayerState()
 void Player::SetPlayerState(std::string playerState)
 {
 	this->playerState = playerState;
-}
-
-void Player::SkillActivate()
-{
-}
-
-void Player::BuffActivate()
-{
 }
 
 //Getters

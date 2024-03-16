@@ -74,8 +74,8 @@ private:
 	//Normal, Battle, Trading, Traveling, WorldMap, Menu
 
 	//Characters
-	//Character c1;
-	//Character c2;
+	Character c1;
+	Character c2;
 	bool isC1 = false;
 	bool isC2 = false;
 	bool BothCharacter = true;
@@ -83,7 +83,7 @@ private:
 	int sp;						//sp
 
 public:
-	Player(std::string TextureName, float positionX, float positionY);
+	Player(Character& c1, Character& c2, std::string TextureName, float positionX, float positionY);
 	~Player();
 
 	void Initialize();
@@ -128,8 +128,8 @@ public:
 
 	void WorldMap();
 	void ChangeEquip(int equipNumber); //if change equip
-	void SkillActivate(); //Player activate skills
-	void BuffActivate(); //Player activate buffs
+	//void Skill1(); //Player activate skill1
+	//void Skill2(); //Player activate skill2
 	void RandomEvents();
 	void StartTravel(Location currentLocation, Location selectLocation, int travelTime);
 

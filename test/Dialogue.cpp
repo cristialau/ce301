@@ -19,9 +19,9 @@ void Dialogue::Load()
 
 void Dialogue::Update(Player player, NPC npc)
 {
-	ShowDialogue();
+	isDisplay = true;
 
-	int option = 0;
+
 
 	if (npc.GetRelationship() >= 50) {
 		if (npc.GetJob() == "shop") {
@@ -150,11 +150,6 @@ void Dialogue::Draw(sf::RenderWindow& window)
 	}
 }
 
-void Dialogue::ShowDialogue()
-{
-	isDisplay = true;
-}
-
 void Dialogue::CloseDialogue()
 {
 	isDisplay = false;
@@ -236,7 +231,7 @@ void Dialogue::StartBattle(Player &player, NPC npc)
 void Dialogue::Surrender(Player &player)
 {
 	int randomNumber = rand() % 30 + 20;
-	player.GoldDecrease(randomNumber);
+	player.MinGold(randomNumber);
 	std::cout << "You loss " << randomNumber << "gold." << std::endl;
 	ReturnMap(player);
 }

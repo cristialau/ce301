@@ -114,14 +114,14 @@ int Character::GetKnowledge()
 	return knowledge;
 }
 
-std::string Character::GetPassive1()
+std::string Character::GetSkill1()
 {
-	return passive1;
+	return skill1;
 }
 
-std::string Character::GetPassive2()
+std::string Character::GetSkill2()
 {
-	return passive2;
+	return skill2;
 }
 
 std::vector<Item> Character::GetInventory()
