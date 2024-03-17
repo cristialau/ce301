@@ -18,7 +18,6 @@ Character::Character(bool isPlayerCharacter, std::string textureName, std::strin
 	this->inventory = inventory;
 	this->inventoryWeight = inventoryWeight;
 	this->gold = gold;
-	warning = false;
 }
 
 Character::~Character()
@@ -137,16 +136,6 @@ int Character::GetInventoryWeight()
 int Character::GetGold()
 {
 	return gold;
-}
-
-bool Character::GetWarning()
-{
-	return warning;
-}
-
-void Character::SetWarning(bool warning)
-{
-	this->warning = warning;
 }
 
 //Getters
@@ -279,15 +268,6 @@ void Character::MinGold(int gold)
 	this->gold -= gold;
 	if (this->gold < 0)
 		this->gold = 0;
-}
-
-void Character::SpendGold(int gold)
-{
-	this->gold -= gold;
-	if (this->gold < 0) {
-		this->gold = gold;
-		warning = true;
-	}
 }
 
 void Character::Consume(int inventoryNumber)

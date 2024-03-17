@@ -10,6 +10,8 @@ Player::Player(Character& c1, Character& c2, std::string TextureName, float posi
 	//this->playerPosY = positionY - 100 + 1;
 
 	NormalState();
+
+	warning = false;
 }
 
 Player::~Player()
@@ -322,6 +324,25 @@ bool Player::GetBothC()
 std::vector<Quest> Player::GetQuest()
 {
 	return std::vector<Quest>();
+}
+
+bool Character::GetWarning()
+{
+	return warning;
+}
+
+void Character::SetWarning(bool warning)
+{
+	this->warning = warning;
+}
+
+void Character::SpendGold(int gold)
+{
+	this->gold -= gold;
+	if (this->gold < 0) {
+		this->gold = gold;
+		warning = true;
+	}
 }
 /*
 * int Player::GetGold()

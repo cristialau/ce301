@@ -1,12 +1,12 @@
 #include "NPC.h"
 
-NPC::NPC(Character& character, int relationship, std::string job, float positionX, float positionY, int level) : c(character)
+NPC::NPC(Character& character, int relationship, std::string job, float positionX, float positionY, int locationID, Quest quest, std::string battleDescription) : c(character)
 {
 	this->relationship = relationship;
 	this->job = job;
 	this->positionX = positionX;
 	this->positionY = positionY;
-	this->level = level;
+	this->locationID = locationID;
 }
 
 NPC::~NPC()
@@ -22,16 +22,94 @@ void NPC::Load()
 	c.GetSprite().setPosition(sf::Vector2f(positionX, positionY));
 }
 
-void NPC::Update(float dt, int level)
+void NPC::Update(Player player, Location location)
 {
-	if (level == this->level) {
-
+	if ((location.id == locationID) && !isSetUp) {
+		location.playerMap[(int)positionX][(int)positionY] = npcNumber;
+		isSetUp = true;
 	}
 }
 
-void NPC::Draw(sf::RenderWindow &window, int level)
+void NPC::Draw(sf::RenderWindow &window)
 {
-	if (level == this->level)
-		window.draw(c.GetSprite());
+	//window.draw(c.GetSprite());
 }
 
+Character NPC::GetC()
+{
+	return c;
+}
+
+int NPC::GetRelationship()
+{
+	return relationship;
+}
+
+std::string NPC::GetJob()
+{
+	return job;
+}
+
+bool NPC::HaveQuest()
+{
+	return haveQuest;
+}
+
+Quest NPC::npcQuest()
+{
+	return quest;
+}
+
+void NPC::SetTrade(bool canTrade)
+{
+	this->canTrade = canTrade;
+}
+
+bool NPC::CanTrade()
+{
+	return canTrade;
+}
+
+void NPC::SetBattle(bool canBattle)
+{
+	this->canBattle = canBattle;
+}
+
+bool NPC::CanBattle()
+{
+	return canBattle;
+}
+
+std::string NPC::GetNPCState()
+{
+	return npcState;
+}
+
+void NPC::SetRelationship(int relationship)
+{
+	this->relationship = relationship;
+}
+
+void NPC::SetNPCState(std::string npcState)
+{
+	this->npcState = npcState;
+}
+
+std::string NPC::BattleDescription()
+{
+	return battleDescription;
+}
+
+void NPC::AddRls(int rls)
+{
+	relationship += rls;
+	if (relationship > 100)
+		relationship = 100;
+}
+
+void NPC::MinRls(int rls)
+{
+	relationship -= rls;
+	if (relationship < 0)
+		relationship = 0;
+}

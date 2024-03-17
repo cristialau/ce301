@@ -76,7 +76,7 @@ public:
 	//Render
 	void Draw();
 
-	//Function
+	//Functions
 	void EndApplication();
 	void ItemList();
 	void LocationList();

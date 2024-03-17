@@ -40,9 +40,6 @@ private:
 	//Gold
 	int gold;
 
-	//Warning
-	bool warning;
-
 public:
 	Character(
 		bool isPlayerCharacter,

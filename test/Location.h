@@ -14,8 +14,8 @@ struct Location
 	sf::Texture iconTexture;
 	sf::Sprite icon;
 	//icon position
-	int positionX;
-	int positionY;
+	int locationPositionX;
+	int locationPositionY;
 	//name
 	std::string name;
 	std::string description;
@@ -25,7 +25,10 @@ struct Location
 	std::string mapTextureName;
 	sf::Texture mapTexture;
 	Tile* tiles;
-	const static int mapSize;
+	//map
+	const static int mapSize = 50;
+	int map[mapSize][mapSize] = {};
+	int playerMap[mapSize][mapSize] = {};
 };
 
 #endif
