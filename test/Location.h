@@ -26,9 +26,8 @@ struct Location
 	sf::Texture mapTexture;
 	Tile* tiles;
 	//map
-	const static int mapSize = 50;
-	int map[mapSize][mapSize] = {};
-	int playerMap[mapSize][mapSize] = {};
+	int map[50][50] = {};
+	int playerMap[52][52] = {};
 };
 
 #endif

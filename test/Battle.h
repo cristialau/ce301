@@ -9,7 +9,8 @@
 class Battle
 {
 private:
-	bool startBattle = false;
+	bool startBattle;
+	bool roundStart;
 	std::string playerState;
 	
 	int round;		//rounds
@@ -35,10 +36,10 @@ private:
 	bool useEnemyAttack;
 	bool useEnemySkill1;
 	//bool useEnemySkill2;
-	int random = 0;
+	int random;
 
 	bool isPassive;
-	int select = 1;				//player select
+	int select;				//player select
 
 public:
 	Battle();
@@ -48,9 +49,10 @@ public:
 	void Load();
 	void Update(Player player, std::vector<NPC> enemy, std::string previousState);
 	void Draw();
-	
-	//bool GetIsBattle();
-	//void SetIsBattle(bool isBattle);
+
+	//Getter Setter
+	bool GetStartBattle();
+	void SetStartBattle(bool startBattle);
 
 	//Functions
 	void SetUp(Player player, std::vector<NPC> enemy, std::string previousState);

@@ -35,6 +35,9 @@ private:
 
 	//Inventory setting
 	std::vector<Item> inventory;
+	std::string equip1;
+	std::string equip2;
+	std::string equip3;
 	int inventoryWeight;
 
 	//Gold
@@ -56,6 +59,9 @@ public:
 		std::string skill2,
 		std::vector<Item> inventory,
 		int inventoryWeight,
+		std::string equip1,
+		std::string equip2,
+		std::string equip3,
 		int gold);
 	~Character();
 
@@ -84,6 +90,7 @@ public:
 	std::string GetSkill2();
 	std::vector<Item> GetInventory();
 	int GetInventoryWeight();
+	std::string GetEquip(int equipNumber);
 	int GetGold();
 	
 	bool GetWarning();

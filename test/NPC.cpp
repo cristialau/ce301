@@ -1,11 +1,13 @@
 #include "NPC.h"
 
-NPC::NPC(Character& character, int relationship, std::string job, float positionX, float positionY, int locationID, Quest quest, std::string battleDescription) : c(character)
+NPC::NPC(Character& character, int relationship, std::string job, int positionX, int positionY, int locationID, Quest quest, std::string battleDescription) : c(character)
 {
 	this->relationship = relationship;
 	this->job = job;
 	this->positionX = positionX;
 	this->positionY = positionY;
+	tilePositionX = positionX * tileSize * scale;
+	tilePositionY = positionY * tileSize * scale;
 	this->locationID = locationID;
 }
 
@@ -19,13 +21,13 @@ void NPC::Initialize()
 
 void NPC::Load()
 {
-	c.GetSprite().setPosition(sf::Vector2f(positionX, positionY));
+	c.GetSprite().setPosition(sf::Vector2f(tilePositionX, tilePositionY));
 }
 
 void NPC::Update(Player player, Location location)
 {
 	if ((location.id == locationID) && !isSetUp) {
-		location.playerMap[(int)positionX][(int)positionY] = npcNumber;
+		location.playerMap[positionX][positionY] = npcNumber;
 		isSetUp = true;
 	}
 }

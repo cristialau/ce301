@@ -1,14 +1,10 @@
 #include "Player.h"
 
-Player::Player(Character& c1, Character& c2, std::string TextureName, float positionX, float positionY) :c1(c1), c2(c2)
+Player::Player(Character& c1, Character& c2, int positionX, int positionY) :c1(c1), c2(c2)
 {
-	this->textureName = textureName;
 	this->positionX = positionX;
 	this->positionY = positionY;
-
-	//this->playerPosX = positionX - 208 + 1;
-	//this->playerPosY = positionY - 100 + 1;
-
+	
 	NormalState();
 
 	warning = false;
@@ -24,21 +20,16 @@ void Player::Initialize()
 
 void Player::Load()
 {
-	if (texture.loadFromFile(textureName)) {
-		std::cout << "Player texture loaded" << std::endl;
-		sprite.setTexture(texture);
-		sprite.setPosition(sf::Vector2f(positionX, positionY));
-	}
-	else {
-		std::cout << "Player texture failed to load" << std::endl;
-	}
-
 	//c1.GetSprite().setPosition(sf::Vector2f(positionX, positionY));
 	//c2.GetSprite().setPosition(sf::Vector2f(positionX, positionY));
 }
 
-void Player::Update(float dt, sf::View &view)
+void Player::Update(float dt, sf::View &view, Location location)
 {
+	//setup for map
+	if (!isSetUp)
+		Setup(location);
+
 	//View set focus on player
 	view.setCenter(sprite.getPosition());
 
@@ -181,10 +172,99 @@ void Player::Update(float dt, sf::View &view)
 
 void Player::Draw(sf::RenderWindow& window)
 {
-	window.draw(sprite);
+	//window.draw(sprite);
 }
 
-//functions
+//getters setters
+bool Player::GetIsC1()
+{
+	return isC1;
+}
+
+bool Player::GetIsC2()
+{
+	return isC2;
+}
+
+bool Player::GetBothC()
+{
+	return BothCharacter;
+}
+
+Character Player::GetC1()
+{
+	return c1;
+}
+
+Character Player::GetC2()
+{
+	return c2;
+}
+
+int Player::GetTotalSP()
+{
+	return totalSp;
+}
+
+int Player::GetGold()
+{
+	return gold;
+}
+
+std::vector<Item> Player::GetInventory()
+{
+	if (isC1 || BothCharacter)
+		return c1.GetInventory();
+	else
+		return c2.GetInventory();
+}
+
+int Player::GetInventoryWeight()
+{
+	if (isC1 || BothCharacter)
+		return c1.GetInventoryWeight();
+	else
+		return c2.GetInventoryWeight();
+}
+
+std::vector<Quest> Player::GetQuest()
+{
+	return quest;
+}
+
+std::string Player::GetPlayerState()
+{
+	return playerState;
+}
+
+void Player::SetPlayerState(std::string playerState)
+{
+	this->playerState = playerState;
+}
+
+bool Player::GetWarning()
+{
+	return warning;
+}
+
+void Player::SetWarning(bool warning)
+{
+	this->warning = warning;
+}
+
+void Player::SetOsv(int osvScore)
+{
+}
+
+void Player::SetCvs(int cvsScore)
+{
+}
+
+void Player::SetKlg(int klgScore)
+{
+}
+
+//change states
 void Player::NormalState()
 {
 	playerState = "Normal";
@@ -200,6 +280,7 @@ void Player::BattleState()
 	playerState = "Battle";
 }
 
+//Functions for map
 int Player::GetLevel()
 {
 	return level;
@@ -285,58 +366,29 @@ void Player::LoadLevel(int level)
 	isLoadedLevel = true;
 }
 
-float Player::GetMapPositionX()
+int Player::GetMapPositionX()
 {
-	return (float)playerPosX;
+	return positionX;
 }
 
-float Player::GetMapPositionY()
+int Player::GetMapPositionY()
 {
-	return (float)playerPosY;
+	return positionY;
 }
 
-std::string Player::GetPlayerState()
+//Functions
+void Player::Setup(Location location, int positionX, int positionY)
 {
-	return playerState;
+	//location map -> player map
+	for (int j = 0; j < mapSize; j++) {
+		for (int i = 0; i < mapSize; i++)
+			playerMap[j][i] = location.playerMap[j][i];
+	}
+
+	playerMap[positionY][positionX] = playerNumber;
 }
 
-void Player::SetPlayerState(std::string playerState)
-{
-	this->playerState = playerState;
-}
-
-//Getters
-bool Player::GetIsC1()
-{
-	return isC1;
-}
-
-bool Player::GetIsC2()
-{
-	return isC2;
-}
-
-bool Player::GetBothC()
-{
-	return BothCharacter;
-}
-
-std::vector<Quest> Player::GetQuest()
-{
-	return std::vector<Quest>();
-}
-
-bool Character::GetWarning()
-{
-	return warning;
-}
-
-void Character::SetWarning(bool warning)
-{
-	this->warning = warning;
-}
-
-void Character::SpendGold(int gold)
+void Player::SpendGold(int gold)
 {
 	this->gold -= gold;
 	if (this->gold < 0) {
@@ -344,11 +396,3 @@ void Character::SpendGold(int gold)
 		warning = true;
 	}
 }
-/*
-* int Player::GetGold()
-{
-	return c1.GetGold();
-}
-*/
-
-//Getters

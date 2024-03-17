@@ -1,6 +1,6 @@
 #include "Character.h"
 
-Character::Character(bool isPlayerCharacter, std::string textureName, std::string name, int totalHp, int attack, int defence, int luck, int observation, int conversation, int knowledge, std::string skill1, std::string skill2, std::vector<Item> inventory, int inventoryWeight, int gold)
+Character::Character(bool isPlayerCharacter, std::string textureName, std::string name, int totalHp, int attack, int defence, int luck, int observation, int conversation, int knowledge, std::string skill1, std::string skill2, std::vector<Item> inventory, int inventoryWeight, std::string equip1, std::string equip2, std::string equip3, int gold)
 {
 	this->isPlayerCharacter = isPlayerCharacter;
 	this->textureName = textureName;
@@ -17,6 +17,9 @@ Character::Character(bool isPlayerCharacter, std::string textureName, std::strin
 	this->skill2 = skill2;
 	this->inventory = inventory;
 	this->inventoryWeight = inventoryWeight;
+	this->equip1 = equip1;
+	this->equip2 = equip2;
+	this->equip3 = equip3;
 	this->gold = gold;
 }
 
@@ -31,11 +34,11 @@ void Character::Initialize()
 void Character::Load()
 {
 	if (texture.loadFromFile(textureName)) {
-		std::cout << "Player texture loaded" << std::endl;
+		std::cout << "Texture: " << textureName << " loaded" << std::endl;
 		sprite.setTexture(texture);
 	}
 	else {
-		std::cout << "Player texture failed to load" << std::endl;
+		std::cout << "Texture: " << textureName << " failed to load" << std::endl;
 	}
 }
 
@@ -76,6 +79,15 @@ std::string Character::GetName()
 int Character::GetTotalHp()
 {
 	return totalHp;
+}
+
+std::string Character::GetEquip(int equipNumber)
+{
+	switch (equipNumber) {
+	case 1: return equip1;
+	case 2: return equip2;
+	case 3: return equip3;
+	}
 }
 
 int Character::GetHp()

@@ -102,18 +102,18 @@ void Menu::OpenCharacter(Player player)
 {
 	std::cout << "Character List" << std::endl;
 
-	std::string c1Name = player.GetName();
+	std::string c1Name = player.GetC1().GetName();
 	std::cout << "Character Name: " << c1Name << std::endl;
-	int c1Atk = player.GetAtk();
+	int c1Atk = player.GetC1().GetAttack();
 	std::cout << "Attack Damage: " << c1Atk << std::endl;
 	int c1Def = player.GetDef();
 	std::cout << "Defence: " << c1Def << std::endl;
 
-	std::string equip1 = player.GetEquip(1);
+	std::string equip1 = player.GetC1().GetEquip(1);
 	std::cout << "Equipment 1: " << equip1 << std::endl;
-	std::string equip2 = player.GetEquip(2);
+	std::string equip2 = player.GetC1().GetEquip(2);
 	std::cout << "Equipment 2: " << equip2 << std::endl;
-	std::string equip3 = player.GetEquip(3);
+	std::string equip3 = player.GetC1().GetEquip(3);
 	std::cout << "Equipment 3: " << equip3 << std::endl;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {

@@ -17,10 +17,12 @@ private:
 	float tileSize = 16.f;
 	float scale = 3.f;
 	//sprite positions
-	float positionX = 0;
-	float positionY = 0;
+	float tilePositionX = 0;
+	float tilePositionY = 0;
 	//npc location
 	int locationID = 0;
+	int positionX = 0;
+	int positionY = 0;
 	//Npc current state
 	std::string npcState;
 
@@ -41,8 +43,8 @@ public:
 	NPC(Character& character,
 		int relationship,
 		std::string job,
-		float positionX,
-		float positionY,
+		int positionX,
+		int positionY,
 		int locationID,
 		Quest quest,
 		std::string battleDescription);

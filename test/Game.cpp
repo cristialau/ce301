@@ -149,8 +149,8 @@ void Game::LocationList()
         location->description = "Location 1.";
         //location->travelingTime
         
-        location->positionX = 0;
-        location->positionY = 0;
+        location->locationPositionX = 0;
+        location->locationPositionY = 0;
     }
     else {
         std::cout << "Error: No " << location->name << " in data" << std::endl;

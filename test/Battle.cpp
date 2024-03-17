@@ -2,6 +2,9 @@
 
 Battle::Battle()
 {
+	startBattle = false;
+	roundStart = false;
+
 	round = 0;
 
 	haveC1 = false;
@@ -10,8 +13,8 @@ Battle::Battle()
 	playerTurn = true;
 	playerTeamHPMax = 0;
 	playerTeamHP = 0;
-	playerTeamSPMax = 0;
-	playerTeamSP = 0;
+	playerTeamSPMax = 7;
+	playerTeamSP = 3;
 	playerAttackDmg = 0;
 	playerDefence = 0;
 
@@ -24,7 +27,10 @@ Battle::Battle()
 	useEnemyAttack = false;
 	useEnemySkill1 = false;
 	
+	random = 0;
+
 	isPassive = false;
+	select = 1;
 }
 
 Battle::~Battle()
@@ -52,115 +58,127 @@ void Battle::Update(Player player, std::vector<NPC> enemy, std::string previousS
 		Win(player);
 
 	//round start
-	round++;
-	std::cout << "Round: " << round << std::endl;
-	//Status
-	std::cout << "Player team HP: " << playerTeamHP << "/" << playerTeamHPMax << std::endl;
-	//sp recover
-	AddSp(2);
-	std::cout << "Player team SP: " << playerTeamSP << "/" << playerTeamSPMax << std::endl;
-	
-	std::cout << "Enemy team HP: " << enemyTeamHP << "/" << enemyTeamHPMax << std::endl;
+	if (roundStart) {
+		round++;
+		std::cout << "Round: " << round << std::endl;
+		//sp recover
+		if (round > 1)
+			AddSp(2);
+		//Status
+		std::cout << "Player team HP: " << playerTeamHP << "/" << playerTeamHPMax << std::endl;
+		std::cout << "Player team SP: " << playerTeamSP << "/" << playerTeamSPMax << std::endl;
 
+		std::cout << "Enemy team HP: " << enemyTeamHP << "/" << enemyTeamHPMax << std::endl;
+
+		roundStart = false;
+	}
+	
 	//Player move first
 
 	if (playerTurn) {
-		select = 1;
+		if (playerState == "Normal") {
+			select = 1;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			select++;
-			std::cout << select << std::endl;
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			select--;
-			std::cout << select << std::endl;
-		}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				select++;
+				std::cout << select << std::endl;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				select--;
+				std::cout << select << std::endl;
+			}
 
-		//if c1 & c2
-		if (haveC1 && haveC2) {
-			std::cout << "Player options: 1. Basic_Attack_1 2. Skill_1 3. Skill_2 4. Skill_3" << std::endl;
-			std::cout << select << std::endl;
+			//if c1 & c2
+			if (haveC1 && haveC2) {
+				std::cout << "Player options: 1. Basic_Attack_1 2. Skill_1 3. Skill_2 4. Skill_3" << std::endl;
+				std::cout << select << std::endl;
 
-			if (select > 4)
-				select = 1;
-			if (select < 1)
-				select = 4;
+				if (select > 4)
+					select = 1;
+				if (select < 1)
+					select = 4;
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				switch (select) {
-				case 1:
-					Attack(playerAttackDmg); //c1 + c2 attack
-					break;
-				case 2:
-					Skill(player.GetC1().GetSkill1()); //c1 skill
-					break;
-				case 3:
-					Skill(player.GetC2().GetSkill1()); //c2 skill
-					break;
-				case 4:
-					Skill(player.GetC2().GetSkill2()); //c2 skill
-					break;
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					switch (select) {
+					case 1:
+						Attack(playerAttackDmg); //c1 + c2 attack
+						break;
+					case 2:
+						Skill(player.GetC1().GetSkill1()); //c1 skill
+						break;
+					case 3:
+						Skill(player.GetC2().GetSkill1()); //c2 skill
+						break;
+					case 4:
+						Skill(player.GetC2().GetSkill2()); //c2 skill
+						break;
+					}
+
+					playerTurn = false;
+					enemyTurn = true;
 				}
+			}
+			else if (haveC1 && !haveC2) {
+				std::cout << "Player options: 1. Basic_Attack_1 2. Skill_1" << std::endl;
+				std::cout << select << std::endl;
 
-				playerTurn = false;
-				enemyTurn = true;
+				if (select > 2)
+					select = 1;
+				if (select < 1)
+					select = 2;
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					switch (select) {
+					case 1:
+						Attack(playerAttackDmg); //c1 attack
+						break;
+					case 2:
+						Skill(player.GetC1().GetSkill1()); //c1 skill
+						break;
+					}
+
+					playerTurn = false;
+					enemyTurn = true;
+				}
+			}
+			else if (!haveC1 && haveC2) {
+				std::cout << "Player options: 1. Basic_Attack_2 4. Skill_2 5. Skill_3" << std::endl;
+				std::cout << select << std::endl;
+
+				if (select > 3)
+					select = 1;
+				if (select < 1)
+					select = 3;
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					switch (select) {
+					case 1:
+						Attack(playerAttackDmg); //c2 attack
+						break;
+					case 2:
+						Skill(player.GetC2().GetSkill1()); //c2 skill
+						break;
+					case 3:
+						Skill(player.GetC2().GetSkill2()); //c2 skill
+						break;
+					}
+				}
 			}
 		}
-		else if (haveC1 && !haveC2) {
-			std::cout << "Player options: 1. Basic_Attack_1 2. Skill_1" << std::endl;
-			std::cout << select << std::endl;
-
-			if (select > 2)
-				select = 1;
-			if (select < 1)
-				select = 2;
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				switch (select) {
-				case 1:
-					Attack(playerAttackDmg); //c1 attack
-					break;
-				case 2:
-					Skill(player.GetC1().GetSkill1()); //c1 skill
-					break;
-				}
-
-				playerTurn = false;
-				enemyTurn = true;
-			}
+		else {
+			playerState = "Normal";
 		}
-		else if (!haveC1 && haveC2) {
-			std::cout << "Player options: 1. Basic_Attack_2 4. Skill_2 5. Skill_3" << std::endl;
-			std::cout << select << std::endl;
 
-			if (select > 3)
-				select = 1;
-			if (select < 1)
-				select = 3;
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				switch (select) {
-				case 1:
-					Attack(playerAttackDmg); //c2 attack
-					break;
-				case 2:
-					Skill(player.GetC2().GetSkill1()); //c2 skill
-					break;
-				case 3:
-					Skill(player.GetC2().GetSkill2()); //c2 skill
-					break;
-				}
-
-				playerTurn = false;
-				enemyTurn = true;
-			}
-		}
+		playerTurn = false;
+		enemyTurn = true;
 	}
 
 	if (enemyTurn) {
 		if (enemyStatus == "Normal") {
 			//Enemy Turn
-			random = rand() % enemyNumber + 1;
+			if(enemyNumber > 1)
+				random = rand() % enemyNumber + 1;
+
 			switch (enemyNumber) {
 			case 1:
 				if (useEnemyAttack && !useEnemySkill1) {
@@ -217,6 +235,7 @@ void Battle::Update(Player player, std::vector<NPC> enemy, std::string previousS
 		}
 		playerTurn = true;
 		enemyTurn = false;
+		roundStart = true;
 	}
 }
 
@@ -224,35 +243,35 @@ void Battle::Draw()
 {
 }
 
-/*
-bool Battle::GetIsBattle()
+bool Battle::GetStartBattle()
 {
-	return isBattle;
+	return startBattle;
 }
 
-void Battle::SetIsBattle(bool isBattle)
+void Battle::SetStartBattle(bool startBattle)
 {
-	this->isBattle = isBattle;
+	this->startBattle = startBattle;
 }
-*/
+
 
 void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousState)
 {
+	startBattle = true;
+	roundStart = true;
 	playerState = previousState;
 
-	enemyNumber = rand() % 3 + 1;
-	useEnemyAttack = false;
-	useEnemySkill1 = false;
-	startBattle = true;
+	round = 0;
 	
+	playerTurn = true;
 	haveC1 = player.GetIsC1();
 	haveC2 = player.GetIsC2();
+	playerStatus = "Normal";
 
 	if (haveC1 && haveC2) {
 		playerTeamHPMax = player.GetC1().GetTotalHp() + player.GetC2().GetTotalHp();
 		playerTeamHP = player.GetC1().GetHp() + player.GetC2().GetHp();
-		playerAttackDmg = (int)((player.GetC1().GetAttack() + player.GetC2().GetAttack()) / 2);
-		playerDefence = (int)((player.GetC1().GetDefence() + player.GetC2().GetDefence()) / 2);
+		playerAttackDmg = (int)(player.GetC1().GetAttack() + player.GetC2().GetAttack());
+		playerDefence = (int)(player.GetC1().GetDefence() + player.GetC2().GetDefence());
 	}
 	else if (haveC1 && !haveC2) {
 		playerTeamHPMax = player.GetC1().GetTotalHp();
@@ -267,7 +286,12 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousSt
 		playerDefence = player.GetC2().GetDefence();
 	}
 
+	playerTeamSPMax = player.GetTotalSP();
+	playerTeamSP = 3;
+
+	enemyTurn = false;
 	enemyNumber = (int)enemy.size();
+	//enemyNumber = rand() % 3 + 1;
 	enemyStatus = "Normal";
 
 	switch (enemyNumber) {
@@ -280,15 +304,21 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousSt
 	case 2:
 		enemyTeamHPMax = enemy[1].GetC().GetTotalHp() + enemy[2].GetC().GetTotalHp();
 		enemyTeamHP = enemy[1].GetC().GetHp() + enemy[2].GetC().GetHp();
-		enemyAttackDmg = (int)((enemy[1].GetC().GetAttack() + enemy[2].GetC().GetAttack()) / 2);
-		enemyDefence = (int)((enemy[1].GetC().GetDefence() + enemy[2].GetC().GetDefence()) / 2);
+		enemyAttackDmg = (int)((enemy[1].GetC().GetAttack() + enemy[2].GetC().GetAttack()) * 0.75);
+		enemyDefence = (int)((enemy[1].GetC().GetDefence() + enemy[2].GetC().GetDefence()) * 0.75);
 		break;
 	case 3:
 		enemyTeamHPMax = enemy[1].GetC().GetTotalHp() + enemy[2].GetC().GetTotalHp() + enemy[3].GetC().GetTotalHp();
 		enemyTeamHP = enemy[1].GetC().GetHp() + enemy[2].GetC().GetHp() + enemy[3].GetC().GetHp();
-		enemyAttackDmg = (int)((enemy[1].GetC().GetAttack() + enemy[2].GetC().GetAttack() + enemy[3].GetC().GetAttack()) / 3);
-		enemyDefence = (int)((enemy[1].GetC().GetDefence() + enemy[2].GetC().GetDefence() + enemy[3].GetC().GetDefence()) / 3);
+		enemyAttackDmg = (int)((enemy[1].GetC().GetAttack() + enemy[2].GetC().GetAttack() + enemy[3].GetC().GetAttack()) * 0.5);
+		enemyDefence = (int)((enemy[1].GetC().GetDefence() + enemy[2].GetC().GetDefence() + enemy[3].GetC().GetDefence()) * 0.5);
 	}
+
+	useEnemyAttack = false;
+	useEnemySkill1 = false;
+	
+	random = 0;
+	select = 1;
 }
 
 void Battle::AddSp(int sp)
