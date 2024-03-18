@@ -20,7 +20,7 @@ public:
 	void Initialize();
 	void Load();
 	void Update(Player player, int day, int time, int travelingTime);
-	void Draw(Player player);
+	void Draw();
 };
 
 #endif

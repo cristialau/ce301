@@ -36,9 +36,7 @@ void Travel::Update(Player player, int day, int time, int travelingTime)
 	//a bar showing progress
 }
 
-void Travel::Draw(Player player)
+void Travel::Draw()
 {
-	if (player.GetPlayerState() == "Traveling") {
-
-	}
+	
 }

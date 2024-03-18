@@ -21,13 +21,13 @@ void NPC::Initialize()
 
 void NPC::Load()
 {
-	c.GetSprite().setPosition(sf::Vector2f(tilePositionX, tilePositionY));
+	//c.GetSprite().setPosition(sf::Vector2f(tilePositionX, tilePositionY));
 }
 
 void NPC::Update(Player player, Location location)
 {
 	if ((location.id == locationID) && !isSetUp) {
-		location.playerMap[positionX][positionY] = npcNumber;
+		location.map[positionX][positionY] = npcNumber;
 		isSetUp = true;
 	}
 }

@@ -3,6 +3,7 @@
 
 #include "Tile.h"
 #include "Player.h"
+#include "Location.h"
 
 class Map
 {
@@ -49,8 +50,10 @@ private:
 	float fromY = 0;
 	float toY = 0;
 
+	Location location;
+
 public:
-	Map(std::string textureName, int map1[9][9]);
+	Map(std::string textureName, Location location);
 	~Map();
 
 	void Initialize();

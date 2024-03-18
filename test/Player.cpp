@@ -2,10 +2,26 @@
 
 Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 {
+	playerState = "Normal";
 	
-	NormalState();
-
 	warning = false;
+
+	if (isC1)
+		gold = c1.GetGold();
+	else if (isC2)
+		gold = c2.GetGold();
+	else if (BothCharacter)
+		gold = c1.GetGold() + c2.GetGold();
+
+	for (int j = 0; j < mapSize; j++) {
+		for (int i = 0; i < mapSize; i++)
+			map[j][i] = 0;
+	}
+
+	for (int j = 0; j < playerMapSize; j++) {
+		for (int i = 0; i < playerMapSize; i++)
+			playerMap[j][i] = 0;
+	}
 }
 
 Player::~Player()
@@ -22,150 +38,34 @@ void Player::Load()
 	//c2.GetSprite().setPosition(sf::Vector2f(positionX, positionY));
 }
 
-void Player::Update(float dt, sf::View &view, Location location)
+void Player::Update(sf::View &view, Location location)
 {
 	//setup for map
 	if (currentLocationID != location.id)
 		Setup(location);
 
 	//View set focus on player
-	view.setCenter(sprite.getPosition());
+	View(view);
 
-	if(!isLoadedLevel)
-		LoadLevel(level);
+	//player in different states
+	if (playerState == "Normal")
+		NormalState();
+	else if (playerState == "Talking")
+		TalkingState();
+	else if (playerState == "Trading")
+		TradingState();
+	else if (playerState == "Battle")
+		BattleState();
+	else if (playerState == "Traveling")
+		TravelingState();
+	else if (playerState == "Menu")
+		MenuState();
 
-	playerMap[playerPosY][playerPosX] = playerNumber;
-
-	if (playerState == "Normal") {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !isPress) {
-			PlayerNextMapNumber = playerMap[playerPosY][playerPosX + 1];
-			switch (PlayerNextMapNumber) {
-			case 1:
-				tempX = playerPosX;
-				tempY = playerPosY;
-				playerMap[playerPosY][playerPosX + 1] = playerMap[playerPosY][playerPosX];
-				playerPosX = playerPosX + 1;
-				playerMap[tempY][tempX] = 1;
-				sprite.move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
-				isPress = true;
-				break;
-			case 2:
-				ChangeLevel(currentLevel + 1);
-				break;
-			case 3:
-				ChangeLevel(currentLevel - 1);
-				break;
-			case 7:
-				BattleState();
-				break;
-			case 8:
-				TradeState();
-				break;
-			}
-			
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !isPress) {
-			PlayerNextMapNumber = playerMap[playerPosY][playerPosX - 1];
-			switch (PlayerNextMapNumber) {
-			case 1:
-				tempX = playerPosX;
-				tempY = playerPosY;
-				playerMap[playerPosY][playerPosX - 1] = playerMap[playerPosY][playerPosX];
-				playerPosX = playerPosX - 1;
-				playerMap[tempY][tempX] = 1;
-				sprite.move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
-				isPress = true;
-				break;
-			case 2:
-				ChangeLevel(currentLevel + 1);
-				break;
-			case 3:
-				ChangeLevel(currentLevel - 1);
-				break;
-			case 7:
-				BattleState();
-				break;
-			case 8:
-				TradeState();
-				break;
-			}
-			
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !isPress) {
-			PlayerNextMapNumber = playerMap[playerPosY - 1][playerPosX];
-			switch (PlayerNextMapNumber) {
-			case 1:
-				tempX = playerPosX;
-				tempY = playerPosY;
-				playerMap[playerPosY - 1][playerPosX] = playerMap[playerPosY][playerPosX];
-				playerPosY = playerPosY - 1;
-				playerMap[tempY][tempX] = 1;
-				sprite.move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
-				isPress = true;
-				break;
-			case 2:
-				ChangeLevel(currentLevel + 1);
-				break;
-			case 3:
-				ChangeLevel(currentLevel - 1);
-				break;
-			case 7:
-				BattleState();
-				break;
-			case 8:
-				TradeState();
-				break;
-			}	
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !isPress) {
-			PlayerNextMapNumber = playerMap[playerPosY + 1][playerPosX];
-			switch (PlayerNextMapNumber) {
-			case 1:
-				tempX = playerPosX;
-				tempY = playerPosY;
-				playerMap[playerPosY + 1][playerPosX] = playerMap[playerPosY][playerPosX];
-				playerPosY = playerPosY + 1;
-				playerMap[tempY][tempX] = 1;
-				sprite.move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
-				isPress = true;
-				break;
-			case 2:
-				ChangeLevel(currentLevel + 1);
-				break;
-			case 3:
-				ChangeLevel(currentLevel - 1);
-				break;
-			case 7:
-				BattleState();
-				break;
-			case 8:
-				TradeState();
-				break;
-			}
-		}
-	}
-	else if (playerState == "Trading") {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-			playerState = "Normal";
-		}
-	}
-	else if (playerState == "Battle") {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-			playerState = "Normal";
-		}
-	}
-
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
+		!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
+		!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
+		!sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		isPress = false;
-
-	std::cout << level << std::endl;
-
-	/*for (int i = 0; i < 9; i++) {
-		for (int j = 0; j < 9; j++) {
-			std::cout << playerMap[i][j] << " ";
-		}
-		std::cout << std::endl;
-	}*/
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -179,14 +79,29 @@ bool Player::GetIsC1()
 	return isC1;
 }
 
+void Player::SetIsC1(bool isC1)
+{
+	this->isC1 = isC1;
+}
+
 bool Player::GetIsC2()
 {
 	return isC2;
 }
 
+void Player::SetIsC2(bool isC2)
+{
+	this->isC2 = isC2;
+}
+
 bool Player::GetBothC()
 {
 	return BothCharacter;
+}
+
+void Player::SetBothC(bool BothCharacter)
+{
+	this->BothCharacter = BothCharacter;
 }
 
 Character Player::GetC1()
@@ -202,6 +117,11 @@ Character Player::GetC2()
 int Player::GetTotalSP()
 {
 	return totalSp;
+}
+
+void Player::SetTotalSP(int totalSp)
+{
+	this->totalSp = totalSp;
 }
 
 int Player::GetGold()
@@ -260,109 +180,21 @@ void Player::SetOsv(int osvScore)
 
 void Player::SetCvs(int cvsScore)
 {
+	if (isC1 || BothCharacter)
+		c1.SetConversation(cvsScore);
+	else
+		c2.SetConversation(cvsScore);
 }
 
 void Player::SetKlg(int klgScore)
 {
-}
-
-//change states
-void Player::NormalState()
-{
-	playerState = "Normal";
-}
-
-void Player::TradeState()
-{
-	playerState = "Trading";
-}
-
-void Player::BattleState()
-{
-	playerState = "Battle";
+	if (isC1 || BothCharacter)
+		c1.SetKnowledge(klgScore);
+	else
+		c2.SetKnowledge(klgScore);
 }
 
 //Functions for map
-void Player::ChangeLevel(int level)
-{
-	this->level = level;
-	isLoadedLevel = false;
-}
-
-void Player::LoadLevel(int level)
-{
-	switch (level) {
-	case 1:
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++)
-				playerMap[i][j] = playerMap1[i][j];
-		}
-
-		switch (currentLevel) {
-		case 1:
-			this->playerPosX = 1;
-			this->playerPosY = 1;
-			sprite.setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
-			break;
-		case 2:
-			this->playerPosX = 8;
-			this->playerPosY = 7;
-			sprite.setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
-			break;
-		}
-
-		currentLevel = 1;
-		break;
-
-	case 2:
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++)
-				playerMap[i][j] = playerMap2[i][j];
-		}
-
-		switch (currentLevel) {
-		case 1:
-			this->playerPosX = 1;
-			this->playerPosY = 2;
-			sprite.setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
-			break;
-		case 2:
-			break;
-		case 3:
-			this->playerPosX = 8;
-			this->playerPosY = 7;
-			sprite.setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
-			break;
-		}
-
-		currentLevel = 2;
-		break;
-
-	case 3:
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++)
-				playerMap[i][j] = playerMap3[i][j];
-		}
-
-		switch (currentLevel) {
-		case 1:
-			break;
-		case 2:
-			this->playerPosX = 1;
-			this->playerPosY = 2;
-			sprite.setPosition(sf::Vector2f(positionX + (playerPosX - 1) * tileSize * scale, positionY + (playerPosY - 1) * tileSize * scale));
-			break;
-		case 3:
-			break;
-		}
-
-		currentLevel = 3;
-		break;
-	}
-
-	isLoadedLevel = true;
-}
-
 int Player::GetMapPositionX()
 {
 	return positionX;
@@ -376,12 +208,18 @@ int Player::GetMapPositionY()
 //Functions
 void Player::Setup(Location location)
 {
-	//location map -> player map
-	for (int j = 0; j < mapSize; j++) {
-		for (int i = 0; i < mapSize; i++)
-			playerMap[j][i] = location.playerMap[j][i];
+	//location map -> map
+	for (int j = 0; j < location.mapSize; j++) {
+		for (int i = 0; i < location.mapSize; i++)
+			this->map[j][i] = location.map[j][i];
+	}
+	//location player map -> player map
+	for (int j = 0; j < location.playerMapSize; j++) {
+		for (int i = 0; i < location.playerMapSize; i++)
+			this->playerMap[j][i] = location.playerMap[j][i];
 	}
 
+	currentLocationID = location.id;
 	playerMap[location.playerPositionY][location.playerPositionX] = playerNumber;
 }
 
@@ -412,4 +250,79 @@ void Player::Effect(Item item, Character c)
 		c.AddHp(10);
 		std::cout << c.GetName() << " eat a bread" << std::endl;
 	}
+}
+
+void Player::NormalState()
+{
+	if (!isPress) {
+		isPress = true;
+		tempX = positionX;
+		tempY = positionY;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			playerNextMapNumber = playerMap[positionY][positionX + 1];
+			if (playerNextMapNumber == 1) {
+				playerMap[positionY][positionX + 1] = playerMap[positionY][positionX];
+				positionX = positionX + 1;
+				playerMap[tempY][tempX] = 1;
+			}
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			playerNextMapNumber = playerMap[positionY][positionX - 1];
+			if (playerNextMapNumber == 1) {
+				playerMap[positionY][positionX - 1] = playerMap[positionY][positionX];
+				positionX = positionX - 1;
+				playerMap[tempY][tempX] = 1;
+			}
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			playerNextMapNumber = playerMap[positionY - 1][positionX];
+			if (playerNextMapNumber == 1) {
+				playerMap[positionY - 1][positionX] = playerMap[positionY][positionX];
+				positionY = positionY - 1;
+				playerMap[tempY][tempX] = 1;
+			}
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			playerNextMapNumber = playerMap[positionY + 1][positionX];
+			if (playerNextMapNumber == 1) {
+				playerMap[positionY + 1][positionX] = playerMap[positionY][positionX];
+				positionY = positionY + 1;
+				playerMap[tempY][tempX] = 1;
+			}
+		}
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && (map[positionY + 1][positionX + 1] == 2))
+		playerState = "Talking";
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		playerState = "Menu";
+}
+
+void Player::TalkingState()
+{
+}
+
+void Player::TradingState()
+{
+}
+
+void Player::BattleState()
+{
+}
+
+void Player::TravelingState()
+{
+}
+
+void Player::MenuState()
+{
+}
+
+void Player::View(sf::View& view)
+{
+	viewX = c1.GetSprite().getPosition().x + (tileSize * scale / 2);
+	viewY = c1.GetSprite().getPosition().y + (tileSize * scale / 2);
+	sf::Vector2f center(viewX, viewY);
+	view.setCenter(center);
 }

@@ -1,6 +1,6 @@
 #include "Menu.h"
 
-Menu::Menu()
+Menu::Menu(Character& c1, Character& c2) : c1(c1), c2(c2)
 {
 	int isCharacterPage = 1;
 	int isWorldMap = 2;
@@ -153,7 +153,7 @@ void Menu::OpenCharacter(Player player)
 
 void Menu::OpenWorldMap(Player player)
 {
-	player.WorldMap();
+	//player.WorldMap();
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 		showMenu = true;
@@ -197,7 +197,7 @@ void Menu::OpenInventory(Player player)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && inventory[inventorySelect].isConsumable) {
 		player.Consume(inventorySelect);
-		player.Effect(inventory[inventorySelect]);
+		player.Effect(inventory[inventorySelect], c1);
 	}
 	else
 		std::cout << "You cannot use this item" << std::endl;

@@ -29,8 +29,11 @@ private:
 	int inventorySelect = 0;
 	int questSelect = 0;
 
+	Character c1;
+	Character c2;
+
 public:
-	Menu();
+	Menu(Character& c1, Character& c2);
 	~Menu();
 
 	void Initialize();

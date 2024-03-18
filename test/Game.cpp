@@ -47,24 +47,13 @@ void Game::InitWindow()
 
 void Game::InitGame()
 {
-    //interface.Initialize();
-    player.Initialize();
-    //npc1.Initialize();
-    //npc2.Initialize();
-    //npc3.Initialize();
-    map1.Initialize();
-    //map2.Initialize();
+    ItemList();
+    LocationList();
 }
 
 void Game::LoadGame()
 {
-    //interface.Load();
-    player.Load();
-    //npc1.Load();
-    //npc2.Load();
-    //npc3.Load();
-    map1.Load();
-    //map2.Load();
+    
 }
 
 void Game::UpdateSFML()
@@ -80,30 +69,15 @@ void Game::UpdateSFML()
 
 void Game::Update()
 {
-    this->level = player.GetLevel();
 
-    //interface.Update(dt, view);
-    player.Update(dt, view);
-    //npc1.Update(dt, level);
-    //npc2.Update(dt, level);
-    //npc3.Update(dt, level);
-    map1.Update(dt, level);
-    //map2.Update(dt);
 }
 
 void Game::Draw()
 {
     this->window->clear();
     this->window->setView(view);
+    //XXX.Draw(*window, XXX, XXX);
 
-    map1.Draw(*window, player, level);
-    //map2.Draw(*window);
-    
-    //npc1.Draw(*window, level);
-    //npc2.Draw(*window, level);
-    //npc3.Draw(*window, level);
-
-    player.Draw(*window);
 
     this->window->setView(window->getDefaultView());
 
@@ -112,6 +86,7 @@ void Game::Draw()
     this->window->display();
 }
 
+//Function
 void Game::EndApplication()
 {
     std::cout << "Ending Application" << "\n";

@@ -14,22 +14,24 @@ struct Location
 	sf::Texture iconTexture;
 	sf::Sprite icon;
 	//icon position
-	int locationPositionX;
-	int locationPositionY;
+	int locationPositionX = 0;
+	int locationPositionY = 0;
 	//name
 	std::string name;
 	std::string description;
 	//traveling time
-	int time;
+	int time = 0;
 	//map texture
 	std::string mapTextureName;
 	sf::Texture mapTexture;
-	Tile* tiles;
+	//Tile* tiles;
 	//map
-	int map[50][50] = {};
-	int playerMap[52][52] = {};
-	int playerPositionX;
-	int playerPositionY;
+	const static int mapSize = 50;
+	int map[mapSize][mapSize] = {};
+	const static int playerMapSize = mapSize + 2;
+	int playerMap[playerMapSize][playerMapSize] = {};
+	int playerPositionX = 0;
+	int playerPositionY = 0;
 };
 
 #endif

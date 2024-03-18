@@ -19,11 +19,11 @@ private:
 	int totalSp = 7;			//total sp
 	std::vector<Item> inventory;
 	int gold;					//gold
-	bool warning = false;		//Warning, 1.spending gold
+	bool warning = false;		//Warning, spending gold
 
 	//Player current state
 	std::string playerState;
-	//Normal, Battle, Trading, Traveling, WorldMap, Menu
+	//Normal, Talking, Trading, Battle, Traveling, Menu
 
 	//Player sprite size
 	float tileSize = 16.f;
@@ -31,24 +31,29 @@ private:
 	//Player sprite position
 	float tilePositionX = 0;
 	float tilePositionY = 0;
+	//View position
+	float viewX = 0;
+	float viewY = 0;
 	//Player Map number and position
 	int playerNumber = 9;
 	int positionX = 0;
 	int positionY = 0;
-	int PlayerNextMapNumber = 0;
+	int playerNextMapNumber = 0;
 	int tempX = 0;
 	int tempY = 0;
 
 	//Player current Map
 	Location location;
-	int currentLocationID = 0;
-	const static int mapSize = 52;
-	int playerMap[mapSize][mapSize] = {};
+	int currentLocationID = -1;
+	const static int mapSize = 50;
+	int map[mapSize][mapSize];
+	const static int playerMapSize = 52;
+	int playerMap[playerMapSize][playerMapSize];
 
-	//Player quest lsit
+	//Player quest list
 	std::vector<Quest> quest;
 
-	//Player press arrowkeys
+	//Player presses arrowkeys
 	bool isPress = false;
 
 public:
@@ -57,18 +62,20 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(float dt, 
-		sf::View &view,
-		Location location);
+	void Update(sf::View &view,	Location location);
 	void Draw(sf::RenderWindow& window);
 
 	//getters setters
 	bool GetIsC1();
+	void SetIsC1(bool isC1);
 	bool GetIsC2();
+	void SetIsC2(bool isC2);
 	bool GetBothC();
+	void SetBothC(bool BothCharacter);
 	Character GetC1();
 	Character GetC2();
 	int GetTotalSP();
+	void SetTotalSP(int totalSp);
 	int GetGold();
 	std::vector<Item> GetInventory();
 	int GetInventoryWeight();
@@ -82,32 +89,32 @@ public:
 	void SetCvs(int cvsScore);
 	void SetKlg(int klgScore);
 
-	//change state
-	void NormalState(); //Player state change to normal
-	void TradeState(); //Player state change to trading
-	void BattleState(); //Player state change to battle
-
 	//Functions for map
-	void ChangeLevel(int level); //Player changing level
-	void LoadLevel(int level); //Player loading level
 	int GetMapPositionX(); //Player Map positionX
 	int GetMapPositionY(); //Player Map positionY
 
 	//Functions
 	void Setup(Location location);
 	void SpendGold(int gold);
+	
 	void Consume(int inventoryNumber); //use item from inventory
 	void Effect(Item item, Character c); // Item effects
-	void WorldMap();
-	void ChangeEquip(int equipNumber); //if change equip
+	
+	void NormalState();
+	void TalkingState();
+	void TradingState();
+	void BattleState();
+	void TravelingState();
+	void MenuState(); //void WorldMap();
 
-	//void Skill1(); //Player activate skill1
-	//void Skill2(); //Player activate skill2
-	void RandomEvents();	//event while traveling
-	void AcceptQuest();		//accept quest
-	void StartTrade();		//trading with npc
-	void StartBattle();		//start battle
-	void StartTravel(Location currentLocation, Location selectLocation, int travelTime);
+	//void ChangeEquip(int equipNumber); //if change equip
+	//void RandomEvents();	//event while traveling
+	//void AcceptQuest();		//accept quest
+	//void StartTrade();		//trading with npc
+	//void StartBattle();		//start battle
+	//void StartTravel(Location currentLocation, Location selectLocation, int travelTime);
+
+	void View(sf::View& view);
 };
 
 #endif

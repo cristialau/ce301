@@ -26,7 +26,6 @@ void Trade::Update(Player player)
 		player.SetOsv(observationScore);
 		player.SetCvs(conversationScore);
 		player.SetKlg(knowledgeScore);
-		player.SetKlg(knowledgeScore);
 	}
 
 	if (!isPress) {
