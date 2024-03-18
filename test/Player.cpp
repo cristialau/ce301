@@ -1,9 +1,7 @@
 #include "Player.h"
 
-Player::Player(Character& c1, Character& c2, int positionX, int positionY) :c1(c1), c2(c2)
+Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 {
-	this->positionX = positionX;
-	this->positionY = positionY;
 	
 	NormalState();
 
@@ -27,7 +25,7 @@ void Player::Load()
 void Player::Update(float dt, sf::View &view, Location location)
 {
 	//setup for map
-	if (!isSetUp)
+	if (currentLocationID != location.id)
 		Setup(location);
 
 	//View set focus on player
@@ -254,6 +252,10 @@ void Player::SetWarning(bool warning)
 
 void Player::SetOsv(int osvScore)
 {
+	if (isC1 || BothCharacter)
+		c1.SetObservation(osvScore);
+	else
+		c2.SetObservation(osvScore);
 }
 
 void Player::SetCvs(int cvsScore)
@@ -281,11 +283,6 @@ void Player::BattleState()
 }
 
 //Functions for map
-int Player::GetLevel()
-{
-	return level;
-}
-
 void Player::ChangeLevel(int level)
 {
 	this->level = level;
@@ -377,7 +374,7 @@ int Player::GetMapPositionY()
 }
 
 //Functions
-void Player::Setup(Location location, int positionX, int positionY)
+void Player::Setup(Location location)
 {
 	//location map -> player map
 	for (int j = 0; j < mapSize; j++) {
@@ -385,7 +382,7 @@ void Player::Setup(Location location, int positionX, int positionY)
 			playerMap[j][i] = location.playerMap[j][i];
 	}
 
-	playerMap[positionY][positionX] = playerNumber;
+	playerMap[location.playerPositionY][location.playerPositionX] = playerNumber;
 }
 
 void Player::SpendGold(int gold)
@@ -394,5 +391,25 @@ void Player::SpendGold(int gold)
 	if (this->gold < 0) {
 		this->gold = gold;
 		warning = true;
+	}
+}
+
+void Player::Consume(int inventoryNumber)
+{
+	if (inventory[inventoryNumber].isConsumable)
+		inventory[inventoryNumber].amount--;
+	else if (inventory[inventoryNumber].haveDurability)
+		inventory[inventoryNumber].durability--;
+
+	if (inventory[inventoryNumber].amount <= 0 || inventory[inventoryNumber].durability <= 0)
+		inventory.erase(inventory.begin() + inventoryNumber - 1);
+}
+
+void Player::Effect(Item item, Character c)
+{
+	//bread
+	if (item.name == "bread") {
+		c.AddHp(10);
+		std::cout << c.GetName() << " eat a bread" << std::endl;
 	}
 }

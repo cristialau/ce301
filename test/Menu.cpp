@@ -106,7 +106,7 @@ void Menu::OpenCharacter(Player player)
 	std::cout << "Character Name: " << c1Name << std::endl;
 	int c1Atk = player.GetC1().GetAttack();
 	std::cout << "Attack Damage: " << c1Atk << std::endl;
-	int c1Def = player.GetDef();
+	int c1Def = player.GetC1().GetDefence();
 	std::cout << "Defence: " << c1Def << std::endl;
 
 	std::string equip1 = player.GetC1().GetEquip(1);

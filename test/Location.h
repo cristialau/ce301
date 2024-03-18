@@ -28,6 +28,8 @@ struct Location
 	//map
 	int map[50][50] = {};
 	int playerMap[52][52] = {};
+	int playerPositionX;
+	int playerPositionY;
 };
 
 #endif

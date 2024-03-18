@@ -74,29 +74,42 @@ public:
 	//getters
 	bool GetIsPlayerCharacter();
 	std::string GetTextureName();
+	void SetTextureName(std::string textureName);
 	sf::Texture GetTexture();
+	void SetTexture(sf::Texture texture);
 	sf::Sprite GetSprite();
+	void SetSprite(sf::Sprite sprite);
 
 	std::string GetName();
+	void SetName(std::string name);
 	int GetTotalHp();
+	void SetTotalHp(int totalHp);
 	int GetHp();
+	void SetHp(int hp);
 	int GetAttack();
+	void SetAttack(int attack);
 	int GetDefence();
+	void SetDefence(int defence);
 	int GetLuck();
+	void SetLuck(int luck);
 	int GetObservation();
+	void SetObservation(int observation);
 	int GetConversation();
+	void SetConversation(int conversation);
 	int GetKnowledge();
+	void SetKnowledge(int knowledge);
 	std::string GetSkill1();
+	void SetSkill1(std::string skill1);
 	std::string GetSkill2();
+	void SetSkill2(std::string skill2);
 	std::vector<Item> GetInventory();
 	int GetInventoryWeight();
 	std::string GetEquip(int equipNumber);
+	void SetEquip(int equipNumber, std::string equip);
 	int GetGold();
-	
-	bool GetWarning();
-	void SetWarning(bool warning);
+	void SetGold(int gold);
 
-	//int GetState();
+	//Functions
 	void AddHp(int hp);
 	void MinHp(int hp);
 	void AddAtk(int atk);
@@ -115,11 +128,8 @@ public:
 	void MinIvW(int IvW);
 	void AddGold(int gold);
 	void MinGold(int gold);
-	void SpendGold(int gold);
 
-	void Consume(int inventoryNumber); //use item from inventory
 	void Rust(int inventoryNumber);	 //item auto delete in inventory
-	void Effect(Item item); // Item effects
 };
 
 #endif

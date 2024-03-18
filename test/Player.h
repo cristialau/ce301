@@ -17,6 +17,7 @@ private:
 	bool isC2 = false;
 	bool BothCharacter = true;
 	int totalSp = 7;			//total sp
+	std::vector<Item> inventory;
 	int gold;					//gold
 	bool warning = false;		//Warning, 1.spending gold
 
@@ -40,6 +41,7 @@ private:
 
 	//Player current Map
 	Location location;
+	int currentLocationID = 0;
 	const static int mapSize = 52;
 	int playerMap[mapSize][mapSize] = {};
 
@@ -49,14 +51,8 @@ private:
 	//Player press arrowkeys
 	bool isPress = false;
 
-	//Player Setup ready for changing map
-	bool isSetUp = false;
-
 public:
-	Player(Character& c1,
-		Character& c2,
-		int positionX,
-		int positionY);
+	Player(Character& c1, Character& c2);
 	~Player();
 
 	void Initialize();
@@ -92,22 +88,23 @@ public:
 	void BattleState(); //Player state change to battle
 
 	//Functions for map
-	int GetLevel(); //getter
 	void ChangeLevel(int level); //Player changing level
 	void LoadLevel(int level); //Player loading level
 	int GetMapPositionX(); //Player Map positionX
 	int GetMapPositionY(); //Player Map positionY
 
 	//Functions
-	void Setup(Location location, int positionX, int positionY);
+	void Setup(Location location);
 	void SpendGold(int gold);
-	void AcceptQuest();
+	void Consume(int inventoryNumber); //use item from inventory
+	void Effect(Item item, Character c); // Item effects
 	void WorldMap();
 	void ChangeEquip(int equipNumber); //if change equip
 
 	//void Skill1(); //Player activate skill1
 	//void Skill2(); //Player activate skill2
 	void RandomEvents();	//event while traveling
+	void AcceptQuest();		//accept quest
 	void StartTrade();		//trading with npc
 	void StartBattle();		//start battle
 	void StartTravel(Location currentLocation, Location selectLocation, int travelTime);

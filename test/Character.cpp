@@ -50,7 +50,7 @@ void Character::Draw()
 {
 }
 
-//Getters
+//Getters Setters
 bool Character::GetIsPlayerCharacter()
 {
 	return isPlayerCharacter;
@@ -61,9 +61,19 @@ std::string Character::GetTextureName()
 	return textureName;
 }
 
+void Character::SetTextureName(std::string textureName)
+{
+	this->textureName = textureName;
+}
+
 sf::Texture Character::GetTexture()
 {
 	return texture;
+}
+
+void Character::SetTexture(sf::Texture texture)
+{
+	this->texture = texture;
 }
 
 sf::Sprite Character::GetSprite()
@@ -71,9 +81,19 @@ sf::Sprite Character::GetSprite()
 	return sprite;
 }
 
+void Character::SetSprite(sf::Sprite sprite)
+{
+	this->sprite = sprite;
+}
+
 std::string Character::GetName()
 {
 	return name;
+}
+
+void Character::SetName(std::string name)
+{
+	this->name = name;
 }
 
 int Character::GetTotalHp()
@@ -81,13 +101,9 @@ int Character::GetTotalHp()
 	return totalHp;
 }
 
-std::string Character::GetEquip(int equipNumber)
+void Character::SetTotalHp(int totalHp)
 {
-	switch (equipNumber) {
-	case 1: return equip1;
-	case 2: return equip2;
-	case 3: return equip3;
-	}
+	this->totalHp = totalHp;
 }
 
 int Character::GetHp()
@@ -95,9 +111,19 @@ int Character::GetHp()
 	return hp;
 }
 
+void Character::SetHp(int hp)
+{
+	this->hp = hp;
+}
+
 int Character::GetAttack()
 {
 	return attack;
+}
+
+void Character::SetAttack(int attack)
+{
+	this->attack = attack;
 }
 
 int Character::GetDefence()
@@ -105,9 +131,19 @@ int Character::GetDefence()
 	return defence;
 }
 
+void Character::SetDefence(int defence)
+{
+	this->defence = defence;
+}
+
 int Character::GetLuck()
 {
 	return luck;
+}
+
+void Character::SetLuck(int luck)
+{
+	this->luck = luck;
 }
 
 int Character::GetObservation()
@@ -115,9 +151,19 @@ int Character::GetObservation()
 	return observation;
 }
 
+void Character::SetObservation(int observation)
+{
+	this->observation = observation;
+}
+
 int Character::GetConversation()
 {
 	return conversation;
+}
+
+void Character::SetConversation(int conversation)
+{
+	this->conversation = conversation;
 }
 
 int Character::GetKnowledge()
@@ -125,14 +171,29 @@ int Character::GetKnowledge()
 	return knowledge;
 }
 
+void Character::SetKnowledge(int knowledge)
+{
+	this->knowledge = knowledge;
+}
+
 std::string Character::GetSkill1()
 {
 	return skill1;
 }
 
+void Character::SetSkill1(std::string skill1)
+{
+	this->skill1 = skill1;
+}
+
 std::string Character::GetSkill2()
 {
 	return skill2;
+}
+
+void Character::SetSkill2(std::string skill2)
+{
+	this->skill2 = skill2;
 }
 
 std::vector<Item> Character::GetInventory()
@@ -145,13 +206,36 @@ int Character::GetInventoryWeight()
 	return inventoryWeight;
 }
 
+std::string Character::GetEquip(int equipNumber)
+{
+	switch (equipNumber) {
+	case 1: return equip1; break;
+	case 2: return equip2; break;
+	case 3: return equip3; break;
+	}
+	return equip1;
+}
+
+void Character::SetEquip(int equipNumber, std::string equip)
+{
+	switch (equipNumber) {
+	case 1: equip1 = equip; break;
+	case 2: equip2 = equip; break;
+	case 3: equip3 = equip; break;
+	}
+}
+
 int Character::GetGold()
 {
 	return gold;
 }
 
-//Getters
+void Character::SetGold(int gold)
+{
+	this->gold = gold;
+}
 
+//Functions
 void Character::AddHp(int hp)
 {
 	this->hp += hp;
@@ -282,17 +366,6 @@ void Character::MinGold(int gold)
 		this->gold = 0;
 }
 
-void Character::Consume(int inventoryNumber)
-{
-	if (inventory[inventoryNumber].isConsumable)
-		inventory[inventoryNumber].amount--;
-	else if (inventory[inventoryNumber].haveDurability)
-		inventory[inventoryNumber].durability--;
-
-	if (inventory[inventoryNumber].amount <= 0 || inventory[inventoryNumber].durability <= 0)
-		inventory.erase(inventory.begin() + inventoryNumber - 1);
-}
-
 void Character::Rust(int inventoryNumber)
 {
 	if (inventory[inventoryNumber].haveDurability) {
@@ -301,14 +374,5 @@ void Character::Rust(int inventoryNumber)
 			inventory.erase(inventory.begin() + inventoryNumber - 1);
 			std::cout << inventory[inventoryNumber].name << " is destoryed due to no durability" << std::endl;
 		}
-	}
-}
-
-void Character::Effect(Item item)
-{
-	//bread
-	if (item.name == "bread") {
-		AddHp(10);
-		std::cout << name << " eat a bread" << std::endl;
 	}
 }
