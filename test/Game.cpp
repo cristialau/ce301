@@ -68,7 +68,19 @@ void Game::UpdateSFML()
 }
 
 void Game::Update()
-{
+{      
+    //MainMenu (gameState = MainMenu) (gameState = Menu)
+    //LoadGame / Option (gameState = MainMenu) (gameState = Menu)
+    //StartGame (gameState = InGame) (gameState = Normal)
+
+    //in game (gameState = InGame) (gameState = Normal)
+    //talking with npc (gameState = InGame) (gameState = Talking)
+    //trading with npc (gameState = InGame) (gameState = Trading)
+    //enter a battle with npc (gameState = InGame) (gameState = Battle)
+    //traveling (gameState = InGame) (gameState = Traveling)
+    //in game menu (gameState = InGame) (gameState = Menu)
+
+    //end game (gameState = EndGame) (gameState = EndGame)
 
 }
 
@@ -131,4 +143,3 @@ void Game::LocationList()
         std::cout << "Error: No " << location->name << " in data" << std::endl;
     }
 }
-

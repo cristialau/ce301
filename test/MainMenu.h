@@ -12,8 +12,14 @@ private:
 	//player select
 	int select = 1;
 	bool isSelected = false;
-	//show menu
+	//show main menu
 	bool showMainMenu = true;
+	//show load game
+	bool showLoadGame = false;
+	int loads;
+	//show options
+	bool showOption = false;
+	int options;
 
 public:
 	MainMenu(std::string title);
@@ -25,6 +31,9 @@ public:
 	void Draw(sf::RenderWindow& window);
 
 	//Functions
+	void ShowMain(std::string& gameState);
+	void ShowLoad(std::string& gameState);
+	void ShowOptions(std::string& gameState);
 };
 
 #endif

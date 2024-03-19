@@ -301,6 +301,9 @@ void Player::NormalState()
 
 void Player::TalkingState()
 {
+	for()
+	if (npc.id == playerMap[y][x])
+		talk(player, npc);
 }
 
 void Player::TradingState()
