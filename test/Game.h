@@ -2,14 +2,18 @@
 #define GAME_H
 
 #include "Tile.h"
-#include "NPC.h"
-#include "Player.h"
-#include "Map.h"
-#include "Interface.h"
-#include "MainMenu.h"
-#include "Menu.h"
 #include "Item.h"
 #include "Location.h"
+#include "MainMenu.h"
+#include "Player.h"
+#include "NPC.h"
+#include "Map.h"
+#include "Travel.h"
+#include "WorldMap.h"
+#include "Menu.h"
+//#include "Interface.h"
+
+#include "iostream"
 #include <fstream>
 //#include "SFML/Graphics.hpp"
 //#include "SFML/System.hpp"
@@ -19,24 +23,41 @@
 class Game
 {
 private:
-	std::string title = "Testing";
-
-	//Variables
+	//sfml
 	sf::RenderWindow *window;
 	sf::Event event;
 	sf::Clock clock;
 	sf::Time dtTimer;
 	float dt = 0;
-
-	std::string gameState;
-
-	float tileSize = 16;
-	float scale = 3;
-
+	//View
 	sf::View view;
-
+	//Item list and location list
 	Item* item;
 	Location* location;
+	//Title
+	std::string title = "Testing";
+	//Game State
+	std::string gameState;
+	//MainMenu
+	MainMenu mainMenu = MainMenu(title);
+	//Player
+	Character c1 = Character();
+	Character c2 = Character();
+	Player player = Player(c1, c2);
+	//NPC
+
+	//Map
+
+	//Trade
+
+	//Battle
+
+	//WorldMap
+	WorldMap worldMap = WorldMap(locationList, menu);
+	//Travel
+	Travel travel = Travel();
+	//Menu
+	Menu menu = Menu();
 
 public:
 	Game();

@@ -1,7 +1,19 @@
 #include "Trade.h"
 
 Trade::Trade()
-{
+{	
+	//Game panel
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++)
+			gamepanel[i][j] = '0';
+	}
+	//Player game panel
+	for (int i = 0; i < 7; i++) {
+		for (int j = 0; j < 7; j++)
+			playerGamepanel[i][j] = 0;
+	}
+
+	SetUpGamePanel();
 }
 
 Trade::~Trade()
@@ -18,7 +30,7 @@ void Trade::Load()
 
 void Trade::Update(Player player)
 {
-	if(isStartTrading)
+	if(StartTrading)
 		SetUpGamePanel();
 
 	if (move <= 0) {
@@ -31,19 +43,19 @@ void Trade::Update(Player player)
 	if (!isPress) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 			if (playerGamepanel[selected1 + 1][selected2] == 1)
-				playerGamepanel[selected1][selected2] = playerGamepanel[selected1 + 1][selected2];
+				selected1++;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 			if (playerGamepanel[selected1 - 1][selected2] == 1)
-				playerGamepanel[selected1][selected2] = playerGamepanel[selected1 - 1][selected2];
+				selected1--;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 			if (playerGamepanel[selected1][selected2 - 1] == 1)
-				playerGamepanel[selected1][selected2] = playerGamepanel[selected1][selected2 - 1];
+				selected2--;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 			if (playerGamepanel[selected1][selected2 + 1] == 1)
-				playerGamepanel[selected1][selected2] = playerGamepanel[selected1][selected2 + 1];
+				selected2++;
 		}
 		isPress = true;
 	}
@@ -71,23 +83,26 @@ void Trade::Draw()
 {
 }
 
-void Trade::SetIsStartTrading(bool isStartTrading)
+//Getter Setter
+void Trade::SetStartTrading(bool StartTrading)
 {
-	this->isStartTrading = isStartTrading;
+	this->StartTrading = StartTrading;
 }
 
-bool Trade::GetIsStartTrading()
+bool Trade::GetStartTrading()
 {
-	return isStartTrading;
+	return StartTrading;
 }
 
+//Functions
 void Trade::SetUpGamePanel()
 {
+	StartTrading = false;
 	move = 10;
 
 	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < 5; i++) {
-			int random = 0;
+			random = 0;
 
 			if (HaveLuck())
 				random = 1 + (rand() % 3);
@@ -103,7 +118,40 @@ void Trade::SetUpGamePanel()
 		}
 	}
 
-	isStartTrading = false;
+	for (int i = 0; i < 7; i++) {
+		for (int j = 0; j < 7; j++) {
+			if (i < 1 || i > 5 || j < 1 || j > 5)
+				playerGamepanel[i][j] = 0;
+			else
+				playerGamepanel[i][j] = 1;
+		}
+	}
+
+	//elements
+	luck = 'l';
+	observation = 'o';
+	conversation = 'c';
+	knowledge = 'k';
+	//player selects
+	selected1 = 2;
+	selected2 = 2;
+	//Scores and Multipliers
+	observationScore = 0;
+	observationMultiplier = 1;
+	conversationScore = 0;
+	conversationMultiplier = 1;
+	knowledgeScore = 0;
+	knowledgeMultiplier = 1;
+	//Player press arrowkeys
+	isPress = false;
+	isEnter = false;
+	//check variables
+	same1 = 0;
+	same2 = 0;
+	temp1 = 0;
+	temp2 = 0;
+	element1 = 0;
+	element2 = 0;
 }
 
 bool Trade::HaveLuck()
@@ -176,12 +224,12 @@ void Trade::CalculateScore()
 
 void Trade::CheckI(int i, int& o, int& c, int& k)
 {
-	int same1 = 1;
-	int same2 = 1;
-	int temp1 = 0;
-	int temp2 = 0;
-	char element1 = ' ';
-	char element2 = ' ';
+	same1 = 1;
+	same2 = 1;
+	temp1 = 0;
+	temp2 = 0;
+	element1 = ' ';
+	element2 = ' ';
 
 	for (int j = 0; j < 3; j++) {
 		if (CheckICondition(i, j, same2)) {
@@ -236,12 +284,12 @@ bool Trade::CheckICondition(int i, int j, int same2)
 
 void Trade::CheckJ(int j, int& o, int& c, int& k)
 {
-	int same1 = 1;
-	int same2 = 1;
-	int temp1 = 0;
-	int temp2 = 0;
-	char element1 = ' ';
-	char element2 = ' ';
+	same1 = 1;
+	same2 = 1;
+	temp1 = 0;
+	temp2 = 0;
+	element1 = ' ';
+	element2 = ' ';
 
 	for (int i = 0; i < 3; i++) {
 		if (CheckICondition(i, j, same2)) {
@@ -296,12 +344,12 @@ bool Trade::CheckJCondition(int i, int j, int same2)
 
 void Trade::CheckDiag(int i, int j, int& o, int& c, int& k)
 {
-	int same1 = 1;
-	int same2 = 1;
-	int temp1 = 0;
-	int temp2 = 0;
-	char element1 = ' ';
-	char element2 = ' ';
+	same1 = 1;
+	same2 = 1;
+	temp1 = 0;
+	temp2 = 0;
+	element1 = ' ';
+	element2 = ' ';
 
 	for (i, j; i < 3; i++, j++) {
 		if (CheckDiagCondition(i, j, same2)) {
@@ -356,12 +404,12 @@ bool Trade::CheckDiagCondition(int i, int j, int same2)
 
 void Trade::CheckDiagX(int i, int j, int& o, int& c, int& k)
 {
-	int same1 = 1;
-	int same2 = 1;
-	int temp1 = 0;
-	int temp2 = 0;
-	char element1 = ' ';
-	char element2 = ' ';
+	same1 = 1;
+	same2 = 1;
+	temp1 = 0;
+	temp2 = 0;
+	element1 = ' ';
+	element2 = ' ';
 
 	for (i, j; i < 3; i++, j--) {
 		if (CheckDiagXCondition(i, j, same2)) {

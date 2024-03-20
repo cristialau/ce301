@@ -38,28 +38,11 @@ void Player::Load()
 	//c2.GetSprite().setPosition(sf::Vector2f(positionX, positionY));
 }
 
-void Player::Update(sf::View &view, Location location)
+void Player::Update(Location location)
 {
 	//setup for map
 	if (currentLocationID != location.id)
 		Setup(location);
-
-	//View set focus on player
-	View(view);
-
-	//player in different states
-	if (playerState == "Normal")
-		NormalState();
-	else if (playerState == "Talking")
-		TalkingState();
-	else if (playerState == "Trading")
-		TradingState();
-	else if (playerState == "Battle")
-		BattleState();
-	else if (playerState == "Traveling")
-		TravelingState();
-	else if (playerState == "Menu")
-		MenuState();
 
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
 		!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
@@ -322,10 +305,11 @@ void Player::MenuState()
 {
 }
 
-void Player::View(sf::View& view)
+sf::Vector2f Player::View()
 {
 	viewX = c1.GetSprite().getPosition().x + (tileSize * scale / 2);
 	viewY = c1.GetSprite().getPosition().y + (tileSize * scale / 2);
 	sf::Vector2f center(viewX, viewY);
-	view.setCenter(center);
+	return center;
+	//view.setCenter(center);
 }

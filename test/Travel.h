@@ -19,7 +19,7 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(Player player, int day, int time, int travelingTime);
+	void Update(Player player, int travelingTime);
 	void Draw();
 };
 

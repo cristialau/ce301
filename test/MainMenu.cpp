@@ -3,6 +3,11 @@
 MainMenu::MainMenu(std::string title)
 {
 	this->title = title;
+
+	mainMenuState = "MainMenu";
+	select = 1;
+	loads = 1;
+	options = 1;
 }
 
 MainMenu::~MainMenu()
@@ -20,13 +25,12 @@ void MainMenu::Load()
 
 void MainMenu::Update(std::string& gameState)
 {
-	if (gameState == "MainMenu")
+	if (mainMenuState == "MainMenu")
 		ShowMain(gameState);
-	else if (gameState == "LoadGame")
-		ShowLoad(gameState);
-	else if (gameState == "Options")
-		ShowOptions(gameState);
-	
+	else if (mainMenuState == "LoadGame")
+		ShowLoad();
+	else if (mainMenuState == "Options")
+		ShowOptions();
 }
 
 void MainMenu::Draw(sf::RenderWindow& window)
@@ -68,11 +72,11 @@ void MainMenu::ShowMain(std::string& gameState)
 			gameState = "InGame";
 			break;
 		case 2:
-			gameState = "LoadGame";
+			mainMenuState = "LoadGame";
 			showLoadGame = true;
 			break;
 		case 3:
-			gameState = "OptionMenu";
+			mainMenuState = "OptionMenu";
 			showOption = true;
 			break;
 		case 4:
@@ -82,7 +86,7 @@ void MainMenu::ShowMain(std::string& gameState)
 	}
 }
 
-void MainMenu::ShowLoad(std::string& gameState)
+void MainMenu::ShowLoad()
 {
 	if (showLoadGame) {
 		std::cout << "Save 1: " << std::endl;
@@ -112,12 +116,12 @@ void MainMenu::ShowLoad(std::string& gameState)
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-		gameState = "MainMenu";
+		mainMenuState = "MainMenu";
 		showMainMenu = true;
 	}
 }
 
-void MainMenu::ShowOptions(std::string& gameState)
+void MainMenu::ShowOptions()
 {
 	if (showOption) {
 		std::cout << "Options " << std::endl;
@@ -126,6 +130,15 @@ void MainMenu::ShowOptions(std::string& gameState)
 
 		select = 1;
 		showOption = false;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+		select++;
+		std::cout << select << std::endl;
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+		select--;
+		std::cout << select << std::endl;
 	}
 
 	if (select > options)
@@ -138,7 +151,7 @@ void MainMenu::ShowOptions(std::string& gameState)
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-		gameState = "MainMenu";
+		mainMenuState = "MainMenu";
 		showMainMenu = true;
 	}
 }

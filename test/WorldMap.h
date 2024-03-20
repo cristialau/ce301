@@ -3,6 +3,7 @@
 
 #include "Location.h"
 #include "Player.h"
+#include "Menu.h"
 #include <iostream>
 #include <vector>
 
@@ -10,24 +11,28 @@ class WorldMap
 {
 private:
 	//show Map
-	bool showLocation = true;
-	bool showMap = true;
+	bool showLocation = false;
 	//location list
-	std::vector<Location> location;
+	std::vector<Location> locationList;
 	//player select
 	int select = 1;
+	bool selected = false;
+	bool showSelected = false;
+	//if select current location
+	bool same = false;
+
+	int travelingTime = 0;
 
 public:
-	WorldMap(std::vector<Location> location);
+	WorldMap(std::vector<Location> locationList);
 	~WorldMap();
 
 	void Initialize();
 	void Load();
-	void Update(Player player, Location currentLocation);
+	void Update(Player player, Menu menu);
 	void Draw();
 
-	//Functions
-	int TravelTime(Location currentLocation, Location selectLocation);
+	int GetTravelingTime();
 };
 
 #endif

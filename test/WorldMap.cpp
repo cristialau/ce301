@@ -1,8 +1,8 @@
 #include "WorldMap.h"
 
-WorldMap::WorldMap(std::vector<Location> location)
+WorldMap::WorldMap(std::vector<Location> locationList)
 {
-	this->location = location;
+	this->locationList = locationList;
 }
 
 WorldMap::~WorldMap()
@@ -17,71 +17,82 @@ void WorldMap::Load()
 {
 }
 
-void WorldMap::Update(Player player, Location currentLocation)
+void WorldMap::Update(Player player, Menu menu)
 {
-	if (showLocation) {
-		std::cout << "Select location" << std::endl;
-		for (int i = 0; i < location.size(); i++)
-			std::cout << i + 1 << ": " << location[i].name << std::endl;
+	if (!selected) {
+		if (!showLocation) {
+			std::cout << "Select location" << std::endl;
+			for (int i = 0; i < locationList.size(); i++)
+				std::cout << i + 1 << ": " << locationList[i].name << std::endl;
 
-		showLocation = false;
-		select = 1;
-	}
+			showLocation = true;
+			select = 1;
+		}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		select++;
-		std::cout << select << std::endl;
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		select--;
-		std::cout << select << std::endl;
-	}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			select++;
+			std::cout << select << std::endl;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			select--;
+			std::cout << select << std::endl;
+		}
 
-	if (select > (int)location.size())
-		select = 0;
-	if (select < 0)
-		select = (int)location.size();
+		if (select > (int)locationList.size())
+			select = 0;
+		if (select < 0)
+			select = (int)locationList.size();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-		if (currentLocation.name == location[select].name)
-			std::cout << "You are here" << std::endl;
-		else {
-			std::cout << "Estimate travel time: " << TravelTime(currentLocation, location[select]) << " hours" << std::endl;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+			selected = true;
 
-			std::cout << "Please select: 1. Confirm 2. Leave" << std::endl;
-
-			//change
-			while (true) {
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-					showMap = false;
-					player.StartTravel(currentLocation, location[select], TravelTime(currentLocation, location[select]));
-					player.SetPlayerState("Traveling");
-					break;
-				}
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-					showLocation = true;
-					break;
-				}
-			}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+			player.SetPlayerState("Menu");
+			menu.SetShowMenu(true);
+			menu.SetSelected(false);
+			menu.SetSelect(1);
+			showLocation = false;
 		}
 	}
+	else {
+		if (!showSelected) {
+			if (player.GetLocation().name == locationList[select].name) {
+				same = true;
+				std::cout << "You are here" << std::endl;
+			}
+			else {
+				same = false;
+				travelingTime = player.GetLocation().time - locationList[select].time;
+				
+				std::cout << "Estimate travel time: " <<
+					abs(travelingTime) <<
+					" hours" << std::endl;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-		showMap = false;
-		player.SetPlayerState("Menu");
-	}
+				std::cout << "Start your travel?" << std::endl;
+			}
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+			showLocation = false;
+			selected = false;
+			select = 1;
+		}
+
+		if (!same) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+				player.SetPlayerState("Traveling");
+		}
+	}	
 }
 
 void WorldMap::Draw()
 {
-	if (showMap) {
-
-	}
+	
 }
 
-int WorldMap::TravelTime(Location currentLocation, Location selectLocation)
+int WorldMap::GetTravelingTime()
 {
-	int travelingTime = currentLocation.time - selectLocation.time;
 	return abs(travelingTime);
 }
+
 // 0a  10b  20c  30d

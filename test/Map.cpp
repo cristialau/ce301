@@ -1,9 +1,7 @@
 #include "Map.h"
-#include <iostream>
 
-Map::Map(std::string textureName, Location location) : tileX(16), tileY(16), scale(3)
+Map::Map(Location location) : tileX(16), tileY(16), scale(3)
 {
-	this->textureName = textureName;
 	this->location = location;
 }
 

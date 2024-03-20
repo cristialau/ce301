@@ -16,11 +16,11 @@ void Travel::Load()
 {
 }
 
-void Travel::Update(Player player, int day, int time, int travelingTime)
+void Travel::Update(Player player, int travelingTime)
 {
 	if (travelingTime > 0) {
-		std::cout << day << std::endl;
-		std::cout << time << std::endl;
+		std::cout << player.GetDay() << std::endl;
+		std::cout << player.GetTime() << std::endl;
 		std::cout << "Traveling" << std::endl;
 		std::cout << travelingTime << std::endl;
 

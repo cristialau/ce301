@@ -9,41 +9,39 @@
 class Trade
 {
 private:
-	//Trading
-	bool isStartTrading = true;
+	//Trading setup
+	bool StartTrading;
+	int random;
 	//Turn
-	int move = 10;
+	int move;
 	//Game panels
-	char gamepanel[5][5] = {{'0', '0', '0', '0', '0'},
-							{'0', '0', '0', '0', '0'},
-							{'0', '0', '0', '0', '0'},
-							{'0', '0', '0', '0', '0'},
-							{'0', '0', '0', '0', '0'}};
-	int playerGamepanel[7][7] = {{0, 0, 0, 0, 0, 0, 0},
-								{0, 1, 1, 1, 1, 1, 0},
-								{0, 1, 1, 1, 1, 1, 0},
-								{0, 1, 1, 1, 1, 1, 0},
-								{0, 1, 1, 1, 1, 1, 0},
-								{0, 1, 1, 1, 1, 1, 0},
-								{0, 0, 0, 0, 0, 0, 0}};
+	char gamepanel[5][5];
+	int playerGamepanel[7][7];
 	//elements
-	char luck = 'l';
-	char observation = 'o';
-	char conversation = 'c';
-	char knowledge = 'k';
+	char luck;
+	char observation;
+	char conversation;
+	char knowledge;
 	//player selects
-	int selected1 = 2;
-	int selected2 = 2;
+	int selected1;
+	int selected2;
 	//Scores and Multipliers
-	int observationScore = 0;
-	int observationMultiplier = 1;
-	int conversationScore = 0;
-	int conversationMultiplier = 1;
-	int knowledgeScore = 0;
-	int knowledgeMultiplier = 1;
+	int observationScore;
+	int observationMultiplier;
+	int conversationScore;
+	int conversationMultiplier;
+	int knowledgeScore;
+	int knowledgeMultiplier;
 	//Player press arrowkeys
-	bool isPress = false;
-	bool isEnter = false;
+	bool isPress;
+	bool isEnter;
+	//check variables
+	int same1;
+	int same2;
+	int temp1;
+	int temp2;
+	char element1;
+	char element2;
 
 public:
 	Trade();
@@ -55,8 +53,8 @@ public:
 	void Draw();
 
 	//Getter Setter
-	void SetIsStartTrading(bool isStartTrading);
-	bool GetIsStartTrading();
+	void SetStartTrading(bool StartTrading);
+	bool GetStartTrading();
 
 	//Functions
 	void SetUpGamePanel();

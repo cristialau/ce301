@@ -62,7 +62,7 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(sf::View &view,	Location location);
+	void Update(Location location);
 	void Draw(sf::RenderWindow& window);
 
 	//getters setters
@@ -84,6 +84,12 @@ public:
 	void SetPlayerState(std::string playerState);
 	bool GetWarning();
 	void SetWarning(bool warning);
+	int GetDay();
+	void SetDay(int day);
+	int GetTime();
+	void SetTime(int time);
+	Location GetLocation();
+	void SetLocation(Location location);
 
 	void SetOsv(int osvScore);
 	void SetCvs(int cvsScore);
@@ -105,7 +111,7 @@ public:
 	void TradingState();
 	void BattleState();
 	void TravelingState();
-	void MenuState(); //void WorldMap();
+	void MenuState();
 
 	//void ChangeEquip(int equipNumber); //if change equip
 	//void RandomEvents();	//event while traveling
@@ -114,7 +120,7 @@ public:
 	//void StartBattle();		//start battle
 	//void StartTravel(Location currentLocation, Location selectLocation, int travelTime);
 
-	void View(sf::View& view);
+	sf::Vector2f View();
 };
 
 #endif

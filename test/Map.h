@@ -53,7 +53,7 @@ private:
 	Location location;
 
 public:
-	Map(std::string textureName, Location location);
+	Map(Location location);
 	~Map();
 
 	void Initialize();

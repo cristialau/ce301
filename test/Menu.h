@@ -17,40 +17,44 @@ private:
 	int isSetting = 5;
 	//show menus
 	bool showMenu = false;
-	bool isOpenCharacter = false;
-	bool isOpenWorldMap = false;
-	bool isOpenInventory = false;
-	bool isOpenQuest = false;
-	bool isOpenSetting = false;
+	bool showCharacter = false;
+	bool showChangeEquip = false;
+	bool showWorldMap = false;
+	bool showInventory = false;
+	bool showQuest = false;
+	bool showSetting = false;
 	//player selects
 	int select = 1;
-	bool isSelected = false;
-	int characterSelect = 1;
+	bool selected = false;
+	bool equipSelected = false;
+	int equipSelect = 0;
 	int inventorySelect = 0;
 	int questSelect = 0;
 
-	Character c1;
-	Character c2;
+	//Inventory
+	std::vector<Item> inventory;
+	std::vector<Item> equipment;
+	//Quest
+	std::vector<Quest> quest;
 
 public:
-	Menu(Character& c1, Character& c2);
+	Menu();
 	~Menu();
 
 	void Initialize();
 	void Load();
-	void Update(Player player, int day, int time);
+	void Update(Player player);
 	void Draw();
 
 	//Functions
 	void SetShowMenu(bool showMenu);
+	void SetSelected(bool selected);
+	void SetSelect(int select);
 	void OpenCharacter(Player player);
-	void OpenWorldMap(Player player);
+	void OpenChangeEquip(Player player, int select);
 	void OpenInventory(Player player);
 	void OpenQuest(Player player);
 	void OpenSetting();
-
-	//Show description under
-	void ShowDescription(std::string name, std::string description);
 };
 
 #endif

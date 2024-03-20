@@ -9,8 +9,10 @@ class MainMenu
 private:
 	//Title
 	std::string title;
+	//Main Menu state
+	std::string mainMenuState;
 	//player select
-	int select = 1;
+	int select;
 	bool isSelected = false;
 	//show main menu
 	bool showMainMenu = true;
@@ -32,8 +34,8 @@ public:
 
 	//Functions
 	void ShowMain(std::string& gameState);
-	void ShowLoad(std::string& gameState);
-	void ShowOptions(std::string& gameState);
+	void ShowLoad();
+	void ShowOptions();
 };
 
 #endif

@@ -47,6 +47,7 @@ void Game::InitWindow()
 
 void Game::InitGame()
 {
+    gameState = "MainMenu";
     ItemList();
     LocationList();
 }
@@ -68,19 +69,46 @@ void Game::UpdateSFML()
 }
 
 void Game::Update()
-{      
-    //MainMenu (gameState = MainMenu) (gameState = Menu)
-    //LoadGame / Option (gameState = MainMenu) (gameState = Menu)
-    //StartGame (gameState = InGame) (gameState = Normal)
+{
+    //MainMenu (gameState = MainMenu)
+    //LoadGame / Option (gameState = MainMenu)
+    //StartGame (gameState = InGame) (playerState = Normal)
+    if (gameState == "MainMenu")
+        mainMenu.Update(gameState);
+    //in game (gameState = InGame) (playerState = Normal)
+    //talking with npc (gameState = InGame) (playerState = Talking)
+    //trading with npc (gameState = InGame) (playerState = Trading)
+    //enter a battle with npc (gameState = InGame) (playerState = Battle)
+    //traveling (gameState = InGame) (playerState = Traveling)
+    //in game menu (gameState = InGame) (playerState = Menu)
+    if (gameState == "InGame") {
+        player.Update(*location);
+        if (player.GetPlayerState() == "Normal") {
+            player.NormalState();
+            //View set focus on player
+            view.setCenter(player.View());
+        }
+        else if (player.GetPlayerState() == "Talking") {
 
-    //in game (gameState = InGame) (gameState = Normal)
-    //talking with npc (gameState = InGame) (gameState = Talking)
-    //trading with npc (gameState = InGame) (gameState = Trading)
-    //enter a battle with npc (gameState = InGame) (gameState = Battle)
-    //traveling (gameState = InGame) (gameState = Traveling)
-    //in game menu (gameState = InGame) (gameState = Menu)
+        }
+        else if (player.GetPlayerState() == "Trading") {
 
-    //end game (gameState = EndGame) (gameState = EndGame)
+        }
+        else if (player.GetPlayerState() == "Battle") {
+
+        }
+        else if (player.GetPlayerState() == "Menu") {
+            menu.Update(player);
+        }
+        else if (player.GetPlayerState() == "WorldMap") {
+            worldMap.Update(player, menu);
+        }
+        else if (player.GetPlayerState() == "Traveling") {
+            travel.Update(player, worldMap.GetTravelingTime());
+        }
+    }
+
+    //end game (gameState = EndGame) (playerState = EndGame)
 
 }
 
@@ -89,7 +117,6 @@ void Game::Draw()
     this->window->clear();
     this->window->setView(view);
     //XXX.Draw(*window, XXX, XXX);
-
 
     this->window->setView(window->getDefaultView());
 
