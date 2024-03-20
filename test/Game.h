@@ -4,10 +4,14 @@
 #include "Tile.h"
 #include "Item.h"
 #include "Location.h"
+#include "Quest.h"
 #include "MainMenu.h"
 #include "Player.h"
 #include "NPC.h"
 #include "Map.h"
+#include "Talk.h"
+#include "Trade.h"
+#include "Battle.h"
 #include "Travel.h"
 #include "WorldMap.h"
 #include "Menu.h"
@@ -31,9 +35,13 @@ private:
 	float dt = 0;
 	//View
 	sf::View view;
-	//Item list and location list
+	//item, location, quest
 	Item* item;
+	std::vector<Item> itemList;
 	Location* location;
+	std::vector<Location> locationList;
+	Quest* quest;
+	std::vector<Quest> QuestList;
 	//Title
 	std::string title = "Testing";
 	//Game State
@@ -45,15 +53,18 @@ private:
 	Character c2 = Character();
 	Player player = Player(c1, c2);
 	//NPC
-
+	Character c3 = Character();
+	NPC npc1 = NPC(c3);
 	//Map
 
+	//Talk
+	Talk talk = Talk();
 	//Trade
-
+	Trade trade = Trade();
 	//Battle
-
+	Battle battle = Battle();
 	//WorldMap
-	WorldMap worldMap = WorldMap(locationList, menu);
+	WorldMap worldMap = WorldMap(locationList);
 	//Travel
 	Travel travel = Travel();
 	//Menu
@@ -80,6 +91,7 @@ public:
 	void EndApplication();
 	void ItemList();
 	void LocationList();
+	void QuestList();
 };
 
 #endif

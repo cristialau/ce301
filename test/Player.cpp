@@ -282,29 +282,6 @@ void Player::NormalState()
 		playerState = "Menu";
 }
 
-void Player::TalkingState()
-{
-	for()
-	if (npc.id == playerMap[y][x])
-		talk(player, npc);
-}
-
-void Player::TradingState()
-{
-}
-
-void Player::BattleState()
-{
-}
-
-void Player::TravelingState()
-{
-}
-
-void Player::MenuState()
-{
-}
-
 sf::Vector2f Player::View()
 {
 	viewX = c1.GetSprite().getPosition().x + (tileSize * scale / 2);

@@ -253,7 +253,6 @@ void Battle::SetStartBattle(bool startBattle)
 	this->startBattle = startBattle;
 }
 
-
 void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousState)
 {
 	startBattle = true;
@@ -270,8 +269,8 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousSt
 	if (haveC1 && haveC2) {
 		playerTeamHPMax = player.GetC1().GetTotalHp() + player.GetC2().GetTotalHp();
 		playerTeamHP = player.GetC1().GetHp() + player.GetC2().GetHp();
-		playerAttackDmg = (int)(player.GetC1().GetAttack() + player.GetC2().GetAttack());
-		playerDefence = (int)(player.GetC1().GetDefence() + player.GetC2().GetDefence());
+		playerAttackDmg = player.GetC1().GetAttack() + player.GetC2().GetAttack();
+		playerDefence = player.GetC1().GetDefence() + player.GetC2().GetDefence();
 	}
 	else if (haveC1 && !haveC2) {
 		playerTeamHPMax = player.GetC1().GetTotalHp();
@@ -310,8 +309,8 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousSt
 	case 3:
 		enemyTeamHPMax = enemy[1].GetC().GetTotalHp() + enemy[2].GetC().GetTotalHp() + enemy[3].GetC().GetTotalHp();
 		enemyTeamHP = enemy[1].GetC().GetHp() + enemy[2].GetC().GetHp() + enemy[3].GetC().GetHp();
-		enemyAttackDmg = (int)((enemy[1].GetC().GetAttack() + enemy[2].GetC().GetAttack() + enemy[3].GetC().GetAttack()) * 0.5);
-		enemyDefence = (int)((enemy[1].GetC().GetDefence() + enemy[2].GetC().GetDefence() + enemy[3].GetC().GetDefence()) * 0.5);
+		enemyAttackDmg = (int)((enemy[1].GetC().GetAttack() + enemy[2].GetC().GetAttack() + enemy[3].GetC().GetAttack() * 0.5));
+		enemyDefence = (int)((enemy[1].GetC().GetDefence() + enemy[2].GetC().GetDefence() + enemy[3].GetC().GetDefence() * 0.5));
 	}
 
 	useEnemyAttack = false;

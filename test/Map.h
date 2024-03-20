@@ -45,10 +45,10 @@ private:
 					 { 3, 14, 15, 16, 3},
 					 { 3, 3, 3, 3, 3} };
 
-	float fromX = 0;
-	float toX = 0;
-	float fromY = 0;
-	float toY = 0;
+	int fromX = 0;
+	int toX = 0;
+	int fromY = 0;
+	int toY = 0;
 
 	Location location;
 

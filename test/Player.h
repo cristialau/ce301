@@ -18,12 +18,12 @@ private:
 	bool BothCharacter = true;
 	int totalSp = 7;			//total sp
 	std::vector<Item> inventory;
-	int gold;					//gold
+	int gold = 0;				//gold
 	bool warning = false;		//Warning, spending gold
 
 	//Player current state
 	std::string playerState;
-	//Normal, Talking, Trading, Battle, Traveling, Menu
+	//Normal, Talking, Trading, Battle, WorldMap, Traveling, Menu
 
 	//Player sprite size
 	float tileSize = 16.f;
@@ -107,14 +107,9 @@ public:
 	void Effect(Item item, Character c); // Item effects
 	
 	void NormalState();
-	void TalkingState();
-	void TradingState();
-	void BattleState();
-	void TravelingState();
-	void MenuState();
+	//void TalkingState(Character npc);
 
-	//void ChangeEquip(int equipNumber); //if change equip
-	//void RandomEvents();	//event while traveling
+	void RandomEvents();	//event while traveling
 	//void AcceptQuest();		//accept quest
 	//void StartTrade();		//trading with npc
 	//void StartBattle();		//start battle

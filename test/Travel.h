@@ -13,14 +13,22 @@ private:
 	std::vector<sf::Texture> bgTexture;
 	sf::Sprite background;
 
+	bool setUp = false;
+	bool showTravel = false;
+
+	float timer = 0;
+
 public:
 	Travel();
 	~Travel();
 
 	void Initialize();
 	void Load();
-	void Update(Player player, int travelingTime);
+	void Update(Player player, int travelingTime, float dt);
 	void Draw();
+
+	//Functions
+	void SetUp();
 };
 
 #endif

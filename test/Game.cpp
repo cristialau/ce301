@@ -89,13 +89,13 @@ void Game::Update()
             view.setCenter(player.View());
         }
         else if (player.GetPlayerState() == "Talking") {
-
+            talk.Update(player, npc);
         }
         else if (player.GetPlayerState() == "Trading") {
-
+            trade.Update(player);
         }
         else if (player.GetPlayerState() == "Battle") {
-
+            battle.Update(player, npc, previousState);
         }
         else if (player.GetPlayerState() == "Menu") {
             menu.Update(player);
@@ -104,7 +104,7 @@ void Game::Update()
             worldMap.Update(player, menu);
         }
         else if (player.GetPlayerState() == "Traveling") {
-            travel.Update(player, worldMap.GetTravelingTime());
+            travel.Update(player, worldMap.GetTravelingTime(), dt);
         }
     }
 
@@ -134,7 +134,7 @@ void Game::EndApplication()
 
 void Game::ItemList()
 {
-    //bread	
+    //Item
     if (item->name == "bread") {
         item->id = 1;
         //icon
@@ -155,7 +155,7 @@ void Game::ItemList()
 
 void Game::LocationList()
 {
-    //Location1	
+    //Location
     if (location->name == "Location 1") {
         location->id = 1;
         //icon
@@ -168,5 +168,19 @@ void Game::LocationList()
     }
     else {
         std::cout << "Error: No " << location->name << " in data" << std::endl;
+    }
+}
+
+void Game::QuestList()
+{
+    if (quest->name == "Location 1") {
+        quest->id = 1;
+        //icon
+        //location->name = "location 1";
+        quest->description = "Location 1.";
+        
+    }
+    else {
+        std::cout << "Error: No " << quest->name << " in data" << std::endl;
     }
 }

@@ -99,8 +99,8 @@ void Map::Draw(sf::RenderWindow &window, Player player, int level)
 	else if (toY >= mapSize)
 		this->toY = mapSize - 1;
 
-	for (int y = (int)fromY; y < (int)toY; y++) {
-		for (int x = (int)fromX; x < (int)toX; x++) {
+	for (int y = fromY; y < toY; y++) {
+		for (int x = fromX; x < toX; x++) {
 			switch (level) {
 			case 1:
 				window.draw(sprites1[x][y]);

@@ -27,6 +27,8 @@ struct Item
 
 	bool isEquip;
 	bool inInventory;
+
+	int price = 0;
 };
 
 #endif
