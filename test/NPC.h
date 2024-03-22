@@ -7,7 +7,7 @@
 #include "SFML/Graphics.hpp"
 #include <iostream>
 
-class NPC
+class NPC//: private Character
 {
 private:
 	//npcNumber and setup
@@ -24,7 +24,7 @@ private:
 	int positionX = 0;
 	int positionY = 0;
 	//Npc current state
-	std::string npcState;
+	int npcState;
 
 	//Character
 	Character c;
@@ -33,11 +33,12 @@ private:
 	//if have quest
 	Quest quest;
 	bool haveQuest = false;
+	std::string questDialogue;
 	//if can trade
 	bool canTrade = false;
 	//if can battle
 	bool canBattle = false;
-	std::string battleDescription;
+	std::string battleDialogue;
 
 public:
 	NPC(Character& character,
@@ -65,12 +66,16 @@ public:
 	bool CanTrade();
 	void SetBattle(bool canBattle);
 	bool CanBattle();
-	std::string GetNPCState();
+	int GetNPCState();
 	void SetRelationship(int relationship);
-	void SetNPCState(std::string npcState);
+	void SetNPCState(int npcState);
 
 	//Functions
-	std::string BattleDescription();
+	std::string Dialogue();
+	std::string QuestDialogue();
+	std::string BattleDialogue();
+
+	void AcceptQuest();
 
 	void AddRls(int rls);
 	void MinRls(int rls);

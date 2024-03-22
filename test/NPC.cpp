@@ -82,7 +82,7 @@ bool NPC::CanBattle()
 	return canBattle;
 }
 
-std::string NPC::GetNPCState()
+int NPC::GetNPCState()
 {
 	return npcState;
 }
@@ -92,14 +92,29 @@ void NPC::SetRelationship(int relationship)
 	this->relationship = relationship;
 }
 
-void NPC::SetNPCState(std::string npcState)
+void NPC::SetNPCState(int npcState)
 {
 	this->npcState = npcState;
 }
 
-std::string NPC::BattleDescription()
+std::string NPC::Dialogue()
 {
-	return battleDescription;
+	return std::string();
+}
+
+std::string NPC::QuestDialogue()
+{
+	return questDialogue;
+}
+
+std::string NPC::BattleDialogue()
+{
+	return battleDialogue;
+}
+
+void NPC::AcceptQuest()
+{
+
 }
 
 void NPC::AddRls(int rls)

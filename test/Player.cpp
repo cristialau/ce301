@@ -153,6 +153,36 @@ void Player::SetWarning(bool warning)
 	this->warning = warning;
 }
 
+int Player::GetDay()
+{
+	return day;
+}
+
+void Player::SetDay(int day)
+{
+	this->day = day;
+}
+
+int Player::GetTime()
+{
+	return time;
+}
+
+void Player::SetTime(int time)
+{
+	this->time = time;
+}
+
+Location Player::GetLocation()
+{
+	return location;
+}
+
+void Player::SetLocation(Location location)
+{
+	this->location = location;
+}
+
 void Player::SetOsv(int osvScore)
 {
 	if (isC1 || BothCharacter)
@@ -176,6 +206,7 @@ void Player::SetKlg(int klgScore)
 	else
 		c2.SetKnowledge(klgScore);
 }
+
 
 //Functions for map
 int Player::GetMapPositionX()

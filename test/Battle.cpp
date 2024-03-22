@@ -45,11 +45,11 @@ void Battle::Load()
 {
 }
 
-void Battle::Update(Player player, std::vector<NPC> enemy, std::string previousState)
+void Battle::Update(Player player, std::vector<NPC> enemy)
 {
 	//Setup
 	if (!startBattle)
-		SetUp(player, enemy, previousState);
+		SetUp(player, enemy);
 
 	//if Player or enemy hp = 0
 	if (playerTeamHP <= 0)
@@ -76,7 +76,7 @@ void Battle::Update(Player player, std::vector<NPC> enemy, std::string previousS
 	//Player move first
 
 	if (playerTurn) {
-		if (playerState == "Normal") {
+		if (playerStatus == "Normal") {
 			select = 1;
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
@@ -166,7 +166,7 @@ void Battle::Update(Player player, std::vector<NPC> enemy, std::string previousS
 			}
 		}
 		else {
-			playerState = "Normal";
+			playerStatus = "Normal";
 		}
 
 		playerTurn = false;
@@ -253,11 +253,11 @@ void Battle::SetStartBattle(bool startBattle)
 	this->startBattle = startBattle;
 }
 
-void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousState)
+void Battle::SetUp(Player player, std::vector<NPC> enemy)
 {
 	startBattle = true;
 	roundStart = true;
-	playerState = previousState;
+	//playerState = previousState;
 
 	round = 0;
 	
@@ -357,7 +357,7 @@ void Battle::Lose(Player player)
 	startBattle = false;
 	std::cout << "You Lose" << std::endl;
 	std::cout << "You Lost " << "Something" << std::endl;
-	player.SetPlayerState(playerState);
+	player.SetPlayerState("Traveling");
 }
 
 void Battle::Win(Player player)
@@ -366,5 +366,5 @@ void Battle::Win(Player player)
 	startBattle = false;
 	std::cout << "You Win" << std::endl;
 	std::cout << "You Gain " << "Something" << std::endl;
-	player.SetPlayerState(playerState);
+	player.SetPlayerState("Traveling");
 }

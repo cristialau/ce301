@@ -7,7 +7,7 @@
 #include "SFML/Graphics.hpp"
 #include <iostream>
 
-class Player
+class Player//: private Character
 {
 private:
 	//Characters
@@ -41,6 +41,8 @@ private:
 	int playerNextMapNumber = 0;
 	int tempX = 0;
 	int tempY = 0;
+	//Player presses arrowkeys
+	bool isPress = false;
 
 	//Player current Map
 	Location location;
@@ -53,8 +55,9 @@ private:
 	//Player quest list
 	std::vector<Quest> quest;
 
-	//Player presses arrowkeys
-	bool isPress = false;
+	//Player time
+	int day = 0;
+	int time = 0;
 
 public:
 	Player(Character& c1, Character& c2);
@@ -107,10 +110,8 @@ public:
 	void Effect(Item item, Character c); // Item effects
 	
 	void NormalState();
-	//void TalkingState(Character npc);
 
-	void RandomEvents();	//event while traveling
-	//void AcceptQuest();		//accept quest
+	void AddQuest(Quest quest);			//accept quest
 	//void StartTrade();		//trading with npc
 	//void StartBattle();		//start battle
 	//void StartTravel(Location currentLocation, Location selectLocation, int travelTime);

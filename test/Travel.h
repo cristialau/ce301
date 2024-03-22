@@ -29,6 +29,7 @@ public:
 
 	//Functions
 	void SetUp();
+	void RandomEvents();
 };
 
 #endif

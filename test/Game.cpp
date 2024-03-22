@@ -95,7 +95,7 @@ void Game::Update()
             trade.Update(player);
         }
         else if (player.GetPlayerState() == "Battle") {
-            battle.Update(player, npc, previousState);
+            battle.Update(player, npcList);
         }
         else if (player.GetPlayerState() == "Menu") {
             menu.Update(player);
@@ -183,4 +183,13 @@ void Game::QuestList()
     else {
         std::cout << "Error: No " << quest->name << " in data" << std::endl;
     }
+}
+
+void Game::setNPC()
+{
+    
+}
+
+void Game::setNPCList()
+{
 }

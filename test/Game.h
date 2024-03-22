@@ -53,6 +53,8 @@ private:
 	Character c2 = Character();
 	Player player = Player(c1, c2);
 	//NPC
+	NPC npc;
+	std::vector<NPC> npcList;
 	Character c3 = Character();
 	NPC npc1 = NPC(c3);
 	//Map
@@ -92,6 +94,9 @@ public:
 	void ItemList();
 	void LocationList();
 	void QuestList();
+
+	void setNPC();
+	void setNPCList();
 };
 
 #endif

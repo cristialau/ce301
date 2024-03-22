@@ -20,8 +20,6 @@ void Travel::Update(Player player, int travelingTime, float dt)
 {
 	if (!setUp)
 		SetUp();
-	
-	timer += dt;
 
 	if (!showTravel) {
 		std::cout << "Traveling" << std::endl;
@@ -34,6 +32,12 @@ void Travel::Update(Player player, int travelingTime, float dt)
 	}
 
 	if (travelingTime > 0) {
+		
+		if (travelingTime % 360 == 0)
+			RandomEvents();
+		else
+			timer += dt;
+		
 		if (timer >= 1000.0f) {
 			travelingTime -= 10;
 			timer = 0;
@@ -41,9 +45,6 @@ void Travel::Update(Player player, int travelingTime, float dt)
 
 		if (travelingTime % 30)
 			std::cout << "Traveling Time: " << travelingTime << std::endl;
-
-		if (travelingTime % 360 == 0 && travelingTime > 0)
-			player.RandomEvents();
 	}
 	else {
 		std::cout << "Arrived" << std::endl;
@@ -63,4 +64,8 @@ void Travel::SetUp()
 {
 	timer = 0;
 	setUp = true;
+}
+
+void Travel::RandomEvents()
+{
 }

@@ -11,7 +11,7 @@ class Battle
 private:
 	bool startBattle;
 	bool roundStart;
-	std::string playerState;
+	//std::string playerState;
 	
 	int round;		//rounds
 	
@@ -47,7 +47,7 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(Player player, std::vector<NPC> enemy, std::string previousState);
+	void Update(Player player, std::vector<NPC> enemy);
 	void Draw();
 
 	//Getter Setter
@@ -55,7 +55,7 @@ public:
 	void SetStartBattle(bool startBattle);
 
 	//Functions
-	void SetUp(Player player, std::vector<NPC> enemy, std::string previousState);
+	void SetUp(Player player, std::vector<NPC> enemy);
 	void AddSp(int sp);
 	void Attack(int attackdmg);
 	void Skill(std::string skill);
