@@ -2,12 +2,12 @@
 #define NPC_H
 
 #include "Character.h"
-#include "Player.h"
+#include "Location.h"
 #include "Quest.h"
 #include "SFML/Graphics.hpp"
 #include <iostream>
 
-class NPC//: private Character
+class NPC
 {
 private:
 	//npcNumber and setup
@@ -54,7 +54,7 @@ public:
 	
 	void Initialize();
 	void Load();
-	void Update(Player player, Location location);
+	void Update(Location location);
 	void Draw(sf::RenderWindow &window);
 
 	//Getters Setters

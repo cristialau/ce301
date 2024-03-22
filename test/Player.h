@@ -2,12 +2,13 @@
 #define PLAYER_H
 
 #include "Character.h"
+#include "NPC.h"
 #include "Quest.h"
 #include "Location.h"
 #include "SFML/Graphics.hpp"
 #include <iostream>
 
-class Player//: private Character
+class Player
 {
 private:
 	//Characters
@@ -53,11 +54,22 @@ private:
 	int playerMap[playerMapSize][playerMapSize];
 
 	//Player quest list
-	std::vector<Quest> quest;
+	std::vector<Quest> questList;
 
 	//Player time
 	int day = 0;
 	int time = 0;
+
+	//Talk
+	bool showTalk = false;
+	bool selected = false;
+	int selectMax = 0;
+	int select = 0;
+
+	bool showQuest = false;
+	bool questSelected = false;
+	int questSelectMax = 0;
+	int questSelect = 0;
 
 public:
 	Player(Character& c1, Character& c2);
@@ -110,13 +122,17 @@ public:
 	void Effect(Item item, Character c); // Item effects
 	
 	void NormalState();
+	void TalkState(NPC npc);
 
+	//Quest
+	void AcceptQuest(NPC npc);
 	void AddQuest(Quest quest);			//accept quest
 	//void StartTrade();		//trading with npc
 	//void StartBattle();		//start battle
 	//void StartTravel(Location currentLocation, Location selectLocation, int travelTime);
 
 	sf::Vector2f View();
+	
 };
 
 #endif

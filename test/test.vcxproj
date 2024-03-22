@@ -149,7 +149,6 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Talk.cpp" />
     <ClCompile Include="Trade.cpp" />
     <ClCompile Include="Travel.cpp" />
     <ClCompile Include="WorldMap.cpp" />
@@ -168,7 +167,6 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Quest.h" />
-    <ClInclude Include="Talk.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Trade.h" />
     <ClInclude Include="Travel.h" />

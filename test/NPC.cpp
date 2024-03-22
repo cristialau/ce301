@@ -26,7 +26,7 @@ void NPC::Load()
 	//c.GetSprite().setPosition(sf::Vector2f(tilePositionX, tilePositionY));
 }
 
-void NPC::Update(Player player, Location location)
+void NPC::Update(Location location)
 {
 	if ((location.id == locationID) && !isSetUp) {
 		location.map[positionX][positionY] = npcNumber;

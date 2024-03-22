@@ -9,7 +9,6 @@
 #include "Player.h"
 #include "NPC.h"
 #include "Map.h"
-#include "Talk.h"
 #include "Trade.h"
 #include "Battle.h"
 #include "Travel.h"
@@ -55,7 +54,7 @@ private:
 	Character c2 = Character(true, "none", "player2", 100, 10, 10, 0, 0, 0, 0, "skill3", "skill4", player2Inventory, 100, "equip1", "equip2", "equip3", 100);
 	Player player = Player(c1, c2);
 	//NPC
-	NPC npc;
+	//NPC npc;
 	std::vector<NPC> npcList;
 	std::vector<Item> npc1Inventory;
 	Quest npc1Quest;
@@ -63,8 +62,6 @@ private:
 	NPC npc1 = NPC(c3, 100, "none", 5, 5, 1, npc1Quest, "none", "none");
 	//Map
 
-	//Talk
-	Talk talk = Talk();
 	//Trade
 	Trade trade = Trade();
 	//Battle

@@ -89,7 +89,7 @@ void Game::Update()
             view.setCenter(player.View());
         }
         else if (player.GetPlayerState() == "Talking") {
-            talk.Update(player, npc);
+            player.TalkState(npc1);
         }
         else if (player.GetPlayerState() == "Trading") {
             trade.Update(player);
