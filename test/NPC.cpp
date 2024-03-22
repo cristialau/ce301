@@ -1,6 +1,6 @@
 #include "NPC.h"
 
-NPC::NPC(Character& character, int relationship, std::string job, int positionX, int positionY, int locationID, Quest quest, std::string battleDescription) : c(character)
+NPC::NPC(Character &character, int relationship, std::string job, int positionX, int positionY, int locationID, Quest quest, std::string battleDialogue, std::string questDialogue) : c(character)
 {
 	this->relationship = relationship;
 	this->job = job;
@@ -9,6 +9,8 @@ NPC::NPC(Character& character, int relationship, std::string job, int positionX,
 	tilePositionX = positionX * tileSize * scale;
 	tilePositionY = positionY * tileSize * scale;
 	this->locationID = locationID;
+	this->battleDialogue = battleDialogue;
+	this->questDialogue = questDialogue;
 }
 
 NPC::~NPC()

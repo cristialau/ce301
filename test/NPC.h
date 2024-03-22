@@ -24,7 +24,7 @@ private:
 	int positionX = 0;
 	int positionY = 0;
 	//Npc current state
-	int npcState;
+	int npcState = 1;
 
 	//Character
 	Character c;
@@ -41,14 +41,15 @@ private:
 	std::string battleDialogue;
 
 public:
-	NPC(Character& character,
+	NPC(Character &character,
 		int relationship,
 		std::string job,
 		int positionX,
 		int positionY,
 		int locationID,
 		Quest quest,
-		std::string battleDescription);
+		std::string battleDialogue,
+		std::string questDialogue);
 	~NPC();
 	
 	void Initialize();

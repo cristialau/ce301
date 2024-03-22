@@ -136,17 +136,27 @@ void Game::ItemList()
 {
     //Item
     if (item->name == "bread") {
+        //id
         item->id = 1;
         //icon
-        //item->name = "bread";
+        item->textureName = "";
+        //attributes
+        item->name = "bread";
         item->type = "food";
         item->description = "Bread, you can eat it.";
         item->effect = "+10 HP";
-        //amount
-        //durability
+
+        item->amount = 1;
+        item->durability = 10;
         item->weight = 1;
+
         item->isConsumable = true;
         item->haveDurability = true;
+
+        item->isEquip = false;
+        item->inInventory = false;
+
+        item->price = 5;
     }
     else {
         std::cout << "Error: No " << item->name << " in data" << std::endl;
@@ -159,10 +169,18 @@ void Game::LocationList()
     if (location->name == "Location 1") {
         location->id = 1;
         //icon
+        location->iconTextureName = "none";
+        location->locationPositionX = 1;
+        location->locationPositionY = 1;
+        //attributes
         //location->name = "location 1";
         location->description = "Location 1.";
-        //location->travelingTime
-        
+        //traveling time
+        location->time = 3;
+        //map texture
+        location->mapTextureName = "none";
+        //map
+
         location->locationPositionX = 0;
         location->locationPositionY = 0;
     }
@@ -174,11 +192,16 @@ void Game::LocationList()
 void Game::QuestList()
 {
     if (quest->name == "Location 1") {
+        //id
         quest->id = 1;
         //icon
+        quest->textureName = "none";
+        //attributes
         //location->name = "location 1";
-        quest->description = "Location 1.";
-        
+        quest->description = "Quest 1.";
+
+        quest->accepted = false;
+        quest->finished = false;
     }
     else {
         std::cout << "Error: No " << quest->name << " in data" << std::endl;

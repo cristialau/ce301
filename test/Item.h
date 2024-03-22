@@ -12,7 +12,7 @@ struct Item
 	std::string textureName;
 	sf::Texture texture;
 	sf::Sprite icon;
-	//attritubes
+	//attributes
 	std::string name;
 	std::string type;
 	std::string description;
