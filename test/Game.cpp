@@ -48,8 +48,6 @@ void Game::InitWindow()
 void Game::InitGame()
 {
     gameState = "MainMenu";
-    ItemList();
-    LocationList();
 }
 
 void Game::LoadGame()
@@ -63,7 +61,7 @@ void Game::UpdateSFML()
     this->dt = this->dtTimer.asMilliseconds();
     
     while (this->window->pollEvent(event)) {
-        if (event.type == sf::Event::Closed || gameState == "QuitGame")
+        if (event.type == sf::Event::Closed)
             EndApplication();
     }
 }
@@ -81,6 +79,7 @@ void Game::Update()
     //enter a battle with npc (gameState = InGame) (playerState = Battle)
     //traveling (gameState = InGame) (playerState = Traveling)
     //in game menu (gameState = InGame) (playerState = Menu)
+    /*
     if (gameState == "InGame") {
         player.Update(*location);
         if (player.GetPlayerState() == "Normal") {
@@ -107,9 +106,13 @@ void Game::Update()
             travel.Update(player, worldMap.GetTravelingTime(), dt);
         }
     }
+    */
+    
 
     //end game (gameState = EndGame) (playerState = EndGame)
 
+    if (gameState == "QuitGame")
+        EndApplication();
 }
 
 void Game::Draw()
@@ -134,8 +137,14 @@ void Game::EndApplication()
 
 void Game::ItemList()
 {
+    item = new Item[itemNumber];
+
+    for (int i = 0; i < 10; i++) {
+        item[i].id = i + 1;
+    }
+
     //Item
-    if (item->name == "bread") {
+    if (item[1].id == 1) {
         //id
         item->id = 1;
         //icon
@@ -165,6 +174,8 @@ void Game::ItemList()
 
 void Game::LocationList()
 {
+    location = new Location[locationNumber];
+
     //Location
     if (location->name == "Location 1") {
         location->id = 1;
@@ -191,6 +202,8 @@ void Game::LocationList()
 
 void Game::QuestList()
 {
+    quest = new Quest[questNumber];
+
     if (quest->name == "Location 1") {
         //id
         quest->id = 1;

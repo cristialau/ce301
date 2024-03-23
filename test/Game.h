@@ -27,7 +27,7 @@ class Game
 {
 private:
 	//sfml
-	sf::RenderWindow *window;
+	sf::RenderWindow* window;
 	sf::Event event;
 	sf::Clock clock;
 	sf::Time dtTimer;
@@ -36,10 +36,13 @@ private:
 	sf::View view;
 	//item, location, quest
 	Item* item;
+	int itemNumber = 0;
 	std::vector<Item> itemList;
 	Location* location;
+	int locationNumber = 0;
 	std::vector<Location> locationList;
 	Quest* quest;
+	int questNumber = 0;
 	std::vector<Quest> questList;
 	//Title
 	std::string title = "Testing";

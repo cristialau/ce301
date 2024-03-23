@@ -11,17 +11,23 @@ private:
 	std::string title;
 	//Main Menu state
 	std::string mainMenuState;
-	//player select
+
 	int select;
-	bool isSelected = false;
 	//show main menu
-	bool showMainMenu = true;
+	bool showMainMenu;
+	int selectMax;
+	bool isSelected;
+
 	//show load game
-	bool showLoadGame = false;
-	int loads;
+	bool showLoadGame;
+	int loadMax;
+	bool loadSelected;
 	//show options
-	bool showOption = false;
-	int options;
+	bool showOption;
+	int optionMax;
+	bool optionSelected;
+
+	bool isPressed;
 
 public:
 	MainMenu(std::string title);
