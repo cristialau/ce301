@@ -22,10 +22,10 @@ struct Location
 	int time = 0;
 	//map texture
 	std::string mapTextureName;
-	sf::Texture mapTexture;
+	//sf::Texture mapTexture;
 	//map
 	const static int mapSize = 50;
-	int map[mapSize][mapSize];
+	std::vector<int[mapSize][mapSize]> map;
 	const static int playerMapSize = mapSize + 2;
 	int playerMap[playerMapSize][playerMapSize];
 	int playerPositionX = 0;

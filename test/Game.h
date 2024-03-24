@@ -31,25 +31,29 @@ private:
 	sf::Event event;
 	sf::Clock clock;
 	sf::Time dtTimer;
-	float dt = 0;
+	float dt;
 	//View
 	sf::View view;
 	//item, location, quest
 	Item* item;
 	int itemNumber = 0;
 	std::vector<Item> itemList;
-	Location* location;
+	Location* location = new Location[10];
 	int locationNumber = 0;
 	std::vector<Location> locationList;
 	Quest* quest;
 	int questNumber = 0;
 	std::vector<Quest> questList;
 	//Title
-	std::string title = "Testing";
+	std::string title;
 	//Game State
 	std::string gameState;
 	//MainMenu
 	MainMenu mainMenu = MainMenu(title);
+	//Map
+	int mapNumber = 0;
+	Map map1 = Map(locationList[0]);
+
 	//Player
 	std::vector<Item> player1Inventory;
 	std::vector<Item> player2Inventory;
@@ -63,8 +67,7 @@ private:
 	Quest npc1Quest;
 	Character c3 = Character(false, "none", "npc1", 100, 10, 10, 0, 0, 0, 0, "none", "none", npc1Inventory, 100, "none", "none", "none", 100);
 	NPC npc1 = NPC(c3, 100, "none", 5, 5, 1, npc1Quest, "none", "none");
-	//Map
-
+	
 	//Trade
 	Trade trade = Trade();
 	//Battle

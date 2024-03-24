@@ -47,7 +47,10 @@ void Game::InitWindow()
 
 void Game::InitGame()
 {
+    dt = 0;
+
     gameState = "MainMenu";
+    title = "Test";
 }
 
 void Game::LoadGame()
@@ -79,9 +82,10 @@ void Game::Update()
     //enter a battle with npc (gameState = InGame) (playerState = Battle)
     //traveling (gameState = InGame) (playerState = Traveling)
     //in game menu (gameState = InGame) (playerState = Menu)
-    /*
     if (gameState == "InGame") {
+        //loading location
         player.Update(*location);
+
         if (player.GetPlayerState() == "Normal") {
             player.NormalState();
             //View set focus on player
@@ -106,7 +110,6 @@ void Game::Update()
             travel.Update(player, worldMap.GetTravelingTime(), dt);
         }
     }
-    */
     
 
     //end game (gameState = EndGame) (playerState = EndGame)
@@ -120,6 +123,17 @@ void Game::Draw()
     this->window->clear();
     this->window->setView(view);
     //XXX.Draw(*window, XXX, XXX);
+    if (gameState == "MainMenu") {
+        mainMenu.Draw(*window);
+    }
+
+    if (gameState == "Ingame") {
+        switch (mapNumber) {
+        case 1: map1.Draw(*window, player); break;
+        default: std::cout << "map failed to load: map" << mapNumber << std::endl;
+        }
+    }
+    
 
     this->window->setView(window->getDefaultView());
 

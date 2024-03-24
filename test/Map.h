@@ -8,6 +8,8 @@
 class Map
 {
 private:
+	Location location;
+	
 	std::string textureName;
 	sf::Texture texture;
 	Tile* tiles;
@@ -15,51 +17,42 @@ private:
 	int tileX;
 	int tileY;
 	float scale;
-	int totalTileX = 0;
-	int totalTileY = 0;
-	int totalTile = 0;
+	int totalTileX;
+	int totalTileY;
+	int totalTile;
 
-	const static int mapSize = 9;
+	const static int mapSize = 50;
+	
+	std::vector<int[mapSize][mapSize]> map;
+	std::vector<sf::Sprite[mapSize][mapSize]> sprite;
 
-	sf::Sprite sprites1[mapSize][mapSize];
 	/*
-	* int map1[mapSize][mapSize] = {{3, 3, 3, 3, 3},
-					 { 3, 0, 1, 2, 3},
-					 { 3, 7, 8, 9, 3},
-					 { 3, 14, 15, 16, 3},
-					 { 3, 3, 3, 3, 3}};
-	*/
 	int map1[mapSize][mapSize];
+	sf::Sprite sprites1[mapSize][mapSize];
 
+	int map2[mapSize][mapSize];
 	sf::Sprite sprites2[mapSize][mapSize];
-	int map2[mapSize][mapSize] = { { 3, 3, 3, 3, 3},
-					 { 3, 0, 1, 2, 3},
-					 { 3, 7, 8, 9, 3},
-					 { 3, 7, 8, 9, 3},
-					 { 3, 14, 15, 16, 3} };
 
+	int map3[mapSize][mapSize];
 	sf::Sprite sprites3[mapSize][mapSize];
-	int map3[mapSize][mapSize] = { { 3, 3, 3, 3, 3},
-					 { 3, 0, 1, 2, 3},
-					 { 3, 7, 8, 9, 3},
-					 { 3, 14, 15, 16, 3},
-					 { 3, 3, 3, 3, 3} };
 
-	int fromX = 0;
-	int toX = 0;
-	int fromY = 0;
-	int toY = 0;
+	int map4[mapSize][mapSize];
+	sf::Sprite sprites4[mapSize][mapSize];
+	*/
 
-	Location location;
+	int fromX;
+	int toX;
+	int fromY;
+	int toY;
+	int sightX;
+	int sightY;
 
 public:
 	Map(Location location);
 	~Map();
 
-	void Initialize();
 	void Load();
-	void Update(float dt, int level);
-	void Draw(sf::RenderWindow &window, Player player, int level);
+	void Draw(sf::RenderWindow &window, Player player);
 };
 
 #endif
