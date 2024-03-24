@@ -51,11 +51,17 @@ void Game::InitGame()
 
     gameState = "MainMenu";
     title = "Test";
+
+    mapNumber = 1;
+
+    LocationList();
 }
 
 void Game::LoadGame()
 {
-    
+    map1.Load(locationList[1]);
+    c1.Load();
+    player.Load();
 }
 
 void Game::UpdateSFML()
@@ -82,9 +88,23 @@ void Game::Update()
     //enter a battle with npc (gameState = InGame) (playerState = Battle)
     //traveling (gameState = InGame) (playerState = Traveling)
     //in game menu (gameState = InGame) (playerState = Menu)
+    
     if (gameState == "InGame") {
+        if (mapNumber == 1)
+            player.Setup(locationList[1]);
+
+        if (player.GetPlayerState() == "Normal") {
+            player.NormalState();
+            //View set focus on player
+            view.setCenter(player.View());
+        }
+    }
+
+    /*
+     if (gameState == "InGame") {
         //loading location
-        player.Update(*location);
+        if (mapNumber == 1)
+            player.Update(locationList[1]);
 
         if (player.GetPlayerState() == "Normal") {
             player.NormalState();
@@ -110,12 +130,17 @@ void Game::Update()
             travel.Update(player, worldMap.GetTravelingTime(), dt);
         }
     }
+    */
+   
     
 
     //end game (gameState = EndGame) (playerState = EndGame)
 
     if (gameState == "QuitGame")
         EndApplication();
+
+    //std::cout << "Game State: " << gameState << std::endl;
+    //std::cout << "Player State: " << player.GetPlayerState() << std::endl;
 }
 
 void Game::Draw()
@@ -127,13 +152,20 @@ void Game::Draw()
         mainMenu.Draw(*window);
     }
 
-    if (gameState == "Ingame") {
-        switch (mapNumber) {
-        case 1: map1.Draw(*window, player); break;
-        default: std::cout << "map failed to load: map" << mapNumber << std::endl;
+    bool stucked = true;
+    if (stucked) {
+        std::cout << "Stucking" << std::endl;
+        stucked = false;
+    }
+
+    if (gameState == "InGame") {
+        if (player.GetPlayerState() == "Normal") {
+            switch (mapNumber) {
+            case 1: map1.Draw(*window, player); break;
+            default: std::cout << "map failed to load: map" << mapNumber << std::endl;
+            }
         }
     }
-    
 
     this->window->setView(window->getDefaultView());
 
@@ -188,30 +220,101 @@ void Game::ItemList()
 
 void Game::LocationList()
 {
-    location = new Location[locationNumber];
+    location = new Location[10];
 
-    //Location
-    if (location->name == "Location 1") {
-        location->id = 1;
-        //icon
-        location->iconTextureName = "none";
-        location->locationPositionX = 1;
-        location->locationPositionY = 1;
-        //attributes
-        //location->name = "location 1";
-        location->description = "Location 1.";
-        //traveling time
-        location->time = 3;
-        //map texture
-        location->mapTextureName = "none";
-        //map
+    //Location 1
+    location[1].id = 1;
+    //icon
+    location[1].iconTextureName = "none";
+    location[1].locationPositionX = 1;
+    location[1].locationPositionY = 1;
+    //attributes
+    location[1].name = "location 1";
+    location[1].description = "Location 1.";
+    //traveling time
+    location[1].time = 3;
+    //map texture
+    location[1].mapTextureName = "Textures/Pipoya RPG Tileset 16x16/Pipoya RPG Tileset 16x16/[Base]BaseChip_pipo.png";
+    //map
+    int map1bg[location[1].mapSize][location[1].mapSize] =
+    { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
+    int map1dec[location[1].mapSize][location[1].mapSize] =
+    {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 882, 883, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1036, 1037, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 941, 0, 0, 0, 0, 0, 0, 941, 0, 1044, 1045, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 884, 885, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 877, 877, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 941, 0, 0, 0, 0, 0, 0, 941, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    int map1surface[location[1].mapSize][location[1].mapSize] =
+    {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 120, 122, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 909, 909, 909, 909, 909, 0, 0, 120, 122, 0, 0, 909, 909, 909, 909, 909, 0, 0},
+     { 0, 0, 917, 917, 917, 917, 917, 0, 0, 120, 122, 0, 0, 917, 917, 917, 917, 917, 0, 0},
+     { 0, 0, 933, 925, 925, 925, 933, 0, 0, 120, 122, 0, 0, 933, 925, 925, 925, 933, 0, 0},
+     { 0, 0, 941, 890, 891, 0, 658, 0, 235, 120, 122, 0, 0, 669, 1033, 1034, 1035, 941, 0, 0},
+     { 0, 0, 949, 898, 899, 874, 949, 0, 112, 124, 123, 114, 0, 949, 1041, 1042, 1043, 949, 0, 0},
+     { 113, 113, 113, 113, 113, 113, 113, 113, 124, 5, 5, 123, 113, 113, 113, 113, 113, 113, 113, 113},
+     { 129, 129, 129, 129, 129, 129, 129, 129, 116, 5, 5, 115, 129, 129, 129, 129, 129, 129, 129, 129},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 128, 116, 115, 130, 172, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 909, 909, 909, 909, 909, 0, 0, 120, 122, 0, 0, 909, 909, 909, 909, 909, 0, 0},
+     { 0, 0, 917, 917, 917, 917, 917, 0, 0, 120, 122, 0, 0, 917, 917, 917, 917, 917, 0, 0},
+     { 0, 0, 933, 925, 925, 925, 933, 0, 0, 120, 122, 172, 0, 933, 925, 925, 925, 933, 0, 0},
+     { 0, 0, 941, 892, 893, 0, 660, 0, 0, 120, 122, 0, 0, 666, 0, 877, 878, 941, 0, 0},
+     { 0, 0, 949, 900, 901, 875, 949, 0, 112, 124, 123, 114, 0, 949, 876, 877, 879, 949, 0, 0},
+     { 113, 113, 113, 113, 113, 113, 113, 113, 124, 5, 5, 123, 113, 113, 113, 113, 113, 113, 113, 113},
+     { 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-        location->locationPositionX = 0;
-        location->locationPositionY = 0;
+    for (int y = 0; y < location[1].mapSize; ++y) {
+        for (int x = 0; x < location[1].mapSize; ++x) {
+            location[1].map[y][x].push_back(map1bg[y][x]);
+            location[1].map[y][x].push_back(map1dec[y][x]);
+            location[1].map[y][x].push_back(map1surface[y][x]);
+        }
     }
-    else {
-        std::cout << "Error: No " << location->name << " in data" << std::endl;
-    }
+   
+    //playermap
+    location[1].playerPositionX = 5;
+    location[1].playerPositionY = 5;
+    //Location 1
+
+    for(int i = 0; i < 10; i++)
+        locationList.push_back(location[i]);
 }
 
 void Game::QuestList()

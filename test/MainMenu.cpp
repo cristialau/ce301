@@ -46,7 +46,10 @@ void MainMenu::Update(std::string& gameState)
 	else if (mainMenuState == "Option")
 		ShowOptions();
 
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
+		!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
+		!sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
+		!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		isPressed = false;
 }
 
@@ -71,20 +74,17 @@ void MainMenu::ShowMain(std::string& gameState)
 
 	if (!isSelected) {
 		if (!isPressed) {
+			isPressed = true;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				select++;
 				std::cout << select << std::endl;
-				isPressed = true;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				select--;
 				std::cout << select << std::endl;
-				isPressed = true;
 			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 				isSelected = true;
-				isPressed = true;
-			}
 		}
 
 		if (select > selectMax)
@@ -100,10 +100,12 @@ void MainMenu::ShowMain(std::string& gameState)
 		case 2:
 			mainMenuState = "LoadGame";
 			showLoadGame = false;
+			loadSelected = false;
 			break;
 		case 3:
 			mainMenuState = "Option";
 			showOption = false;
+			optionSelected = false;
 			break;
 		case 4:
 			gameState = "QuitGame";
@@ -125,26 +127,24 @@ void MainMenu::ShowLoad()
 
 	if (!loadSelected) {
 		if (!isPressed) {
+			isPressed = true;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				select++;
 				std::cout << select << std::endl;
-				isPressed = true;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				select--;
 				std::cout << select << std::endl;
-				isPressed = true;
-			}else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				//loads selected game file
 				std::cout << "load selected loading" << std::endl;
 				loadSelected = true;
-				isPressed = true;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 				mainMenuState = "MainMenu";
 				showMainMenu = false;
 				isSelected = false;
-				isPressed = true;
 			}
 		}
 
@@ -171,25 +171,23 @@ void MainMenu::ShowOptions()
 
 	if (!optionSelected) {
 		if (!isPressed) {
+			isPressed = true;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				select++;
 				std::cout << select << std::endl;
-				isPressed = true;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				select--;
 				std::cout << select << std::endl;
-				isPressed = true;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				//selected game options
-				isPressed = true;
+				optionSelected = true;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 				mainMenuState = "MainMenu";
 				showMainMenu = false;
 				isSelected = false;
-				isPressed = true;
 			}
 		}
 

@@ -21,10 +21,11 @@ private:
 	int totalTileY;
 	int totalTile;
 
-	const static int mapSize = 50;
+	const static int mapSize = 20;
 	
-	std::vector<int[mapSize][mapSize]> map;
-	std::vector<sf::Sprite[mapSize][mapSize]> sprite;
+	std::vector<int> map[mapSize][mapSize];
+	sf::Sprite sprites[mapSize][mapSize];
+	std::vector<sf::Sprite> sprite[mapSize][mapSize];
 
 	/*
 	int map1[mapSize][mapSize];
@@ -48,10 +49,10 @@ private:
 	int sightY;
 
 public:
-	Map(Location location);
+	Map();
 	~Map();
 
-	void Load();
+	void Load(Location location);
 	void Draw(sf::RenderWindow &window, Player player);
 };
 

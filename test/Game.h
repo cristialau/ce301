@@ -38,7 +38,7 @@ private:
 	Item* item;
 	int itemNumber = 0;
 	std::vector<Item> itemList;
-	Location* location = new Location[10];
+	Location* location;
 	int locationNumber = 0;
 	std::vector<Location> locationList;
 	Quest* quest;
@@ -51,8 +51,9 @@ private:
 	//MainMenu
 	MainMenu mainMenu = MainMenu(title);
 	//Map
-	int mapNumber = 0;
-	Map map1 = Map(locationList[0]);
+	int mapNumber;
+	Map map1 = Map();
+	
 
 	//Player
 	std::vector<Item> player1Inventory;

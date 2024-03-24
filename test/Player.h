@@ -48,8 +48,6 @@ private:
 	//Player current Map
 	Location location;
 	int currentLocationID = -1;
-	const static int mapSize = 50;
-	int map[mapSize][mapSize];
 	const static int playerMapSize = 52;
 	int playerMap[playerMapSize][playerMapSize];
 
@@ -77,7 +75,7 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(Location location);
+	void Setup(Location location);
 	void Draw(sf::RenderWindow& window);
 
 	//getters setters
@@ -115,7 +113,6 @@ public:
 	int GetMapPositionY(); //Player Map positionY
 
 	//Functions
-	void Setup(Location location);
 	void SpendGold(int gold);
 	
 	void Consume(int inventoryNumber); //use item from inventory

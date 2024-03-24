@@ -1,11 +1,7 @@
 #include "Map.h"
 
-Map::Map(Location location)
+Map::Map()
 {
-	this->location = location;
-
-	textureName = location.mapTextureName;
-
 	tileX = 15;
 	tileY = 16;
 	scale = 3;
@@ -26,8 +22,12 @@ Map::~Map()
 {
 }
 
-void Map::Load()
+void Map::Load(Location location)
 {
+	this->location = location;
+
+	textureName = location.mapTextureName;
+
 	if (texture.loadFromFile(textureName)) {
 		std::cout << "Tile texture loaded: " << location.name << std::endl;
 		totalTileX = texture.getSize().x / tileX;
@@ -45,27 +45,34 @@ void Map::Load()
 		}
 	}
 	else {
-		std::cout << "Tile texture failed to load" << location.name << std::endl;
+		std::cout << "Tile texture failed to load " << location.name << std::endl;
 	}
 
-	for (int k = 0; k < map.size(); k++) {
-		for (int j = 0; j < mapSize; j++) {
-			for (int i = 0; i < mapSize; i++)
-				map[k][j][i] = location.map[k][j][i];
+	for (int z = 0; z < location.map[0][0].size(); z++) {
+		for (int y = 0; y < location.mapSize; y++) {
+			for (int x = 0; x < location.mapSize; x++)
+				map[y][x].push_back(location.map[y][x][z]);
 		}
 	}
 	
-	for (int k = 0; k < map.size(); k++) {
-		for (int y = 0; y < 8; y++) {
-			for (int x = 0; x < 8; x++) {
-				int i = map[k][y][x]; //ok
-				sprite[k][x][y].setTexture(texture);
-				sprite[k][x][y].setTextureRect(sf::IntRect(tiles[i].position.x, tiles[i].position.y, tileX, tileY));
-				sprite[k][x][y].setScale(sf::Vector2f(scale, scale));
-				sprite[k][x][y].setPosition(sf::Vector2f(x * tileX * scale, y * tileY * scale));
+	std::cout << location.map[0][0].size() << std::endl;
+	std::cout << sprite[0][0].size() << std::endl;
+
+	for (int z = 0; z < location.map[0][0].size(); z++) {
+		for (int y = 0; y < location.mapSize; y++) {
+			for (int x = 0; x < location.mapSize; x++) {
+				int i = map[y][x][z]; //ok
+				sprites[y][x].setTexture(texture);
+				sprites[y][x].setTextureRect(sf::IntRect(tiles[i].position.x, tiles[i].position.y, tileX, tileY));
+				sprites[y][x].setScale(sf::Vector2f(scale, scale));
+				sprites[y][x].setPosition(sf::Vector2f(x * tileX * scale, y * tileY * scale));
+				sprite[y][x].push_back(sprites[y][x]);
 			}
 		}
 	}
+
+	std::cout << location.map[0][0].size() << std::endl;
+	std::cout << sprite[0][0].size() << std::endl;
 }
 
 void Map::Draw(sf::RenderWindow &window, Player player)
@@ -78,27 +85,32 @@ void Map::Draw(sf::RenderWindow &window, Player player)
 	if (fromX < 0)
 		fromX = 0;
 	else if (fromX >= mapSize)
-		fromX = mapSize;
+		fromX = mapSize - 1;
 
 	if (fromY < 0)
 		fromY = 0;
 	else if (fromY >= mapSize)
-		fromY = mapSize;
+		fromY = mapSize - 1;
 
 	if (toX < 0)
 		toX = 0;
 	else if (toX >= mapSize)
-		toX = mapSize;
+		toX = mapSize - 1;
 
 	if (toY < 0)
 		toY = 0;
 	else if (toY >= mapSize)
-		toY = mapSize;
+		toY = mapSize - 1;
 
-	for (int z = 0; z < sprite.size(); z++) {
+	for (int z = 0; z < location.map[0][0].size(); z++) {
 		for (int y = fromY; y < toY; y++) {
-			for (int x = fromX; x < toX; x++)
-				window.draw(sprite[z][x][y]);
+			for (int x = fromX; x < toX; x++) {
+				for (size_t i = 0; i < sprite[y][x].size(); i++) {
+					window.draw(sprite[y][x][i]);
+				}
+			}
 		}
 	}
+
+	std::cout << "Stucking" << std::endl;
 }

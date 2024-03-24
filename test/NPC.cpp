@@ -29,7 +29,7 @@ void NPC::Load()
 void NPC::Update(Location location)
 {
 	if ((location.id == locationID) && !isSetUp) {
-		location.map[positionX][positionY] = npcNumber;
+		location.playerMap[positionX][positionY] = npcNumber;
 		isSetUp = true;
 	}
 }
