@@ -41,15 +41,14 @@ public:
 	Menu();
 	~Menu();
 
-	void Initialize();
-	void Load();
-	void Update(Player player);
+	void Update(Player player, std::string& gameState, bool& isPressed);
 	void Draw();
 
 	//Functions
 	void SetShowMenu(bool showMenu);
 	void SetSelected(bool selected);
 	void SetSelect(int select);
+	void OpenMenu(Player player);
 	void OpenCharacter(Player player);
 	void OpenChangeEquip(Player player, int select);
 	void OpenInventory(Player player);

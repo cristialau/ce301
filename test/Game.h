@@ -51,11 +51,13 @@ private:
 	std::string title;
 	//Game State
 	std::string gameState;
+	//Press keys
+	bool isPressed = false;
 	//MainMenu
 	MainMenu mainMenu = MainMenu(title);
 	//Map
 	int mapNumber;
-	Map map1 = Map();
+	Map map = Map();
 
 	//Player
 	std::vector<Item> player1Inventory;
@@ -65,11 +67,11 @@ private:
 	Player player = Player(c1, c2);
 	//NPC
 	//NPC npc;
-	std::vector<NPC> npcList;
-	std::vector<Item> npc1Inventory;
-	Quest npc1Quest;
-	Character c3 = Character(false, "none", "npc1", 100, 10, 10, 0, 0, 0, 0, "none", "none", npc1Inventory, 100, "none", "none", "none", 100);
-	NPC npc1 = NPC(c3, 100, "none", 5, 5, 1, npc1Quest, "none", "none");
+	//std::vector<NPC> npcList;
+	//std::vector<Item> npc1Inventory;
+	//Quest npc1Quest;
+	//Character c3 = Character(false, "none", "npc1", 100, 10, 10, 0, 0, 0, 0, "none", "none", npc1Inventory, 100, "none", "none", "none", 100);
+	//NPC npc1 = NPC(c3, 100, "none", 5, 5, 1, npc1Quest, "none", "none");
 	
 	//Trade
 	Trade trade = Trade();

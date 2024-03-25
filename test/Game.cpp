@@ -59,7 +59,7 @@ void Game::InitGame()
 
 void Game::LoadGame()
 {
-    map1.Load(locationList[1]);
+    map.Load(locationList[1]);
     c1.Load();
 }
 
@@ -80,65 +80,38 @@ void Game::Update()
     //LoadGame / Option (gameState = MainMenu)
     //StartGame (gameState = InGame) (playerState = Normal)
     if (gameState == "MainMenu")
-        mainMenu.Update(gameState);
+        mainMenu.Update(gameState, isPressed);
     //in game (gameState = InGame) (playerState = Normal)
     //talking with npc (gameState = InGame) (playerState = Talking)
     //trading with npc (gameState = InGame) (playerState = Trading)
     //enter a battle with npc (gameState = InGame) (playerState = Battle)
     //traveling (gameState = InGame) (playerState = Traveling)
     //in game menu (gameState = InGame) (playerState = Menu)
-    
-    if (gameState == "InGame") {
-        if (mapNumber == 1)
-            player.Setup(locationList[1]);
+    else if (gameState == "InGame") {
+        player.SetUp(locationList[mapNumber]);
 
         if (player.GetPlayerState() == "Normal") {
-            //player.NormalState(view);
-            //View set focus on player
-        }
-    }
-
-    /*
-     if (gameState == "InGame") {
-        //loading location
-        if (mapNumber == 1)
-            player.Update(locationList[1]);
-
-        if (player.GetPlayerState() == "Normal") {
-            player.NormalState();
-            //View set focus on player
-            view.setCenter(player.View());
-        }
-        else if (player.GetPlayerState() == "Talking") {
-            player.TalkState(npc1);
-        }
-        else if (player.GetPlayerState() == "Trading") {
-            trade.Update(player);
-        }
-        else if (player.GetPlayerState() == "Battle") {
-            battle.Update(player, npcList);
+            player.NormalState(view, isPressed);
         }
         else if (player.GetPlayerState() == "Menu") {
-            menu.Update(player);
-        }
-        else if (player.GetPlayerState() == "WorldMap") {
-            worldMap.Update(player, menu);
-        }
-        else if (player.GetPlayerState() == "Traveling") {
-            travel.Update(player, worldMap.GetTravelingTime(), dt);
+            menu.Update(player, gameState, isPressed);
         }
     }
-    */
-   
-    
 
     //end game (gameState = EndGame) (playerState = EndGame)
-
     if (gameState == "QuitGame")
         EndApplication();
 
     //std::cout << "Game State: " << gameState << std::endl;
     //std::cout << "Player State: " << player.GetPlayerState() << std::endl;
+
+    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
+        !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
+        !sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
+        !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        isPressed = false;
+
+    std::cout << gameState << std::endl;
 }
 
 void Game::Draw()
@@ -146,20 +119,11 @@ void Game::Draw()
     this->window->clear();
     this->window->setView(view);
     //XXX.Draw(*window, XXX, XXX);
+    /*
     if (gameState == "MainMenu") {
         mainMenu.Draw(*window);
     }
-
-    if (gameState == "InGame") {
-        if (player.GetPlayerState() == "Normal") {
-            switch (mapNumber) {
-            case 1: map1.Draw(*window, player); break;
-            default: std::cout << "map failed to load: map" << mapNumber << std::endl;
-            }
-
-            player.Draw(*window);
-        }
-    }
+    */
 
     this->window->setView(window->getDefaultView());
 
@@ -303,8 +267,8 @@ void Game::LocationList()
     }
    
     //playermap
-    location[1].playerPositionX = 10;
-    location[1].playerPositionY = 10;
+    location[1].playerPositionX = 1;
+    location[1].playerPositionY = 1;
     //Location 1
 
     for(int i = 0; i < 10; i++)

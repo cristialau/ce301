@@ -19,8 +19,6 @@ MainMenu::MainMenu(std::string title)
 	showOption = false;
 	optionMax = 5;
 	optionSelected = false;
-
-	isPresseded = false;
 }
 
 MainMenu::~MainMenu()
@@ -36,21 +34,15 @@ void MainMenu::Load()
 	
 }
 
-void MainMenu::Update(std::string& gameState)
+void MainMenu::Update(std::string& gameState, bool& isPressed)
 {
 	//MainMenu, LoadGame, Option
 	if (mainMenuState == "MainMenu")
-		ShowMain(gameState);
+		ShowMain(gameState, isPressed);
 	else if (mainMenuState == "LoadGame")
-		ShowLoad();
+		ShowLoad(isPressed);
 	else if (mainMenuState == "Option")
-		ShowOptions();
-
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
-		!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
-		!sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
-		!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		isPresseded = false;
+		ShowOptions(isPressed);
 }
 
 void MainMenu::Draw(sf::RenderWindow& window)
@@ -58,7 +50,7 @@ void MainMenu::Draw(sf::RenderWindow& window)
 	
 }
 
-void MainMenu::ShowMain(std::string& gameState)
+void MainMenu::ShowMain(std::string& gameState, bool& isPressed)
 {
 	if (!showMainMenu) {
 		std::cout << title << std::endl;
@@ -73,8 +65,8 @@ void MainMenu::ShowMain(std::string& gameState)
 	}
 
 	if (!isSelected) {
-		if (!isPresseded) {
-			isPresseded = true;
+		if (!isPressed) {
+			isPressed = true;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				select++;
 				std::cout << select << std::endl;
@@ -114,7 +106,7 @@ void MainMenu::ShowMain(std::string& gameState)
 	}
 }
 
-void MainMenu::ShowLoad()
+void MainMenu::ShowLoad(bool& isPressed)
 {
 	if (!showLoadGame) {
 		std::cout << "Save 1: " << std::endl;
@@ -126,8 +118,8 @@ void MainMenu::ShowLoad()
 	}
 
 	if (!loadSelected) {
-		if (!isPresseded) {
-			isPresseded = true;
+		if (!isPressed) {
+			isPressed = true;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				select++;
 				std::cout << select << std::endl;
@@ -158,7 +150,7 @@ void MainMenu::ShowLoad()
 	}
 }
 
-void MainMenu::ShowOptions()
+void MainMenu::ShowOptions(bool& isPressed)
 {
 	if (!showOption) {
 		std::cout << "Option" << std::endl;
@@ -170,8 +162,8 @@ void MainMenu::ShowOptions()
 	}
 
 	if (!optionSelected) {
-		if (!isPresseded) {
-			isPresseded = true;
+		if (!isPressed) {
+			isPressed = true;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				select++;
 				std::cout << select << std::endl;

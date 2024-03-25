@@ -31,9 +31,10 @@ void Player::Load()
 {
 }
 
-void Player::Setup(Location location)
+void Player::SetUp(Location location)
 {
-	//setup for map
+	if (currentLocationID != location.id) {
+		//setup for map
 		currentLocationID = location.id;
 		//location player map -> player map
 		for (int j = 0; j < location.playerMapSize; j++) {
@@ -43,9 +44,9 @@ void Player::Setup(Location location)
 
 		positionX = location.playerPositionX;
 		positionY = location.playerPositionY;
-
-		c1.GetSprite().setPosition(sf::Vector2f(positionX * tileSize * scale, positionY * tileSize * scale));
 	}
+	
+	//c1.GetSprite().setPosition(sf::Vector2f(positionX * tileSize * scale, positionY * tileSize * scale));
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -246,12 +247,12 @@ void Player::Effect(Item item, Character c)
 	}
 }
 
-void Player::NormalState(sf::View& view)
+void Player::NormalState(sf::View& view, bool& isPressed)
 {
-	viewX = c1.GetSprite().getPosition().x + (tileSize * scale / 2);
-	viewY = c1.GetSprite().getPosition().y + (tileSize * scale / 2);
-	sf::Vector2f center(viewX, viewY);
-	view.setCenter(center);
+	//viewX = c1.GetSprite().getPosition().x + (tileSize * scale / 2);
+	//viewY = c1.GetSprite().getPosition().y + (tileSize * scale / 2);
+	//sf::Vector2f center(viewX, viewY);
+	//view.setCenter(center);
 
 	if (!isPressed) {
 		isPressed = true;
@@ -259,31 +260,49 @@ void Player::NormalState(sf::View& view)
 			playerMap[positionY][positionX + 1] != 0) {
 			positionX = positionX + 1;
 			//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
-			/*
-			tempX
-			tempY
-			playerNextMapNumber = playerMap[positionY][positionX + 1];
-			if (playerNextMapNumber == 1) {
-				playerMap[positionY][positionX + 1] = playerMap[positionY][positionX];
-				positionX = positionX + 1;
-				playerMap[tempY][tempX] = 1;
+
+			for (int i = 0; i < playerMapSize; ++i) {
+				for (int j = 0; j < playerMapSize; ++j)
+					std::cout << playerMap[i][j] << " ";
+				std::cout << std::endl;
 			}
-			*/
+			std::cout << "position: " << positionX << " " << positionY << std::endl;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
 			playerMap[positionY][positionX - 1] != 0) {
 			positionX = positionX - 1;
-			//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
+			//c1.GetSprite().move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
+
+			for (int i = 0; i < playerMapSize; ++i) {
+				for (int j = 0; j < playerMapSize; ++j)
+					std::cout << playerMap[i][j] << " ";
+				std::cout << std::endl;
+			}
+			std::cout << "position: " << positionX << " " << positionY << std::endl;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
 			playerMap[positionY - 1][positionX] != 0) {
 			positionY = positionY - 1;
-			//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
+			//c1.GetSprite().move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
+
+			for (int i = 0; i < playerMapSize; ++i) {
+				for (int j = 0; j < playerMapSize; ++j)
+					std::cout << playerMap[i][j] << " ";
+				std::cout << std::endl;
+			}
+			std::cout << "position: " << positionX << " " << positionY << std::endl;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
-			playerMap[positionY - 1][positionX] != 0) {
+			playerMap[positionY + 1][positionX] != 0) {
 			positionY = positionY + 1;
-			//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
+			//c1.GetSprite().move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
+
+			for (int i = 0; i < playerMapSize; ++i) {
+				for (int j = 0; j < playerMapSize; ++j)
+					std::cout << playerMap[i][j] << " ";
+				std::cout << std::endl;
+			}
+			std::cout << "position: " << positionX << " " << positionY << std::endl;
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
@@ -293,12 +312,6 @@ void Player::NormalState(sf::View& view)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			playerState = "Menu";
 	}
-
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
-		!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
-		!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
-		!sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		isPressed = false;
 }
 
 void Player::TalkState(NPC npc)

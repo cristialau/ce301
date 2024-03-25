@@ -2,63 +2,49 @@
 
 Menu::Menu()
 {
-	int isCharacterPage = 1;
-	int isWorldMap = 2;
-	int isInventory = 3;
-	int isQuest = 4;
-	int isSetting = 5;
-
-	bool showMenu = false;
-	bool isOpenCharacter = false;
-	bool isOpenWorldMap = false;
-	bool isOpenInventory = false;
-	bool isOpenQuest = false;
-	bool isOpenSetting = false;
 }
 
 Menu::~Menu()
 {
 }
 
-void Menu::Initialize()
+void Menu::Update(Player player, std::string& gameState, bool& isPressed)
 {
-}
-
-void Menu::Load()
-{
-}
-
-void Menu::Update(Player player)
-{
-	if (showMenu) {
+	if (!showMenu) {
+		std::cout << player.GetPlayerState() << std::endl;
 		std::cout << "Day " << player.GetDay() << std::endl;
 		std::cout << player.GetTime() << std::endl;
 		std::cout << "Gold " << player.GetGold() << std::endl;
-		std::cout << "Please select: 1. Character 2. WorldMap 3. Inventory 4. Quest 5. Setting" << std::endl;
-		showMenu = false;
+		std::cout << "Please select: 1. Character 2. WorldMap 3. Inventory 4. Quest 5. Setting 6. Title" << std::endl;
+		showMenu = true;
 		select = 1;
 	}
 
 	if (!selected) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			select++;
-			std::cout << select << std::endl;
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			select--;
-			std::cout << select << std::endl;
-		}
+		if (!isPressed) {
+			isPressed = true;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				select++;
+				std::cout << select << std::endl;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				select--;
+				std::cout << select << std::endl;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+				selected = true;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				player.SetPlayerState("Normal");
 
-		if (select > 5)
+				std::cout << player.GetPlayerState() << std::endl;
+			}
+				
+		}
+		
+		if (select > 6)
 			select = 1;
 		if (select < 1)
-			select = 5;
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-			selected = true;
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-			player.GetPlayerState() = "Normal";
+			select = 6;
 	}
 	else {
 		switch (select) {
@@ -77,6 +63,11 @@ void Menu::Update(Player player)
 		case 5:
 			OpenSetting();
 			break;
+		case 6:
+			player.SetPlayerState("Normal");
+			gameState = "MainMenu";
+			selected = false;
+			showMenu = false;
 		}
 	}
 }
@@ -144,7 +135,7 @@ void Menu::OpenCharacter(Player player)
 			equipSelected = true;
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-			showMenu = true;
+			showMenu = false;
 			showCharacter = false;
 			selected = false;
 			select = 1;
@@ -202,7 +193,7 @@ void Menu::OpenChangeEquip(Player player, int select)
 		player.GetC1().SetEquip(select, equipment[equipSelect].name);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-		showCharacter = true;
+		showCharacter = false;
 		showChangeEquip = false;
 		equipSelected = false;
 		select = 1;
@@ -258,7 +249,7 @@ void Menu::OpenInventory(Player player)
 	}
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-		showMenu = true;
+		showMenu = false;
 		showInventory = false;
 		selected = false;
 		select = 1;
@@ -300,7 +291,7 @@ void Menu::OpenQuest(Player player)
 		select = (int)quest.size();
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-		showMenu = true;
+		showMenu = false;
 		selected = false;
 		select = 1;
 	}
@@ -315,7 +306,7 @@ void Menu::OpenSetting()
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-		showMenu = true;
+		showMenu = false;
 		showSetting = false;
 		selected = false;
 		select = 1;

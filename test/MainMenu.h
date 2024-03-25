@@ -27,21 +27,19 @@ private:
 	int optionMax;
 	bool optionSelected;
 
-	bool isPresseded;
-
 public:
 	MainMenu(std::string title);
 	~MainMenu();
 
 	void Initialize();
 	void Load();
-	void Update(std::string& gameState);
+	void Update(std::string& gameState, bool& isPressed);
 	void Draw(sf::RenderWindow& window);
 
 	//Functions
-	void ShowMain(std::string& gameState);
-	void ShowLoad();
-	void ShowOptions();
+	void ShowMain(std::string& gameState, bool& isPressed);
+	void ShowLoad(bool& isPressed);
+	void ShowOptions(bool& isPressed);
 };
 
 #endif

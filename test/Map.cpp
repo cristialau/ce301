@@ -80,22 +80,22 @@ void Map::Draw(sf::RenderWindow &window, Player player)
 	if (fromX < 0)
 		fromX = 0;
 	else if (fromX >= mapSize)
-		fromX = mapSize - 1;
+		fromX = mapSize;
 
 	if (fromY < 0)
 		fromY = 0;
 	else if (fromY >= mapSize)
-		fromY = mapSize - 1;
+		fromY = mapSize;
 
 	if (toX < 0)
 		toX = 0;
 	else if (toX >= mapSize)
-		toX = mapSize - 1;
+		toX = mapSize;
 
 	if (toY < 0)
 		toY = 0;
 	else if (toY >= mapSize)
-		toY = mapSize - 1;
+		toY = mapSize;
 
 	for (int z = 0; z < location.map[0][0].size(); z++) {
 		for (int y = fromY; y < toY; y++) {

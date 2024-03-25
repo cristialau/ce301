@@ -42,8 +42,6 @@ private:
 	int playerNextMapNumber = 0;
 	int tempX = 0;
 	int tempY = 0;
-	//Player presses arrowkeys
-	bool isPressed = false;
 
 	//Player current Map
 	Location location;
@@ -69,13 +67,15 @@ private:
 	int questSelectMax = 0;
 	int questSelect = 0;
 
+	bool isSetUp = false;
+
 public:
 	Player(Character& c1, Character& c2);
 	~Player();
 
 	void Initialize();
 	void Load();
-	void Setup(Location location);
+	void SetUp(Location location);
 	void Draw(sf::RenderWindow& window);
 
 	//getters setters
@@ -118,12 +118,12 @@ public:
 	void Consume(int inventoryNumber); //use item from inventory
 	void Effect(Item item, Character c); // Item effects
 	
-	void NormalState(sf::View& view);
+	void NormalState(sf::View& view, bool& isPressed);
 	void TalkState(NPC npc);
 
 	//Quest
 	void AcceptQuest(NPC npc);
-	void AddQuest(Quest quest);			//accept quest
+	void AddQuest(Quest quest);	//accept quest
 	//void StartTrade();		//trading with npc
 	//void StartBattle();		//start battle
 	//void StartTravel(Location currentLocation, Location selectLocation, int travelTime);
