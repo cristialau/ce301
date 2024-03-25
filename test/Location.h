@@ -50,8 +50,8 @@ struct Location
 	{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-	int playerPositionX = 5;
-	int playerPositionY = 5;
+	int playerPositionX = 0;
+	int playerPositionY = 0;
 };
 
 #endif

@@ -29,27 +29,23 @@ void Player::Initialize()
 
 void Player::Load()
 {
-	//c1.GetSprite().setPosition(sf::Vector2f(positionX, positionY));
-	//c2.GetSprite().setPosition(sf::Vector2f(positionX, positionY));
 }
 
 void Player::Setup(Location location)
 {
 	//setup for map
 	if (currentLocationID != location.id) {
+		currentLocationID = location.id;
 		//location player map -> player map
 		for (int j = 0; j < location.playerMapSize; j++) {
 			for (int i = 0; i < location.playerMapSize; i++)
 				this->playerMap[j][i] = location.playerMap[j][i];
 		}
 
-		positionY = location.playerPositionY;
 		positionX = location.playerPositionX;
+		positionY = location.playerPositionY;
 
 		c1.GetSprite().setPosition(sf::Vector2f(positionX * tileSize * scale, positionY * tileSize * scale));
-
-		currentLocationID = location.id;
-		//playerMap[positionY][positionX] = playerNumber;
 	}
 }
 
@@ -251,16 +247,22 @@ void Player::Effect(Item item, Character c)
 	}
 }
 
-void Player::NormalState()
+void Player::NormalState(sf::View& view)
 {
-	if (!isPress) {
-		isPress = true;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			if (playerNextMapNumber != 0) {
-				positionX = positionX + 1;
-				c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
-			}
+	viewX = c1.GetSprite().getPosition().x + (tileSize * scale / 2);
+	viewY = c1.GetSprite().getPosition().y + (tileSize * scale / 2);
+	sf::Vector2f center(viewX, viewY);
+	view.setCenter(center);
+
+	if (!isPressed) {
+		isPressed = true;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
+			playerMap[positionY][positionX + 1] != 0) {
+			positionX = positionX + 1;
+			//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
 			/*
+			tempX
+			tempY
 			playerNextMapNumber = playerMap[positionY][positionX + 1];
 			if (playerNextMapNumber == 1) {
 				playerMap[positionY][positionX + 1] = playerMap[positionY][positionX];
@@ -269,26 +271,24 @@ void Player::NormalState()
 			}
 			*/
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			if (playerNextMapNumber != 0) {
-				positionX = positionX - 1;
-				c1.GetSprite().move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
-			}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
+			playerMap[positionY][positionX - 1] != 0) {
+			positionX = positionX - 1;
+			//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			if (playerNextMapNumber != 0) {
-				positionY = positionY - 1;
-				c1.GetSprite().move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
-			}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
+			playerMap[positionY - 1][positionX] != 0) {
+			positionY = positionY - 1;
+			//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			if (playerNextMapNumber != 0) {
-				positionY = positionY + 1;
-				c1.GetSprite().move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
-			}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
+			playerMap[positionY - 1][positionX] != 0) {
+			positionY = positionY + 1;
+			//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && (playerMap[positionY][positionX] == 2))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
+			(playerMap[positionY][positionX] == 2))
 			playerState = "Talking";
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
@@ -299,7 +299,7 @@ void Player::NormalState()
 		!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
 		!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
 		!sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		isPress = false;
+		isPressed = false;
 }
 
 void Player::TalkState(NPC npc)
@@ -435,13 +435,4 @@ void Player::AcceptQuest(NPC npc)
 void Player::AddQuest(Quest quest)
 {
 	questList.push_back(quest);
-}
-
-sf::Vector2f Player::View()
-{
-	viewX = c1.GetSprite().getPosition().x + (tileSize * scale / 2);
-	viewY = c1.GetSprite().getPosition().y + (tileSize * scale / 2);
-	sf::Vector2f center(viewX, viewY);
-	return center;
-	//view.setCenter(center);
 }

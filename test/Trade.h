@@ -33,7 +33,7 @@ private:
 	int knowledgeScore;
 	int knowledgeMultiplier;
 	//Player press arrowkeys
-	bool isPress;
+	bool isPressed;
 	bool isEnter;
 	//check variables
 	int same1;

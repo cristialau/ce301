@@ -36,19 +36,19 @@ private:
 	float viewX = 0;
 	float viewY = 0;
 	//Player Map number and position
-	int playerNumber = 9;
+	//int playerNumber = 9;
 	int positionX = 0;
 	int positionY = 0;
 	int playerNextMapNumber = 0;
 	int tempX = 0;
 	int tempY = 0;
 	//Player presses arrowkeys
-	bool isPress = false;
+	bool isPressed = false;
 
 	//Player current Map
 	Location location;
 	int currentLocationID = -1;
-	const static int playerMapSize = 52;
+	const static int playerMapSize = 22;
 	int playerMap[playerMapSize][playerMapSize];
 
 	//Player quest list
@@ -118,7 +118,7 @@ public:
 	void Consume(int inventoryNumber); //use item from inventory
 	void Effect(Item item, Character c); // Item effects
 	
-	void NormalState();
+	void NormalState(sf::View& view);
 	void TalkState(NPC npc);
 
 	//Quest
@@ -127,9 +127,6 @@ public:
 	//void StartTrade();		//trading with npc
 	//void StartBattle();		//start battle
 	//void StartTravel(Location currentLocation, Location selectLocation, int travelTime);
-
-	sf::Vector2f View();
-	
 };
 
 #endif

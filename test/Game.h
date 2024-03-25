@@ -23,6 +23,9 @@
 //#include "SFML/Window.hpp"
 //#include "SFML/Audio.hpp"
 
+/*
+std::cout << "here" << std::endl;
+*/
 class Game
 {
 private:
@@ -53,12 +56,11 @@ private:
 	//Map
 	int mapNumber;
 	Map map1 = Map();
-	
 
 	//Player
 	std::vector<Item> player1Inventory;
 	std::vector<Item> player2Inventory;
-	Character c1 = Character(true, "none", "player1", 100, 10, 10, 0, 0, 0, 0, "skill1", "skill2", player1Inventory, 100, "equip1", "equip2", "equip3", 100);
+	Character c1 = Character(true, "Textures/npc.png", "player1", 100, 10, 10, 0, 0, 0, 0, "skill1", "skill2", player1Inventory, 100, "equip1", "equip2", "equip3", 100);
 	Character c2 = Character(true, "none", "player2", 100, 10, 10, 0, 0, 0, 0, "skill3", "skill4", player2Inventory, 100, "equip1", "equip2", "equip3", 100);
 	Player player = Player(c1, c2);
 	//NPC

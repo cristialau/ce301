@@ -2,7 +2,7 @@
 
 Map::Map()
 {
-	tileX = 15;
+	tileX = 16;
 	tileY = 16;
 	scale = 3;
 	totalTileX = 0;
@@ -20,6 +20,7 @@ Map::Map()
 
 Map::~Map()
 {
+	delete[] tiles;
 }
 
 void Map::Load(Location location)
@@ -54,13 +55,10 @@ void Map::Load(Location location)
 				map[y][x].push_back(location.map[y][x][z]);
 		}
 	}
-	
-	std::cout << location.map[0][0].size() << std::endl;
-	std::cout << sprite[0][0].size() << std::endl;
 
-	for (int z = 0; z < location.map[0][0].size(); z++) {
-		for (int y = 0; y < location.mapSize; y++) {
-			for (int x = 0; x < location.mapSize; x++) {
+	for (int y = 0; y < location.mapSize; y++) {
+		for (int x = 0; x < location.mapSize; x++) {
+			for (int z = 0; z < location.map[0][0].size(); z++) {
 				int i = map[y][x][z]; //ok
 				sprites[y][x].setTexture(texture);
 				sprites[y][x].setTextureRect(sf::IntRect(tiles[i].position.x, tiles[i].position.y, tileX, tileY));
@@ -70,9 +68,6 @@ void Map::Load(Location location)
 			}
 		}
 	}
-
-	std::cout << location.map[0][0].size() << std::endl;
-	std::cout << sprite[0][0].size() << std::endl;
 }
 
 void Map::Draw(sf::RenderWindow &window, Player player)
@@ -105,12 +100,9 @@ void Map::Draw(sf::RenderWindow &window, Player player)
 	for (int z = 0; z < location.map[0][0].size(); z++) {
 		for (int y = fromY; y < toY; y++) {
 			for (int x = fromX; x < toX; x++) {
-				for (size_t i = 0; i < sprite[y][x].size(); i++) {
+				for (size_t i = 0; i < sprite[y][x].size(); i++)
 					window.draw(sprite[y][x][i]);
-				}
 			}
 		}
 	}
-
-	std::cout << "Stucking" << std::endl;
 }

@@ -40,7 +40,7 @@ void Trade::Update(Player player)
 		player.SetKlg(knowledgeScore);
 	}
 
-	if (!isPress) {
+	if (!isPressed) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 			if (playerGamepanel[selected1 + 1][selected2] == 1)
 				selected1++;
@@ -57,7 +57,7 @@ void Trade::Update(Player player)
 			if (playerGamepanel[selected1][selected2 + 1] == 1)
 				selected2++;
 		}
-		isPress = true;
+		isPressed = true;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && !isEnter) {
@@ -66,7 +66,7 @@ void Trade::Update(Player player)
 	}
 	
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		isPress = false;
+		isPressed = false;
 		
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 		isEnter = false;
@@ -143,7 +143,7 @@ void Trade::SetUpGamePanel()
 	knowledgeScore = 0;
 	knowledgeMultiplier = 1;
 	//Player press arrowkeys
-	isPress = false;
+	isPressed = false;
 	isEnter = false;
 	//check variables
 	same1 = 0;

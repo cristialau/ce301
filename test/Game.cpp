@@ -61,7 +61,6 @@ void Game::LoadGame()
 {
     map1.Load(locationList[1]);
     c1.Load();
-    player.Load();
 }
 
 void Game::UpdateSFML()
@@ -94,9 +93,8 @@ void Game::Update()
             player.Setup(locationList[1]);
 
         if (player.GetPlayerState() == "Normal") {
-            player.NormalState();
+            //player.NormalState(view);
             //View set focus on player
-            view.setCenter(player.View());
         }
     }
 
@@ -152,18 +150,14 @@ void Game::Draw()
         mainMenu.Draw(*window);
     }
 
-    bool stucked = true;
-    if (stucked) {
-        std::cout << "Stucking" << std::endl;
-        stucked = false;
-    }
-
     if (gameState == "InGame") {
         if (player.GetPlayerState() == "Normal") {
             switch (mapNumber) {
             case 1: map1.Draw(*window, player); break;
             default: std::cout << "map failed to load: map" << mapNumber << std::endl;
             }
+
+            player.Draw(*window);
         }
     }
 
@@ -309,8 +303,8 @@ void Game::LocationList()
     }
    
     //playermap
-    location[1].playerPositionX = 5;
-    location[1].playerPositionY = 5;
+    location[1].playerPositionX = 10;
+    location[1].playerPositionY = 10;
     //Location 1
 
     for(int i = 0; i < 10; i++)

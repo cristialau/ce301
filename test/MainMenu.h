@@ -27,7 +27,7 @@ private:
 	int optionMax;
 	bool optionSelected;
 
-	bool isPressed;
+	bool isPresseded;
 
 public:
 	MainMenu(std::string title);
