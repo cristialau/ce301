@@ -34,7 +34,6 @@ void Player::Load()
 void Player::Setup(Location location)
 {
 	//setup for map
-	if (currentLocationID != location.id) {
 		currentLocationID = location.id;
 		//location player map -> player map
 		for (int j = 0; j < location.playerMapSize; j++) {
