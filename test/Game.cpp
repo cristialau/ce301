@@ -99,7 +99,7 @@ void Game::Update()
             menu.Update(player, gameState, isPressed);
         }
         else if (player.GetPlayerState() == "WorldMap") {
-            worldMap.Update(player, menu, isPressed);
+            worldMap.Update(player, menu, locationList, isPressed);
         }
     }
 

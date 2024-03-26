@@ -24,12 +24,12 @@ private:
 	int travelingTime = 0;
 
 public:
-	WorldMap(std::vector<Location> locationList);
+	WorldMap();
 	~WorldMap();
 
 	void Initialize();
 	void Load();
-	void Update(Player& player, Menu& menu, bool& isPressed);
+	void Update(Player& player, Menu& menu, std::vector<Location> locationList, bool& isPressed);
 	void Draw();
 
 	int GetTravelingTime();

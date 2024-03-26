@@ -69,20 +69,27 @@ void MainMenu::ShowMain(std::string& gameState, bool& isPressed)
 			isPressed = true;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				select++;
+
+				if (select > selectMax)
+					select = 1;
+				if (select < 1)
+					select = selectMax;
+
 				std::cout << select << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				select--;
+
+				if (select > selectMax)
+					select = 1;
+				if (select < 1)
+					select = selectMax;
+
 				std::cout << select << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 				isSelected = true;
 		}
-
-		if (select > selectMax)
-			select = 1;
-		if (select < 1)
-			select = selectMax;
 	}
 	else {
 		switch (select) {
@@ -124,10 +131,22 @@ void MainMenu::ShowLoad(bool& isPressed)
 			isPressed = true;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				select++;
+
+				if (select > loadMax)
+					select = 1;
+				if (select < 1)
+					select = loadMax;
+
 				std::cout << select << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				select--;
+
+				if (select > loadMax)
+					select = 1;
+				if (select < 1)
+					select = loadMax;
+
 				std::cout << select << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
@@ -141,14 +160,9 @@ void MainMenu::ShowLoad(bool& isPressed)
 				isSelected = false;
 			}
 		}
-
-		if (select > loadMax)
-			select = 1;
-		if (select < 1)
-			select = loadMax;
 	}
 	else {
-
+		//load file
 	}
 }
 
@@ -168,10 +182,22 @@ void MainMenu::ShowOptions(bool& isPressed)
 			isPressed = true;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				select++;
+
+				if (select > optionMax)
+					select = 1;
+				if (select < 1)
+					select = optionMax;
+
 				std::cout << select << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				select--;
+
+				if (select > optionMax)
+					select = 1;
+				if (select < 1)
+					select = optionMax;
+
 				std::cout << select << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
@@ -184,13 +210,8 @@ void MainMenu::ShowOptions(bool& isPressed)
 				isSelected = false;
 			}
 		}
-
-		if (select > optionMax)
-			select = 1;
-		if (select < 1)
-			select = optionMax;
 	}
 	else {
-		
+		//load options
 	}
 }

@@ -78,7 +78,7 @@ private:
 	//Battle
 	Battle battle = Battle();
 	//WorldMap
-	WorldMap worldMap = WorldMap(locationList);
+	WorldMap worldMap = WorldMap();
 	//Travel
 	Travel travel = Travel();
 	//Menu

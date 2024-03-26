@@ -55,10 +55,22 @@ void Menu::Update(Player& player, std::string& gameState, bool& isPressed)
 			isPressed = true;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				menuSelect++;
+
+				if (menuSelect > menuSelectMax)
+					menuSelect = 1;
+				if (menuSelect < 1)
+					menuSelect = menuSelectMax;
+
 				std::cout << menuSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				menuSelect--;
+
+				if (menuSelect > menuSelectMax)
+					menuSelect = 1;
+				if (menuSelect < 1)
+					menuSelect = menuSelectMax;
+
 				std::cout << menuSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
@@ -70,11 +82,6 @@ void Menu::Update(Player& player, std::string& gameState, bool& isPressed)
 				showMenu = false;
 			}
 		}
-		
-		if (menuSelect > menuSelectMax)
-			menuSelect = 1;
-		if (menuSelect < 1)
-			menuSelect = menuSelectMax;
 	}
 	else {
 		switch (menuSelect) {
@@ -146,10 +153,22 @@ void Menu::OpenCharacter(Player& player, bool& isPressed)
 			isPressed = true;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				characterSelect++;
+
+				if (characterSelect > characterSelectMax)
+					characterSelect = 1;
+				if (characterSelect < 1)
+					characterSelect = characterSelectMax;
+
 				std::cout << characterSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				characterSelect--;
+
+				if (characterSelect > characterSelectMax)
+					characterSelect = 1;
+				if (characterSelect < 1)
+					characterSelect = characterSelectMax;
+
 				std::cout << characterSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
@@ -167,11 +186,6 @@ void Menu::OpenCharacter(Player& player, bool& isPressed)
 				characterSelect = 1;
 			}
 		}
-
-		if (characterSelect > characterSelectMax)
-			characterSelect = 1;
-		if (characterSelect < 1)
-			characterSelect = characterSelectMax;
 	}
 	else {
 		OpenChangeEquip(player, characterSelect, isPressed);

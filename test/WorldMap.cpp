@@ -1,8 +1,8 @@
 #include "WorldMap.h"
 
-WorldMap::WorldMap(std::vector<Location> locationList)
+WorldMap::WorldMap()
 {
-	this->locationList = locationList;
+	
 }
 
 WorldMap::~WorldMap()
@@ -17,10 +17,13 @@ void WorldMap::Load()
 {
 }
 
-void WorldMap::Update(Player& player, Menu& menu, bool& isPressed)
+void WorldMap::Update(Player& player, Menu& menu, std::vector<Location> locationList, bool& isPressed)
 {
 	if (!showLocation) {
+		this->locationList = locationList;
+		
 		std::cout << "Select location" << std::endl;
+
 		for (int i = 0; i < locationList.size(); i++)
 			std::cout << i + 1 << ": " << locationList[i].name << std::endl;
 
@@ -33,10 +36,22 @@ void WorldMap::Update(Player& player, Menu& menu, bool& isPressed)
 			isPressed = true;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				select++;
+
+				if (select > (int)locationList.size())
+					select = 0;
+				if (select < 0)
+					select = (int)locationList.size();
+
 				std::cout << select << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				select--;
+
+				if (select > (int)locationList.size())
+					select = 0;
+				if (select < 0)
+					select = (int)locationList.size();
+
 				std::cout << select << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
@@ -45,15 +60,10 @@ void WorldMap::Update(Player& player, Menu& menu, bool& isPressed)
 				player.SetPlayerState("Menu");
 				menu.SetShowMenu(false);
 				menu.SetMenuSelected(false);
-				showLocation = false;	
+				showLocation = false;
+				this->locationList.clear();
 			}
-			std::cout << player.GetPlayerState() << std::endl;
 		}
-
-		if (select > (int)locationList.size())
-			select = 0;
-		if (select < 0)
-			select = (int)locationList.size();
 	}
 	else {
 		if (!showSelected) {
