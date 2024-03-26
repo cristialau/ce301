@@ -17,42 +17,43 @@ void WorldMap::Load()
 {
 }
 
-void WorldMap::Update(Player player, Menu menu)
+void WorldMap::Update(Player& player, Menu& menu, bool& isPressed)
 {
+	if (!showLocation) {
+		std::cout << "Select location" << std::endl;
+		for (int i = 0; i < locationList.size(); i++)
+			std::cout << i + 1 << ": " << locationList[i].name << std::endl;
+
+		showLocation = true;
+		select = 1;
+	}
+
 	if (!selected) {
-		if (!showLocation) {
-			std::cout << "Select location" << std::endl;
-			for (int i = 0; i < locationList.size(); i++)
-				std::cout << i + 1 << ": " << locationList[i].name << std::endl;
-
-			showLocation = true;
-			select = 1;
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			select++;
-			std::cout << select << std::endl;
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			select--;
-			std::cout << select << std::endl;
+		if (!isPressed) {
+			isPressed = true;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				select++;
+				std::cout << select << std::endl;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				select--;
+				std::cout << select << std::endl;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+				selected = true;
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				player.SetPlayerState("Menu");
+				menu.SetShowMenu(false);
+				menu.SetMenuSelected(false);
+				showLocation = false;	
+			}
+			std::cout << player.GetPlayerState() << std::endl;
 		}
 
 		if (select > (int)locationList.size())
 			select = 0;
 		if (select < 0)
 			select = (int)locationList.size();
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-			selected = true;
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-			player.SetPlayerState("Menu");
-			menu.SetShowMenu(true);
-			menu.SetSelected(false);
-			menu.SetSelect(1);
-			showLocation = false;
-		}
 	}
 	else {
 		if (!showSelected) {

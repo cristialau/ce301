@@ -88,6 +88,8 @@ void MainMenu::ShowMain(std::string& gameState, bool& isPressed)
 		switch (select) {
 		case 1:
 			gameState = "InGame";
+			showMainMenu = false;
+			isSelected = false;
 			break;
 		case 2:
 			mainMenuState = "LoadGame";

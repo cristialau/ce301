@@ -10,26 +10,35 @@ class Menu
 {
 private:
 	//menu pages
-	int isCharacterPage = 1;
-	int isWorldMap = 2;
-	int isInventory = 3;
-	int isQuest = 4;
-	int isSetting = 5;
-	//show menus
-	bool showMenu = false;
-	bool showCharacter = false;
-	bool showChangeEquip = false;
-	bool showWorldMap = false;
-	bool showInventory = false;
-	bool showQuest = false;
-	bool showSetting = false;
-	//player selects
-	int select = 1;
-	bool selected = false;
-	bool equipSelected = false;
-	int equipSelect = 0;
-	int inventorySelect = 0;
-	int questSelect = 0;
+	int isCharacterPage;
+	int isWorldMap;
+	int isInventory;
+	int isQuest;
+	int isSetting;
+	//menu
+	bool showMenu;
+	int menuSelect;
+	int menuSelectMax;
+	bool menuSelected;
+	//character
+	bool showCharacter;
+	int characterSelect;
+	int characterSelectMax;
+	bool characterSelected;
+	//equipment
+	bool showChangeEquip;
+	int equipSelect;
+	//inventory
+	bool showInventory;
+	int inventorySelect;
+	//quest
+	bool showQuest;
+	int questSelect;
+	//WorldMap
+	bool showWorldMap;
+	//Setting
+	bool showSetting;
+	int settingSelect;
 
 	//Inventory
 	std::vector<Item> inventory;
@@ -41,19 +50,18 @@ public:
 	Menu();
 	~Menu();
 
-	void Update(Player player, std::string& gameState, bool& isPressed);
+	void Update(Player& player, std::string& gameState, bool& isPressed);
 	void Draw();
 
 	//Functions
 	void SetShowMenu(bool showMenu);
-	void SetSelected(bool selected);
-	void SetSelect(int select);
-	void OpenMenu(Player player);
-	void OpenCharacter(Player player);
-	void OpenChangeEquip(Player player, int select);
-	void OpenInventory(Player player);
-	void OpenQuest(Player player);
-	void OpenSetting();
+	void SetMenuSelected(bool selected);
+
+	void OpenCharacter(Player& player, bool& isPressed);
+	void OpenChangeEquip(Player& player, int& characterSelect, bool& isPressed);
+	void OpenInventory(Player& player, bool& isPressed);
+	void OpenQuest(Player& player, bool& isPressed);
+	void OpenSetting(bool& isPressed);
 };
 
 #endif

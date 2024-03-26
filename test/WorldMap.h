@@ -29,7 +29,7 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(Player player, Menu menu);
+	void Update(Player& player, Menu& menu, bool& isPressed);
 	void Draw();
 
 	int GetTravelingTime();

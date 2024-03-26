@@ -49,6 +49,159 @@ void Player::SetUp(Location location)
 	//c1.GetSprite().setPosition(sf::Vector2f(positionX * tileSize * scale, positionY * tileSize * scale));
 }
 
+void Player::NormalState(sf::View& view, bool& isPressed)
+{
+	//viewX = c1.GetSprite().getPosition().x + (tileSize * scale / 2);
+	//viewY = c1.GetSprite().getPosition().y + (tileSize * scale / 2);
+	//sf::Vector2f center(viewX, viewY);
+	//view.setCenter(center);
+
+	if (!isSetUp) {
+		playerState = "Normal";
+		for (int i = 0; i < playerMapSize; ++i) {
+			for (int j = 0; j < playerMapSize; ++j)
+				std::cout << playerMap[i][j] << " ";
+			std::cout << std::endl;
+		}
+		std::cout << "position: " << positionX << " " << positionY << std::endl;
+
+		isSetUp = true;
+	}
+
+	if (!isPressed) {
+		isPressed = true;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
+			playerMap[positionY][positionX + 1] != 0) {
+			positionX = positionX + 1;
+			//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
+
+			for (int i = 0; i < playerMapSize; ++i) {
+				for (int j = 0; j < playerMapSize; ++j)
+					std::cout << playerMap[i][j] << " ";
+				std::cout << std::endl;
+			}
+			std::cout << "position: " << positionX << " " << positionY << std::endl;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
+			playerMap[positionY][positionX - 1] != 0) {
+			positionX = positionX - 1;
+			//c1.GetSprite().move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
+
+			for (int i = 0; i < playerMapSize; ++i) {
+				for (int j = 0; j < playerMapSize; ++j)
+					std::cout << playerMap[i][j] << " ";
+				std::cout << std::endl;
+			}
+			std::cout << "position: " << positionX << " " << positionY << std::endl;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
+			playerMap[positionY - 1][positionX] != 0) {
+			positionY = positionY - 1;
+			//c1.GetSprite().move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
+
+			for (int i = 0; i < playerMapSize; ++i) {
+				for (int j = 0; j < playerMapSize; ++j)
+					std::cout << playerMap[i][j] << " ";
+				std::cout << std::endl;
+			}
+			std::cout << "position: " << positionX << " " << positionY << std::endl;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
+			playerMap[positionY + 1][positionX] != 0) {
+			positionY = positionY + 1;
+			//c1.GetSprite().move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
+
+			for (int i = 0; i < playerMapSize; ++i) {
+				for (int j = 0; j < playerMapSize; ++j)
+					std::cout << playerMap[i][j] << " ";
+				std::cout << std::endl;
+			}
+			std::cout << "position: " << positionX << " " << positionY << std::endl;
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
+			(playerMap[positionY][positionX] == 2)) {
+			playerState = "Talking";
+			isSetUp = false;
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+			playerState = "Menu";
+			isSetUp = false;
+		}
+	}
+}
+
+void Player::TalkState(NPC npc)
+{
+	if (!showTalk) {
+		std::cout << "Dialogue" << std::endl;
+
+		std::cout << npc.GetC().GetName() << std::endl;
+		std::cout << npc.Dialogue() << std::endl;
+
+		showTalk = true;
+		select = 1;
+
+		//Merchant, villager
+		switch (npc.GetNPCState()) {
+		case 1:
+			selectMax = 1;
+			std::cout << "Cancel" << std::endl;
+			break;
+		case 2:
+			selectMax = 2;
+			std::cout << "Cancel" << std::endl;
+			std::cout << "Trade" << std::endl;
+			break;
+		case 3:
+			selectMax = 3;
+			std::cout << "Cancel" << std::endl;
+			std::cout << "Trade" << std::endl;
+			std::cout << "Quest" << std::endl;
+			break;
+		}
+	}
+
+	if (!selected) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			select++;
+			std::cout << select << std::endl;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			select--;
+			std::cout << select << std::endl;
+		}
+
+		if (select > selectMax)
+			select = 1;
+		if (select < 1)
+			select = selectMax;
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+			selected = true;
+	}
+	else {
+		switch (select) {
+		case 1:
+			SetPlayerState("Normal");
+			showTalk = false;
+			selected = false;
+			select = 1;
+			break;
+		case 2:
+			SetPlayerState("Trading");
+			showTalk = false;
+			selected = false;
+			select = 1;
+			break;
+		case 3:
+			AcceptQuest(npc);
+			break;
+		}
+	}
+}
+
 void Player::Draw(sf::RenderWindow& window)
 {
 	window.draw(c1.GetSprite());
@@ -205,7 +358,6 @@ void Player::SetKlg(int klgScore)
 		c2.SetKnowledge(klgScore);
 }
 
-
 //Functions for map
 int Player::GetMapPositionX()
 {
@@ -244,143 +396,6 @@ void Player::Effect(Item item, Character c)
 	if (item.name == "bread") {
 		c.AddHp(10);
 		std::cout << c.GetName() << " eat a bread" << std::endl;
-	}
-}
-
-void Player::NormalState(sf::View& view, bool& isPressed)
-{
-	//viewX = c1.GetSprite().getPosition().x + (tileSize * scale / 2);
-	//viewY = c1.GetSprite().getPosition().y + (tileSize * scale / 2);
-	//sf::Vector2f center(viewX, viewY);
-	//view.setCenter(center);
-
-	if (!isPressed) {
-		isPressed = true;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
-			playerMap[positionY][positionX + 1] != 0) {
-			positionX = positionX + 1;
-			//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
-
-			for (int i = 0; i < playerMapSize; ++i) {
-				for (int j = 0; j < playerMapSize; ++j)
-					std::cout << playerMap[i][j] << " ";
-				std::cout << std::endl;
-			}
-			std::cout << "position: " << positionX << " " << positionY << std::endl;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
-			playerMap[positionY][positionX - 1] != 0) {
-			positionX = positionX - 1;
-			//c1.GetSprite().move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
-
-			for (int i = 0; i < playerMapSize; ++i) {
-				for (int j = 0; j < playerMapSize; ++j)
-					std::cout << playerMap[i][j] << " ";
-				std::cout << std::endl;
-			}
-			std::cout << "position: " << positionX << " " << positionY << std::endl;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
-			playerMap[positionY - 1][positionX] != 0) {
-			positionY = positionY - 1;
-			//c1.GetSprite().move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
-
-			for (int i = 0; i < playerMapSize; ++i) {
-				for (int j = 0; j < playerMapSize; ++j)
-					std::cout << playerMap[i][j] << " ";
-				std::cout << std::endl;
-			}
-			std::cout << "position: " << positionX << " " << positionY << std::endl;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
-			playerMap[positionY + 1][positionX] != 0) {
-			positionY = positionY + 1;
-			//c1.GetSprite().move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
-
-			for (int i = 0; i < playerMapSize; ++i) {
-				for (int j = 0; j < playerMapSize; ++j)
-					std::cout << playerMap[i][j] << " ";
-				std::cout << std::endl;
-			}
-			std::cout << "position: " << positionX << " " << positionY << std::endl;
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
-			(playerMap[positionY][positionX] == 2))
-			playerState = "Talking";
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-			playerState = "Menu";
-	}
-}
-
-void Player::TalkState(NPC npc)
-{
-	if (!showTalk) {
-		std::cout << "Dialogue" << std::endl;
-
-		std::cout << npc.GetC().GetName() << std::endl;
-		std::cout << npc.Dialogue() << std::endl;
-
-		showTalk = true;
-		select = 1;
-
-		//Merchant, villager
-		switch (npc.GetNPCState()) {
-		case 1:
-			selectMax = 1;
-			std::cout << "Cancel" << std::endl;
-			break;
-		case 2:
-			selectMax = 2;
-			std::cout << "Cancel" << std::endl;
-			std::cout << "Trade" << std::endl;
-			break;
-		case 3:
-			selectMax = 3;
-			std::cout << "Cancel" << std::endl;
-			std::cout << "Trade" << std::endl;
-			std::cout << "Quest" << std::endl;
-			break;
-		}
-	}
-
-	if (!selected) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			select++;
-			std::cout << select << std::endl;
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			select--;
-			std::cout << select << std::endl;
-		}
-
-		if (select > selectMax)
-			select = 1;
-		if (select < 1)
-			select = selectMax;
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-			selected = true;
-	}
-	else {
-		switch (select) {
-		case 1:
-			SetPlayerState("Normal");
-			showTalk = false;
-			selected = false;
-			select = 1;
-			break;
-		case 2:
-			SetPlayerState("Trading");
-			showTalk = false;
-			selected = false;
-			select = 1;
-			break;
-		case 3:
-			AcceptQuest(npc);
-			break;
-		}
 	}
 }
 

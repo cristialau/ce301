@@ -76,6 +76,8 @@ public:
 	void Initialize();
 	void Load();
 	void SetUp(Location location);
+	void NormalState(sf::View& view, bool& isPressed);
+	void TalkState(NPC npc);
 	void Draw(sf::RenderWindow& window);
 
 	//getters setters
@@ -117,9 +119,6 @@ public:
 	
 	void Consume(int inventoryNumber); //use item from inventory
 	void Effect(Item item, Character c); // Item effects
-	
-	void NormalState(sf::View& view, bool& isPressed);
-	void TalkState(NPC npc);
 
 	//Quest
 	void AcceptQuest(NPC npc);

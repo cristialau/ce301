@@ -79,22 +79,27 @@ void Game::Update()
     //MainMenu (gameState = MainMenu)
     //LoadGame / Option (gameState = MainMenu)
     //StartGame (gameState = InGame) (playerState = Normal)
-    if (gameState == "MainMenu")
-        mainMenu.Update(gameState, isPressed);
     //in game (gameState = InGame) (playerState = Normal)
     //talking with npc (gameState = InGame) (playerState = Talking)
     //trading with npc (gameState = InGame) (playerState = Trading)
     //enter a battle with npc (gameState = InGame) (playerState = Battle)
     //traveling (gameState = InGame) (playerState = Traveling)
     //in game menu (gameState = InGame) (playerState = Menu)
+    if (gameState == "MainMenu") {
+        mainMenu.Update(gameState, isPressed);
+    }
     else if (gameState == "InGame") {
         player.SetUp(locationList[mapNumber]);
 
         if (player.GetPlayerState() == "Normal") {
             player.NormalState(view, isPressed);
+            //std::cout << "GameState: " << gameState << " PlayerState: " << player.GetPlayerState() << std::endl;
         }
         else if (player.GetPlayerState() == "Menu") {
             menu.Update(player, gameState, isPressed);
+        }
+        else if (player.GetPlayerState() == "WorldMap") {
+            worldMap.Update(player, menu, isPressed);
         }
     }
 
@@ -107,11 +112,11 @@ void Game::Update()
 
     if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
         !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
+        !sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
+        !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
         !sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
         !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         isPressed = false;
-
-    std::cout << gameState << std::endl;
 }
 
 void Game::Draw()
@@ -132,7 +137,7 @@ void Game::Draw()
     this->window->display();
 }
 
-//Function
+//Functions
 void Game::EndApplication()
 {
     std::cout << "Ending Application" << "\n";
@@ -296,11 +301,6 @@ void Game::QuestList()
     }
 }
 
-void Game::setNPC()
-{
-    
-}
-
-void Game::setNPCList()
+void Game::NPCList()
 {
 }

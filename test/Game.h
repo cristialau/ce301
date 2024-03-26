@@ -106,9 +106,7 @@ public:
 	void ItemList();
 	void LocationList();
 	void QuestList();
-
-	void setNPC();
-	void setNPCList();
+	void NPCList();
 };
 
 #endif
