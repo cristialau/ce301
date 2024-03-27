@@ -35,7 +35,8 @@ void Player::SetUp(Location location)
 {
 	if (currentLocationID != location.id) {
 		//setup for map
-		currentLocationID = location.id;
+		this->location = location;
+		currentLocationID = this->location.id;
 		//location player map -> player map
 		for (int j = 0; j < location.playerMapSize; j++) {
 			for (int i = 0; i < location.playerMapSize; i++)
@@ -58,6 +59,7 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 
 	if (!isSetUp) {
 		playerState = "Normal";
+		std::cout << "Location: " << location.name << std::endl;
 		for (int i = 0; i < playerMapSize; ++i) {
 			for (int j = 0; j < playerMapSize; ++j)
 				std::cout << playerMap[i][j] << " ";

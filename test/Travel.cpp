@@ -16,41 +16,53 @@ void Travel::Load()
 {
 }
 
-void Travel::Update(Player player, int travelingTime, float dt)
+void Travel::Update(Player& player, int travelingTime, float dt, bool& isPressed)
 {
-	if (!setUp)
-		SetUp();
-
+	if (!setUp) {
+		this->travelingTime = travelingTime;
+		timer = 0;
+		setUp = true;
+	}
+	
 	if (!showTravel) {
 		std::cout << "Traveling" << std::endl;
 
 		std::cout << "Day: " << player.GetDay() << std::endl;
 		std::cout << "Time: " << player.GetTime() << std::endl;
-		std::cout << "TravelingTime: " << travelingTime << std::endl;
+		std::cout << "TravelingTime: " << this->travelingTime << std::endl;
 
 		showTravel = true;
 	}
 
-	if (travelingTime > 0) {
-		
-		if (travelingTime % 360 == 0)
-			RandomEvents();
-		else
+	if (this->travelingTime > 0) {
+		//if (this->travelingTime % 360 == 0)
+		//	RandomEvents();
+		//else
 			timer += dt;
 		
 		if (timer >= 1000.0f) {
-			travelingTime -= 10;
+			this->travelingTime -= 100;
 			timer = 0;
 		}
 
-		if (travelingTime % 30)
-			std::cout << "Traveling Time: " << travelingTime << std::endl;
+		if (this->travelingTime % 30)
+			std::cout << "Traveling Time: " << this->travelingTime << std::endl;
 	}
 	else {
-		std::cout << "Arrived" << std::endl;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-			player.SetPlayerState("Normal");
-			setUp = false;
+		if (!showArrived) {
+			std::cout << "Arrived" << std::endl;
+
+			showArrived = true;
+		}
+		
+		if (!isPressed) {
+			isPressed = true;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+				player.SetPlayerState("Normal");
+				setUp = false;
+				showTravel = false;
+				showArrived = false;
+			}
 		}
 	}
 }
@@ -58,12 +70,6 @@ void Travel::Update(Player player, int travelingTime, float dt)
 void Travel::Draw()
 {
 	
-}
-
-void Travel::SetUp()
-{
-	timer = 0;
-	setUp = true;
 }
 
 void Travel::RandomEvents()

@@ -29,7 +29,7 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(Player& player, Menu& menu, std::vector<Location> locationList, bool& isPressed);
+	void Update(Player& player, Menu& menu, std::vector<Location> locationList, int& locationNumber, bool& isPressed);
 	void Draw();
 
 	int GetTravelingTime();

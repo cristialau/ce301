@@ -90,6 +90,8 @@ void Menu::Update(Player& player, std::string& gameState, bool& isPressed)
 			break;
 		case 2:
 			player.SetPlayerState("WorldMap");
+			showMenu = false;
+			menuSelected = false;
 			break;
 		case 3:
 			OpenInventory(player, isPressed);
@@ -376,7 +378,7 @@ void Menu::OpenSetting(bool& isPressed)
 		showSetting = true;
 	}
 
-	if (isPressed) {
+	if (!isPressed) {
 		isPressed = true;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 			showMenu = false;

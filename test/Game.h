@@ -53,7 +53,7 @@ private:
 	std::string gameState;
 	//Press keys
 	bool isPressed = false;
-	//MainMenu
+	//MainMenu Done
 	MainMenu mainMenu = MainMenu(title);
 	//Map
 	int mapNumber;
@@ -77,11 +77,12 @@ private:
 	Trade trade = Trade();
 	//Battle
 	Battle battle = Battle();
-	//WorldMap
+	//WorldMap Done
 	WorldMap worldMap = WorldMap();
 	//Travel
 	Travel travel = Travel();
-	//Menu
+	int travelingTime = 0;
+	//Menu Done
 	Menu menu = Menu();
 
 public:

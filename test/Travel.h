@@ -15,7 +15,9 @@ private:
 
 	bool setUp = false;
 	bool showTravel = false;
+	bool showArrived = false;
 
+	int travelingTime = 0;
 	float timer = 0;
 
 public:
@@ -24,11 +26,10 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(Player player, int travelingTime, float dt);
+	void Update(Player& player, int travelingTime, float dt, bool& isPressed);
 	void Draw();
 
 	//Functions
-	void SetUp();
 	void RandomEvents();
 };
 
