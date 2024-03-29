@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "SFML/Graphics.hpp"
 #include <iostream>
+#include <random>
 #include <stdlib.h>
 
 class Trade
@@ -23,25 +24,28 @@ private:
 	char conversation;
 	char knowledge;
 	//player selects
-	int selected1;
-	int selected2;
+	int y;
+	int x;
 	//Scores and Multipliers
+	int o;
 	int observationScore;
 	int observationMultiplier;
+	int c;
 	int conversationScore;
 	int conversationMultiplier;
+	int k;
 	int knowledgeScore;
 	int knowledgeMultiplier;
-	//Player press arrowkeys
-	bool isPressed;
-	bool isEnter;
 	//check variables
 	int same1;
 	int same2;
-	int temp1;
-	int temp2;
+	int same3;
+	//int temp1;
+	//int temp2;
+	char element;
 	char element1;
 	char element2;
+	char element3;
 
 public:
 	Trade();
@@ -49,7 +53,8 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(Player player);
+	void Update(Player& player, bool& isPressed);
+	void StartTrade(Player& player, bool& isPressed);
 	void Draw();
 
 	//Getter Setter
@@ -61,15 +66,13 @@ public:
 	bool HaveLuck();
 	void ChangeElement(int selected1, int selected2, int &move);
 	void CalculateScore();
-	void CheckI(int i, int& o, int& c, int& k);
-	bool CheckICondition(int i, int j, int same2);
-	void CheckJ(int j, int& o, int& c, int& k);
-	bool CheckJCondition(int i, int j, int same2);
-	void CheckDiag(int i, int j, int& o, int& c, int& k);
-	bool CheckDiagCondition(int i, int j, int same2);
-	void CheckDiagX(int i, int j, int& o, int& c, int& k);
-	bool CheckDiagXCondition(int i, int j, int same2);
-	void AddMultiplier(int temp, char element, int &o, int &c, int &k);
+	void CheckI();
+	void CheckJ();
+	void CheckDiag();
+	void CheckDiagX();
+	void AddMultiplier(int temp, char element);
+
+	void PrintPanel();
 };
 
 #endif

@@ -2,6 +2,38 @@
 
 Trade::Trade()
 {	
+	StartTrading = false;
+	move = 10;
+	random = 0;
+	//elements
+	luck = 'l';
+	observation = 'o';
+	conversation = 'c';
+	knowledge = 'k';
+	//player selects
+	y = 2;
+	x = 2;
+	//Scores and Multipliers
+	o = 0;
+	observationScore = 0;
+	observationMultiplier = 1;
+	c = 0;
+	conversationScore = 0;
+	conversationMultiplier = 1;
+	k = 0;
+	knowledgeScore = 0;
+	knowledgeMultiplier = 1;
+	//check variables
+	same1 = 0;
+	same2 = 0;
+	same3 = 0;
+	//temp1 = 0;
+	//temp2 = 0;
+	element = 0;
+	element1 = 0;
+	element2 = 0;
+	element3 = 0;
+
 	//Game panel
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 5; j++)
@@ -12,8 +44,6 @@ Trade::Trade()
 		for (int j = 0; j < 7; j++)
 			playerGamepanel[i][j] = 0;
 	}
-
-	SetUpGamePanel();
 }
 
 Trade::~Trade()
@@ -28,55 +58,57 @@ void Trade::Load()
 {	
 }
 
-void Trade::Update(Player player)
+void Trade::Update(Player& player, bool& isPressed)
 {
-	if(StartTrading)
+	StartTrade(player, isPressed);
+}
+
+void Trade::StartTrade(Player& player, bool& isPressed)
+{
+	if (!StartTrading)
 		SetUpGamePanel();
 
-	if (move <= 0) {
+	if (move >= 0) {
+		if (!isPressed) {
+			isPressed = true;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
+				playerGamepanel[y + 1][x] != 0) {
+				y++;
+
+				PrintPanel();
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
+				playerGamepanel[y - 1][x] != 0) {
+				y--;
+
+				PrintPanel();
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
+				playerGamepanel[y][x - 1] != 0) {
+				x--;
+
+				PrintPanel();
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
+				playerGamepanel[y][x + 1] != 0) {
+				x++;
+
+				PrintPanel();
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+				ChangeElement(y - 1, x - 1, move);
+			}
+		}
+	}
+	else {
 		CalculateScore();
 		player.SetOsv(observationScore);
 		player.SetCvs(conversationScore);
 		player.SetKlg(knowledgeScore);
+		player.SetPlayerState("Normal");
+		StartTrading = false;
 	}
-
-	if (!isPressed) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			if (playerGamepanel[selected1 + 1][selected2] == 1)
-				selected1++;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			if (playerGamepanel[selected1 - 1][selected2] == 1)
-				selected1--;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			if (playerGamepanel[selected1][selected2 - 1] == 1)
-				selected2--;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			if (playerGamepanel[selected1][selected2 + 1] == 1)
-				selected2++;
-		}
-		isPressed = true;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && !isEnter) {
-		ChangeElement(selected1 - 1, selected2 - 1, move);
-		isEnter = true;
-	}
-	
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		isPressed = false;
-		
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-		isEnter = false;
-
-	for (int j = 0; j < 5; j++){
-		for(int i = 0; i < 5; i++)
-			std::cout << gamepanel[i][j];
-		std::cout << std::endl;
-	}
-	std::cout << "Gamepanel: " << selected1 - 1 << " " << selected2 - 1 << std::endl;
 }
 
 void Trade::Draw()
@@ -97,17 +129,51 @@ bool Trade::GetStartTrading()
 //Functions
 void Trade::SetUpGamePanel()
 {
-	StartTrading = false;
+	StartTrading = true;
 	move = 10;
+	//elements
+	luck = 'l';
+	observation = 'o';
+	conversation = 'c';
+	knowledge = 'k';
+	//player selects
+	y = 2;
+	x = 2;
+	//Scores and Multipliers
+	o = 0;
+	observationScore = 0;
+	observationMultiplier = 1;
+	c = 0;
+	conversationScore = 0;
+	conversationMultiplier = 1;
+	k = 0;
+	knowledgeScore = 0;
+	knowledgeMultiplier = 1;
+	//check variables
+	same1 = 0;
+	same2 = 0;
+	same3 = 0;
+	//temp1 = 0;
+	//temp2 = 0;
+	element = 0;
+	element1 = 0;
+	element2 = 0;
+	element3 = 0;
+
+	// Create a random device to seed the generator
+	std::random_device rd;
+	// Create a random number engine
+	std::mt19937_64 eng(rd()); // Mersenne Twister 64-bit RNG
+	// Define a distribution
+	std::uniform_int_distribution<int> distr1(1, 4); // Range from 1 to 4
+	std::uniform_int_distribution<int> distr2(1, 3); // Range from 1 to 3
 
 	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < 5; i++) {
-			random = 0;
-
 			if (HaveLuck())
-				random = 1 + (rand() % 3);
+				random = distr2(eng);
 			else
-				random = 1 + (rand() % 4);
+				random = distr1(eng);
 
 			switch (random) {
 			case 1:	gamepanel[i][j] = observation; break;
@@ -127,31 +193,7 @@ void Trade::SetUpGamePanel()
 		}
 	}
 
-	//elements
-	luck = 'l';
-	observation = 'o';
-	conversation = 'c';
-	knowledge = 'k';
-	//player selects
-	selected1 = 2;
-	selected2 = 2;
-	//Scores and Multipliers
-	observationScore = 0;
-	observationMultiplier = 1;
-	conversationScore = 0;
-	conversationMultiplier = 1;
-	knowledgeScore = 0;
-	knowledgeMultiplier = 1;
-	//Player press arrowkeys
-	isPressed = false;
-	isEnter = false;
-	//check variables
-	same1 = 0;
-	same2 = 0;
-	temp1 = 0;
-	temp2 = 0;
-	element1 = 0;
-	element2 = 0;
+	PrintPanel();
 }
 
 bool Trade::HaveLuck()
@@ -165,30 +207,28 @@ bool Trade::HaveLuck()
 	return false;
 }
 
-void Trade::ChangeElement(int selected1, int selected2, int &move)
+void Trade::ChangeElement(int y, int x, int &move)
 {
-	if (gamepanel[selected1][selected2] == observation)
-		gamepanel[selected1][selected2] = conversation;
-	else if (gamepanel[selected1][selected2] == conversation)
-		gamepanel[selected1][selected2] = knowledge;
-	else if (gamepanel[selected1][selected2] == knowledge) {
+	if (gamepanel[y][x] == observation)
+		gamepanel[y][x] = conversation;
+	else if (gamepanel[y][x] == conversation)
+		gamepanel[y][x] = knowledge;
+	else if (gamepanel[y][x] == knowledge) {
 		if (HaveLuck())
-			gamepanel[selected1][selected2] = observation;
+			gamepanel[y][x] = observation;
 		else
-			gamepanel[selected1][selected2] = luck;
+			gamepanel[y][x] = luck;
 	}
-	else if (gamepanel[selected1][selected2] == luck)
-		gamepanel[selected1][selected2] = observation;
+	else if (gamepanel[y][x] == luck)
+		gamepanel[y][x] = observation;
 
 	move--;
+	std::cout << "Move: " << move << std::endl;
+	PrintPanel();
 }
 
 void Trade::CalculateScore()
 {
-	int o = 0;
-	int c = 0;
-	int k = 0;
-
 	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < 5; i++) {
 			if (gamepanel[i][j] == observation)
@@ -200,278 +240,344 @@ void Trade::CalculateScore()
 		}
 	}
 	
-	for (int i = 0; i < 4; i++)
-		CheckI(i, o, c, k);
-	for (int j = 0; j < 4; j++)
-		CheckJ(j, o, c, k);
-	for (int i = 0; i < 2; i++)
-		CheckDiag(i, 0, o, c, k);
-	for (int j = 1; j < 2; j++)
-		CheckDiag(0, j, o, c, k);
-	for (int i = 0; i < 2; i++)
-		CheckDiagX(i, 4, o, c, k);
-	for (int j = 4; j > 2; j--)
-		CheckDiagX(0, j, o, c, k);
+	CheckI();
+	CheckJ();
+	CheckDiag();
+	CheckDiagX();
 	
 	observationScore = o * observationMultiplier;
 	conversationScore = c * conversationMultiplier;
 	knowledgeScore = k * knowledgeMultiplier;
 
 	std::cout << "Observation: " << observationScore << std::endl;
-	std::cout << "Communication: " << conversationScore << std::endl;
+	std::cout << "Conversation: " << conversationScore << std::endl;
 	std::cout << "Knowledge: " << knowledgeScore << std::endl;
 }
 
-void Trade::CheckI(int i, int& o, int& c, int& k)
+void Trade::CheckI()
 {
-	same1 = 1;
-	same2 = 1;
-	temp1 = 0;
-	temp2 = 0;
-	element1 = ' ';
-	element2 = ' ';
+	for (int i = 0; i < 5; i++) {
+		same1 = 0;
+		same2 = 0;
+		same3 = 0;
+		element = 0;
+		element1 = 0;
+		element2 = 0;
+		element3 = 0;
+		bool skip1 = false;
+		bool skip2 = false;
 
-	for (int j = 0; j < 3; j++) {
-		if (CheckICondition(i, j, same2)) {
-			same1++;
-			if (same1 == 3) {
-				if (gamepanel[i][j] == luck)
-					element1 = gamepanel[i][j + 1];
-				else
-					element1 = gamepanel[i][j];
+		for (int j = 0; j < 5; j++) {
+			element = gamepanel[i][j];		//k
 
-				temp1 = same1;
-			}
-			else if (same1 > 3)
-				temp1 = same1;
-		}
-		else if (gamepanel[i][j] == luck || gamepanel[i][j] == gamepanel[i][j + 1]) {
-			same2++;
-			if (same2 == 3) {
-				if (gamepanel[i][j] == luck)
-					element2 = gamepanel[i][j + 1];
-				else
-					element2 = gamepanel[i][j];
-
-				temp2 = same2;
-			}
-		}
-		else
-			same1 = 1;
-	}
-
-	if (temp1 >= 3)
-		AddMultiplier(temp1, element1, o, c, k);
-	if (temp2 >= 3)
-		AddMultiplier(temp2, element2, o, c, k);
-}
-
-bool Trade::CheckICondition(int i, int j, int same2)
-{
-	if (same2 > 1)
-		return false;
-	if (gamepanel[i][j] == gamepanel[i][j + 1])
-		return true;
-	else if (gamepanel[i][j] == luck) {
-		if (j == 0)
-			return true;
-		else if (gamepanel[i][j - 1] == gamepanel[i][j + 1])
-			return true;
-	}
-
-	return false;
-}
-
-void Trade::CheckJ(int j, int& o, int& c, int& k)
-{
-	same1 = 1;
-	same2 = 1;
-	temp1 = 0;
-	temp2 = 0;
-	element1 = ' ';
-	element2 = ' ';
-
-	for (int i = 0; i < 3; i++) {
-		if (CheckICondition(i, j, same2)) {
-			same1++;
-			if (same1 == 3) {
-				if (gamepanel[i][j] == luck)
-					element1 = gamepanel[i + 1][j];
-				else
-					element1 = gamepanel[i][j];
-
-				temp1 = same1;
-			}
-			else if (same1 > 3)
-				temp1 = same1;
-		}
-		else if (gamepanel[i][j] == luck || gamepanel[i][j] == gamepanel[i + 1][j]) {
-			same2++;
-			if (same2 == 3) {
-				if (gamepanel[i][j] == luck)
-					element2 = gamepanel[i + 1][j];
-				else
-					element2 = gamepanel[i][j];
-
-				temp2 = same2;
-			}
-		}
-		else
-			same1 = 1;
-	}
-
-	if (temp1 >= 3)
-		AddMultiplier(temp1, element1, o, c, k);
-	if (temp2 >= 3)
-		AddMultiplier(temp2, element2, o, c, k);
-}
-
-bool Trade::CheckJCondition(int i, int j, int same2)
-{
-	if (same2 > 1)
-		return false;
-	if (gamepanel[i][j] == gamepanel[i + 1][j])
-		return true;
-	else if (gamepanel[i][j] == luck) {
-		if (j == 0)
-			return true;
-		else if (gamepanel[i - 1][j] == gamepanel[i + 1][j])
-			return true;
-	}
-
-	return false;
-}
-
-void Trade::CheckDiag(int i, int j, int& o, int& c, int& k)
-{
-	same1 = 1;
-	same2 = 1;
-	temp1 = 0;
-	temp2 = 0;
-	element1 = ' ';
-	element2 = ' ';
-
-	for (i, j; i < 3; i++, j++) {
-		if (CheckDiagCondition(i, j, same2)) {
-			same1++;
-			if (same1 == 3) {
-				if (gamepanel[i][j] == luck)
-					element1 = gamepanel[i + 1][j + 1];
-				else
-					element1 = gamepanel[i][j];
+			if (element1 == 0 && element != luck)
+				element1 = element;			//k
 				
-				temp1 = same1;
-			}
-			else if (same1 > 3)
-				temp1 = same1;
-		}
-		else if (gamepanel[i][j] == luck || gamepanel[i][j] == gamepanel[i + 1][j + 1]) {
-			same2++;
-			if (same2 == 3) {
-				if (gamepanel[i][j] == luck)
-					element2 = gamepanel[i + 1][j + 1];
-				else
-					element2 = gamepanel[i][j];
+			if ((element == element1 || element == luck) && !skip1)
+				same1++;					//+1
+			else {
+				skip1 = true;
 
-				temp2 = same2;
+				if (element2 == 0 && element != luck)
+					element2 = element;		//k c
+					
+				if ((element == element2 || element == luck) && !skip2 && skip1)
+					same2++;
+				else {
+					skip2 = true;
+
+					if (element3 == 0 && element != luck)
+						element3 = element;	//k c o
+
+					if ((element == element3 || element == luck) && skip2 && skip1)
+						same3++;
+				}
 			}
 		}
-		else
-			same1 = 1;
+
+		AddMultiplier(same1, element1);
+		AddMultiplier(same2, element2);
+		AddMultiplier(same3, element3);
 	}
-
-	if (temp1 >= 3)
-		AddMultiplier(temp1, element1, o, c, k);
-	if (temp2 >= 3)
-		AddMultiplier(temp2, element2, o, c, k);
 }
 
-bool Trade::CheckDiagCondition(int i, int j, int same2)
+void Trade::CheckJ()
 {
-	if (same2 > 1)
-		return false;
-	if (gamepanel[i][j] == gamepanel[i + 1][j + 1])
-		return true;
-	else if (gamepanel[i][j] == luck) {
-		if (j == 0)
-			return true;
-		else if (gamepanel[i - 1][j - 1] == gamepanel[i + 1][j + 1])
-			return true;
-	}
+	for (int j = 0; j < 5; j++) {
+		same1 = 0;
+		same2 = 0;
+		same3 = 0;
+		element = 0;
+		element1 = 0;
+		element2 = 0;
+		element3 = 0;
+		bool skip1 = false;
+		bool skip2 = false;
 
-	return false;
-}
+		for (int i = 0; i < 5; i++) {
+			element = gamepanel[i][j];		//k
 
-void Trade::CheckDiagX(int i, int j, int& o, int& c, int& k)
-{
-	same1 = 1;
-	same2 = 1;
-	temp1 = 0;
-	temp2 = 0;
-	element1 = ' ';
-	element2 = ' ';
+			if (element1 == 0 && element != luck)
+				element1 = element;			//k
 
-	for (i, j; i < 3; i++, j--) {
-		if (CheckDiagXCondition(i, j, same2)) {
-			same1++;
-			if (same1 == 3) {
-				if (gamepanel[i][j] == luck)
-					element1 = gamepanel[i + 1][j - 1];
-				else
-					element1 = gamepanel[i][j];
+			if ((element == element1 || element == luck) && !skip1)
+				same1++;					//+1
+			else {
+				skip1 = true;
 
-				temp1 = same1;
-			}
-			else if (same1 > 3)
-				temp1 = same1;
-		}
-		else if (gamepanel[i][j] == luck || gamepanel[i][j] == gamepanel[i + 1][j - 1]) {
-			same2++;
-			if (same2 == 3) {
-				if (gamepanel[i][j] == luck)
-					element2 = gamepanel[i + 1][j - 1];
-				else
-					element2 = gamepanel[i][j];
+				if (element2 == 0 && element != luck)
+					element2 = element;		//k c
 
-				temp2 = same2;
+				if ((element == element2 || element == luck) && !skip2 && skip1)
+					same2++;
+				else {
+					skip2 = true;
+
+					if (element3 == 0 && element != luck)
+						element3 = element;	//k c o
+
+					if ((element == element3 || element == luck) && skip2 && skip1)
+						same3++;
+				}
 			}
 		}
-		else
-			same1 = 1;
-	}
 
-	if (temp1 >= 3)
-		AddMultiplier(temp1, element1, o, c, k);
-	if (temp2 >= 3)
-		AddMultiplier(temp2, element2, o, c, k);
+		AddMultiplier(same1, element1);
+		AddMultiplier(same2, element2);
+		AddMultiplier(same3, element3);
+	}
 }
 
-bool Trade::CheckDiagXCondition(int i, int j, int same2)
+void Trade::CheckDiag()
 {
-	if (same2 > 1)
-		return false;
-	if (gamepanel[i][j] == gamepanel[i + 1][j - 1])
-		return true;
-	else if (gamepanel[i][j] == luck) {
-		if (j == 0)
-			return true;
-		else if (gamepanel[i - 1][j + 1] == gamepanel[i + 1][j - 1])
-			return true;
-	}
+	for (int k = 0; k < 3; k++) {
+		same1 = 0;
+		same2 = 0;
+		same3 = 0;
+		element = 0;
+		element1 = 0;
+		element2 = 0;
+		element3 = 0;
+		bool skip1 = false;
+		bool skip2 = false;
 
-	return false;
+		int i = k;
+		int j = 0;
+			
+		for (i, j; i < 5; i++, j++) {
+
+			if ((k == 1 && j >= 4) || (k == 2 && j >= 3))
+				break;
+
+			element = gamepanel[i][j];		//k
+
+			if (element1 == 0 && element != luck)
+				element1 = element;			//k
+
+			if ((element == element1 || element == luck) && !skip1)
+				same1++;					//+1
+			else {
+				skip1 = true;
+
+				if (element2 == 0 && element != luck)
+					element2 = element;		//k c
+
+				if ((element == element2 || element == luck) && !skip2 && skip1)
+					same2++;
+				else {
+					skip2 = true;
+
+					if (element3 == 0 && element != luck)
+						element3 = element;	//k c o
+
+					if ((element == element3 || element == luck) && skip2 && skip1)
+						same3++;
+				}
+			}
+		}
+
+		AddMultiplier(same1, element1);
+		AddMultiplier(same2, element2);
+		AddMultiplier(same3, element3);
+	}
+	
+	for (int k = 1; k < 3; k++) {
+		same1 = 0;
+		same2 = 0;
+		same3 = 0;
+		element = 0;
+		element1 = 0;
+		element2 = 0;
+		element3 = 0;
+		bool skip1 = false;
+		bool skip2 = false;
+
+		int i = 0;
+		int j = k;
+
+		for (i, j; i < 4; i++, j++) {
+			
+			if ((k == 1 || k == 2) && j >= 5)
+				break;
+
+			element = gamepanel[i][j];		//k
+
+			if (element1 == 0 && element != luck)
+				element1 = element;			//k
+
+			if ((element == element1 || element == luck) && !skip1)
+				same1++;					//+1
+			else {
+				skip1 = true;
+
+				if (element2 == 0 && element != luck)
+					element2 = element;		//k c
+
+				if ((element == element2 || element == luck) && !skip2 && skip1)
+					same2++;
+				else {
+					skip2 = true;
+
+					if (element3 == 0 && element != luck)
+						element3 = element;	//k c o
+
+					if ((element == element3 || element == luck) && skip2 && skip1)
+						same3++;
+				}
+			}
+		}
+
+		AddMultiplier(same1, element1);
+		AddMultiplier(same2, element2);
+		AddMultiplier(same3, element3);
+	}
 }
 
-void Trade::AddMultiplier(int temp, char element, int& o, int& c, int& k)
+void Trade::CheckDiagX()
+{
+	// ij
+	//       02 03 04
+	//    11 12 13 14
+	// 20 21 22 23 24
+	// 30 31 32 33
+	// 40 41 42
+
+	for (int k = 0; k < 3; k++) {
+		same1 = 0;
+		same2 = 0;
+		same3 = 0;
+		element = 0;
+		element1 = 0;
+		element2 = 0;
+		element3 = 0;
+		bool skip1 = false;
+		bool skip2 = false;
+
+		int i = k;
+		int j = 4;
+
+		for (i, j; i < 5; i++, j--) {
+
+			if ((k == 1 && j <= 0) || (k == 2 && j <= 1))
+				break;
+
+			element = gamepanel[i][j];		//k
+
+			if (element1 == 0 && element != luck)
+				element1 = element;			//k
+
+			if ((element == element1 || element == luck) && !skip1)
+				same1++;					//+1
+			else {
+				skip1 = true;
+
+				if (element2 == 0 && element != luck)
+					element2 = element;		//k c
+
+				if ((element == element2 || element == luck) && !skip2 && skip1)
+					same2++;
+				else {
+					skip2 = true;
+
+					if (element3 == 0 && element != luck)
+						element3 = element;	//k c o
+
+					if ((element == element3 || element == luck) && skip2 && skip1)
+						same3++;
+				}
+			}
+		}
+
+		AddMultiplier(same1, element1);
+		AddMultiplier(same2, element2);
+		AddMultiplier(same3, element3);
+	}
+
+	for (int k = 3; k > 1; k--) {
+		same1 = 0;
+		same2 = 0;
+		same3 = 0;
+		element = 0;
+		element1 = 0;
+		element2 = 0;
+		element3 = 0;
+		bool skip1 = false;
+		bool skip2 = false;
+
+		int i = 0;
+		int j = k;
+
+		for (i, j; i < 4; i++, j--) {
+
+			if (k == 2 && i >= 3)
+				break;
+
+			element = gamepanel[i][j];		//k
+
+			if (element1 == 0 && element != luck)
+				element1 = element;			//k
+
+			if ((element == element1 || element == luck) && !skip1)
+				same1++;					//+1
+			else {
+				skip1 = true;
+
+				if (element2 == 0 && element != luck)
+					element2 = element;		//k c
+
+				if ((element == element2 || element == luck) && !skip2 && skip1)
+					same2++;
+				else {
+					skip2 = true;
+
+					if (element3 == 0 && element != luck)
+						element3 = element;	//k c o
+
+					if ((element == element3 || element == luck) && skip2 && skip1)
+						same3++;
+				}
+			}
+		}
+
+		AddMultiplier(same1, element1);
+		AddMultiplier(same2, element2);
+		AddMultiplier(same3, element3);
+	}
+}
+
+void Trade::AddMultiplier(int temp, char element)
 {
 	switch (temp) {
 	case 3:
-		if (element == observation)
+		if (element == observation) {
 			observationMultiplier++;
-		else if (element == conversation)
+		}
+		else if (element == conversation) {
 			conversationMultiplier++;
-		else if (element == knowledge)
+		}	
+		else if (element == knowledge) {
 			knowledgeMultiplier++;
+		}
 		break;
 	case 4:
 		if (element == observation) {
@@ -501,5 +607,17 @@ void Trade::AddMultiplier(int temp, char element, int& o, int& c, int& k)
 			k += 2;
 		}
 		break;
+	default:
+		break;
 	}
+}
+
+void Trade::PrintPanel()
+{
+	for (int j = 0; j < 5; j++) {
+		for (int i = 0; i < 5; i++)
+			std::cout << gamepanel[j][i] << " ";
+		std::cout << std::endl;
+	}
+	std::cout << "Gamepanel: " << x - 1 << " " << y - 1 << std::endl;
 }

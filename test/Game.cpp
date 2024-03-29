@@ -90,6 +90,7 @@ void Game::Update()
     }
     else if (gameState == "InGame") {
         player.SetUp(locationList[mapNumber]);
+        //check npc
 
         if (player.GetPlayerState() == "Normal") {
             player.NormalState(view, isPressed);
@@ -105,13 +106,13 @@ void Game::Update()
             travel.Update(player, worldMap.GetTravelingTime(), dt, isPressed);
         }
         else if (player.GetPlayerState() == "Battle") {
-
+            //battle.Update();
         }
         else if (player.GetPlayerState() == "Trading") {
-
+            trade.Update(player, isPressed);
         }
         else if (player.GetPlayerState() == "Talking") {
-
+            //player.TalkState(npc);
         }
     }
 

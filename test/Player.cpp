@@ -122,6 +122,12 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
+			(playerMap[positionY][positionX] == 1)) {
+			playerState = "Trading";
+			isSetUp = false;
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
 			(playerMap[positionY][positionX] == 2)) {
 			playerState = "Talking";
 			isSetUp = false;
@@ -134,7 +140,7 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 	}
 }
 
-void Player::TalkState(NPC npc)
+void Player::TalkState(NPC& npc, bool& isPressed)
 {
 	if (!showTalk) {
 		std::cout << "Dialogue" << std::endl;
@@ -166,22 +172,32 @@ void Player::TalkState(NPC npc)
 	}
 
 	if (!selected) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			select++;
-			std::cout << select << std::endl;
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			select--;
-			std::cout << select << std::endl;
-		}
+		if (!isPressed) {
+			isPressed = true;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				select++;
 
-		if (select > selectMax)
-			select = 1;
-		if (select < 1)
-			select = selectMax;
+				if (select > selectMax)
+					select = 1;
+				if (select < 1)
+					select = selectMax;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-			selected = true;
+				std::cout << select << std::endl;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				select--;
+
+				if (select > selectMax)
+					select = 1;
+				if (select < 1)
+					select = selectMax;
+
+				std::cout << select << std::endl;
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+				selected = true;
+		}
 	}
 	else {
 		switch (select) {
@@ -189,18 +205,83 @@ void Player::TalkState(NPC npc)
 			SetPlayerState("Normal");
 			showTalk = false;
 			selected = false;
-			select = 1;
 			break;
 		case 2:
 			SetPlayerState("Trading");
 			showTalk = false;
 			selected = false;
-			select = 1;
 			break;
 		case 3:
-			AcceptQuest(npc);
+			AcceptQuest(npc, isPressed);
 			break;
 		}
+	}
+}
+
+void Player::AcceptQuest(NPC& npc, bool& isPressed)
+{
+	if (!showQuest) {
+		std::cout << "Quest" << std::endl;
+
+		std::cout << npc.QuestDialogue() << std::endl;
+
+		showQuest = true;
+		questSelect = 1;
+
+		if (npc.npcQuest().finished || npc.npcQuest().accepted)
+			questSelectMax = 1;
+		else
+			questSelectMax = 2;
+	}
+
+	if (!questSelected) {
+		if (!isPressed) {
+			isPressed = true;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				questSelect++;
+
+				if (questSelect > questSelectMax)
+					questSelect = 1;
+				if (questSelect < 1)
+					questSelect = questSelectMax;
+
+				std::cout << questSelect << std::endl;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				questSelect--;
+
+				if (questSelect > questSelectMax)
+					questSelect = 1;
+				if (questSelect < 1)
+					questSelect = questSelectMax;
+
+				std::cout << questSelect << std::endl;
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+				questSelected = true;
+		}
+	}
+	else {
+		switch (questSelect) {
+		case 1:
+			if (npc.npcQuest().finished)
+				std::cout << "You finished my quest" << std::endl;
+			else if (npc.npcQuest().accepted)
+				std::cout << "You accepted my quest" << std::endl;
+			break;
+		case 2:
+			npc.AcceptQuest();
+			AddQuest(npc.npcQuest());
+			std::cout << "Player accepts quest successfully" << std::endl;
+			break;
+		}
+
+		SetPlayerState("Normal");
+		showTalk = false;
+		selected = false;
+		showQuest = false;
+		questSelected = false;
 	}
 }
 
@@ -398,66 +479,6 @@ void Player::Effect(Item item, Character c)
 	if (item.name == "bread") {
 		c.AddHp(10);
 		std::cout << c.GetName() << " eat a bread" << std::endl;
-	}
-}
-
-void Player::AcceptQuest(NPC npc)
-{
-	if (!showQuest) {
-		std::cout << "Quest" << std::endl;
-
-		std::cout << npc.QuestDialogue() << std::endl;
-
-		showQuest = true;
-		select = 1;
-
-		if (npc.npcQuest().finished || npc.npcQuest().accepted)
-			questSelectMax = 1;
-		else
-			questSelectMax = 2;
-	}
-
-	if (!questSelected) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			questSelect++;
-			std::cout << questSelect << std::endl;
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			questSelect--;
-			std::cout << questSelect << std::endl;
-		}
-
-		if (questSelect > questSelectMax)
-			questSelect = 1;
-		if (questSelect < 1)
-			questSelect = questSelectMax;
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-			questSelected = true;
-	}
-	else {
-		switch (questSelect) {
-		case 1:
-			if (npc.npcQuest().finished)
-				std::cout << "You finished my quest" << std::endl;
-			if (npc.npcQuest().accepted)
-				std::cout << "You accepted my quest" << std::endl;
-
-			SetPlayerState("Normal");
-			showQuest = false;
-			questSelected = false;
-			questSelect = 1;
-			break;
-		case 2:
-			npc.AcceptQuest();
-			AddQuest(npc.npcQuest());
-			std::cout << "Player accepted quest successfully" << std::endl;
-			SetPlayerState("Normal");
-			showQuest = false;
-			questSelected = false;
-			questSelect = 1;
-			break;
-		}
 	}
 }
 

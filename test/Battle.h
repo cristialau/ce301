@@ -26,7 +26,6 @@ private:
 	int playerAttackDmg;		//player's atk
 	int playerDefence;			//player's def
 
-	bool enemyTurn;
 	int enemyNumber;			//enemy number
 	std::string enemyStatus;	//enemy battle status
 	int enemyTeamHPMax;			//enemy's hp
@@ -40,6 +39,9 @@ private:
 
 	bool isPassive;
 	int select;				//player select
+	int selectMax;
+
+	bool playerSelected;
 
 public:
 	Battle();
@@ -47,7 +49,8 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(Player player, std::vector<NPC> enemy);
+	void Update(Player& player, std::vector<NPC>& enemy, bool& isPressed);
+	void BattleRun(Player& player, std::vector<NPC>& enemy, bool& isPressed);
 	void Draw();
 
 	//Getter Setter
@@ -59,8 +62,9 @@ public:
 	void AddSp(int sp);
 	void Attack(int attackdmg);
 	void Skill(std::string skill);
-	void Lose(Player player);
-	void Win(Player player);
+	void Lose(Player& player);
+	void Win(Player& player);
+	
 };
 
 #endif

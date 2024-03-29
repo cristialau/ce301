@@ -77,7 +77,8 @@ public:
 	void Load();
 	void SetUp(Location location);
 	void NormalState(sf::View& view, bool& isPressed);
-	void TalkState(NPC npc);
+	void TalkState(NPC& npc, bool& isPressed);
+	void AcceptQuest(NPC& npc, bool& isPressed);
 	void Draw(sf::RenderWindow& window);
 
 	//getters setters
@@ -121,7 +122,6 @@ public:
 	void Effect(Item item, Character c); // Item effects
 
 	//Quest
-	void AcceptQuest(NPC npc);
 	void AddQuest(Quest quest);	//accept quest
 	//void StartTrade();		//trading with npc
 	//void StartBattle();		//start battle
