@@ -11,7 +11,7 @@ class NPC
 {
 private:
 	//npcNumber and setup
-	int npcNumber = 2;
+	int npcNumber = 5;
 	bool isSetUp = false;
 	//sprite tile size, scale
 	float tileSize = 16.f;
@@ -20,11 +20,11 @@ private:
 	float tilePositionX = 0;
 	float tilePositionY = 0;
 	//npc location
-	int locationID = 0;
 	int positionX = 0;
 	int positionY = 0;
+	int locationID = 0;
 	//Npc current state
-	int npcState = 1;
+	int npcState = 3;
 
 	//Character
 	Character c;
@@ -54,7 +54,7 @@ public:
 	
 	void Initialize();
 	void Load();
-	void Update(Location location);
+	void Update(Location& location);
 	void Draw(sf::RenderWindow &window);
 
 	//Getters Setters

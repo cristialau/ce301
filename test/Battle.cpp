@@ -64,8 +64,10 @@ void Battle::BattleRun(Player& player, std::vector<NPC>& enemy, bool& isPressed)
 	else if (enemyTeamHP <= 0)
 		Win(player);
 
+
 	//round start
 	if (!roundStart) {
+		std::cout << "bug?" << std::endl;
 		roundStart = true;
 		round++;
 		std::cout << "Round: " << round << std::endl;
@@ -94,6 +96,7 @@ void Battle::BattleRun(Player& player, std::vector<NPC>& enemy, bool& isPressed)
 		select = 1;
 		std::cout << select << std::endl;
 	}
+	
 
 	//Player move first
 
@@ -170,23 +173,25 @@ void Battle::BattleRun(Player& player, std::vector<NPC>& enemy, bool& isPressed)
 	else {
 		if (enemyStatus == "Normal") {
 			//Enemy Turn
-			if (enemyNumber > 1)
-				random = rand() % enemyNumber + 1;
+			std::cout << "Enemy turn" << std::endl;
 
 			switch (enemyNumber) {
 			case 1:
 				if (useEnemyAttack && !useEnemySkill1) {
 					useEnemySkill1 = true;
-					Skill(enemy[1].GetC().GetSkill1());
+					Skill(enemy[0].GetC().GetSkill1());
+					std::cout << "Enemy use skill 1" << std::endl;
 				}
 				else if (useEnemyAttack && useEnemySkill1) {
 					useEnemyAttack = false;
 					useEnemySkill1 = false;
-					Skill(enemy[1].GetC().GetSkill2()); //enemy skill
+					Skill(enemy[0].GetC().GetSkill2()); //enemy skill
+					std::cout << "Enemy use skill 2" << std::endl;
 				}
 				else {
 					useEnemyAttack = true;
 					Attack(enemyAttackDmg); //enemy attack
+					std::cout << "Enemy attack" << std::endl;
 				}
 
 				break;
@@ -250,7 +255,7 @@ void Battle::SetStartBattle(bool startBattle)
 void Battle::SetUp(Player player, std::vector<NPC> enemy)
 {
 	startBattle = true;
-	roundStart = true;
+	roundStart = false;
 	//playerState = previousState;
 
 	round = 0;
@@ -288,28 +293,37 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy)
 
 	switch (enemyNumber) {
 	case 1:
-		enemyTeamHPMax = enemy[1].GetC().GetTotalHp();
-		enemyTeamHP = enemy[1].GetC().GetHp();
-		enemyAttackDmg = enemy[1].GetC().GetAttack();
-		enemyDefence = enemy[1].GetC().GetDefence();
+		enemyTeamHPMax = enemy[0].GetC().GetTotalHp();
+		enemyTeamHP = enemy[0].GetC().GetHp();
+		enemyAttackDmg = enemy[0].GetC().GetAttack();
+		enemyDefence = enemy[0].GetC().GetDefence();
 		break;
 	case 2:
-		enemyTeamHPMax = enemy[1].GetC().GetTotalHp() + enemy[2].GetC().GetTotalHp();
-		enemyTeamHP = enemy[1].GetC().GetHp() + enemy[2].GetC().GetHp();
-		enemyAttackDmg = (int)((enemy[1].GetC().GetAttack() + enemy[2].GetC().GetAttack()) * 0.75);
-		enemyDefence = (int)((enemy[1].GetC().GetDefence() + enemy[2].GetC().GetDefence()) * 0.75);
+		enemyTeamHPMax = enemy[0].GetC().GetTotalHp() + enemy[1].GetC().GetTotalHp();
+		enemyTeamHP = enemy[0].GetC().GetHp() + enemy[1].GetC().GetHp();
+		enemyAttackDmg = (int)((enemy[0].GetC().GetAttack() + enemy[1].GetC().GetAttack()) * 0.75);
+		enemyDefence = (int)((enemy[0].GetC().GetDefence() + enemy[1].GetC().GetDefence()) * 0.75);
 		break;
 	case 3:
-		enemyTeamHPMax = enemy[1].GetC().GetTotalHp() + enemy[2].GetC().GetTotalHp() + enemy[3].GetC().GetTotalHp();
-		enemyTeamHP = enemy[1].GetC().GetHp() + enemy[2].GetC().GetHp() + enemy[3].GetC().GetHp();
-		enemyAttackDmg = (int)((enemy[1].GetC().GetAttack() + enemy[2].GetC().GetAttack() + enemy[3].GetC().GetAttack() * 0.5));
-		enemyDefence = (int)((enemy[1].GetC().GetDefence() + enemy[2].GetC().GetDefence() + enemy[3].GetC().GetDefence() * 0.5));
+		enemyTeamHPMax = enemy[1].GetC().GetTotalHp() + enemy[2].GetC().GetTotalHp() + enemy[0].GetC().GetTotalHp();
+		enemyTeamHP = enemy[1].GetC().GetHp() + enemy[2].GetC().GetHp() + enemy[0].GetC().GetHp();
+		enemyAttackDmg = (int)((enemy[1].GetC().GetAttack() + enemy[2].GetC().GetAttack() + enemy[0].GetC().GetAttack() * 0.5));
+		enemyDefence = (int)((enemy[1].GetC().GetDefence() + enemy[2].GetC().GetDefence() + enemy[0].GetC().GetDefence() * 0.5));
 	}
 
 	useEnemyAttack = false;
 	useEnemySkill1 = false;
 	
-	random = 0;
+	// Create a random device to seed the generator
+	std::random_device rd;
+	// Create a random number engine
+	std::mt19937_64 eng(rd()); // Mersenne Twister 64-bit RNG
+	// Define a distribution
+	std::uniform_int_distribution<int> distr2(0, enemyNumber - 1); // Range from 1 to 3
+
+	random = distr2(eng);
+
+	//random = 0;
 	select = 1;
 }
 
@@ -350,7 +364,7 @@ void Battle::Lose(Player& player)
 	startBattle = false;
 	std::cout << "You Lose" << std::endl;
 	std::cout << "You Lost " << "Something" << std::endl;
-	player.SetPlayerState("Traveling");
+	player.SetPlayerState("Normal");
 }
 
 void Battle::Win(Player& player)
@@ -359,5 +373,5 @@ void Battle::Win(Player& player)
 	startBattle = false;
 	std::cout << "You Win" << std::endl;
 	std::cout << "You Gain " << "Something" << std::endl;
-	player.SetPlayerState("Traveling");
+	player.SetPlayerState("Normal");
 }

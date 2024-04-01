@@ -55,12 +55,16 @@ void Game::InitGame()
     mapNumber = 1;
 
     LocationList();
+    ItemList();
 }
 
 void Game::LoadGame()
 {
     map.Load(locationList[1]);
     c1.Load();
+
+    player.AddItem(itemList[1]);
+    player.AddItem(itemList[2]);
 }
 
 void Game::UpdateSFML()
@@ -76,25 +80,16 @@ void Game::UpdateSFML()
 
 void Game::Update()
 {
-    //MainMenu (gameState = MainMenu)
-    //LoadGame / Option (gameState = MainMenu)
-    //StartGame (gameState = InGame) (playerState = Normal)
-    //in game (gameState = InGame) (playerState = Normal)
-    //talking with npc (gameState = InGame) (playerState = Talking)
-    //trading with npc (gameState = InGame) (playerState = Trading)
-    //enter a battle with npc (gameState = InGame) (playerState = Battle)
-    //traveling (gameState = InGame) (playerState = Traveling)
-    //in game menu (gameState = InGame) (playerState = Menu)
     if (gameState == "MainMenu") {
         mainMenu.Update(gameState, isPressed);
     }
     else if (gameState == "InGame") {
+        npc1.Update(locationList[mapNumber]);
         player.SetUp(locationList[mapNumber]);
         //check npc
 
         if (player.GetPlayerState() == "Normal") {
             player.NormalState(view, isPressed);
-            //std::cout << "GameState: " << gameState << " PlayerState: " << player.GetPlayerState() << std::endl;
         }
         else if (player.GetPlayerState() == "Menu") {
             menu.Update(player, gameState, isPressed);
@@ -106,13 +101,16 @@ void Game::Update()
             travel.Update(player, worldMap.GetTravelingTime(), dt, isPressed);
         }
         else if (player.GetPlayerState() == "Battle") {
-            //battle.Update();
+            if (enemy.empty())
+                enemy.push_back(npc1);
+
+            battle.Update(player, enemy, isPressed);
         }
         else if (player.GetPlayerState() == "Trading") {
             trade.Update(player, isPressed);
         }
         else if (player.GetPlayerState() == "Talking") {
-            //player.TalkState(npc);
+            player.TalkState(npc1, isPressed);
         }
     }
 
@@ -160,39 +158,58 @@ void Game::EndApplication()
 
 void Game::ItemList()
 {
-    item = new Item[itemNumber];
+    item = new Item[10];
 
-    for (int i = 0; i < 10; i++) {
-        item[i].id = i + 1;
-    }
+    //Item 1
+    //id
+    item[1].id = 1;
+    //icon
+    item[1].textureName = "none";
+    //attributes
+    item[1].name = "bread";
+    item[1].type = "food";
+    item[1].description = "Bread, you can eat it.";
+    item[1].effect = "+10 HP";
 
-    //Item
-    if (item[1].id == 1) {
-        //id
-        item->id = 1;
-        //icon
-        item->textureName = "";
-        //attributes
-        item->name = "bread";
-        item->type = "food";
-        item->description = "Bread, you can eat it.";
-        item->effect = "+10 HP";
+    item[1].amount = 1;
+    item[1].durability = 10;
+    item[1].weight = 1;
 
-        item->amount = 1;
-        item->durability = 10;
-        item->weight = 1;
+    item[1].isConsumable = true;
+    item[1].haveDurability = true;
 
-        item->isConsumable = true;
-        item->haveDurability = true;
+    item[1].isEquip = false;
+    item[1].inInventory = false;
 
-        item->isEquip = false;
-        item->inInventory = false;
+    item[1].price = 5;
+    //Item 1
 
-        item->price = 5;
-    }
-    else {
-        std::cout << "Error: No " << item->name << " in data" << std::endl;
-    }
+    //Item 2
+    //id
+    item[2].id = 2;
+    //icon
+    item[2].textureName = "none";
+    //attributes
+    item[2].name = "water";
+    item[2].type = "food";
+    item[2].description = "Water, you can drink it.";
+    item[2].effect = "+5 HP";
+
+    item[2].amount = 1;
+    item[2].durability = 10;
+    item[2].weight = 1;
+
+    item[2].isConsumable = true;
+    item[2].haveDurability = true;
+
+    item[2].isEquip = false;
+    item[2].inInventory = false;
+
+    item[2].price = 4;
+    //Item 2
+
+    for (int i = 0; i < 10; i++)
+        itemList.push_back(item[i]);
 }
 
 void Game::LocationList()
@@ -408,4 +425,9 @@ void Game::QuestList()
 
 void Game::NPCList()
 {
+}
+
+void Game::SceneList()
+{
+
 }

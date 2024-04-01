@@ -5,6 +5,7 @@
 #include "NPC.h"
 #include "SFML/Graphics.hpp"
 #include <vector>
+#include <random>
 
 class Battle
 {
@@ -35,6 +36,7 @@ private:
 	bool useEnemyAttack;
 	bool useEnemySkill1;
 	//bool useEnemySkill2;
+	
 	int random;
 
 	bool isPassive;

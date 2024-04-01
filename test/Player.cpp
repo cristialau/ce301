@@ -6,17 +6,19 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 	
 	warning = false;
 
-	if (isC1)
+	if (isC1 && isC2)
+		gold = c1.GetGold() + c2.GetGold();
+	else if (isC1)
 		gold = c1.GetGold();
 	else if (isC2)
 		gold = c2.GetGold();
-	else if (BothCharacter)
-		gold = c1.GetGold() + c2.GetGold();
 
 	for (int j = 0; j < playerMapSize; j++) {
 		for (int i = 0; i < playerMapSize; i++)
 			playerMap[j][i] = 0;
 	}
+
+	
 }
 
 Player::~Player()
@@ -128,7 +130,7 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
-			(playerMap[positionY][positionX] == 2)) {
+			(playerMap[positionY][positionX] == 5)) {
 			playerState = "Talking";
 			isSetUp = false;
 		}
@@ -166,7 +168,7 @@ void Player::TalkState(NPC& npc, bool& isPressed)
 			selectMax = 3;
 			std::cout << "Cancel" << std::endl;
 			std::cout << "Trade" << std::endl;
-			std::cout << "Quest" << std::endl;
+			std::cout << "Battle" << std::endl;
 			break;
 		}
 	}
@@ -212,7 +214,10 @@ void Player::TalkState(NPC& npc, bool& isPressed)
 			selected = false;
 			break;
 		case 3:
-			AcceptQuest(npc, isPressed);
+			SetPlayerState("Battle");
+			showTalk = false;
+			selected = false;
+			//AcceptQuest(npc, isPressed);
 			break;
 		}
 	}
@@ -311,16 +316,6 @@ void Player::SetIsC2(bool isC2)
 	this->isC2 = isC2;
 }
 
-bool Player::GetBothC()
-{
-	return BothCharacter;
-}
-
-void Player::SetBothC(bool BothCharacter)
-{
-	this->BothCharacter = BothCharacter;
-}
-
 Character Player::GetC1()
 {
 	return c1;
@@ -348,7 +343,7 @@ int Player::GetGold()
 
 std::vector<Item> Player::GetInventory()
 {
-	if (isC1 || BothCharacter)
+	if (isC1)
 		return c1.GetInventory();
 	else
 		return c2.GetInventory();
@@ -356,7 +351,7 @@ std::vector<Item> Player::GetInventory()
 
 int Player::GetInventoryWeight()
 {
-	if (isC1 || BothCharacter)
+	if (isC1)
 		return c1.GetInventoryWeight();
 	else
 		return c2.GetInventoryWeight();
@@ -419,7 +414,7 @@ void Player::SetLocation(Location location)
 
 void Player::SetOsv(int osvScore)
 {
-	if (isC1 || BothCharacter)
+	if (isC1)
 		c1.SetObservation(osvScore);
 	else
 		c2.SetObservation(osvScore);
@@ -427,7 +422,7 @@ void Player::SetOsv(int osvScore)
 
 void Player::SetCvs(int cvsScore)
 {
-	if (isC1 || BothCharacter)
+	if (isC1)
 		c1.SetConversation(cvsScore);
 	else
 		c2.SetConversation(cvsScore);
@@ -435,7 +430,7 @@ void Player::SetCvs(int cvsScore)
 
 void Player::SetKlg(int klgScore)
 {
-	if (isC1 || BothCharacter)
+	if (isC1)
 		c1.SetKnowledge(klgScore);
 	else
 		c2.SetKnowledge(klgScore);
@@ -452,6 +447,12 @@ int Player::GetMapPositionY()
 	return positionY;
 }
 
+//Quest
+void Player::AddQuest(Quest quest)
+{
+	questList.push_back(quest);
+}
+
 //Functions
 void Player::SpendGold(int gold)
 {
@@ -460,6 +461,11 @@ void Player::SpendGold(int gold)
 		this->gold = gold;
 		warning = true;
 	}
+}
+
+void Player::AddItem(Item item)
+{
+	c1.AddItem(item);
 }
 
 void Player::Consume(int inventoryNumber)
@@ -482,7 +488,10 @@ void Player::Effect(Item item, Character c)
 	}
 }
 
-void Player::AddQuest(Quest quest)
+void Player::Reward(bool win)
 {
-	questList.push_back(quest);
+	if (win)
+		c1.AddGold(50);
+	else
+		c1.MinGold(30);
 }

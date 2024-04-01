@@ -17,8 +17,6 @@ struct Dialogue
 	std::string description;
 	
 	//Dialogue background
-
-	int select;
 };
 
 #endif

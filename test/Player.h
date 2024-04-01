@@ -14,9 +14,9 @@ private:
 	//Characters
 	Character c1;
 	Character c2;
-	bool isC1 = false;
-	bool isC2 = false;
-	bool BothCharacter = true;
+	bool isC1 = true;
+	bool isC2 = true;
+	//bool BothCharacter = true;
 	int totalSp = 7;			//total sp
 	std::vector<Item> inventory;
 	int gold = 0;				//gold
@@ -86,8 +86,6 @@ public:
 	void SetIsC1(bool isC1);
 	bool GetIsC2();
 	void SetIsC2(bool isC2);
-	bool GetBothC();
-	void SetBothC(bool BothCharacter);
 	Character GetC1();
 	Character GetC2();
 	int GetTotalSP();
@@ -115,17 +113,18 @@ public:
 	int GetMapPositionX(); //Player Map positionX
 	int GetMapPositionY(); //Player Map positionY
 
+	//Quest
+	void AddQuest(Quest quest);	//accept quest
+
 	//Functions
 	void SpendGold(int gold);
 	
+	void AddItem(Item item);
 	void Consume(int inventoryNumber); //use item from inventory
 	void Effect(Item item, Character c); // Item effects
+	void Reward(bool win);
 
-	//Quest
-	void AddQuest(Quest quest);	//accept quest
-	//void StartTrade();		//trading with npc
-	//void StartBattle();		//start battle
-	//void StartTravel(Location currentLocation, Location selectLocation, int travelTime);
+	
 };
 
 #endif

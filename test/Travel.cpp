@@ -45,8 +45,7 @@ void Travel::Update(Player& player, int travelingTime, float dt, bool& isPressed
 			timer = 0;
 		}
 
-		if (this->travelingTime % 30)
-			std::cout << "Traveling Time: " << this->travelingTime << std::endl;
+		std::cout << "Traveling Time: " << this->travelingTime << std::endl;
 	}
 	else {
 		if (!showArrived) {

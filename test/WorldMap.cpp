@@ -75,8 +75,7 @@ void WorldMap::Update(Player& player, Menu& menu, std::vector<Location> location
 				travelingTime = player.GetLocation().time - locationList[select].time;
 				
 				std::cout << "Estimate travel time: " <<
-					abs(travelingTime) <<
-					" hours" << std::endl;
+					abs(travelingTime) << std::endl;
 
 				std::cout << "Start your travel?" << std::endl;
 			}

@@ -227,23 +227,23 @@ void Menu::OpenChangeEquip(Player& player, int& characterSelect, bool& isPressed
 			equipSelect++;
 
 			if (equipSelect > (int)equipment.size())
-				equipSelect = 0;
-			if (equipSelect < 0)
+				equipSelect = 1;
+			if (equipSelect < 1)
 				equipSelect = (int)equipment.size();
 
 			//std::cout << equipment[equipSelect].name << ": " << equipment[equipSelect].description << std::endl;
-			std::cout << equipSelect + 1 << " / " << equipment.size() + 1 << std::endl;
+			std::cout << equipSelect<< " / " << equipment.size() << std::endl;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 			equipSelect--;
 
 			if (equipSelect > (int)equipment.size())
-				equipSelect = 0;
-			if (equipSelect < 0)
+				equipSelect = 1;
+			if (equipSelect < 1)
 				equipSelect = (int)equipment.size();
 
 			//std::cout << equipment[equipSelect].name << ": " << equipment[equipSelect].description << std::endl;
-			std::cout << equipSelect + 1 << " / " << equipment.size() + 1 << std::endl;
+			std::cout << equipSelect << " / " << equipment.size() << std::endl;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 			player.GetC1().SetEquip(equipSelect, equipment[equipSelect].name);
@@ -285,23 +285,23 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 			inventorySelect++;
 
 			if (inventorySelect > (int)inventory.size())
-				inventorySelect = 0;
-			if (inventorySelect < 0)
+				inventorySelect = 1;
+			if (inventorySelect < 1)
 				inventorySelect = (int)inventory.size();
 
 			//std::cout << inventory[inventorySelect].name << ": " << inventory[inventorySelect].description << std::endl;
-			std::cout << inventorySelect + 1 << " / " << inventory.size() + 1 << std::endl;
+			std::cout << inventorySelect << " / " << inventory.size() << std::endl;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 			inventorySelect--;
 
 			if (inventorySelect > (int)inventory.size())
-				inventorySelect = 0;
-			if (inventorySelect < 0)
+				inventorySelect = 1;
+			if (inventorySelect < 1)
 				inventorySelect = (int)inventory.size();
 
 			//std::cout << inventory[inventorySelect].name << ": " << inventory[inventorySelect].description << std::endl;
-			std::cout << inventorySelect + 1 << " / " << inventory.size() + 1 << std::endl;
+			std::cout << inventorySelect << " / " << inventory.size() << std::endl;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 			if (inventory[inventorySelect].isConsumable) {
@@ -343,23 +343,23 @@ void Menu::OpenQuest(Player& player, bool& isPressed)
 			questSelect++;
 
 			if (questSelect > (int)quest.size())
-				questSelect = 0;
-			if (questSelect < 0)
+				questSelect = 1;
+			if (questSelect < 1)
 				questSelect = (int)quest.size();
 
 			//std::cout << quest[questSelect].name << ": " << quest[questSelect].description << std::endl;
-			std::cout << questSelect + 1 << " / " << quest.size() + 1 << std::endl;
+			std::cout << questSelect << " / " << quest.size() << std::endl;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 			questSelect--;
 
 			if (questSelect > (int)quest.size())
-				questSelect = 0;
-			if (questSelect < 0)
+				questSelect = 1;
+			if (questSelect < 1)
 				questSelect = (int)quest.size();
 
 			//std::cout << quest[questSelect].name << ": " << quest[questSelect].description << std::endl;
-			std::cout << questSelect + 1 << " / " << quest.size() + 1 << std::endl;
+			std::cout << questSelect << " / " << quest.size() << std::endl;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 			showMenu = false;
