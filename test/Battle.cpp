@@ -47,27 +47,23 @@ void Battle::Load()
 {
 }
 
-void Battle::Update(Player& player, std::vector<NPC>& enemy, bool& isPressed)
+void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previousState, bool& isPressed)
 {
-	BattleRun(player, enemy, isPressed);
+	BattleRun(player, enemy, previousState, isPressed);
 }
 
-void Battle::BattleRun(Player& player, std::vector<NPC>& enemy, bool& isPressed)
+void Battle::BattleRun(Player& player, std::vector<NPC>& enemy, std::string previousState, bool& isPressed)
 {
 	//Setup
 	if (!startBattle)
-		SetUp(player, enemy);
+		SetUp(player, enemy, previousState);
 
 	//if Player or enemy hp = 0
-	if (playerTeamHP <= 0)
-		Lose(player);
-	else if (enemyTeamHP <= 0)
-		Win(player);
-
+	if (playerTeamHP <= 0 || enemyTeamHP <= 0)
+		EndBattle(player, enemy);
 
 	//round start
 	if (!roundStart) {
-		std::cout << "bug?" << std::endl;
 		roundStart = true;
 		round++;
 		std::cout << "Round: " << round << std::endl;
@@ -96,7 +92,6 @@ void Battle::BattleRun(Player& player, std::vector<NPC>& enemy, bool& isPressed)
 		select = 1;
 		std::cout << select << std::endl;
 	}
-	
 
 	//Player move first
 
@@ -175,6 +170,14 @@ void Battle::BattleRun(Player& player, std::vector<NPC>& enemy, bool& isPressed)
 			//Enemy Turn
 			std::cout << "Enemy turn" << std::endl;
 
+			// Create a random device to seed the generator
+			std::random_device rd;
+			// Create a random number engine
+			std::mt19937_64 eng(rd()); // Mersenne Twister 64-bit RNG
+			// Define a distribution
+			std::uniform_int_distribution<int> distr2(0, enemyNumber - 1); // Range from 1 to 3
+			random = distr2(eng);
+
 			switch (enemyNumber) {
 			case 1:
 				if (useEnemyAttack && !useEnemySkill1) {
@@ -227,6 +230,8 @@ void Battle::BattleRun(Player& player, std::vector<NPC>& enemy, bool& isPressed)
 					Attack(enemyAttackDmg); //enemy attack
 					useEnemyAttack = true;
 				}
+
+				break;
 			}
 		}
 		else {
@@ -252,12 +257,14 @@ void Battle::SetStartBattle(bool startBattle)
 	this->startBattle = startBattle;
 }
 
-void Battle::SetUp(Player player, std::vector<NPC> enemy)
+void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousState)
 {
+	this->previousState = previousState;
+
 	startBattle = true;
 	roundStart = false;
 	playerTurn = true;
-	//playerState = previousState;
+	
 	round = 0;
 	playerStatus = "Normal";
 
@@ -287,7 +294,6 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy)
 	playerTeamSP = 3;
 
 	enemyNumber = (int)enemy.size();
-	//enemyNumber = rand() % 3 + 1;
 	enemyStatus = "Normal";
 
 	switch (enemyNumber) {
@@ -313,16 +319,7 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy)
 	useEnemyAttack = false;
 	useEnemySkill1 = false;
 	
-	// Create a random device to seed the generator
-	std::random_device rd;
-	// Create a random number engine
-	std::mt19937_64 eng(rd()); // Mersenne Twister 64-bit RNG
-	// Define a distribution
-	std::uniform_int_distribution<int> distr2(0, enemyNumber - 1); // Range from 1 to 3
-
-	random = distr2(eng);
-
-	//random = 0;
+	random = 0;
 	select = 1;
 }
 
@@ -357,18 +354,34 @@ void Battle::Skill(std::string skill)
 	}
 }
 
-void Battle::Lose(Player& player)
+void Battle::EndBattle(Player& player, std::vector<NPC>& enemy)
 {
 	startBattle = false;
-	std::cout << "You Lose" << std::endl;
-	std::cout << "You Lost " << "Something" << std::endl;
-	player.SetPlayerState("Normal");
-}
 
-void Battle::Win(Player& player)
-{
-	startBattle = false;
-	std::cout << "You Win" << std::endl;
-	std::cout << "You Gain " << "Something" << std::endl;
-	player.SetPlayerState("Normal");
+	if (playerTeamHP <= 0) {
+		std::cout << "You Lose" << std::endl;
+		player.MinGold((int)(player.GetGold() * 0.2));
+		std::cout << "You Lost: " << (int)(player.GetGold() * 0.2) << std::endl;
+
+		player.SetHPAfterBattle((int)(playerTeamHP * 0.75));
+	}
+	else if (enemyTeamHP <= 0) {
+		std::cout << "You Win" << std::endl;
+		std::cout << "You Gain: " << std::endl;
+
+		for (int i = 0; i < enemy.size(); i++) {
+			if (enemy[i].GetInventory().size() >= 1) {
+				for (int j = 0; j < enemy[i].GetInventory().size(); j++) {
+					player.GetCartInventory().push_back(enemy[i].GetInventory()[j]);
+					std::cout << enemy[i].GetInventory()[j].amount << " " << enemy[i].GetInventory()[j].name << std::endl;
+				}
+			}
+			player.AddGold(enemy[i].GetGold());
+			std::cout << enemy[i].GetGold() << " Gold" << std::endl;
+		}
+
+		player.SetHPAfterBattle(playerTeamHP);
+	}
+
+	player.SetPlayerState(previousState);
 }

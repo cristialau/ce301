@@ -58,15 +58,15 @@ void Trade::Load()
 {	
 }
 
-void Trade::Update(Player& player, bool& isPressed)
+void Trade::Update(Player& player, std::string previousState, bool& isPressed)
 {
-	StartTrade(player, isPressed);
+	StartTrade(player, previousState, isPressed);
 }
 
-void Trade::StartTrade(Player& player, bool& isPressed)
+void Trade::StartTrade(Player& player, std::string previousState, bool& isPressed)
 {
 	if (!StartTrading)
-		SetUpGamePanel();
+		SetUpGamePanel(previousState);
 
 	if (move >= 0) {
 		if (!isPressed) {
@@ -106,7 +106,7 @@ void Trade::StartTrade(Player& player, bool& isPressed)
 		player.SetOsv(observationScore);
 		player.SetCvs(conversationScore);
 		player.SetKlg(knowledgeScore);
-		player.SetPlayerState("Normal");
+		player.SetPlayerState(previousState);
 		StartTrading = false;
 	}
 }
@@ -127,8 +127,9 @@ bool Trade::GetStartTrading()
 }
 
 //Functions
-void Trade::SetUpGamePanel()
+void Trade::SetUpGamePanel(std::string previousState)
 {
+	this->previousState = previousState;
 	StartTrading = true;
 	move = 10;
 	//elements

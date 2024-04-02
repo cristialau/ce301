@@ -81,6 +81,16 @@ void Game::UpdateSFML()
 
 void Game::Update()
 {
+    if (temp != player.GetPlayerState()) {
+        change = true;
+        if (change) {
+            previousState = temp;
+            change = false;
+        }
+        temp = player.GetPlayerState();
+        std::cout << previousState << std::endl;
+    }
+
     if (gameState == "MainMenu") {
         mainMenu.Update(gameState, isPressed);
     }
@@ -99,19 +109,19 @@ void Game::Update()
             worldMap.Update(player, menu, locationList, mapNumber, isPressed);
         }
         else if (player.GetPlayerState() == "Traveling") {
-            travel.Update(player, worldMap.GetTravelingTime(), dt, isPressed);
+            player.TravelState(worldMap.GetTravelingTime(), dt, isPressed);
         }
         else if (player.GetPlayerState() == "Battle") {
             if (enemy.empty())
                 enemy.push_back(npc1);
 
-            battle.Update(player, enemy, isPressed);
+            battle.Update(player, enemy, previousState, isPressed);
         }
         else if (player.GetPlayerState() == "Trading") {
-            trade.Update(player, isPressed);
+            trade.Update(player, previousState, isPressed);
         }
         else if (player.GetPlayerState() == "Talking") {
-            player.TalkState(npc1, isPressed);
+            player.TalkState(npc1, previousState, isPressed);
         }
     }
 
@@ -119,10 +129,7 @@ void Game::Update()
     
     if (gameState == "QuitGame")
         EndApplication();
-
-    //std::cout << "Game State: " << gameState << std::endl;
-    //std::cout << "Player State: " << player.GetPlayerState() << std::endl;
-
+    
     if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
         !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
         !sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&

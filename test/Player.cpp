@@ -140,83 +140,164 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 	}
 }
 
-void Player::TalkState(NPC& npc, bool& isPressed)
+void Player::TalkState(NPC& npc, std::string previousState, bool& isPressed)
 {
-	if (!showTalk) {
-		std::cout << "Dialogue" << std::endl;
+	if (previousState == "Trading" || previousState == "Battle") {
+		SetPlayerState("Normal");
+	}
+	else {
+		if (!showTalk) {
+			std::cout << "Dialogue" << std::endl;
 
-		std::cout << npc.GetC().GetName() << std::endl;
-		std::cout << npc.Dialogue() << std::endl;
+			std::cout << npc.GetC().GetName() << std::endl;
+			std::cout << npc.Dialogue() << std::endl;
 
-		showTalk = true;
-		select = 1;
+			showTalk = true;
+			select = 1;
 
-		//Merchant, villager
-		switch (npc.GetNPCState()) {
-		case 1:
-			selectMax = 1;
-			std::cout << "Cancel" << std::endl;
-			break;
-		case 2:
-			selectMax = 2;
-			std::cout << "Cancel" << std::endl;
-			std::cout << "Trade" << std::endl;
-			break;
-		case 3:
-			selectMax = 3;
-			std::cout << "Cancel" << std::endl;
-			std::cout << "Trade" << std::endl;
-			std::cout << "Battle" << std::endl;
-			break;
+			//Merchant, villager
+			switch (npc.GetNPCState()) {
+			case 1:
+				selectMax = 1;
+				std::cout << "Cancel" << std::endl;
+				break;
+			case 2:
+				selectMax = 2;
+				std::cout << "Cancel" << std::endl;
+				std::cout << "Trade" << std::endl;
+				break;
+			case 3:
+				selectMax = 3;
+				std::cout << "Cancel" << std::endl;
+				std::cout << "Trade" << std::endl;
+				std::cout << "Battle" << std::endl;
+				break;
+			}
+		}
+
+		if (!selected) {
+			if (!isPressed) {
+				isPressed = true;
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+					select++;
+
+					if (select > selectMax)
+						select = 1;
+					if (select < 1)
+						select = selectMax;
+
+					std::cout << select << std::endl;
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+					select--;
+
+					if (select > selectMax)
+						select = 1;
+					if (select < 1)
+						select = selectMax;
+
+					std::cout << select << std::endl;
+				}
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+					selected = true;
+			}
+		}
+		else {
+			showTalk = false;
+			selected = false;
+
+			switch (select) {
+			case 1:	SetPlayerState("Normal"); break;
+			case 2:	SetPlayerState("Trading"); break;
+			case 3:	SetPlayerState("Battle"); break;
+				//AcceptQuest(npc, isPressed);
+			}
 		}
 	}
+}
 
-	if (!selected) {
-		if (!isPressed) {
-			isPressed = true;
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-				select++;
+void Player::TravelState(int travelingTime, float dt, bool& isPressed)
+{
+	if (!travelSetUp) {
+		this->travelingTime = travelingTime;
+		timer = 0;
+		travelSetUp = true;
+	}
 
-				if (select > selectMax)
-					select = 1;
-				if (select < 1)
-					select = selectMax;
+	if (!showTravel) {
+		std::cout << "Traveling" << std::endl;
 
-				std::cout << select << std::endl;
+		std::cout << "Day: " << day << std::endl;
+		std::cout << "Time: " << time << std::endl;
+		std::cout << "TravelingTime: " << this->travelingTime << std::endl;
+
+		showTravel = true;
+	}
+
+	if (this->travelingTime > 0) {
+		if (this->travelingTime % 500 == 0 && this->travelingTime != travelingTime) {
+
+			if (!roll) {
+				result = RandomEvent();
+				roll = true;
 			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-				select--;
 
-				if (select > selectMax)
-					select = 1;
-				if (select < 1)
-					select = selectMax;
+			switch (result) {
+			case 1: Reward(true);  roll = false; this->travelingTime--; break;
+			case 2: Reward(false); roll = false; this->travelingTime--; break;
+			case 3:
+				if (!showWarning) {
+					std::cout << "encounter combat" << std::endl;
+					showWarning = true;
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					SetPlayerState("Battle");
+					roll = false;
+					showWarning = false;
+					this->travelingTime--;
+				}
+				break;
+			case 4: 
+				if (!showWarning) {
+					std::cout << "encounter trade" << std::endl;
+					showWarning = true;
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					SetPlayerState("Trading");
+					roll = false;
+					showWarning = false;
+					this->travelingTime--;
+				}
+				break;
+			}
+		}
+		else {
+			timer += dt;
 
-				std::cout << select << std::endl;
+			if (timer >= 1000.0f) {
+				this->travelingTime -= 100;
+				timer = 0;
 			}
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-				selected = true;
+			std::cout << "Traveling Time: " << this->travelingTime << std::endl;
 		}
 	}
 	else {
-		switch (select) {
-		case 1:
-			SetPlayerState("Normal");
-			showTalk = false;
-			selected = false;
-			break;
-		case 2:
-			SetPlayerState("Trading");
-			showTalk = false;
-			selected = false;
-			break;
-		case 3:
-			SetPlayerState("Battle");
-			showTalk = false;
-			selected = false;
-			//AcceptQuest(npc, isPressed);
-			break;
+		if (!showArrived) {
+			std::cout << "Arrived" << std::endl;
+
+			showArrived = true;
+		}
+
+		if (!isPressed) {
+			isPressed = true;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+				SetPlayerState("Normal");
+				travelSetUp = false;
+				showTravel = false;
+				showArrived = false;
+			}
 		}
 	}
 }
@@ -334,54 +415,16 @@ void Player::SetTotalSP(int totalSp)
 	this->totalSp = totalSp;
 }
 
-int Player::GetGold()
+void Player::SetHPAfterBattle(int HP)
 {
-	return gold;
-}
-
-std::vector<Item> Player::GetCartInventory()
-{
-	return cartInventory;
-}
-
-void Player::AddItem(Item item)
-{
-	c1.AddItem(item);
-}
-
-void Player::MinItem(int invnetoryNumber)
-{
-	c1.MinItem(invnetoryNumber);
-}
-
-void Player::AddItemCart(Item item)
-{
-	bool isAdd = false;
-	for (int i = 0; i < cartInventory.size(); i++) {
-		if (item.name == cartInventory[i].name && item.durability == cartInventory[i].durability) {
-			cartInventory[i].amount += item.amount;
-			isAdd = true;
-			break;
-		}
+	if (HP <= 40) {
+		c1.SetHp(HP);
+		c2.SetHp(1);
 	}
-
-	if (!isAdd)
-		cartInventory.push_back(item);
-}
-
-void Player::MinItemCart(int inventoryNumber)
-{
-	cartInventory.erase(cartInventory.begin() + inventoryNumber - 1);
-}
-
-int Player::GetCartInventoryWeight()
-{
-	return cartInventoryWeight;
-}
-
-void Player::SetCartInventoryWeight(int cartInventoryWeight)
-{
-	this->cartInventoryWeight = cartInventoryWeight;
+	else {
+		c1.SetHp(HP - 40);
+		c2.SetHp(40);
+	}
 }
 
 std::vector<Quest> Player::GetQuest()
@@ -491,7 +534,17 @@ void Player::AddQuest(Quest quest)
 }
 
 //Functions
-void Player::SpendGold(int gold)
+int Player::GetGold()
+{
+	return gold;
+}
+
+void Player::AddGold(int gold)
+{
+	this->gold += gold;
+}
+
+void Player::MinGold(int gold)
 {
 	this->gold -= gold;
 	if (this->gold < 0) {
@@ -500,12 +553,37 @@ void Player::SpendGold(int gold)
 	}
 }
 
-void Player::Consume(bool characterActive, int inventoryNumber) 
+void Player::AddItem(Item item)
+{
+	c1.AddItem(item);
+}
+
+void Player::Consume(bool characterActive, int inventoryNumber)
 {
 	if (characterActive)
 		c1.Consume(inventoryNumber);
 	else
 		c2.Consume(inventoryNumber);
+}
+
+std::vector<Item> Player::GetCartInventory()
+{
+	return cartInventory;
+}
+
+void Player::AddItemCart(Item item)
+{
+	bool isAdd = false;
+	for (int i = 0; i < cartInventory.size(); i++) {
+		if (item.name == cartInventory[i].name && item.durability == cartInventory[i].durability) {
+			cartInventory[i].amount += item.amount;
+			isAdd = true;
+			break;
+		}
+	}
+
+	if (!isAdd)
+		cartInventory.push_back(item);
 }
 
 void Player::ConsumeCart(int inventoryNumber)
@@ -519,6 +597,16 @@ void Player::ConsumeCart(int inventoryNumber)
 		cartInventory.erase(cartInventory.begin() + inventoryNumber);
 }
 
+int Player::GetCartInventoryWeight()
+{
+	return cartInventoryWeight;
+}
+
+void Player::SetCartInventoryWeight(int cartInventoryWeight)
+{
+	this->cartInventoryWeight = cartInventoryWeight;
+}
+
 void Player::Effect(bool characterActive, Item item)
 {
 	if (characterActive)
@@ -527,10 +615,36 @@ void Player::Effect(bool characterActive, Item item)
 		c2.Effect(item);
 }
 
-void Player::Reward(bool win)
+int Player::RandomEvent()
 {
-	if (win)
-		c1.AddGold(50);
+	// Create a random device to seed the generator
+	std::random_device rd;
+	// Create a random number engine
+	std::mt19937_64 eng(rd()); // Mersenne Twister 64-bit RNG
+	// Define a distribution
+	std::uniform_int_distribution<int> distr3(1, 10); // Range from 1 to 3
+
+	int random = distr3(eng);
+	int result = 0;
+
+	if (random <= 4)
+		return 1;
+	else if (random > 4 && random < 8)
+		return 2;
+	else if (random == 9)
+		return 3;
 	else
+		return 4;
+}
+
+void Player::Reward(bool positive)
+{
+	if (positive) {
+		std::cout << "Recieve 50 gold" << std::endl;
+		c1.AddGold(50);
+	}
+	else {
+		std::cout << "Lost 30 gold" << std::endl;
 		c1.MinGold(30);
+	}
 }

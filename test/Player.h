@@ -7,6 +7,7 @@
 #include "Location.h"
 #include "SFML/Graphics.hpp"
 #include <iostream>
+#include <random>
 
 class Player
 {
@@ -57,18 +58,27 @@ private:
 	int day = 0;
 	int time = 0;
 
+	//std::string previousState;
 	//Talk
 	bool showTalk = false;
 	bool selected = false;
 	int selectMax = 0;
 	int select = 0;
-
 	bool showQuest = false;
 	bool questSelected = false;
 	int questSelectMax = 0;
 	int questSelect = 0;
-
 	bool isSetUp = false;
+
+	//Travel
+	bool travelSetUp = false;
+	bool showTravel = false;
+	bool showArrived = false;
+	int travelingTime = 0;
+	float timer = 0;
+	bool roll = false;
+	int result = 0;
+	bool showWarning = false;
 
 public:
 	Player(Character& c1, Character& c2);
@@ -78,7 +88,8 @@ public:
 	void Load();
 	void SetUp(Location location);
 	void NormalState(sf::View& view, bool& isPressed);
-	void TalkState(NPC& npc, bool& isPressed);
+	void TalkState(NPC& npc, std::string previousState, bool& isPressed);
+	void TravelState(int travelingTime, float dt, bool& isPressed);
 	void AcceptQuest(NPC& npc, bool& isPressed);
 	void Draw(sf::RenderWindow& window);
 
@@ -91,14 +102,8 @@ public:
 	Character GetC2();
 	int GetTotalSP();
 	void SetTotalSP(int totalSp);
-	int GetGold();
-	std::vector<Item> GetCartInventory();
-	void AddItem(Item item);
-	void MinItem(int invnetoryNumber);
-	void AddItemCart(Item item);
-	void MinItemCart(int inventoryNumber);
-	int GetCartInventoryWeight();
-	void SetCartInventoryWeight(int cartInventoryWeight);
+	void SetHPAfterBattle(int HP);
+	
 	std::vector<Quest> GetQuest();
 	std::string GetPlayerState();
 	void SetPlayerState(std::string playerState);
@@ -124,12 +129,23 @@ public:
 	void AddQuest(Quest quest);	//accept quest
 
 	//Functions
-	void SpendGold(int gold);
+	int GetGold();
+	void AddGold(int gold);
+	void MinGold(int gold);
 	
+	void AddItem(Item item);
 	void Consume(bool characterActive, int inventoryNumber); //use item from inventory
+	
+	std::vector<Item> GetCartInventory();
+	void AddItemCart(Item item);
 	void ConsumeCart(int inventoryNumber);
+	int GetCartInventoryWeight();
+	void SetCartInventoryWeight(int cartInventoryWeight);
+	
 	void Effect(bool characterActive, Item item); // Item effects
-	void Reward(bool win);
+	
+	int RandomEvent();
+	void Reward(bool positive);
 
 	
 };

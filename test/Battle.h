@@ -11,6 +11,7 @@ class Battle
 {
 private:
 	bool startBattle;
+	std::string previousState;
 	bool roundStart;
 	//std::string playerState;
 	
@@ -35,7 +36,6 @@ private:
 	int enemyDefence;			//enemy's def
 	bool useEnemyAttack;
 	bool useEnemySkill1;
-	//bool useEnemySkill2;
 	
 	int random;
 
@@ -51,8 +51,8 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(Player& player, std::vector<NPC>& enemy, bool& isPressed);
-	void BattleRun(Player& player, std::vector<NPC>& enemy, bool& isPressed);
+	void Update(Player& player, std::vector<NPC>& enemy, std::string previousState, bool& isPressed);
+	void BattleRun(Player& player, std::vector<NPC>& enemy, std::string previousState, bool& isPressed);
 	void Draw();
 
 	//Getter Setter
@@ -60,13 +60,11 @@ public:
 	void SetStartBattle(bool startBattle);
 
 	//Functions
-	void SetUp(Player player, std::vector<NPC> enemy);
+	void SetUp(Player player, std::vector<NPC> enemy, std::string previousState);
 	void AddSp(int sp);
 	void Attack(int attackdmg);
 	void Skill(std::string skill);
-	void Lose(Player& player);
-	void Win(Player& player);
-	
+	void EndBattle(Player& player, std::vector<NPC>& enemy);
 };
 
 #endif

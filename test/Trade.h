@@ -12,6 +12,7 @@ class Trade
 private:
 	//Trading setup
 	bool StartTrading;
+	std::string previousState;
 	int random;
 	//Turn
 	int move;
@@ -53,8 +54,8 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(Player& player, bool& isPressed);
-	void StartTrade(Player& player, bool& isPressed);
+	void Update(Player& player, std::string previousState, bool& isPressed);
+	void StartTrade(Player& player, std::string previousState, bool& isPressed);
 	void Draw();
 
 	//Getter Setter
@@ -62,7 +63,7 @@ public:
 	bool GetStartTrading();
 
 	//Functions
-	void SetUpGamePanel();
+	void SetUpGamePanel(std::string previousState);
 	bool HaveLuck();
 	void ChangeElement(int selected1, int selected2, int &move);
 	void CalculateScore();

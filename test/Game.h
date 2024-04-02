@@ -11,7 +11,6 @@
 #include "Map.h"
 #include "Trade.h"
 #include "Battle.h"
-#include "Travel.h"
 #include "WorldMap.h"
 #include "Menu.h"
 //#include "Interface.h"
@@ -53,7 +52,11 @@ private:
 	std::string gameState;
 	//Press keys
 	bool isPressed = false;
-	//MainMenu Done
+
+	std::string previousState;
+	std::string temp;
+	bool change = false;
+	//MainMenu
 	MainMenu mainMenu = MainMenu(title);
 	//Map
 	int mapNumber;
@@ -69,7 +72,7 @@ private:
 
 	//Player
 	Character c1 = Character(true, "Textures/npc.png", "player1", 100, 10, 10, 0, 0, 0, 0, "skill1", "skill2", 15, "equip1", "equip2", "equip3", 100);
-	Character c2 = Character(true, "none", "player2", 100, 10, 10, 0, 0, 0, 0, "skill3", "skill4", 10, "equip1", "equip2", "equip3", 100);
+	Character c2 = Character(true, "none", "player2", 40, 10, 10, 0, 0, 0, 0, "skill3", "skill4", 10, "equip1", "equip2", "equip3", 100);
 	Player player = Player(c1, c2);
 	
 	
@@ -79,10 +82,7 @@ private:
 	Battle battle = Battle();
 	//WorldMap Done
 	WorldMap worldMap = WorldMap();
-	//Travel
-	Travel travel = Travel();
-	int travelingTime = 0;
-	//Menu Done
+	//Menu
 	Menu menu = Menu();
 
 public:

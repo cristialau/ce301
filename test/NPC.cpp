@@ -102,6 +102,16 @@ void NPC::SetNPCState(int npcState)
 	this->npcState = npcState;
 }
 
+std::vector<Item> NPC::GetInventory()
+{
+	return c.GetInventory();
+}
+
+int NPC::GetGold()
+{
+	return c.GetGold();
+}
+
 std::string NPC::Dialogue()
 {
 	return std::string();

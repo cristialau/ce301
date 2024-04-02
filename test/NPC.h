@@ -70,6 +70,8 @@ public:
 	int GetNPCState();
 	void SetRelationship(int relationship);
 	void SetNPCState(int npcState);
+	std::vector<Item> GetInventory();
+	int GetGold();
 
 	//Functions
 	std::string Dialogue();
