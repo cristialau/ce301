@@ -57,7 +57,6 @@ public:
 		int knowledge,
 		std::string skill1,
 		std::string skill2,
-		std::vector<Item> inventory,
 		int inventoryWeight,
 		std::string equip1,
 		std::string equip2,
@@ -130,6 +129,8 @@ public:
 	void MinGold(int gold);
 
 	void Rust(int inventoryNumber);	 //item auto delete in inventory
+	void Consume(int inventoryNumber); //use item from inventory
+	void Effect(Item item); // Item effects
 };
 
 #endif

@@ -17,8 +17,6 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 		for (int i = 0; i < playerMapSize; i++)
 			playerMap[j][i] = 0;
 	}
-
-	
 }
 
 Player::~Player()
@@ -341,20 +339,49 @@ int Player::GetGold()
 	return gold;
 }
 
-std::vector<Item> Player::GetInventory()
+std::vector<Item> Player::GetCartInventory()
 {
-	if (isC1)
-		return c1.GetInventory();
-	else
-		return c2.GetInventory();
+	return cartInventory;
 }
 
-int Player::GetInventoryWeight()
+void Player::AddItem(Item item)
 {
-	if (isC1)
-		return c1.GetInventoryWeight();
-	else
-		return c2.GetInventoryWeight();
+	c1.AddItem(item);
+}
+
+void Player::MinItem(int invnetoryNumber)
+{
+	c1.MinItem(invnetoryNumber);
+}
+
+void Player::AddItemCart(Item item)
+{
+	bool isAdd = false;
+	for (int i = 0; i < cartInventory.size(); i++) {
+		if (item.name == cartInventory[i].name && item.durability == cartInventory[i].durability) {
+			cartInventory[i].amount += item.amount;
+			isAdd = true;
+			break;
+		}
+	}
+
+	if (!isAdd)
+		cartInventory.push_back(item);
+}
+
+void Player::MinItemCart(int inventoryNumber)
+{
+	cartInventory.erase(cartInventory.begin() + inventoryNumber - 1);
+}
+
+int Player::GetCartInventoryWeight()
+{
+	return cartInventoryWeight;
+}
+
+void Player::SetCartInventoryWeight(int cartInventoryWeight)
+{
+	this->cartInventoryWeight = cartInventoryWeight;
 }
 
 std::vector<Quest> Player::GetQuest()
@@ -412,6 +439,16 @@ void Player::SetLocation(Location location)
 	this->location = location;
 }
 
+void Player::SetEquip(bool characterActive, int equipSelect, std::string equip)
+{
+	if (characterActive) {
+		c1.SetEquip(equipSelect, equip);
+	}
+	else {
+		c2.SetEquip(equipSelect, equip);
+	}
+}
+
 void Player::SetOsv(int osvScore)
 {
 	if (isC1)
@@ -463,29 +500,31 @@ void Player::SpendGold(int gold)
 	}
 }
 
-void Player::AddItem(Item item)
+void Player::Consume(bool characterActive, int inventoryNumber) 
 {
-	c1.AddItem(item);
+	if (characterActive)
+		c1.Consume(inventoryNumber);
+	else
+		c2.Consume(inventoryNumber);
 }
 
-void Player::Consume(int inventoryNumber)
+void Player::ConsumeCart(int inventoryNumber)
 {
-	if (inventory[inventoryNumber].isConsumable)
-		inventory[inventoryNumber].amount--;
-	else if (inventory[inventoryNumber].haveDurability)
-		inventory[inventoryNumber].durability--;
+	if (cartInventory[inventoryNumber].consumable)
+		cartInventory[inventoryNumber].amount--;
+	else if (cartInventory[inventoryNumber].haveDurability)
+		cartInventory[inventoryNumber].durability--;
 
-	if (inventory[inventoryNumber].amount <= 0 || inventory[inventoryNumber].durability <= 0)
-		inventory.erase(inventory.begin() + inventoryNumber - 1);
+	if (cartInventory[inventoryNumber].amount <= 0 || cartInventory[inventoryNumber].durability <= 0)
+		cartInventory.erase(cartInventory.begin() + inventoryNumber);
 }
 
-void Player::Effect(Item item, Character c)
+void Player::Effect(bool characterActive, Item item)
 {
-	//bread
-	if (item.name == "bread") {
-		c.AddHp(10);
-		std::cout << c.GetName() << " eat a bread" << std::endl;
-	}
+	if (characterActive)
+		c1.Effect(item);
+	else
+		c2.Effect(item);
 }
 
 void Player::Reward(bool win)

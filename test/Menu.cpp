@@ -18,12 +18,17 @@ Menu::Menu()
 	characterSelect = 1;
 	characterSelectMax = 3;
 	characterSelected = false;
+	characterActive = true;
 	//equipment
 	showChangeEquip = false;
 	equipSelect = 0;
 	//inventory
 	showInventory = false;
 	inventorySelect = 0;
+	characterNumber = 1;
+	totalWeight = 0;
+	inventorySelected = false;
+	showChoice = false;
 	//quest
 	showQuest = false;
 	questSelect = 0;
@@ -132,22 +137,29 @@ void Menu::OpenCharacter(Player& player, bool& isPressed)
 	if (!showCharacter) {
 		std::cout << "Character List" << std::endl;
 
-		std::string c1Name = player.GetC1().GetName();
-		std::cout << "Character Name: " << c1Name << std::endl;
-		int c1Atk = player.GetC1().GetAttack();
-		std::cout << "Attack Damage: " << c1Atk << std::endl;
-		int c1Def = player.GetC1().GetDefence();
-		std::cout << "Defence: " << c1Def << std::endl;
+		std::cout << "Character 1" << std::endl;
 
-		std::string equip1 = player.GetC1().GetEquip(1);
-		std::cout << "Equipment 1: " << equip1 << std::endl;
-		std::string equip2 = player.GetC1().GetEquip(2);
-		std::cout << "Equipment 2: " << equip2 << std::endl;
-		std::string equip3 = player.GetC1().GetEquip(3);
-		std::cout << "Equipment 3: " << equip3 << std::endl;
+		std::cout << "Character Name: " << player.GetC1().GetName() << std::endl;
+		std::cout << "Attack Damage: " << player.GetC1().GetAttack() << std::endl;
+		std::cout << "Defence: " << player.GetC1().GetDefence() << std::endl;
+
+		std::cout << "Equipment 1: " << player.GetC1().GetEquip(1) << std::endl;
+		std::cout << "Equipment 2: " << player.GetC1().GetEquip(2) << std::endl;
+		std::cout << "Equipment 3: " << player.GetC1().GetEquip(3) << std::endl;
+
+		std::cout << "Character 2" << std::endl;
+
+		std::cout << "Character Name: " << player.GetC2().GetName() << std::endl;
+		std::cout << "Attack Damage: " << player.GetC2().GetAttack() << std::endl;
+		std::cout << "Defence: " << player.GetC2().GetDefence() << std::endl;
+
+		std::cout << "Equipment 1: " << player.GetC2().GetEquip(1) << std::endl;
+		std::cout << "Equipment 2: " << player.GetC2().GetEquip(2) << std::endl;
+		std::cout << "Equipment 3: " << player.GetC2().GetEquip(3) << std::endl;
 
 		characterSelect = 1;
 		showCharacter = true;
+		characterActive = true;
 	}
 
 	if (!characterSelected) {
@@ -174,10 +186,10 @@ void Menu::OpenCharacter(Player& player, bool& isPressed)
 				std::cout << characterSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-				//select next character
+				characterActive = !characterActive;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				//select last character
+				characterActive = !characterActive;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 				characterSelected = true;
@@ -199,10 +211,18 @@ void Menu::OpenChangeEquip(Player& player, int& characterSelect, bool& isPressed
 	if (!showChangeEquip) {
 		std::cout << "Equipment List" << std::endl;
 
-		inventory = player.GetInventory();
-		
+		for (int i = 0; i < player.GetC1().GetInventory().size(); i++) {
+			inventory.push_back(player.GetC1().GetInventory()[i]);
+		}
+		for (int i = 0; i < player.GetC2().GetInventory().size(); i++) {
+			inventory.push_back(player.GetC2().GetInventory()[i]);
+		}
+		for (int i = 0; i < player.GetCartInventory().size(); i++) {
+			inventory.push_back(player.GetCartInventory()[i]);
+		}
+
 		for (int i = 0; i < inventory.size(); i++) {
-			if (inventory[i].type == "Equipment")
+			if (inventory[i].type == "Equipment" && !inventory[i].isEquip)
 				equipment.push_back(inventory[i]);
 		}
 
@@ -217,7 +237,7 @@ void Menu::OpenChangeEquip(Player& player, int& characterSelect, bool& isPressed
 
 		std::cout << "Please select an equipment" << std::endl;
 
-		equipSelect = 0;
+		equipSelect = 1;
 		showChangeEquip = true;
 	}
 
@@ -232,21 +252,23 @@ void Menu::OpenChangeEquip(Player& player, int& characterSelect, bool& isPressed
 				equipSelect = (int)equipment.size();
 
 			//std::cout << equipment[equipSelect].name << ": " << equipment[equipSelect].description << std::endl;
-			std::cout << equipSelect<< " / " << equipment.size() << std::endl;
+			std::cout << equipSelect + 1 << " / " << equipment.size() << std::endl;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 			equipSelect--;
 
 			if (equipSelect > (int)equipment.size())
-				equipSelect = 1;
-			if (equipSelect < 1)
+				equipSelect = 0;
+			if (equipSelect < 0)
 				equipSelect = (int)equipment.size();
 
 			//std::cout << equipment[equipSelect].name << ": " << equipment[equipSelect].description << std::endl;
 			std::cout << equipSelect << " / " << equipment.size() << std::endl;
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-			player.GetC1().SetEquip(equipSelect, equipment[equipSelect].name);
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+			if(equipment.size() != 0)
+				player.SetEquip(characterActive, equipSelect, equipment[equipSelect - 1].name);
+		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 			showCharacter = false;
 			showChangeEquip = false;
@@ -260,7 +282,44 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 {
 	if (!showInventory) {
 		std::cout << "Inventory" << std::endl;
-		inventory = player.GetInventory();
+
+		inventory.clear();
+		
+		switch (characterNumber) {
+		case 1:
+			std::cout << "C1" << std::endl;
+			inventory = player.GetC1().GetInventory();
+			totalWeight = player.GetC1().GetInventoryWeight();
+			break;
+		case 2:
+			std::cout << "C2" << std::endl;
+			inventory = player.GetC2().GetInventory();
+			totalWeight = player.GetC2().GetInventoryWeight();
+			break;
+		case 3:
+			std::cout << "Cart" << std::endl;
+			inventory = player.GetCartInventory();
+			totalWeight = player.GetCartInventoryWeight();
+			break;
+		case 4:
+			std::cout << "All" << std::endl;
+
+			for (int i = 0; i < player.GetC1().GetInventory().size(); i++) {
+				inventory.push_back(player.GetC1().GetInventory()[i]);
+			}
+			for (int i = 0; i < player.GetC2().GetInventory().size(); i++) {
+				inventory.push_back(player.GetC2().GetInventory()[i]);
+			}
+			for (int i = 0; i < player.GetCartInventory().size(); i++) {
+				inventory.push_back(player.GetCartInventory()[i]);
+			}
+
+			totalWeight = player.GetC1().GetInventoryWeight() +
+				player.GetC2().GetInventoryWeight() +
+				player.GetCartInventoryWeight();
+			break;
+		}
+
 		int weight = 0;
 		for (int i = 0; i < inventory.size(); i++) {
 			//icon
@@ -271,52 +330,126 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 				<< inventory[i].durability << std::endl;
 			weight += inventory[i].weight;
 		}
-		std::cout << "Weight " << weight << " / " << player.GetInventoryWeight() << std::endl;
-
+		std::cout << "Weight " << weight << " / " << totalWeight << std::endl;
+		
 		std::cout << "Please select an item" << std::endl;
 
-		inventorySelect = 0;
+		if (characterNumber == 2)
+			characterActive = false;
+		else
+			characterActive = true;
+
+		inventorySelect = 1;
+		inventorySelected = false;
 		showInventory = true;
 	}
 
-	if (!isPressed) {
-		isPressed = true;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			inventorySelect++;
+	if (!inventorySelected) {
+		if (!isPressed) {
+			isPressed = true;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				inventorySelect++;
 
-			if (inventorySelect > (int)inventory.size())
-				inventorySelect = 1;
-			if (inventorySelect < 1)
-				inventorySelect = (int)inventory.size();
+				if (inventorySelect > (int)inventory.size())
+					inventorySelect = 1;
+				if (inventorySelect < 1)
+					inventorySelect = (int)inventory.size();
 
-			//std::cout << inventory[inventorySelect].name << ": " << inventory[inventorySelect].description << std::endl;
-			std::cout << inventorySelect << " / " << inventory.size() << std::endl;
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			inventorySelect--;
-
-			if (inventorySelect > (int)inventory.size())
-				inventorySelect = 1;
-			if (inventorySelect < 1)
-				inventorySelect = (int)inventory.size();
-
-			//std::cout << inventory[inventorySelect].name << ": " << inventory[inventorySelect].description << std::endl;
-			std::cout << inventorySelect << " / " << inventory.size() << std::endl;
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-			if (inventory[inventorySelect].isConsumable) {
-				player.Consume(inventorySelect);
-				player.Effect(inventory[inventorySelect], player.GetC1());
+				//std::cout << inventory[inventorySelect].name << ": " << inventory[inventorySelect].description << std::endl;
+				std::cout << inventorySelect << " / " << inventory.size() << std::endl;
 			}
-			else
-				std::cout << "You cannot use this item" << std::endl;
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				inventorySelect--;
+
+				if (inventorySelect > (int)inventory.size())
+					inventorySelect = 1;
+				if (inventorySelect < 1)
+					inventorySelect = (int)inventory.size();
+
+				//std::cout << inventory[inventorySelect].name << ": " << inventory[inventorySelect].description << std::endl;
+				std::cout << inventorySelect << " / " << inventory.size() << std::endl;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				showInventory = false;
+				characterNumber--;
+				if (characterNumber < 1)
+					characterNumber = 4;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				showInventory = false;
+				characterNumber++;
+				if (characterNumber > 4)
+					characterNumber = 1;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+				if (inventory.size() != 0)
+					inventorySelected = true;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				showMenu = false;
+				showInventory = false;
+				menuSelected = false;
+				inventory.clear();
+			}
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-			showMenu = false;
-			showInventory = false;
-			menuSelected = false;
-			inventory.clear();
+	}
+	else {
+		//showInventory = false;
+		if (inventory[inventorySelect - 1].consumable) {
+			if (!showChoice) {
+				std::cout << "Choose a character (0 = character A, 1 = character B)" << std::endl;
+				std::cout << characterActive << std::endl;
+				characterActive = true;
+				showChoice = true;
+			}
+
+			if (!isPressed) {
+				isPressed = true;
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+					characterActive = !characterActive;
+					std::cout << characterActive << std::endl;
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+					characterActive = !characterActive;
+					std::cout << characterActive << std::endl;
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					player.Effect(characterActive, inventory[inventorySelect - 1]);
+
+					switch (characterNumber) {
+					case 1: player.Consume(true, inventorySelect - 1); break;
+					case 2: player.Consume(false, inventorySelect - 1); break;
+					case 3: player.ConsumeCart(inventorySelect - 1); break;
+					case 4:
+						for (int i = 0; i < player.GetC1().GetInventory().size(); i++) {
+							if (inventory[inventorySelect - 1].name == player.GetC1().GetInventory()[i].name) {
+								player.Consume(true, inventorySelect - 1);
+								break;
+							}
+						}
+						for (int i = 0; i < player.GetC2().GetInventory().size(); i++) {
+							if (inventory[inventorySelect - 1].name == player.GetC2().GetInventory()[i].name) {
+								player.Consume(false, inventorySelect - 1);
+								break;
+							}
+						}
+						for (int i = 0; i < player.GetCartInventory().size(); i++) {
+							if (inventory[inventorySelect - 1].name == player.GetCartInventory()[i].name) {
+								player.ConsumeCart(inventorySelect - 1);
+								break;
+							}
+						}
+						break;
+					}
+
+					showInventory = false;
+					inventorySelected = false;
+					showChoice = false;
+				}
+			}
 		}
+		else
+			std::cout << "You cannot use this item" << std::endl;
 	}
 }
 

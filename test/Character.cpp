@@ -1,6 +1,6 @@
 #include "Character.h"
 
-Character::Character(bool isPlayerCharacter, std::string textureName, std::string name, int totalHp, int attack, int defence, int luck, int observation, int conversation, int knowledge, std::string skill1, std::string skill2, std::vector<Item> inventory, int inventoryWeight, std::string equip1, std::string equip2, std::string equip3, int gold)
+Character::Character(bool isPlayerCharacter, std::string textureName, std::string name, int totalHp, int attack, int defence, int luck, int observation, int conversation, int knowledge, std::string skill1, std::string skill2, int inventoryWeight, std::string equip1, std::string equip2, std::string equip3, int gold)
 {
 	this->isPlayerCharacter = isPlayerCharacter;
 	this->textureName = textureName;
@@ -15,7 +15,6 @@ Character::Character(bool isPlayerCharacter, std::string textureName, std::strin
 	this->knowledge = knowledge;
 	this->skill1 = skill1;
 	this->skill2 = skill2;
-	this->inventory = inventory;
 	this->inventoryWeight = inventoryWeight;
 	this->equip1 = equip1;
 	this->equip2 = equip2;
@@ -374,5 +373,25 @@ void Character::Rust(int inventoryNumber)
 			inventory.erase(inventory.begin() + inventoryNumber - 1);
 			std::cout << inventory[inventoryNumber].name << " is destoryed due to no durability" << std::endl;
 		}
+	}
+}
+
+void Character::Consume(int inventoryNumber)
+{
+	if (inventory[inventoryNumber].consumable)
+		inventory[inventoryNumber].amount--;
+	else if (inventory[inventoryNumber].haveDurability)
+		inventory[inventoryNumber].durability--;
+
+	if (inventory[inventoryNumber].amount <= 0 || inventory[inventoryNumber].durability <= 0)
+		inventory.erase(inventory.begin() + inventoryNumber);
+}
+
+void Character::Effect(Item item)
+{
+	//bread
+	if (item.name == "bread") {
+		AddHp(10);
+		std::cout << GetName() << " eat a bread" << std::endl;
 	}
 }

@@ -18,7 +18,8 @@ private:
 	bool isC2 = true;
 	//bool BothCharacter = true;
 	int totalSp = 7;			//total sp
-	std::vector<Item> inventory;
+	std::vector<Item> cartInventory;
+	int cartInventoryWeight = 100;
 	int gold = 0;				//gold
 	bool warning = false;		//Warning, spending gold
 
@@ -91,8 +92,13 @@ public:
 	int GetTotalSP();
 	void SetTotalSP(int totalSp);
 	int GetGold();
-	std::vector<Item> GetInventory();
-	int GetInventoryWeight();
+	std::vector<Item> GetCartInventory();
+	void AddItem(Item item);
+	void MinItem(int invnetoryNumber);
+	void AddItemCart(Item item);
+	void MinItemCart(int inventoryNumber);
+	int GetCartInventoryWeight();
+	void SetCartInventoryWeight(int cartInventoryWeight);
 	std::vector<Quest> GetQuest();
 	std::string GetPlayerState();
 	void SetPlayerState(std::string playerState);
@@ -104,6 +110,7 @@ public:
 	void SetTime(int time);
 	Location GetLocation();
 	void SetLocation(Location location);
+	void SetEquip(bool characterActive, int equipNumber, std::string equip);
 
 	void SetOsv(int osvScore);
 	void SetCvs(int cvsScore);
@@ -119,9 +126,9 @@ public:
 	//Functions
 	void SpendGold(int gold);
 	
-	void AddItem(Item item);
-	void Consume(int inventoryNumber); //use item from inventory
-	void Effect(Item item, Character c); // Item effects
+	void Consume(bool characterActive, int inventoryNumber); //use item from inventory
+	void ConsumeCart(int inventoryNumber);
+	void Effect(bool characterActive, Item item); // Item effects
 	void Reward(bool win);
 
 	

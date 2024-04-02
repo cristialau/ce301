@@ -256,10 +256,9 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy)
 {
 	startBattle = true;
 	roundStart = false;
-	//playerState = previousState;
-
-	round = 0;
 	playerTurn = true;
+	//playerState = previousState;
+	round = 0;
 	playerStatus = "Normal";
 
 	haveC1 = player.GetIsC1();
@@ -271,13 +270,13 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy)
 		playerAttackDmg = player.GetC1().GetAttack() + player.GetC2().GetAttack();
 		playerDefence = player.GetC1().GetDefence() + player.GetC2().GetDefence();
 	}
-	else if (haveC1 && !haveC2) {
+	else if (haveC1) {
 		playerTeamHPMax = player.GetC1().GetTotalHp();
 		playerTeamHP = player.GetC1().GetHp();
 		playerAttackDmg = player.GetC1().GetAttack();
 		playerDefence = player.GetC1().GetDefence();
 	}
-	else if (!haveC1 && haveC2) {
+	else if (haveC2) {
 		playerTeamHPMax = player.GetC2().GetTotalHp();
 		playerTeamHP = player.GetC2().GetHp();
 		playerAttackDmg = player.GetC2().GetAttack();
@@ -360,7 +359,6 @@ void Battle::Skill(std::string skill)
 
 void Battle::Lose(Player& player)
 {
-	//isBattle = false;
 	startBattle = false;
 	std::cout << "You Lose" << std::endl;
 	std::cout << "You Lost " << "Something" << std::endl;
@@ -369,7 +367,6 @@ void Battle::Lose(Player& player)
 
 void Battle::Win(Player& player)
 {
-	//isBattle = false;
 	startBattle = false;
 	std::cout << "You Win" << std::endl;
 	std::cout << "You Gain " << "Something" << std::endl;

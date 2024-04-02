@@ -22,11 +22,12 @@ struct Item
 	int durability = 0;
 	int weight = 0;
 
-	bool isConsumable;
-	bool haveDurability;
+	bool consumable = false;
+	bool haveDurability = false;
+	bool stackable = false;
 
-	bool isEquip;
-	bool inInventory;
+	bool isEquip = false;
+	//bool inInventory;
 
 	int price = 0;
 };

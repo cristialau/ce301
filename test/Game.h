@@ -61,18 +61,15 @@ private:
 	//NPC
 	//NPC npc;
 	//std::vector<NPC> npcList;
-	std::vector<Item> npc1Inventory;
 	Quest npc1Quest;
-	Character c3 = Character(false, "none", "npc1", 100, 25, 10, 0, 0, 0, 0, "none", "none", npc1Inventory, 100, "none", "none", "none", 100);
+	Character c3 = Character(false, "none", "npc1", 100, 25, 10, 0, 0, 0, 0, "none", "none", 100, "none", "none", "none", 100);
 	NPC npc1 = NPC(c3, 100, "none", 5, 5, 1, npc1Quest, "none", "none");
 
 	std::vector<NPC> enemy;
 
 	//Player
-	std::vector<Item> player1Inventory;
-	std::vector<Item> player2Inventory;
-	Character c1 = Character(true, "Textures/npc.png", "player1", 100, 10, 10, 0, 0, 0, 0, "skill1", "skill2", player1Inventory, 100, "equip1", "equip2", "equip3", 100);
-	Character c2 = Character(true, "none", "player2", 100, 10, 10, 0, 0, 0, 0, "skill3", "skill4", player2Inventory, 100, "equip1", "equip2", "equip3", 100);
+	Character c1 = Character(true, "Textures/npc.png", "player1", 100, 10, 10, 0, 0, 0, 0, "skill1", "skill2", 15, "equip1", "equip2", "equip3", 100);
+	Character c2 = Character(true, "none", "player2", 100, 10, 10, 0, 0, 0, 0, "skill3", "skill4", 10, "equip1", "equip2", "equip3", 100);
 	Player player = Player(c1, c2);
 	
 	

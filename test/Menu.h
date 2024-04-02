@@ -25,12 +25,17 @@ private:
 	int characterSelect;
 	int characterSelectMax;
 	bool characterSelected;
+	bool characterActive;
 	//equipment
 	bool showChangeEquip;
 	int equipSelect;
 	//inventory
 	bool showInventory;
 	int inventorySelect;
+	int characterNumber;
+	int totalWeight;
+	bool inventorySelected;
+	bool showChoice;
 	//quest
 	bool showQuest;
 	int questSelect;
