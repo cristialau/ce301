@@ -142,7 +142,7 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 
 			}
 
-			shopSelectMax = player.GetCartInventory().size();
+			shopSelectMax = (int)player.GetCartInventory().size();
 			break;
 		case 2:
 			std::cout << "Player Trolley" << std::endl;
@@ -150,7 +150,7 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 
 			}
 
-			shopSelectMax = playerTrolley.size();
+			shopSelectMax = (int)playerTrolley.size();
 			break;
 		case 3:
 			std::cout << "NPC Trolley" << std::endl;
@@ -158,7 +158,7 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 
 			}
 
-			shopSelectMax = npcTrolley.size();
+			shopSelectMax = (int)npcTrolley.size();
 			break;
 		case 4:
 			std::cout << "Merchant " << npc.GetC().GetName() << std::endl;
@@ -167,7 +167,7 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 				//npc.GetShop()
 			}
 
-			shopSelectMax = npc.GetShop().size();
+			shopSelectMax = (int)npc.GetShop().size();
 			break;
 		}
 

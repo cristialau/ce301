@@ -66,7 +66,7 @@ private:
 	//std::vector<NPC> npcList;
 	Quest npc1Quest;
 	Character c3 = Character(false, "none", "npc1", 100, 25, 10, 0, 0, 0, 0, "none", "none", "none", "none", "none");
-	NPC npc1 = NPC(c3, 100, "none", 5, 5, 1, npc1Quest, "none", "none");
+	NPC npc1 = NPC(c3, 100, "none", 5, 5, 1, npc1Quest, "none");
 
 	std::vector<NPC> npc;
 	//NPC npctrade;

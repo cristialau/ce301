@@ -1,6 +1,6 @@
 #include "NPC.h"
 
-NPC::NPC(Character &character, int relationship, std::string job, int positionX, int positionY, int locationID, Quest quest, std::string battleDialogue, std::string questDialogue) : c(character)
+NPC::NPC(Character &character, int relationship, std::string job, int positionX, int positionY, int locationID, Quest quest, std::string battleDialogue) : c(character)
 {
 	this->relationship = relationship;
 	this->job = job;
@@ -10,7 +10,6 @@ NPC::NPC(Character &character, int relationship, std::string job, int positionX,
 	tilePositionY = positionY * tileSize * scale;
 	this->locationID = locationID;
 	this->battleDialogue = battleDialogue;
-	this->questDialogue = questDialogue;
 }
 
 NPC::~NPC()
@@ -120,11 +119,6 @@ std::vector<Item> NPC::GetShop()
 std::string NPC::Dialogue()
 {
 	return std::string();
-}
-
-std::string NPC::QuestDialogue()
-{
-	return questDialogue;
 }
 
 std::string NPC::BattleDialogue()

@@ -56,6 +56,9 @@ void Game::InitGame()
 
     LocationList();
     ItemList();
+    QuestList();
+    NPCList();
+    SceneList();
 }
 
 void Game::LoadGame()
@@ -123,9 +126,11 @@ void Game::Update()
         else if (player.GetPlayerState() == "Talking") {
             player.TalkState(npc1, previousState, isPressed);
         }
+        else if (player.GetPlayerState() == "EndGame") {
+            //Day > 30
+            player.EndGame();
+        }
     }
-
-    //end game (gameState = EndGame) (playerState = EndGame)
     
     if (gameState == "QuitGame")
         EndApplication();

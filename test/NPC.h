@@ -34,7 +34,6 @@ private:
 	//if have quest
 	Quest quest;
 	bool haveQuest = false;
-	std::string questDialogue;
 	//if can trade
 	bool canTrade = false;
 	bool passTradeGame = false;
@@ -53,8 +52,7 @@ public:
 		int positionY,
 		int locationID,
 		Quest quest,
-		std::string battleDialogue,
-		std::string questDialogue);
+		std::string battleDialogue);
 	~NPC();
 	
 	void Initialize();
@@ -81,7 +79,6 @@ public:
 
 	//Functions
 	std::string Dialogue();
-	std::string QuestDialogue();
 	std::string BattleDialogue();
 
 	void AcceptQuest();

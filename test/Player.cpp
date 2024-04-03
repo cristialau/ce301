@@ -298,7 +298,7 @@ void Player::AcceptQuest(NPC& npc, bool& isPressed)
 	if (!showQuest) {
 		std::cout << "Quest" << std::endl;
 
-		std::cout << npc.QuestDialogue() << std::endl;
+		std::cout << npc.npcQuest().description << std::endl;
 
 		showQuest = true;
 		questSelect = 1;
@@ -358,6 +358,18 @@ void Player::AcceptQuest(NPC& npc, bool& isPressed)
 		showQuest = false;
 		questSelected = false;
 	}
+}
+
+void Player::EndGame()
+{
+	/*
+	if (gold = > 2000)
+		goodEnd;
+	else if (gold < 2000 && gold > 0)
+		normalEnd;
+	else
+		badEnd;
+	*/
 }
 
 void Player::Draw(sf::RenderWindow& window)

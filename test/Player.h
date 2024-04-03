@@ -92,6 +92,7 @@ public:
 	void TalkState(NPC& npc, std::string previousState, bool& isPressed);
 	void TravelState(int travelingTime, float dt, bool& isPressed);
 	void AcceptQuest(NPC& npc, bool& isPressed);
+	void EndGame();
 	void Draw(sf::RenderWindow& window);
 
 	//getters setters
