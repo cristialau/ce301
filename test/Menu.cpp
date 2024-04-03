@@ -211,12 +211,6 @@ void Menu::OpenChangeEquip(Player& player, int& characterSelect, bool& isPressed
 	if (!showChangeEquip) {
 		std::cout << "Equipment List" << std::endl;
 
-		for (int i = 0; i < player.GetC1().GetInventory().size(); i++) {
-			inventory.push_back(player.GetC1().GetInventory()[i]);
-		}
-		for (int i = 0; i < player.GetC2().GetInventory().size(); i++) {
-			inventory.push_back(player.GetC2().GetInventory()[i]);
-		}
 		for (int i = 0; i < player.GetCartInventory().size(); i++) {
 			inventory.push_back(player.GetCartInventory()[i]);
 		}
@@ -231,7 +225,6 @@ void Menu::OpenChangeEquip(Player& player, int& characterSelect, bool& isPressed
 			std::cout
 				<< equipment[i].name << " "
 				<< equipment[i].type << " "
-				<< equipment[i].amount << " "
 				<< equipment[i].durability << std::endl;
 		}
 
@@ -285,40 +278,9 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 
 		inventory.clear();
 		
-		switch (characterNumber) {
-		case 1:
-			std::cout << "C1" << std::endl;
-			inventory = player.GetC1().GetInventory();
-			totalWeight = player.GetC1().GetInventoryWeight();
-			break;
-		case 2:
-			std::cout << "C2" << std::endl;
-			inventory = player.GetC2().GetInventory();
-			totalWeight = player.GetC2().GetInventoryWeight();
-			break;
-		case 3:
-			std::cout << "Cart" << std::endl;
-			inventory = player.GetCartInventory();
-			totalWeight = player.GetCartInventoryWeight();
-			break;
-		case 4:
-			std::cout << "All" << std::endl;
-
-			for (int i = 0; i < player.GetC1().GetInventory().size(); i++) {
-				inventory.push_back(player.GetC1().GetInventory()[i]);
-			}
-			for (int i = 0; i < player.GetC2().GetInventory().size(); i++) {
-				inventory.push_back(player.GetC2().GetInventory()[i]);
-			}
-			for (int i = 0; i < player.GetCartInventory().size(); i++) {
-				inventory.push_back(player.GetCartInventory()[i]);
-			}
-
-			totalWeight = player.GetC1().GetInventoryWeight() +
-				player.GetC2().GetInventoryWeight() +
-				player.GetCartInventoryWeight();
-			break;
-		}
+		std::cout << "Cart" << std::endl;
+		inventory = player.GetCartInventory();
+		totalWeight = player.GetCartInventoryWeight();
 
 		int weight = 0;
 		for (int i = 0; i < inventory.size(); i++) {
@@ -326,7 +288,6 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 			std::cout
 				<< inventory[i].name << " "
 				<< inventory[i].type << " "
-				<< inventory[i].amount << " "
 				<< inventory[i].durability << std::endl;
 			weight += inventory[i].weight;
 		}
@@ -415,32 +376,7 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 					player.Effect(characterActive, inventory[inventorySelect - 1]);
-
-					switch (characterNumber) {
-					case 1: player.Consume(true, inventorySelect - 1); break;
-					case 2: player.Consume(false, inventorySelect - 1); break;
-					case 3: player.ConsumeCart(inventorySelect - 1); break;
-					case 4:
-						for (int i = 0; i < player.GetC1().GetInventory().size(); i++) {
-							if (inventory[inventorySelect - 1].name == player.GetC1().GetInventory()[i].name) {
-								player.Consume(true, inventorySelect - 1);
-								break;
-							}
-						}
-						for (int i = 0; i < player.GetC2().GetInventory().size(); i++) {
-							if (inventory[inventorySelect - 1].name == player.GetC2().GetInventory()[i].name) {
-								player.Consume(false, inventorySelect - 1);
-								break;
-							}
-						}
-						for (int i = 0; i < player.GetCartInventory().size(); i++) {
-							if (inventory[inventorySelect - 1].name == player.GetCartInventory()[i].name) {
-								player.ConsumeCart(inventorySelect - 1);
-								break;
-							}
-						}
-						break;
-					}
+					player.ConsumeCart(inventorySelect - 1);
 
 					showInventory = false;
 					inventorySelected = false;

@@ -373,7 +373,7 @@ void Battle::EndBattle(Player& player, std::vector<NPC>& enemy)
 			if (enemy[i].GetInventory().size() >= 1) {
 				for (int j = 0; j < enemy[i].GetInventory().size(); j++) {
 					player.GetCartInventory().push_back(enemy[i].GetInventory()[j]);
-					std::cout << enemy[i].GetInventory()[j].amount << " " << enemy[i].GetInventory()[j].name << std::endl;
+					std::cout << enemy[i].GetInventory()[j].name << std::endl;
 				}
 			}
 			player.AddGold(enemy[i].GetGold());

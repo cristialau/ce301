@@ -1,6 +1,6 @@
 #include "Character.h"
 
-Character::Character(bool isPlayerCharacter, std::string textureName, std::string name, int totalHp, int attack, int defence, int luck, int observation, int conversation, int knowledge, std::string skill1, std::string skill2, int inventoryWeight, std::string equip1, std::string equip2, std::string equip3, int gold)
+Character::Character(bool isPlayerCharacter, std::string textureName, std::string name, int totalHp, int attack, int defence, int luck, int observation, int conversation, int knowledge, std::string skill1, std::string skill2, std::string equip1, std::string equip2, std::string equip3)
 {
 	this->isPlayerCharacter = isPlayerCharacter;
 	this->textureName = textureName;
@@ -15,11 +15,9 @@ Character::Character(bool isPlayerCharacter, std::string textureName, std::strin
 	this->knowledge = knowledge;
 	this->skill1 = skill1;
 	this->skill2 = skill2;
-	this->inventoryWeight = inventoryWeight;
 	this->equip1 = equip1;
 	this->equip2 = equip2;
 	this->equip3 = equip3;
-	this->gold = gold;
 }
 
 Character::~Character()
@@ -195,16 +193,6 @@ void Character::SetSkill2(std::string skill2)
 	this->skill2 = skill2;
 }
 
-std::vector<Item> Character::GetInventory()
-{
-	return inventory;
-}
-
-int Character::GetInventoryWeight()
-{
-	return inventoryWeight;
-}
-
 std::string Character::GetEquip(int equipNumber)
 {
 	switch (equipNumber) {
@@ -222,16 +210,6 @@ void Character::SetEquip(int equipNumber, std::string equip)
 	case 2: equip2 = equip; break;
 	case 3: equip3 = equip; break;
 	}
-}
-
-int Character::GetGold()
-{
-	return gold;
-}
-
-void Character::SetGold(int gold)
-{
-	this->gold = gold;
 }
 
 //Functions
@@ -317,74 +295,6 @@ void Character::MinKlg(int klg)
 	knowledge -= klg;
 	if (knowledge < 10)
 		knowledge = 10;
-}
-
-void Character::AddItem(Item item)
-{
-	bool isAdd = false;
-	for (int i = 0; i < inventory.size(); i++) {
-		if (item.name == inventory[i].name && item.durability == inventory[i].durability) {
-			inventory[i].amount += item.amount;
-			isAdd = true;
-			break;
-		}
-	}
-
-	if(!isAdd)
-		inventory.push_back(item);
-}
-
-void Character::MinItem(int inventoryNumber)
-{
-	inventory.erase(inventory.begin() + inventoryNumber - 1);
-}
-
-void Character::AddIvW(int IvW)
-{
-	inventoryWeight += IvW;
-	if (inventoryWeight > 300)
-		inventoryWeight = 300;
-}
-
-void Character::MinIvW(int IvW)
-{
-	inventoryWeight -= IvW;
-	if (inventoryWeight < 50)
-		inventoryWeight = 50;
-}
-
-void Character::AddGold(int gold)
-{
-	this->gold += gold;
-}
-
-void Character::MinGold(int gold)
-{
-	this->gold -= gold;
-	if (this->gold < 0)
-		this->gold = 0;
-}
-
-void Character::Rust(int inventoryNumber)
-{
-	if (inventory[inventoryNumber].haveDurability) {
-		inventory[inventoryNumber].durability--;
-		if (inventory[inventoryNumber].durability <= 0) {
-			inventory.erase(inventory.begin() + inventoryNumber - 1);
-			std::cout << inventory[inventoryNumber].name << " is destoryed due to no durability" << std::endl;
-		}
-	}
-}
-
-void Character::Consume(int inventoryNumber)
-{
-	if (inventory[inventoryNumber].consumable)
-		inventory[inventoryNumber].amount--;
-	else if (inventory[inventoryNumber].haveDurability)
-		inventory[inventoryNumber].durability--;
-
-	if (inventory[inventoryNumber].amount <= 0 || inventory[inventoryNumber].durability <= 0)
-		inventory.erase(inventory.begin() + inventoryNumber);
 }
 
 void Character::Effect(Item item)

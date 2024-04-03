@@ -19,10 +19,11 @@ private:
 	bool isC2 = true;
 	//bool BothCharacter = true;
 	int totalSp = 7;			//total sp
+
 	std::vector<Item> cartInventory;
-	int cartInventoryWeight = 100;
+	int cartInventoryWeight = 20;
+
 	int gold = 0;				//gold
-	bool warning = false;		//Warning, spending gold
 
 	//Player current state
 	std::string playerState;
@@ -107,8 +108,6 @@ public:
 	std::vector<Quest> GetQuest();
 	std::string GetPlayerState();
 	void SetPlayerState(std::string playerState);
-	bool GetWarning();
-	void SetWarning(bool warning);
 	int GetDay();
 	void SetDay(int day);
 	int GetTime();
@@ -133,9 +132,6 @@ public:
 	void AddGold(int gold);
 	void MinGold(int gold);
 	
-	void AddItem(Item item);
-	void Consume(bool characterActive, int inventoryNumber); //use item from inventory
-	
 	std::vector<Item> GetCartInventory();
 	void AddItemCart(Item item);
 	void ConsumeCart(int inventoryNumber);
@@ -146,8 +142,9 @@ public:
 	
 	int RandomEvent();
 	void Reward(bool positive);
+	void NPCReward(NPC& npc);
 
-	
+	void Rust(int inventoryNumber);
 };
 
 #endif

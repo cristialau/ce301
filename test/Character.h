@@ -5,6 +5,18 @@
 #include "SFML/Graphics.hpp"
 #include <iostream>
 #include <vector>
+/*
+void Character::AddItem(Item item)
+{
+	inventory.push_back(item);
+}
+
+void Character::MinItem(int inventoryNumber)
+{
+	inventory.erase(inventory.begin() + inventoryNumber);
+}
+*/
+
 
 class Character
 {
@@ -34,14 +46,9 @@ private:
 	std::string skill2;
 
 	//Inventory setting
-	std::vector<Item> inventory;
 	std::string equip1;
 	std::string equip2;
 	std::string equip3;
-	int inventoryWeight;
-
-	//Gold
-	int gold;
 
 public:
 	Character(
@@ -57,11 +64,9 @@ public:
 		int knowledge,
 		std::string skill1,
 		std::string skill2,
-		int inventoryWeight,
 		std::string equip1,
 		std::string equip2,
-		std::string equip3,
-		int gold);
+		std::string equip3);
 	~Character();
 
 	void Initialize();
@@ -101,12 +106,8 @@ public:
 	void SetSkill1(std::string skill1);
 	std::string GetSkill2();
 	void SetSkill2(std::string skill2);
-	std::vector<Item> GetInventory();
-	int GetInventoryWeight();
 	std::string GetEquip(int equipNumber);
 	void SetEquip(int equipNumber, std::string equip);
-	int GetGold();
-	void SetGold(int gold);
 
 	//Functions
 	void AddHp(int hp);
@@ -121,15 +122,7 @@ public:
 	void MinCvs(int cvs);
 	void AddKlg(int klg);
 	void MinKlg(int klg);
-	void AddItem(Item item);			//add item into inventory
-	void MinItem(int inventoryNumber); //delete/transfer item from inventory
-	void AddIvW(int IvW);
-	void MinIvW(int IvW);
-	void AddGold(int gold);
-	void MinGold(int gold);
 
-	void Rust(int inventoryNumber);	 //item auto delete in inventory
-	void Consume(int inventoryNumber); //use item from inventory
 	void Effect(Item item); // Item effects
 };
 

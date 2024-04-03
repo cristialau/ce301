@@ -2,6 +2,7 @@
 
 Trade::Trade()
 {	
+	played = false;
 	StartTrading = false;
 	move = 10;
 	random = 0;
@@ -58,56 +59,210 @@ void Trade::Load()
 {	
 }
 
-void Trade::Update(Player& player, std::string previousState, bool& isPressed)
+void Trade::Update(Player& player, NPC& npc, std::string previousState, bool& isPressed)
 {
-	StartTrade(player, previousState, isPressed);
+	if (!npc.PassTradeGame()) {
+		StartTrade(player, npc, previousState, isPressed);
+	}
+	else {
+		StartShop(player, npc, isPressed);
+	}
 }
 
-void Trade::StartTrade(Player& player, std::string previousState, bool& isPressed)
+void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, bool& isPressed)
 {
-	if (!StartTrading)
-		SetUpGamePanel(previousState);
+	if (!played) {
+		if (!StartTrading)
+			SetUpGamePanel(previousState);
 
-	if (move >= 0) {
+		if (move >= 0) {
+			if (!isPressed) {
+				isPressed = true;
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
+					playerGamepanel[y + 1][x] != 0) {
+					y++;
+
+					PrintPanel();
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
+					playerGamepanel[y - 1][x] != 0) {
+					y--;
+
+					PrintPanel();
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
+					playerGamepanel[y][x - 1] != 0) {
+					x--;
+
+					PrintPanel();
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
+					playerGamepanel[y][x + 1] != 0) {
+					x++;
+
+					PrintPanel();
+				}
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					ChangeElement(y - 1, x - 1, move);
+				}
+			}
+		}
+		else {
+			CalculateScore();
+			observationScore += player.GetC2().GetObservation() + player.GetC2().GetLuck();
+			conversationScore += player.GetC2().GetConversation() + player.GetC2().GetLuck();
+			knowledgeScore += player.GetC2().GetKnowledge() + player.GetC2().GetLuck();
+
+			if (observationScore > npc.GetC().GetObservation() &&
+				conversationScore > npc.GetC().GetConversation() &&
+				knowledgeScore > npc.GetC().GetKnowledge()) {
+				player.NPCReward(npc);
+				npc.SetPassTradeGame(true);
+			}
+
+			StartTrading = false;
+			played = true;
+		}
+	}
+	else {
+		StartShop(player, npc, isPressed);
+	}
+}
+
+void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
+{
+	if (!showShop) {
+		std::cout << "Trade" << std::endl;
+
+		switch (inventoryNumber) {
+		case 1:
+			std::cout << "Player Cart Inventory" << std::endl;
+			for (int i = 0; i < player.GetCartInventory().size(); i++) {
+
+			}
+
+			shopSelectMax = player.GetCartInventory().size();
+			break;
+		case 2:
+			std::cout << "Player Trolley" << std::endl;
+			for (int pt = 0; pt < playerTrolley.size(); pt++) {
+
+			}
+
+			shopSelectMax = playerTrolley.size();
+			break;
+		case 3:
+			std::cout << "NPC Trolley" << std::endl;
+			for (int nt = 0; nt < npcTrolley.size(); nt++) {
+
+			}
+
+			shopSelectMax = npcTrolley.size();
+			break;
+		case 4:
+			std::cout << "Merchant " << npc.GetC().GetName() << std::endl;
+			for (int i = 0; i < npc.GetShop().size(); i++) {
+				//same as show inventory
+				//npc.GetShop()
+			}
+
+			shopSelectMax = npc.GetShop().size();
+			break;
+		}
+
+		shopSelectMax++;
+		shopSelect = 1;
+		showShop = true;
+	}
+
+	if (!shopSelected) {
 		if (!isPressed) {
 			isPressed = true;
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
-				playerGamepanel[y + 1][x] != 0) {
-				y++;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				shopSelect++;
 
-				PrintPanel();
+				if (shopSelect > shopSelectMax)
+					shopSelect = 1;
+				if (shopSelect < 1)
+					shopSelect = shopSelectMax;
+
+				std::cout << shopSelect << std::endl;
 			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
-				playerGamepanel[y - 1][x] != 0) {
-				y--;
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				shopSelect--;
 
-				PrintPanel();
+				if (shopSelect > shopSelectMax)
+					shopSelect = 1;
+				if (shopSelect < 1)
+					shopSelect = shopSelectMax;
+
+				std::cout << shopSelect << std::endl;
 			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
-				playerGamepanel[y][x - 1] != 0) {
-				x--;
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				inventoryNumber--;
 
-				PrintPanel();
+				if (inventoryNumber > inventoryNumberMax)
+					inventoryNumber = 1;
+				if (inventoryNumber < 1)
+					inventoryNumber = inventoryNumberMax;
+
+				showShop = false;
 			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
-				playerGamepanel[y][x + 1] != 0) {
-				x++;
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				inventoryNumber++;
 
-				PrintPanel();
+				if (inventoryNumber > inventoryNumberMax)
+					inventoryNumber = 1;
+				if (inventoryNumber < 1)
+					inventoryNumber = inventoryNumberMax;
+
+				showShop = false;
 			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				ChangeElement(y - 1, x - 1, move);
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+				if (shopSelect < shopSelectMax) {
+					switch (inventoryNumber) {
+					case 1:
+						playerTrolley.push_back(player.GetCartInventory()[shopSelect - 1]);
+						player.GetCartInventory().erase(player.GetCartInventory().begin() + shopSelect - 1);
+						break;
+					case 2:
+						player.GetCartInventory().push_back(playerTrolley[shopSelect - 1]);
+						playerTrolley.erase(playerTrolley.begin() + shopSelect - 1);
+						break;
+					case 3:
+						npc.GetShop().push_back(npcTrolley[shopSelect - 1]);
+						npcTrolley.erase(npcTrolley.begin() + shopSelect);
+						break;
+					case 4:
+						npcTrolley.push_back(npc.GetShop()[shopSelect - 1]);
+						npc.GetShop().erase(npc.GetShop().begin() + shopSelect - 1);
+						break;
+					}
+				}
+				else {
+					shopSelected = true;
+				}
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				player.SetPlayerState(previousState);
+				player.SetOsv(0);
+				player.SetCvs(0);
+				player.SetKlg(0);
+				showShop = false;
+				shopSelected = false;
+				played = false;
 			}
 		}
 	}
 	else {
-		CalculateScore();
-		player.SetOsv(observationScore);
-		player.SetCvs(conversationScore);
-		player.SetKlg(knowledgeScore);
-		player.SetPlayerState(previousState);
-		StartTrading = false;
+		if (!showTradingBox) {
+
+			showTradingBox = true;
+		}
+
+		showShop = false;
+		shopSelected = false;
 	}
 }
 

@@ -10,7 +10,8 @@
 class Trade
 {
 private:
-	//Trading setup
+	//Trading game setup
+	bool played;
 	bool StartTrading;
 	std::string previousState;
 	int random;
@@ -41,12 +42,22 @@ private:
 	int same1;
 	int same2;
 	int same3;
-	//int temp1;
-	//int temp2;
 	char element;
 	char element1;
 	char element2;
 	char element3;
+
+	//Trading shop
+	std::vector<Item> playerTrolley;
+	std::vector<Item> npcTrolley;
+	int inventoryNumber = 1;
+	int inventoryNumberMax = 4;
+	bool buy = false;
+	bool showShop = false;
+	bool shopSelected = false;
+	int shopSelect = 0;
+	int shopSelectMax = 0;
+	bool showTradingBox = false;
 
 public:
 	Trade();
@@ -54,15 +65,16 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(Player& player, std::string previousState, bool& isPressed);
-	void StartTrade(Player& player, std::string previousState, bool& isPressed);
+	void Update(Player& player, NPC& npc, std::string previousState, bool& isPressed);
+	void StartTrade(Player& player, NPC& npc, std::string previousState, bool& isPressed);
+	void StartShop(Player& player, NPC& npc, bool& isPressed);
 	void Draw();
 
 	//Getter Setter
 	void SetStartTrading(bool StartTrading);
 	bool GetStartTrading();
 
-	//Functions
+	//Trade games
 	void SetUpGamePanel(std::string previousState);
 	bool HaveLuck();
 	void ChangeElement(int selected1, int selected2, int &move);
@@ -72,7 +84,6 @@ public:
 	void CheckDiag();
 	void CheckDiagX();
 	void AddMultiplier(int temp, char element);
-
 	void PrintPanel();
 };
 

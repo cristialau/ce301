@@ -104,12 +104,17 @@ void NPC::SetNPCState(int npcState)
 
 std::vector<Item> NPC::GetInventory()
 {
-	return c.GetInventory();
+	return inventory;
 }
 
 int NPC::GetGold()
 {
-	return c.GetGold();
+	return gold;
+}
+
+std::vector<Item> NPC::GetShop()
+{
+	return shop;
 }
 
 std::string NPC::Dialogue()
@@ -144,4 +149,14 @@ void NPC::MinRls(int rls)
 	relationship -= rls;
 	if (relationship < 0)
 		relationship = 0;
+}
+
+bool NPC::PassTradeGame()
+{
+	return passTradeGame;
+}
+
+void NPC::SetPassTradeGame(bool passTradeGame)
+{
+	this->passTradeGame = passTradeGame;
 }

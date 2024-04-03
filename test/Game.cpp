@@ -63,8 +63,8 @@ void Game::LoadGame()
     map.Load(locationList[1]);
     c1.Load();
 
-    player.AddItem(itemList[1]);
-    player.AddItem(itemList[2]);
+    player.AddItemCart(itemList[1]);
+    player.AddItemCart(itemList[2]);
     player.AddItemCart(itemList[3]);
 }
 
@@ -112,13 +112,13 @@ void Game::Update()
             player.TravelState(worldMap.GetTravelingTime(), dt, isPressed);
         }
         else if (player.GetPlayerState() == "Battle") {
-            if (enemy.empty())
-                enemy.push_back(npc1);
+            if (npc.empty())
+                npc.push_back(npc1);
 
-            battle.Update(player, enemy, previousState, isPressed);
+            battle.Update(player, npc, previousState, isPressed);
         }
         else if (player.GetPlayerState() == "Trading") {
-            trade.Update(player, previousState, isPressed);
+            trade.Update(player, npc1, previousState, isPressed);
         }
         else if (player.GetPlayerState() == "Talking") {
             player.TalkState(npc1, previousState, isPressed);
@@ -179,7 +179,6 @@ void Game::ItemList()
     item[1].description = "Bread, you can eat it.";
     item[1].effect = "+10 HP";
 
-    item[1].amount = 1;
     item[1].durability = 10;
     item[1].weight = 1;
 
@@ -187,7 +186,6 @@ void Game::ItemList()
     item[1].haveDurability = true;
 
     item[1].isEquip = false;
-    //item[1].inInventory = false;
 
     item[1].price = 5;
     //Item 1
@@ -203,7 +201,6 @@ void Game::ItemList()
     item[2].description = "Water, you can drink it.";
     item[2].effect = "+5 HP";
 
-    item[2].amount = 1;
     item[2].durability = 10;
     item[2].weight = 1;
 
@@ -211,7 +208,6 @@ void Game::ItemList()
     item[2].haveDurability = true;
 
     item[2].isEquip = false;
-   // item[2].inInventory = false;
 
     item[2].price = 4;
     //Item 2
@@ -227,7 +223,6 @@ void Game::ItemList()
     item[3].description = "A hat.";
     item[3].effect = "+5 HP";
 
-    item[3].amount = 1;
     item[3].durability = 10;
     item[3].weight = 3;
 
@@ -235,7 +230,6 @@ void Game::ItemList()
     item[3].haveDurability = true;
 
     item[3].isEquip = false;
-    // item[2].inInventory = false;
 
     item[3].price = 10;
     //Item 2

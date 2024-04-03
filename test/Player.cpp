@@ -3,15 +3,6 @@
 Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 {
 	playerState = "Normal";
-	
-	warning = false;
-
-	if (isC1 && isC2)
-		gold = c1.GetGold() + c2.GetGold();
-	else if (isC1)
-		gold = c1.GetGold();
-	else if (isC2)
-		gold = c2.GetGold();
 
 	for (int j = 0; j < playerMapSize; j++) {
 		for (int i = 0; i < playerMapSize; i++)
@@ -442,16 +433,6 @@ void Player::SetPlayerState(std::string playerState)
 	this->playerState = playerState;
 }
 
-bool Player::GetWarning()
-{
-	return warning;
-}
-
-void Player::SetWarning(bool warning)
-{
-	this->warning = warning;
-}
-
 int Player::GetDay()
 {
 	return day;
@@ -549,21 +530,7 @@ void Player::MinGold(int gold)
 	this->gold -= gold;
 	if (this->gold < 0) {
 		this->gold = gold;
-		warning = true;
 	}
-}
-
-void Player::AddItem(Item item)
-{
-	c1.AddItem(item);
-}
-
-void Player::Consume(bool characterActive, int inventoryNumber)
-{
-	if (characterActive)
-		c1.Consume(inventoryNumber);
-	else
-		c2.Consume(inventoryNumber);
 }
 
 std::vector<Item> Player::GetCartInventory()
@@ -573,28 +540,12 @@ std::vector<Item> Player::GetCartInventory()
 
 void Player::AddItemCart(Item item)
 {
-	bool isAdd = false;
-	for (int i = 0; i < cartInventory.size(); i++) {
-		if (item.name == cartInventory[i].name && item.durability == cartInventory[i].durability) {
-			cartInventory[i].amount += item.amount;
-			isAdd = true;
-			break;
-		}
-	}
-
-	if (!isAdd)
-		cartInventory.push_back(item);
+	cartInventory.push_back(item);
 }
 
 void Player::ConsumeCart(int inventoryNumber)
 {
-	if (cartInventory[inventoryNumber].consumable)
-		cartInventory[inventoryNumber].amount--;
-	else if (cartInventory[inventoryNumber].haveDurability)
-		cartInventory[inventoryNumber].durability--;
-
-	if (cartInventory[inventoryNumber].amount <= 0 || cartInventory[inventoryNumber].durability <= 0)
-		cartInventory.erase(cartInventory.begin() + inventoryNumber);
+	cartInventory.erase(cartInventory.begin() + inventoryNumber);
 }
 
 int Player::GetCartInventoryWeight()
@@ -641,10 +592,25 @@ void Player::Reward(bool positive)
 {
 	if (positive) {
 		std::cout << "Recieve 50 gold" << std::endl;
-		c1.AddGold(50);
+		gold += 50;
 	}
 	else {
 		std::cout << "Lost 30 gold" << std::endl;
-		c1.MinGold(30);
+		gold -= 30;
+	}
+}
+
+void Player::NPCReward(NPC& npc)
+{
+}
+
+void Player::Rust(int inventoryNumber)
+{
+	if (cartInventory[inventoryNumber].haveDurability) {
+		cartInventory[inventoryNumber].durability--;
+		if (cartInventory[inventoryNumber].durability <= 0) {
+			cartInventory.erase(cartInventory.begin() + inventoryNumber);
+			std::cout << cartInventory[inventoryNumber].name << " is destoryed due to no durability" << std::endl;
+		}
 	}
 }

@@ -28,6 +28,7 @@ private:
 
 	//Character
 	Character c;
+	int gold = 0;
 	int relationship = 50;			//relationship to player - 100 -> friendly | 0 -> enemy
 	std::string job = "none";		//character job: swordie, archer, thief, clergy
 	//if have quest
@@ -36,9 +37,13 @@ private:
 	std::string questDialogue;
 	//if can trade
 	bool canTrade = false;
+	bool passTradeGame = false;
 	//if can battle
 	bool canBattle = false;
 	std::string battleDialogue;
+
+	std::vector<Item> inventory;
+	std::vector<Item> shop;
 
 public:
 	NPC(Character &character,
@@ -72,6 +77,7 @@ public:
 	void SetNPCState(int npcState);
 	std::vector<Item> GetInventory();
 	int GetGold();
+	std::vector<Item> GetShop();
 
 	//Functions
 	std::string Dialogue();
@@ -82,6 +88,9 @@ public:
 
 	void AddRls(int rls);
 	void MinRls(int rls);
+
+	bool PassTradeGame();
+	void SetPassTradeGame(bool passTradeGame);
 };
 
 #endif
