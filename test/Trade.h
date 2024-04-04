@@ -2,10 +2,6 @@
 #define TRADE_H
 
 #include "Player.h"
-#include "SFML/Graphics.hpp"
-#include <iostream>
-#include <random>
-#include <stdlib.h>
 
 class Trade
 {

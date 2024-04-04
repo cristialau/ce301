@@ -2,10 +2,6 @@
 #define BATTLE_H
 
 #include "Player.h"
-#include "NPC.h"
-#include "SFML/Graphics.hpp"
-#include <vector>
-#include <random>
 
 class Battle
 {

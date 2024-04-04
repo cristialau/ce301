@@ -370,12 +370,19 @@ void Battle::EndBattle(Player& player, std::vector<NPC>& enemy)
 		std::cout << "You Gain: " << std::endl;
 
 		for (int i = 0; i < enemy.size(); i++) {
-			if (enemy[i].GetInventory().size() >= 1) {
-				for (int j = 0; j < enemy[i].GetInventory().size(); j++) {
-					player.GetCartInventory().push_back(enemy[i].GetInventory()[j]);
-					std::cout << enemy[i].GetInventory()[j].name << std::endl;
+			if (enemy[i].GetEquipInventory().size() >= 1) {
+				for (int j = 0; j < enemy[i].GetEquipInventory().size(); j++) {
+					player.GetEquipInventory().push_back(enemy[i].GetEquipInventory()[j]);
+					std::cout << enemy[i].GetEquipInventory()[j].name << std::endl;
 				}
 			}
+			if (enemy[i].GetShop().size() >= 1) {
+				for (int j = 0; j < enemy[i].GetShop().size(); j++) {
+					player.GetCartInventory().push_back(enemy[i].GetShop()[j]);
+					std::cout << enemy[i].GetShop()[j].name << std::endl;
+				}
+			}
+
 			player.AddGold(enemy[i].GetGold());
 			std::cout << enemy[i].GetGold() << " Gold" << std::endl;
 		}

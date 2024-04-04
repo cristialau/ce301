@@ -7,7 +7,7 @@ NPC::NPC(Character& character, int rls, std::string job, int gold, Quest& quest,
 	this->job = job;
 	this->gold = gold;
 	passTradeGame = false;
-	equipmentWeight = 10;
+	equipInventoryWeight = 10;
 	shopWeight = 100;
 
 	//Setting

@@ -3,7 +3,6 @@
 
 #include "Tile.h"
 #include "Player.h"
-#include "Location.h"
 
 class Map
 {

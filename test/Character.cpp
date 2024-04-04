@@ -224,7 +224,7 @@ void Character::SetEquip(int equipNumber, std::string equip)
 	case 2: equip2 = equip; break;
 	case 3: equip3 = equip; break;
 	default:
-		std::cout << "Error: Cannot set [Skill" << equipNumber << "], set Equip_1" << std::endl;
+		std::cout << "Error: Cannot set [Equip " << equipNumber << "], set Equip_1" << std::endl;
 		equip1 = equip;
 	}
 }

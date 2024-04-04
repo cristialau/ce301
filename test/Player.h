@@ -1,14 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "Character.h"
-#include "Item.h"
-#include "Equipment.h"
-#include "Quest.h"
-#include "Location.h"
 #include "NPC.h"
-#include "SFML/Graphics.hpp"
-#include <iostream>
 #include <random>
 
 class Player

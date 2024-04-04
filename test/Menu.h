@@ -2,9 +2,6 @@
 #define MENU_H
 
 #include "Player.h"
-#include "Quest.h"
-#include <iostream>
-#include <vector>
 
 class Menu
 {
@@ -20,16 +17,25 @@ private:
 	int characterSelect;
 	int characterSelectMax;
 	bool characterSelected;
+	//skill
+	bool showSkill;
+	int skillSelect;
+	int skillSelectMax;
+	bool skillSelected;
 	//equipment
 	bool showEquip;
 	int equipSelect;
 	int equipSelectMax;
 	bool equipSelected;
+	int equipWeight;
+	//equipment detail
+	bool showEquipDetail;
 	//worldmap
 	bool showLocation;
 	int locationSelect;
 	int locationSelectMax;
 	bool locationSelected;
+	//location
 	bool showSelectedLocation;
 	bool sameLocation;
 	int travelingTime;
@@ -38,17 +44,23 @@ private:
 	int inventorySelect;
 	int inventorySelectMax;
 	bool inventorySelected;
-	int weight;
-	bool showChoice;
+	int inventoryWeight;
+	bool inventoryActive;
+	//item
+	bool showItem;
+	bool showSell;
+	bool sellSelected;
 	//quest
 	bool showQuest;
 	int questSelect;
 	int questSelectMax;
+	bool questSelected;
+	//quest detail
+	bool showQuestDetail;
 	//Setting
 	bool showSetting;
 	int settingSelect;
 	
-	std::vector<Location> location; //location list
 	std::vector<Equipment> equipment;
 	std::vector<Item> inventory;
 	std::vector<Quest> quest;

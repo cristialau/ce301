@@ -2,19 +2,13 @@
 #define GAME_H
 
 #include "Tile.h"
-#include "Item.h"
-#include "Location.h"
-#include "Quest.h"
 #include "MainMenu.h"
-#include "Player.h"
-#include "NPC.h"
 #include "Map.h"
 #include "Trade.h"
 #include "Battle.h"
 #include "Menu.h"
 //#include "Interface.h"
 
-#include "iostream"
 #include <fstream>
 //#include "SFML/Graphics.hpp"
 //#include "SFML/System.hpp"
