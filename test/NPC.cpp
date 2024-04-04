@@ -7,7 +7,7 @@ NPC::NPC(Character& character, int rls, std::string job, int gold, Quest& quest,
 	this->job = job;
 	this->gold = gold;
 	passTradeGame = false;
-	inventoryWeight = 10;
+	equipmentWeight = 10;
 	shopWeight = 100;
 
 	//Setting
@@ -105,21 +105,21 @@ void NPC::SetPassTradeGame(bool passTradeGame)
 	this->passTradeGame = passTradeGame;
 }
 
-std::vector<Item> NPC::GetInventory()
+std::vector<Equipment> NPC::GetEquipInventory()
 {
-	return inventory;
+	return equipInventory;
 }
 
-int NPC::GetInventoryWeight()
+int NPC::GetEquipInventoryWeight()
 {
-	return inventoryWeight;
+	return equipInventoryWeight;
 }
 
-void NPC::SetInventoryWeight(int inventoryWeight)
+void NPC::SetEquipInventoryWeight(int equipInventoryWeight)
 {
-	this->inventoryWeight = inventoryWeight;
-	if (this->inventoryWeight < 0)
-		this->inventoryWeight = 0;
+	this->equipInventoryWeight = equipInventoryWeight;
+	if (this->equipInventoryWeight < 0)
+		this->equipInventoryWeight = 0;
 }
 
 std::vector<Item> NPC::GetShop()
@@ -175,12 +175,22 @@ void NPC::SubGold(int gold)
 		gold = 0;
 }
 
-void NPC::AddItem(std::vector<Item> inventory, Item item)
+void NPC::AddEquipment(Equipment equipment)
 {
-	inventory.push_back(item);
+	equipInventory.push_back(equipment);
 }
 
-void NPC::LostItem(std::vector<Item> inventory, int inventoryNumber)
+void NPC::LostEquipment(int inventoryNumber)
 {
-	inventory.erase(inventory.begin() + inventoryNumber);
+	equipInventory.erase(equipInventory.begin() + inventoryNumber);
+}
+
+void NPC::AddItem(Item item)
+{
+	shop.push_back(item);
+}
+
+void NPC::LostItem(int inventoryNumber)
+{
+	shop.erase(shop.begin() + inventoryNumber);
 }

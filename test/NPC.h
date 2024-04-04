@@ -3,6 +3,7 @@
 
 #include "Character.h"
 #include "Item.h"
+#include "Equipment.h"
 #include "Location.h"
 #include "Quest.h"
 
@@ -18,9 +19,9 @@ private:
 	Quest& quest;
 	//Trade
 	bool passTradeGame;
-	//Inventory/Shop
-	std::vector<Item> inventory;
-	int inventoryWeight;
+	//Equipment/Shop
+	std::vector<Equipment> equipInventory;
+	int equipInventoryWeight;
 	std::vector<Item> shop;
 	int shopWeight;
 
@@ -67,9 +68,9 @@ public:
 	void SetNPCQuest(Quest& quest);
 	bool PassTradeGame();
 	void SetPassTradeGame(bool passTradeGame);
-	std::vector<Item> GetInventory();
-	int GetInventoryWeight();
-	void SetInventoryWeight(int inventoryWeight);
+	std::vector<Equipment> GetEquipInventory();
+	int GetEquipInventoryWeight();
+	void SetEquipInventoryWeight(int equipInventoryWeight);
 	std::vector<Item> GetShop();
 	int GetShopWeight();
 	void SetShopWeight(int shopWeight);
@@ -82,8 +83,10 @@ public:
 	void SubRls(int rls);
 	void AddGold(int gold);
 	void SubGold(int gold);
-	void AddItem(std::vector<Item> inventory, Item item);
-	void LostItem(std::vector<Item> inventory, int inventoryNumber);
+	void AddEquipment(Equipment equipment);
+	void LostEquipment(int inventoryNumber);
+	void AddItem(Item item);
+	void LostItem(int inventoryNumber);
 };
 
 #endif

@@ -100,7 +100,7 @@ public:
 	void SetSpMax(int SpMax);
 	std::vector<Equipment> GetEquipInventory();
 	int GetEquipInventoryWeight();
-	void SetEquipInventoryWeight(int equipmentWeight);
+	void SetEquipInventoryWeight(int equipInventoryWeight);
 	std::vector<Item> GetCartInventory();
 	int GetCartInventoryWeight();
 	void SetCartInventoryWeight(int cartInventoryWeight);
