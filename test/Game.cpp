@@ -52,13 +52,17 @@ void Game::InitGame()
     gameState = "MainMenu";
     title = "Test";
 
-    mapNumber = 1;
-
     LocationList();
     ItemList();
     QuestList();
     NPCList();
     SceneList();
+
+    mapNumber = 1;
+
+    this->mainMenu = new MainMenu(title);
+
+    
 }
 
 void Game::LoadGame()
@@ -95,7 +99,7 @@ void Game::Update()
     }
 
     if (gameState == "MainMenu") {
-        mainMenu.Update(gameState, isPressed);
+        this->mainMenu->Update(gameState, isPressed);
     }
     else if (gameState == "InGame") {
         npc1.Update(locationList[mapNumber]);
@@ -435,23 +439,20 @@ void Game::LocationList()
 
 void Game::QuestList()
 {
-    quest = new Quest[questNumber];
+    quest = new Quest[10];
 
-    if (quest->name == "Location 1") {
-        //id
-        quest->id = 1;
-        //icon
-        quest->textureName = "none";
-        //attributes
-        //location->name = "location 1";
-        quest->description = "Quest 1.";
+    //quest1
+    //id
+    quest[1].id = 1;
+    //icon
+    quest[1].textureName = "none";
+    //attributes
+    quest[1].name = "Quest 1";
+    quest[1].description = "Quest 1.";
 
-        quest->accepted = false;
-        quest->finished = false;
-    }
-    else {
-        std::cout << "Error: No " << quest->name << " in data" << std::endl;
-    }
+    quest[1].accepted = false;
+    quest[1].finished = false;
+    //quest1
 }
 
 void Game::NPCList()

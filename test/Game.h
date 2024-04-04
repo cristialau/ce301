@@ -57,7 +57,7 @@ private:
 	std::string temp;
 	bool change = false;
 	//MainMenu
-	MainMenu mainMenu = MainMenu(title);
+	MainMenu* mainMenu;
 	//Map
 	int mapNumber;
 	Map map = Map();
@@ -65,15 +65,15 @@ private:
 	//NPC npc;
 	//std::vector<NPC> npcList;
 	Quest npc1Quest;
-	Character c3 = Character(false, "none", "npc1", 100, 25, 10, 0, 0, 0, 0, "none", "none", "none", "none", "none");
+	Character c3 = Character("none", "npc1", 100, 25, 10, 0, 0, 0, 0, "none", "none", "none", "none", "none");
 	NPC npc1 = NPC(c3, 100, "none", 5, 5, 1, npc1Quest, "none");
 
 	std::vector<NPC> npc;
 	//NPC npctrade;
 
 	//Player
-	Character c1 = Character(true, "Textures/npc.png", "player1", 100, 10, 10, 0, 0, 0, 0, "skill1", "skill2", "equip1", "equip2", "equip3");
-	Character c2 = Character(true, "none", "player2", 40, 10, 10, 0, 0, 0, 0, "skill3", "skill4", "equip1", "equip2", "equip3");
+	Character c1 = Character("Textures/npc.png", "player1", 100, 10, 10, 0, 0, 0, 0, "skill1", "skill2", "equip1", "equip2", "equip3");
+	Character c2 = Character("none", "player2", 40, 10, 10, 0, 0, 0, 0, "skill3", "skill4", "equip1", "equip2", "equip3");
 	Player player = Player(c1, c2);
 	
 	

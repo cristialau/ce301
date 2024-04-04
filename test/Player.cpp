@@ -47,88 +47,94 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 	//viewY = c1.GetSprite().getPosition().y + (tileSize * scale / 2);
 	//sf::Vector2f center(viewX, viewY);
 	//view.setCenter(center);
-
-	if (!isSetUp) {
-		playerState = "Normal";
-		std::cout << "Location: " << location.name << std::endl;
-		for (int i = 0; i < playerMapSize; ++i) {
-			for (int j = 0; j < playerMapSize; ++j)
-				std::cout << playerMap[i][j] << " ";
-			std::cout << std::endl;
-		}
-		std::cout << "position: " << positionX << " " << positionY << std::endl;
-
-		isSetUp = true;
+	
+	if (day >= 30) {
+		SetPlayerState("EndGame");
 	}
-
-	if (!isPressed) {
-		isPressed = true;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
-			playerMap[positionY][positionX + 1] != 0) {
-			positionX = positionX + 1;
-			//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
-
+	else {
+		if (!isSetUp) {
+			playerState = "Normal";
+			std::cout << "Location: " << location.name << std::endl;
 			for (int i = 0; i < playerMapSize; ++i) {
 				for (int j = 0; j < playerMapSize; ++j)
 					std::cout << playerMap[i][j] << " ";
 				std::cout << std::endl;
 			}
 			std::cout << "position: " << positionX << " " << positionY << std::endl;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
-			playerMap[positionY][positionX - 1] != 0) {
-			positionX = positionX - 1;
-			//c1.GetSprite().move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
 
-			for (int i = 0; i < playerMapSize; ++i) {
-				for (int j = 0; j < playerMapSize; ++j)
-					std::cout << playerMap[i][j] << " ";
-				std::cout << std::endl;
+			isSetUp = true;
+		}
+
+		if (!isPressed) {
+			isPressed = true;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
+				playerMap[positionY][positionX + 1] != 0) {
+				positionX = positionX + 1;
+				//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
+
+				for (int i = 0; i < playerMapSize; ++i) {
+					for (int j = 0; j < playerMapSize; ++j)
+						std::cout << playerMap[i][j] << " ";
+					std::cout << std::endl;
+				}
+				std::cout << "position: " << positionX << " " << positionY << std::endl;
 			}
-			std::cout << "position: " << positionX << " " << positionY << std::endl;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
-			playerMap[positionY - 1][positionX] != 0) {
-			positionY = positionY - 1;
-			//c1.GetSprite().move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
+				playerMap[positionY][positionX - 1] != 0) {
+				positionX = positionX - 1;
+				//c1.GetSprite().move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
 
-			for (int i = 0; i < playerMapSize; ++i) {
-				for (int j = 0; j < playerMapSize; ++j)
-					std::cout << playerMap[i][j] << " ";
-				std::cout << std::endl;
+				for (int i = 0; i < playerMapSize; ++i) {
+					for (int j = 0; j < playerMapSize; ++j)
+						std::cout << playerMap[i][j] << " ";
+					std::cout << std::endl;
+				}
+				std::cout << "position: " << positionX << " " << positionY << std::endl;
 			}
-			std::cout << "position: " << positionX << " " << positionY << std::endl;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
-			playerMap[positionY + 1][positionX] != 0) {
-			positionY = positionY + 1;
-			//c1.GetSprite().move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
+				playerMap[positionY - 1][positionX] != 0) {
+				positionY = positionY - 1;
+				//c1.GetSprite().move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
 
-			for (int i = 0; i < playerMapSize; ++i) {
-				for (int j = 0; j < playerMapSize; ++j)
-					std::cout << playerMap[i][j] << " ";
-				std::cout << std::endl;
+				for (int i = 0; i < playerMapSize; ++i) {
+					for (int j = 0; j < playerMapSize; ++j)
+						std::cout << playerMap[i][j] << " ";
+					std::cout << std::endl;
+				}
+				std::cout << "position: " << positionX << " " << positionY << std::endl;
 			}
-			std::cout << "position: " << positionX << " " << positionY << std::endl;
-		}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
+				playerMap[positionY + 1][positionX] != 0) {
+				positionY = positionY + 1;
+				//c1.GetSprite().move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
-			(playerMap[positionY][positionX] == 1)) {
-			playerState = "Trading";
-			isSetUp = false;
-		}
+				for (int i = 0; i < playerMapSize; ++i) {
+					for (int j = 0; j < playerMapSize; ++j)
+						std::cout << playerMap[i][j] << " ";
+					std::cout << std::endl;
+				}
+				std::cout << "position: " << positionX << " " << positionY << std::endl;
+			}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
-			(playerMap[positionY][positionX] == 5)) {
-			playerState = "Talking";
-			isSetUp = false;
-		}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
+				(playerMap[positionY][positionX] == 1)) {
+				playerState = "Trading";
+				isSetUp = false;
+			}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-			playerState = "Menu";
-			isSetUp = false;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
+				(playerMap[positionY][positionX] == 5)) {
+				playerState = "Talking";
+				isSetUp = false;
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				playerState = "Menu";
+				isSetUp = false;
+			}
 		}
 	}
+	
 }
 
 void Player::TalkState(NPC& npc, std::string previousState, bool& isPressed)

@@ -4,55 +4,39 @@
 #include "item.h"
 #include "SFML/Graphics.hpp"
 #include <iostream>
-#include <vector>
-/*
-void Character::AddItem(Item item)
-{
-	inventory.push_back(item);
-}
-
-void Character::MinItem(int inventoryNumber)
-{
-	inventory.erase(inventory.begin() + inventoryNumber);
-}
-*/
-
 
 class Character
 {
 private:
-	bool isPlayerCharacter;
-
 	std::string textureName;	//character texture name
 	sf::Texture texture;		//character texture
 	sf::Sprite sprite;			//character sprite
 
 	std::string name;			//character name
 
-	//Battle attributes
-	int totalHp;				//total hp
+	//Battle attribute
+	int hpMax;					//hp max
 	int hp;						//hp
 	int attack;					//dmg
 	int defence;				//def
 
-	//Trading attributes
+	//Trading attribute
 	int luck;					//luck
 	int observation;			//eye
 	int conversation;			//mouth
 	int knowledge;				//brain
 
-	//Characeter passives
+	//Characeter passive
 	std::string skill1;
 	std::string skill2;
 
-	//Inventory setting
+	//equipment
 	std::string equip1;
 	std::string equip2;
 	std::string equip3;
 
 public:
 	Character(
-		bool isPlayerCharacter,
 		std::string textureName,
 		std::string name,
 		int totalHp,
@@ -71,23 +55,18 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update();
-	void Draw();
 
-	//Functions
-	//getters
-	bool GetIsPlayerCharacter();
+	//getter setter
 	std::string GetTextureName();
 	void SetTextureName(std::string textureName);
 	sf::Texture GetTexture();
 	void SetTexture(sf::Texture texture);
 	sf::Sprite GetSprite();
 	void SetSprite(sf::Sprite sprite);
-
 	std::string GetName();
 	void SetName(std::string name);
-	int GetTotalHp();
-	void SetTotalHp(int totalHp);
+	int GetHpMax();
+	void SetHpMax(int hpMax);
 	int GetHp();
 	void SetHp(int hp);
 	int GetAttack();
@@ -102,26 +81,28 @@ public:
 	void SetConversation(int conversation);
 	int GetKnowledge();
 	void SetKnowledge(int knowledge);
-	std::string GetSkill1();
-	void SetSkill1(std::string skill1);
-	std::string GetSkill2();
-	void SetSkill2(std::string skill2);
+	std::string GetSkill(int skillNumber);
+	void SetSkill(int skillNumber, std::string skill);
 	std::string GetEquip(int equipNumber);
 	void SetEquip(int equipNumber, std::string equip);
 
 	//Functions
+	void AddHpMax(int hpMax);
+	void SubHpMax(int hpMax);
 	void AddHp(int hp);
-	void MinHp(int hp);
+	void SubHp(int hp);
 	void AddAtk(int atk);
-	void MinAtk(int atk);
+	void SubAtk(int atk);
 	void AddDef(int def);
-	void MinDef(int def);
+	void SubDef(int def);
+	void AddLuc(int luc);
+	void SubLuc(int luc);
 	void AddOsv(int osv);
-	void MinOsv(int osv);
+	void SubOsv(int osv);
 	void AddCvs(int cvs);
-	void MinCvs(int cvs);
+	void SubCvs(int cvs);
 	void AddKlg(int klg);
-	void MinKlg(int klg);
+	void SubKlg(int klg);
 
 	void Effect(Item item); // Item effects
 };
