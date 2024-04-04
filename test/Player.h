@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "Character.h"
+#include "Item.h"
 #include "NPC.h"
 #include "Quest.h"
 #include "Location.h"
@@ -146,6 +147,8 @@ public:
 	void NPCReward(NPC& npc);
 
 	void Rust(int inventoryNumber);
+
+	void Effect(Item item); // Item effects
 };
 
 #endif

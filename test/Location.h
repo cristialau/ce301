@@ -1,8 +1,8 @@
 #ifndef LOCATION_H
 #define LOCATION_H
 
-#include <iostream>
 #include "SFML/Graphics.hpp"
+#include <iostream>
 
 struct Location
 {

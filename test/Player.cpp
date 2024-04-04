@@ -577,9 +577,9 @@ void Player::SetCartInventoryWeight(int cartInventoryWeight)
 void Player::Effect(bool characterActive, Item item)
 {
 	if (characterActive)
-		c1.Effect(item);
+		Effect(item);
 	else
-		c2.Effect(item);
+		Effect(item);
 }
 
 int Player::RandomEvent()
@@ -628,5 +628,14 @@ void Player::Rust(int inventoryNumber)
 			cartInventory.erase(cartInventory.begin() + inventoryNumber);
 			std::cout << cartInventory[inventoryNumber].name << " is destoryed due to no durability" << std::endl;
 		}
+	}
+}
+
+void Player::Effect(Item item)
+{
+	//bread
+	if (item.name == "bread") {
+		c1.AddHp(10);
+		std::cout << c1.GetName() << " eat a bread" << std::endl;
 	}
 }

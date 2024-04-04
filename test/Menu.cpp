@@ -43,7 +43,7 @@ Menu::~Menu()
 {
 }
 
-void Menu::Update(Player& player, std::string& gameState, bool& isPressed)
+void Menu::Update(Player& player, std::string& gameState, int& mapNumber, bool& isPressed)
 {
 	if (!showMenu) {
 		std::cout << player.GetPlayerState() << std::endl;
@@ -94,9 +94,7 @@ void Menu::Update(Player& player, std::string& gameState, bool& isPressed)
 			OpenCharacter(player, isPressed);
 			break;
 		case 2:
-			player.SetPlayerState("WorldMap");
-			showMenu = false;
-			menuSelected = false;
+			OpenWorldMap(player, locationList, mapNumber, isPressed);
 			break;
 		case 3:
 			OpenInventory(player, isPressed);
@@ -120,7 +118,7 @@ void Menu::Draw()
 {
 }
 
-//Setter
+//Getter Setter
 void Menu::SetShowMenu(bool showMenu)
 {
 	this->showMenu = showMenu;
@@ -130,6 +128,13 @@ void Menu::SetMenuSelected(bool menuSelected)
 {
 	this->menuSelected = menuSelected;
 }
+
+int Menu::GetTravelingTime()
+{
+	// 0a  10b  20c  30d
+	return abs(travelingTime);
+}
+
 
 //Functions
 void Menu::OpenCharacter(Player& player, bool& isPressed)
@@ -267,6 +272,97 @@ void Menu::OpenChangeEquip(Player& player, int& characterSelect, bool& isPressed
 			showChangeEquip = false;
 			characterSelected = false;
 			inventory.clear();
+		}
+	}
+}
+
+void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int& mapNumber, bool& isPressed)
+{
+	if (!showLocation) {
+		this->locationList = locationList;
+
+		std::cout << "Select location" << std::endl;
+
+		for (int i = 0; i < locationList.size(); i++)
+			std::cout << i + 1 << ": " << locationList[i].name << std::endl;
+
+		showLocation = true;
+		select = 1;
+	}
+
+	if (!selected) {
+		if (!isPressed) {
+			isPressed = true;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				select++;
+
+				if (select > (int)locationList.size())
+					select = 0;
+				if (select < 0)
+					select = (int)locationList.size();
+
+				std::cout << select << std::endl;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				select--;
+
+				if (select > (int)locationList.size())
+					select = 0;
+				if (select < 0)
+					select = (int)locationList.size();
+
+				std::cout << select << std::endl;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+				selected = true;
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				player.SetPlayerState("Menu");
+				SetShowMenu(false);
+				SetMenuSelected(false);
+				showLocation = false;
+				this->locationList.clear();
+			}
+		}
+	}
+	else {
+		if (!showSelected) {
+			if (player.GetLocation().id == locationList[select].id) {
+				same = true;
+				std::cout << "You are here" << std::endl;
+			}
+			else {
+				same = false;
+				travelingTime = player.GetLocation().time - locationList[select].time;
+
+				std::cout << "Estimate travel time: " <<
+					abs(travelingTime) << std::endl;
+
+				std::cout << "Start your travel?" << std::endl;
+			}
+
+			showSelected = true;
+		}
+
+		if (!isPressed) {
+			isPressed = true;
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				showLocation = false;
+				selected = false;
+				showSelected = false;
+				select = 1;
+			}
+
+			if (!same) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					player.SetPlayerState("Traveling");
+					mapNumber = select;
+					showLocation = false;
+					selected = false;
+					showSelected = false;
+					select = 1;
+				}
+			}
 		}
 	}
 }

@@ -61,8 +61,6 @@ void Game::InitGame()
     mapNumber = 1;
 
     this->mainMenu = new MainMenu(title);
-
-    
 }
 
 void Game::LoadGame()
@@ -110,13 +108,10 @@ void Game::Update()
             player.NormalState(view, isPressed);
         }
         else if (player.GetPlayerState() == "Menu") {
-            menu.Update(player, gameState, isPressed);
-        }
-        else if (player.GetPlayerState() == "WorldMap") {
-            worldMap.Update(player, menu, locationList, mapNumber, isPressed);
+            menu.Update(player, gameState, mapNumber, isPressed);
         }
         else if (player.GetPlayerState() == "Traveling") {
-            player.TravelState(worldMap.GetTravelingTime(), dt, isPressed);
+            player.TravelState(menu.GetTravelingTime(), dt, isPressed);
         }
         else if (player.GetPlayerState() == "Battle") {
             if (npc.empty())

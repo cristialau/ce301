@@ -11,7 +11,6 @@
 #include "Map.h"
 #include "Trade.h"
 #include "Battle.h"
-#include "WorldMap.h"
 #include "Menu.h"
 //#include "Interface.h"
 
@@ -81,8 +80,6 @@ private:
 	Trade trade = Trade();
 	//Battle
 	Battle battle = Battle();
-	//WorldMap Done
-	WorldMap worldMap = WorldMap();
 	//Menu
 	Menu menu = Menu();
 

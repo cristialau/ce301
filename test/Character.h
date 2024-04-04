@@ -1,7 +1,6 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "item.h"
 #include "SFML/Graphics.hpp"
 #include <iostream>
 
@@ -103,9 +102,6 @@ public:
 	void SubCvs(int cvs);
 	void AddKlg(int klg);
 	void SubKlg(int klg);
-
-	//?
-	void Effect(Item item); // Item effects
 };
 
 #endif

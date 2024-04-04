@@ -150,7 +150,6 @@
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Trade.cpp" />
-    <ClCompile Include="WorldMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Battle.h" />
@@ -168,7 +167,6 @@
     <ClInclude Include="Quest.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Trade.h" />
-    <ClInclude Include="WorldMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -337,13 +337,3 @@ void Character::SubKlg(int klg)
 	if (knowledge < 5)
 		knowledge = 5;
 }
-
-//?
-void Character::Effect(Item item)
-{
-	//bread
-	if (item.name == "bread") {
-		AddHp(10);
-		std::cout << GetName() << " eat a bread" << std::endl;
-	}
-}

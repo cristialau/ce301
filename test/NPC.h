@@ -2,6 +2,7 @@
 #define NPC_H
 
 #include "Character.h"
+#include "Item.h"
 #include "Location.h"
 #include "Quest.h"
 

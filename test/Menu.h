@@ -29,6 +29,18 @@ private:
 	//equipment
 	bool showChangeEquip;
 	int equipSelect;
+	//worldmap
+	//show Map
+	bool showLocation = false;
+	//location list
+	std::vector<Location> locationList;
+	//player select
+	int select = 1;
+	bool selected = false;
+	bool showSelected = false;
+	//if select current location
+	bool same = false;
+	int travelingTime = 0;
 	//inventory
 	bool showInventory;
 	int inventorySelect;
@@ -44,7 +56,6 @@ private:
 	//Setting
 	bool showSetting;
 	int settingSelect;
-
 	//Inventory
 	std::vector<Item> inventory;
 	std::vector<Item> equipment;
@@ -55,15 +66,18 @@ public:
 	Menu();
 	~Menu();
 
-	void Update(Player& player, std::string& gameState, bool& isPressed);
+	void Update(Player& player, std::string& gameState, int& mapNumber, bool& isPressed);
 	void Draw();
 
-	//Functions
+	//Getter Setter
 	void SetShowMenu(bool showMenu);
 	void SetMenuSelected(bool selected);
+	int GetTravelingTime();
 
+	//Functions
 	void OpenCharacter(Player& player, bool& isPressed);
 	void OpenChangeEquip(Player& player, int& characterSelect, bool& isPressed);
+	void OpenWorldMap(Player& player, std::vector<Location> locationList, int& locationNumber, bool& isPressed);
 	void OpenInventory(Player& player, bool& isPressed);
 	void OpenQuest(Player& player, bool& isPressed);
 	void OpenSetting(bool& isPressed);
