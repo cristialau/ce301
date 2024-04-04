@@ -108,7 +108,7 @@ void Game::Update()
             player.NormalState(view, isPressed);
         }
         else if (player.GetPlayerState() == "Menu") {
-            menu.Update(player, gameState, mapNumber, isPressed);
+            menu.Update(player, gameState, locationList, mapNumber, isPressed);
         }
         else if (player.GetPlayerState() == "Traveling") {
             player.TravelState(menu.GetTravelingTime(), dt, isPressed);
@@ -141,6 +141,8 @@ void Game::Update()
         !sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
         !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         isPressed = false;
+    else
+        isPressed = true;
 }
 
 void Game::Draw()
@@ -181,15 +183,12 @@ void Game::ItemList()
     item[1].name = "bread";
     item[1].type = "food";
     item[1].description = "Bread, you can eat it.";
-    item[1].effect = "+10 HP";
 
     item[1].durability = 10;
     item[1].weight = 1;
 
     item[1].consumable = true;
     item[1].haveDurability = true;
-
-    item[1].isEquip = false;
 
     item[1].price = 5;
     //Item 1
@@ -203,15 +202,12 @@ void Game::ItemList()
     item[2].name = "water";
     item[2].type = "food";
     item[2].description = "Water, you can drink it.";
-    item[2].effect = "+5 HP";
 
     item[2].durability = 10;
     item[2].weight = 1;
 
     item[2].consumable = true;
     item[2].haveDurability = true;
-
-    item[2].isEquip = false;
 
     item[2].price = 4;
     //Item 2
@@ -223,17 +219,14 @@ void Game::ItemList()
     item[3].textureName = "none";
     //attributes
     item[3].name = "hat";
-    item[3].type = "Equipment";
+    item[3].type = "Item";
     item[3].description = "A hat.";
-    item[3].effect = "+5 HP";
 
     item[3].durability = 10;
     item[3].weight = 3;
 
     item[3].consumable = false;
     item[3].haveDurability = true;
-
-    item[3].isEquip = false;
 
     item[3].price = 10;
     //Item 2

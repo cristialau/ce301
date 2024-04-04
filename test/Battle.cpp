@@ -290,7 +290,7 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousSt
 		playerDefence = player.GetC2().GetDefence();
 	}
 
-	playerTeamSPMax = player.GetTotalSP();
+	playerTeamSPMax = player.GetSpMax();
 	playerTeamSP = 3;
 
 	enemyNumber = (int)enemy.size();

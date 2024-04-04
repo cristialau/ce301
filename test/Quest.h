@@ -18,6 +18,9 @@ struct Quest
 
 	bool accepted = false;
 	bool finished = false;
+	bool gotReward = false;
+
+	int reward = 0;
 };
 	
 #endif

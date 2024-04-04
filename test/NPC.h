@@ -9,18 +9,15 @@
 class NPC
 {
 private:
-	//Character
+	//Character 
 	Character& c;
 	int rls;			//relationship to player - 100 -> friendly | 0 -> enemy
-	std::string job;		//character job: swordie, archer, thief, clergy
+	std::string job;		//Villager/Merchant/Lord/Bandit
 	int gold;
 	//Quest
 	Quest& quest;
 	//Trade
-	bool canTrade;
 	bool passTradeGame;
-	//Battle
-	bool canBattle;
 	//Inventory/Shop
 	std::vector<Item> inventory;
 	int inventoryWeight;
@@ -68,12 +65,8 @@ public:
 	void SetGold(int gold);
 	Quest& GetNPCQuest();
 	void SetNPCQuest(Quest& quest);
-	bool GetCanTrade();
-	void SetCanTrade(bool canTrade);
 	bool PassTradeGame();
 	void SetPassTradeGame(bool passTradeGame);
-	bool GetCanBattle();
-	void SetCanBattle(bool canBattle);
 	std::vector<Item> GetInventory();
 	int GetInventoryWeight();
 	void SetInventoryWeight(int inventoryWeight);
@@ -86,7 +79,7 @@ public:
 
 	//Functions
 	void AddRls(int rls);
-	void MinRls(int rls);
+	void SubRls(int rls);
 	void AddGold(int gold);
 	void SubGold(int gold);
 	void AddItem(std::vector<Item> inventory, Item item);

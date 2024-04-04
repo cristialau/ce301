@@ -117,7 +117,7 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, bool
 			if (observationScore > npc.GetC().GetObservation() &&
 				conversationScore > npc.GetC().GetConversation() &&
 				knowledgeScore > npc.GetC().GetKnowledge()) {
-				player.NPCReward(npc);
+				player.Reward(1);
 				npc.SetPassTradeGame(true);
 			}
 
@@ -246,9 +246,6 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 				player.SetPlayerState(previousState);
-				player.SetOsv(0);
-				player.SetCvs(0);
-				player.SetKlg(0);
 				showShop = false;
 				shopSelected = false;
 				played = false;

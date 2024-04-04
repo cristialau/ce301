@@ -3,9 +3,10 @@
 
 #include "Character.h"
 #include "Item.h"
-#include "NPC.h"
+#include "Equipment.h"
 #include "Quest.h"
 #include "Location.h"
+#include "NPC.h"
 #include "SFML/Graphics.hpp"
 #include <iostream>
 #include <random>
@@ -16,71 +17,63 @@ private:
 	//Characters
 	Character c1;
 	Character c2;
-	bool isC1 = true;
-	bool isC2 = true;
-	//bool BothCharacter = true;
-	int totalSp = 7;			//total sp
+	bool isC1;
+	bool isC2;
+	int SpMax;
 
+	std::vector<Equipment> equipInventory;
+	int equipInventoryWeight;
 	std::vector<Item> cartInventory;
-	int cartInventoryWeight = 20;
+	int cartInventoryWeight;
+	std::vector<Quest> questList;
 
-	int gold = 0;				//gold
+	int gold;
 
-	//Player current state
 	std::string playerState;
-	//Normal, Talking, Trading, Battle, WorldMap, Traveling, Menu
-
-	//Player sprite size
-	float tileSize = 16.f;
-	float scale = 3.f;
-	//Player sprite position
-	float tilePositionX = 0;
-	float tilePositionY = 0;
-	//View position
-	float viewX = 0;
-	float viewY = 0;
-	//Player Map number and position
-	//int playerNumber = 9;
-	int positionX = 0;
-	int positionY = 0;
-	int playerNextMapNumber = 0;
-	int tempX = 0;
-	int tempY = 0;
+	//Normal, Talking, Trading, Battle, Traveling, Menu
+	int day;
+	int time;
+	int npcNumber;
 
 	//Player current Map
 	Location location;
-	int currentLocationID = -1;
+	int currentLocationID;
 	const static int playerMapSize = 22;
 	int playerMap[playerMapSize][playerMapSize];
+	//Player Map position
+	int positionX;
+	int positionY;
+	//Player sprite size
+	float tileSize;
+	float scale;
+	//Player sprite position
+	float tilePositionX;
+	float tilePositionY;
+	//View position
+	float viewX;
+	float viewY;
 
-	//Player quest list
-	std::vector<Quest> questList;
-
-	//Player time
-	int day = 0;
-	int time = 0;
-
-	//std::string previousState;
 	//Talk
-	bool showTalk = false;
-	bool selected = false;
-	int selectMax = 0;
-	int select = 0;
-	bool showQuest = false;
-	bool questSelected = false;
-	int questSelectMax = 0;
-	int questSelect = 0;
-	bool isSetUp = false;
+	bool showTalk;
+	int talkSelect;
+	int talkSelectMax;
+	bool talkSelected;
+	bool showQuest;
+	bool questSelected;
+	int questSelectMax;
+	int questSelect;
+	bool isSetUp;
 
 	//Travel
-	bool travelSetUp = false;
-	bool showTravel = false;
-	bool showArrived = false;
-	int travelingTime = 0;
-	float timer = 0;
-	bool roll = false;
-	int result = 0;
-	bool showWarning = false;
+	bool travelSetUp;
+	bool showTravel;
+	bool showArrived;
+	int travelingTime;
+	float timer;
+	bool roll;
+	int result;
+
+	bool showWarning;
 
 public:
 	Player(Character& c1, Character& c2);
@@ -91,23 +84,29 @@ public:
 	void SetUp(Location location);
 	void NormalState(sf::View& view, bool& isPressed);
 	void TalkState(NPC& npc, std::string previousState, bool& isPressed);
+	void OpenQuest(NPC& npc, bool& isPressed);
 	void TravelState(int travelingTime, float dt, bool& isPressed);
-	void AcceptQuest(NPC& npc, bool& isPressed);
 	void EndGame();
 	void Draw(sf::RenderWindow& window);
 
 	//getters setters
+	Character GetC1();
+	Character GetC2();
 	bool GetIsC1();
 	void SetIsC1(bool isC1);
 	bool GetIsC2();
 	void SetIsC2(bool isC2);
-	Character GetC1();
-	Character GetC2();
-	int GetTotalSP();
-	void SetTotalSP(int totalSp);
-	void SetHPAfterBattle(int HP);
-	
+	int GetSpMax();
+	void SetSpMax(int SpMax);
+	std::vector<Equipment> GetEquipInventory();
+	int GetEquipInventoryWeight();
+	void SetEquipInventoryWeight(int equipmentWeight);
+	std::vector<Item> GetCartInventory();
+	int GetCartInventoryWeight();
+	void SetCartInventoryWeight(int cartInventoryWeight);
 	std::vector<Quest> GetQuest();
+	int GetGold();
+	void SetGold(int gold);
 	std::string GetPlayerState();
 	void SetPlayerState(std::string playerState);
 	int GetDay();
@@ -116,39 +115,24 @@ public:
 	void SetTime(int time);
 	Location GetLocation();
 	void SetLocation(Location location);
-	void SetEquip(bool characterActive, int equipNumber, std::string equip);
-
-	void SetOsv(int osvScore);
-	void SetCvs(int cvsScore);
-	void SetKlg(int klgScore);
-
 	//Functions for map
 	int GetMapPositionX(); //Player Map positionX
 	int GetMapPositionY(); //Player Map positionY
 
-	//Quest
-	void AddQuest(Quest quest);	//accept quest
-
 	//Functions
-	int GetGold();
-	void AddGold(int gold);
-	void MinGold(int gold);
-	
-	std::vector<Item> GetCartInventory();
+	void AddEquipment(Equipment equipment);
+	void ConsumeEquipment(int inventoryNumber);
 	void AddItemCart(Item item);
 	void ConsumeCart(int inventoryNumber);
-	int GetCartInventoryWeight();
-	void SetCartInventoryWeight(int cartInventoryWeight);
-	
-	void Effect(bool characterActive, Item item); // Item effects
-	
-	int RandomEvent();
-	void Reward(bool positive);
-	void NPCReward(NPC& npc);
-
 	void Rust(int inventoryNumber);
+	void AddQuest(Quest quest);
+	void AddGold(int gold);
+	void MinGold(int gold);
+	void SetHPAfterBattle(int HP);
+	int RandomEvent();
 
-	void Effect(Item item); // Item effects
+	void Reward(int type); // start from 1
+	void Effect(bool characterActive, Equipment equipment); // equip effects
 };
 
 #endif

@@ -9,12 +9,7 @@
 class Menu
 {
 private:
-	//menu pages
-	int isCharacterPage;
-	int isWorldMap;
-	int isInventory;
-	int isQuest;
-	int isSetting;
+	bool characterActive;
 	//menu
 	bool showMenu;
 	int menuSelect;
@@ -25,58 +20,53 @@ private:
 	int characterSelect;
 	int characterSelectMax;
 	bool characterSelected;
-	bool characterActive;
 	//equipment
-	bool showChangeEquip;
+	bool showEquip;
 	int equipSelect;
+	int equipSelectMax;
+	bool equipSelected;
 	//worldmap
-	//show Map
-	bool showLocation = false;
-	//location list
-	std::vector<Location> locationList;
-	//player select
-	int select = 1;
-	bool selected = false;
-	bool showSelected = false;
-	//if select current location
-	bool same = false;
-	int travelingTime = 0;
+	bool showLocation;
+	int locationSelect;
+	int locationSelectMax;
+	bool locationSelected;
+	bool showSelectedLocation;
+	bool sameLocation;
+	int travelingTime;
 	//inventory
 	bool showInventory;
 	int inventorySelect;
-	int characterNumber;
-	int totalWeight;
+	int inventorySelectMax;
 	bool inventorySelected;
+	int weight;
 	bool showChoice;
 	//quest
 	bool showQuest;
 	int questSelect;
-	//WorldMap
-	bool showWorldMap;
+	int questSelectMax;
 	//Setting
 	bool showSetting;
 	int settingSelect;
-	//Inventory
+	
+	std::vector<Location> location; //location list
+	std::vector<Equipment> equipment;
 	std::vector<Item> inventory;
-	std::vector<Item> equipment;
-	//Quest
 	std::vector<Quest> quest;
 
 public:
 	Menu();
 	~Menu();
 
-	void Update(Player& player, std::string& gameState, int& mapNumber, bool& isPressed);
+	void Update(Player& player, std::string& gameState, std::vector<Location> locationList, int& mapNumber, bool& isPressed);
 	void Draw();
 
 	//Getter Setter
-	void SetShowMenu(bool showMenu);
-	void SetMenuSelected(bool selected);
 	int GetTravelingTime();
 
 	//Functions
 	void OpenCharacter(Player& player, bool& isPressed);
-	void OpenChangeEquip(Player& player, int& characterSelect, bool& isPressed);
+	void OpenSkill(Player& player, bool& isPressed);
+	void OpenEquip(Player& player, bool& isPressed);
 	void OpenWorldMap(Player& player, std::vector<Location> locationList, int& locationNumber, bool& isPressed);
 	void OpenInventory(Player& player, bool& isPressed);
 	void OpenQuest(Player& player, bool& isPressed);

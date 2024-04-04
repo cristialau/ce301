@@ -6,9 +6,7 @@ NPC::NPC(Character& character, int rls, std::string job, int gold, Quest& quest,
 	this->rls = rls;
 	this->job = job;
 	this->gold = gold;
-	canTrade = false;
 	passTradeGame = false;
-	canBattle = false;
 	inventoryWeight = 10;
 	shopWeight = 100;
 
@@ -97,16 +95,6 @@ void NPC::SetNPCQuest(Quest& quest)
 	this->quest = quest;
 }
 
-bool NPC::GetCanTrade()
-{
-	return canTrade;
-}
-
-void NPC::SetCanTrade(bool canTrade)
-{
-	this->canTrade = canTrade;
-}
-
 bool NPC::PassTradeGame()
 {
 	return passTradeGame;
@@ -115,16 +103,6 @@ bool NPC::PassTradeGame()
 void NPC::SetPassTradeGame(bool passTradeGame)
 {
 	this->passTradeGame = passTradeGame;
-}
-
-bool NPC::GetCanBattle()
-{
-	return canBattle;
-}
-
-void NPC::SetCanBattle(bool canBattle)
-{
-	this->canBattle = canBattle;
 }
 
 std::vector<Item> NPC::GetInventory()
@@ -178,7 +156,7 @@ void NPC::AddRls(int rls)
 		this->rls = 100;
 }
 
-void NPC::MinRls(int rls)
+void NPC::SubRls(int rls)
 {
 	this->rls -= rls;
 	if (this->rls < 0)

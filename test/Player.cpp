@@ -2,12 +2,55 @@
 
 Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 {
-	playerState = "Normal";
+	//Character
+	isC1 = true;
+	isC2 = true;
+	SpMax = 7;
+	equipInventoryWeight = 10;
+	cartInventoryWeight = 20;
+	gold = 0;
 
+	playerState = "Normal";
+	day = 1;
+	time = 0;
+	npcNumber = 2;
+
+	//Map
+	currentLocationID = -1;
 	for (int j = 0; j < playerMapSize; j++) {
 		for (int i = 0; i < playerMapSize; i++)
 			playerMap[j][i] = 0;
 	}
+	positionX = 0;
+	positionY = 0;
+	tileSize = 16.f;
+	scale = 3.f;
+	tilePositionX = 0;
+	tilePositionY = 0;
+	viewX = 0;
+	viewY = 0;
+
+	//Talk
+	showTalk = false;
+	talkSelect = 0;
+	talkSelectMax = 0;
+	talkSelected = false;
+	showQuest = false;
+	questSelected = false;
+	questSelectMax = 0;
+	questSelect = 0;
+	isSetUp = false;
+
+	//Travel
+	travelSetUp = false;
+	showTravel = false;
+	showArrived = false;
+	travelingTime = 0;
+	timer = 0;
+	roll = false;
+	result = 0;
+
+	showWarning = false;
 }
 
 Player::~Player()
@@ -66,10 +109,9 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 		}
 
 		if (!isPressed) {
-			isPressed = true;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
 				playerMap[positionY][positionX + 1] != 0) {
-				positionX = positionX + 1;
+				positionX++;
 				//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
 
 				for (int i = 0; i < playerMapSize; ++i) {
@@ -79,9 +121,9 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 				}
 				std::cout << "position: " << positionX << " " << positionY << std::endl;
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
 				playerMap[positionY][positionX - 1] != 0) {
-				positionX = positionX - 1;
+				positionX--;
 				//c1.GetSprite().move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
 
 				for (int i = 0; i < playerMapSize; ++i) {
@@ -91,9 +133,9 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 				}
 				std::cout << "position: " << positionX << " " << positionY << std::endl;
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
 				playerMap[positionY - 1][positionX] != 0) {
-				positionY = positionY - 1;
+				positionY--;
 				//c1.GetSprite().move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
 
 				for (int i = 0; i < playerMapSize; ++i) {
@@ -103,9 +145,9 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 				}
 				std::cout << "position: " << positionX << " " << positionY << std::endl;
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
 				playerMap[positionY + 1][positionX] != 0) {
-				positionY = positionY + 1;
+				positionY++;
 				//c1.GetSprite().move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
 
 				for (int i = 0; i < playerMapSize; ++i) {
@@ -115,26 +157,17 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 				}
 				std::cout << "position: " << positionX << " " << positionY << std::endl;
 			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
-				(playerMap[positionY][positionX] == 1)) {
-				playerState = "Trading";
-				isSetUp = false;
-			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
-				(playerMap[positionY][positionX] == 5)) {
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
+				(playerMap[positionY][positionX] == npcNumber)) {
 				playerState = "Talking";
 				isSetUp = false;
 			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 				playerState = "Menu";
 				isSetUp = false;
 			}
 		}
 	}
-	
 }
 
 void Player::TalkState(NPC& npc, std::string previousState, bool& isPressed)
@@ -144,90 +177,167 @@ void Player::TalkState(NPC& npc, std::string previousState, bool& isPressed)
 	}
 	else {
 		if (!showTalk) {
+			showTalk = true;
 			std::cout << "Dialogue" << std::endl;
 
 			std::cout << npc.GetC().GetName() << std::endl;
 			std::cout << npc.GetDialogue() << std::endl;
 
-			showTalk = true;
-			select = 1;
-
 			//Merchant, villager
 			if (npc.GetJob() == "Villager") {
-				selectMax = 1;
+				talkSelectMax = 1;
 				std::cout << "Cancel" << std::endl;
 			}
 			else if (npc.GetJob() == "Merchant") {
-				selectMax = 2;
+				talkSelectMax = 2;
 				std::cout << "Cancel" << std::endl;
 				std::cout << "Trade" << std::endl;
 			}
-			else if (npc.GetJob() == "Lord") {
-				selectMax = 3;
+			else if (npc.GetJob() == "Bandit") {
+				talkSelectMax = 3;
 				std::cout << "Cancel" << std::endl;
 				std::cout << "Trade" << std::endl;
 				std::cout << "Battle" << std::endl;
 			}
+			else if (npc.GetJob() == "Lord") {
+				talkSelectMax = 3;
+				std::cout << "Cancel" << std::endl;
+				std::cout << "Trade" << std::endl;
+				std::cout << "Quest" << std::endl;
+			}
+
+			talkSelect = 1;
 		}
 
-		if (!selected) {
+		if (!talkSelected) {
 			if (!isPressed) {
-				isPressed = true;
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-					select++;
+					talkSelect++;
 
-					if (select > selectMax)
-						select = 1;
-					if (select < 1)
-						select = selectMax;
+					if (talkSelect > talkSelectMax)
+						talkSelect = 1;
 
-					std::cout << select << std::endl;
+					std::cout << talkSelect << std::endl;
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-					select--;
+					talkSelect--;
 
-					if (select > selectMax)
-						select = 1;
-					if (select < 1)
-						select = selectMax;
+					if (talkSelect < 1)
+						talkSelect = talkSelectMax;
 
-					std::cout << select << std::endl;
+					std::cout << talkSelect << std::endl;
 				}
-
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-					selected = true;
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					talkSelected = true;
+				}
 			}
 		}
 		else {
 			showTalk = false;
-			selected = false;
-
-			switch (select) {
-			case 1:	SetPlayerState("Normal"); break;
-			case 2:	SetPlayerState("Trading"); break;
-			case 3:	SetPlayerState("Battle"); break;
-				//AcceptQuest(npc, isPressed);
+			
+			switch (talkSelect) {
+			case 1:	SetPlayerState("Normal"); talkSelected = false; break;
+			case 2:	SetPlayerState("Trading"); talkSelected = false; break;
+			case 3:	
+				if (npc.GetJob() == "Lord") {
+					OpenQuest(npc, isPressed);
+				}
+				else if (npc.GetJob() == "Bandit") {
+					SetPlayerState("Battle");
+					talkSelected = false;
+				}
+				break;
 			}
 		}
+	}
+}
+
+void Player::OpenQuest(NPC& npc, bool& isPressed)
+{
+	if (!showQuest) {
+		showQuest = true;
+		std::cout << "Quest" << std::endl;
+
+		std::cout << npc.GetNPCQuest().description << std::endl;
+
+		if (npc.GetNPCQuest().gotReward) {
+			std::cout << "You finished my quest" << std::endl;
+			questSelectMax = 1;
+		}
+		else if (npc.GetNPCQuest().finished || npc.GetNPCQuest().accepted) {
+			std::cout << "1. Cancel 2. Finish" << std::endl;
+			questSelectMax = 2;
+		}
+		else if (!npc.GetNPCQuest().accepted) {
+			std::cout << "1. Cancel 2. Accept" << std::endl;
+			questSelectMax = 2;
+		}
+		
+		questSelect = 1;
+	}
+
+	if (!questSelected) {
+		if (!isPressed) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				questSelect++;
+
+				if (questSelect > questSelectMax)
+					questSelect = 1;
+
+				std::cout << questSelect << std::endl;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				questSelect--;
+
+				if (questSelect < 1)
+					questSelect = questSelectMax;
+
+				std::cout << questSelect << std::endl;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+				questSelected = true;
+			}
+		}
+	}
+	else {
+		if (questSelect == 2) {
+			if (npc.GetNPCQuest().finished) {
+				npc.GetNPCQuest().gotReward = true;
+				std::cout << "You finished my quest" << std::endl;
+				Reward(npc.GetNPCQuest().reward);
+			}
+			else if (npc.GetNPCQuest().accepted) {
+				std::cout << "You have not finished my quest" << std::endl;
+			}
+			else {
+				npc.GetNPCQuest().accepted = true;
+				AddQuest(npc.GetNPCQuest());
+				std::cout << "Player accepts quest successfully" << std::endl;
+				SetPlayerState("Normal");
+			}
+		}
+
+		talkSelected = false;
+		showQuest = false;
+		questSelected = false;
 	}
 }
 
 void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 {
 	if (!travelSetUp) {
+		travelSetUp = true;
 		this->travelingTime = travelingTime;
 		timer = 0;
-		travelSetUp = true;
 	}
 
 	if (!showTravel) {
+		showTravel = true;
 		std::cout << "Traveling" << std::endl;
 
 		std::cout << "Day: " << day << std::endl;
 		std::cout << "Time: " << time << std::endl;
 		std::cout << "TravelingTime: " << this->travelingTime << std::endl;
-
-		showTravel = true;
 	}
 
 	if (this->travelingTime > 0) {
@@ -239,11 +349,11 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 			}
 
 			switch (result) {
-			case 1: Reward(true);  roll = false; this->travelingTime--; break;
-			case 2: Reward(false); roll = false; this->travelingTime--; break;
+			case 1: Reward(1);  roll = false; this->travelingTime--; break;
+			case 2: Reward(2); roll = false; this->travelingTime--; break;
 			case 3:
 				if (!showWarning) {
-					std::cout << "encounter combat" << std::endl;
+					std::cout << "encounter bandit" << std::endl;
 					showWarning = true;
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
@@ -255,7 +365,7 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 				break;
 			case 4: 
 				if (!showWarning) {
-					std::cout << "encounter trade" << std::endl;
+					std::cout << "encounter merchant" << std::endl;
 					showWarning = true;
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
@@ -280,13 +390,11 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 	}
 	else {
 		if (!showArrived) {
-			std::cout << "Arrived" << std::endl;
-
 			showArrived = true;
+			std::cout << "Arrived" << std::endl;
 		}
 
 		if (!isPressed) {
-			isPressed = true;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				SetPlayerState("Normal");
 				travelSetUp = false;
@@ -294,73 +402,6 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 				showArrived = false;
 			}
 		}
-	}
-}
-
-void Player::AcceptQuest(NPC& npc, bool& isPressed)
-{
-	if (!showQuest) {
-		std::cout << "Quest" << std::endl;
-
-		std::cout << npc.GetNPCQuest().description << std::endl;
-
-		showQuest = true;
-		questSelect = 1;
-
-		if (npc.GetNPCQuest().finished || npc.GetNPCQuest().accepted)
-			questSelectMax = 1;
-		else
-			questSelectMax = 2;
-	}
-
-	if (!questSelected) {
-		if (!isPressed) {
-			isPressed = true;
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-				questSelect++;
-
-				if (questSelect > questSelectMax)
-					questSelect = 1;
-				if (questSelect < 1)
-					questSelect = questSelectMax;
-
-				std::cout << questSelect << std::endl;
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-				questSelect--;
-
-				if (questSelect > questSelectMax)
-					questSelect = 1;
-				if (questSelect < 1)
-					questSelect = questSelectMax;
-
-				std::cout << questSelect << std::endl;
-			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-				questSelected = true;
-		}
-	}
-	else {
-		switch (questSelect) {
-		case 1:
-			if (npc.GetNPCQuest().finished)
-				std::cout << "You finished my quest" << std::endl;
-			else if (npc.GetNPCQuest().accepted)
-				std::cout << "You accepted my quest" << std::endl;
-			break;
-		case 2:
-			npc.GetNPCQuest().accepted = true;
-			AddQuest(npc.GetNPCQuest());
-			std::cout << "Player accepts quest successfully" << std::endl;
-			break;
-		}
-
-		SetPlayerState("Normal");
-		showTalk = false;
-		selected = false;
-		showQuest = false;
-		questSelected = false;
 	}
 }
 
@@ -378,10 +419,20 @@ void Player::EndGame()
 
 void Player::Draw(sf::RenderWindow& window)
 {
-	window.draw(c1.GetSprite());
+	//window.draw(c1.GetSprite());
 }
 
 //getters setters
+Character Player::GetC1()
+{
+	return c1;
+}
+
+Character Player::GetC2()
+{
+	return c2;
+}
+
 bool Player::GetIsC1()
 {
 	return isC1;
@@ -402,41 +453,63 @@ void Player::SetIsC2(bool isC2)
 	this->isC2 = isC2;
 }
 
-Character Player::GetC1()
+int Player::GetSpMax()
 {
-	return c1;
+	return SpMax;
 }
 
-Character Player::GetC2()
+void Player::SetSpMax(int SpMax)
 {
-	return c2;
+	this->SpMax = SpMax;
+	if (this->SpMax < 0)
+		this->SpMax = 0;
 }
 
-int Player::GetTotalSP()
+std::vector<Equipment> Player::GetEquipInventory()
 {
-	return totalSp;
+	return equipInventory;
 }
 
-void Player::SetTotalSP(int totalSp)
+int Player::GetEquipInventoryWeight()
 {
-	this->totalSp = totalSp;
+	return equipInventoryWeight;
 }
 
-void Player::SetHPAfterBattle(int HP)
+void Player::SetEquipInventoryWeight(int equipInventoryWeight)
 {
-	if (HP <= 40) {
-		c1.SetHp(HP);
-		c2.SetHp(1);
-	}
-	else {
-		c1.SetHp(HP - 40);
-		c2.SetHp(40);
-	}
+	this->equipInventoryWeight = equipInventoryWeight;
+}
+
+std::vector<Item> Player::GetCartInventory()
+{
+	return cartInventory;
+}
+
+int Player::GetCartInventoryWeight()
+{
+	return cartInventoryWeight;
+}
+
+void Player::SetCartInventoryWeight(int cartInventoryWeight)
+{
+	this->cartInventoryWeight = cartInventoryWeight;
 }
 
 std::vector<Quest> Player::GetQuest()
 {
 	return questList;
+}
+
+int Player::GetGold()
+{
+	return gold;
+}
+
+void Player::SetGold(int gold)
+{
+	this->gold = gold;
+	if (this->gold < 0)
+		this->gold = 0;
 }
 
 std::string Player::GetPlayerState()
@@ -479,40 +552,6 @@ void Player::SetLocation(Location location)
 	this->location = location;
 }
 
-void Player::SetEquip(bool characterActive, int equipSelect, std::string equip)
-{
-	if (characterActive) {
-		c1.SetEquip(equipSelect, equip);
-	}
-	else {
-		c2.SetEquip(equipSelect, equip);
-	}
-}
-
-void Player::SetOsv(int osvScore)
-{
-	if (isC1)
-		c1.SetObservation(osvScore);
-	else
-		c2.SetObservation(osvScore);
-}
-
-void Player::SetCvs(int cvsScore)
-{
-	if (isC1)
-		c1.SetConversation(cvsScore);
-	else
-		c2.SetConversation(cvsScore);
-}
-
-void Player::SetKlg(int klgScore)
-{
-	if (isC1)
-		c1.SetKnowledge(klgScore);
-	else
-		c2.SetKnowledge(klgScore);
-}
-
 //Functions for map
 int Player::GetMapPositionX()
 {
@@ -524,34 +563,15 @@ int Player::GetMapPositionY()
 	return positionY;
 }
 
-//Quest
-void Player::AddQuest(Quest quest)
-{
-	questList.push_back(quest);
-}
-
 //Functions
-int Player::GetGold()
+void Player::AddEquipment(Equipment equipment)
 {
-	return gold;
+	equipInventory.push_back(equipment);
 }
 
-void Player::AddGold(int gold)
+void Player::ConsumeEquipment(int inventoryNumber)
 {
-	this->gold += gold;
-}
-
-void Player::MinGold(int gold)
-{
-	this->gold -= gold;
-	if (this->gold < 0) {
-		this->gold = gold;
-	}
-}
-
-std::vector<Item> Player::GetCartInventory()
-{
-	return cartInventory;
+	equipInventory.erase(equipInventory.begin() + inventoryNumber);
 }
 
 void Player::AddItemCart(Item item)
@@ -564,22 +584,45 @@ void Player::ConsumeCart(int inventoryNumber)
 	cartInventory.erase(cartInventory.begin() + inventoryNumber);
 }
 
-int Player::GetCartInventoryWeight()
+void Player::Rust(int inventoryNumber)
 {
-	return cartInventoryWeight;
+	if (cartInventory[inventoryNumber].haveDurability) {
+		cartInventory[inventoryNumber].durability -= 10;
+		if (cartInventory[inventoryNumber].durability <= 0) {
+			cartInventory.erase(cartInventory.begin() + inventoryNumber);
+			std::cout << cartInventory[inventoryNumber].name << " is destoryed due to no durability" << std::endl;
+		}
+	}
 }
 
-void Player::SetCartInventoryWeight(int cartInventoryWeight)
+void Player::AddQuest(Quest quest)
 {
-	this->cartInventoryWeight = cartInventoryWeight;
+	questList.push_back(quest);
 }
 
-void Player::Effect(bool characterActive, Item item)
+void Player::AddGold(int gold)
 {
-	if (characterActive)
-		Effect(item);
-	else
-		Effect(item);
+	this->gold += gold;
+}
+
+void Player::MinGold(int gold)
+{
+	this->gold -= gold;
+}
+
+void Player::SetHPAfterBattle(int HP)
+{
+	c1.SetHp(HP);
+	/*
+	if (HP <= 40) {
+		c1.SetHp(HP);
+		c2.SetHp(1);
+	}
+	else {
+		c1.SetHp(HP - 40);
+		c2.SetHp(40);
+	}
+	*/
 }
 
 int Player::RandomEvent()
@@ -604,38 +647,34 @@ int Player::RandomEvent()
 		return 4;
 }
 
-void Player::Reward(bool positive)
+void Player::Reward(int type)
 {
-	if (positive) {
+	switch (type) {
+	case 1:
 		std::cout << "Recieve 50 gold" << std::endl;
 		gold += 50;
-	}
-	else {
+		break;
+	case 2:
 		std::cout << "Lost 30 gold" << std::endl;
 		gold -= 30;
+		break;
+	default:
+		break;
 	}
 }
 
-void Player::NPCReward(NPC& npc)
+void Player::Effect(bool characterActive, Equipment equipment)
 {
-}
-
-void Player::Rust(int inventoryNumber)
-{
-	if (cartInventory[inventoryNumber].haveDurability) {
-		cartInventory[inventoryNumber].durability--;
-		if (cartInventory[inventoryNumber].durability <= 0) {
-			cartInventory.erase(cartInventory.begin() + inventoryNumber);
-			std::cout << cartInventory[inventoryNumber].name << " is destoryed due to no durability" << std::endl;
+	if (characterActive) {
+		if (equipment.name == "sword") {
+			c1.AddAtk(10);
+			std::cout << c1.GetName() << " equip a sword" << std::endl;
 		}
 	}
-}
-
-void Player::Effect(Item item)
-{
-	//bread
-	if (item.name == "bread") {
-		c1.AddHp(10);
-		std::cout << c1.GetName() << " eat a bread" << std::endl;
+	else {
+		if (equipment.name == "sword") {
+			c2.AddAtk(10);
+			std::cout << c2.GetName() << " equip a sword" << std::endl;
+		}
 	}
 }
