@@ -2,6 +2,7 @@
 #define MENU_H
 
 #include "Player.h"
+#include <algorithm>
 
 class Menu
 {

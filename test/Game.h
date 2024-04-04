@@ -4,9 +4,9 @@
 #include "Tile.h"
 #include "MainMenu.h"
 #include "Map.h"
+#include "Menu.h"
 #include "Trade.h"
 #include "Battle.h"
-#include "Menu.h"
 //#include "Interface.h"
 
 #include <fstream>
@@ -29,16 +29,22 @@ private:
 	float dt;
 	//View
 	sf::View view;
-	//item, location, quest
+	//item, location, quest, skill
 	Item* item;
 	int itemNumber = 0;
 	std::vector<Item> itemList;
+	Equipment* equipment;
+	int equipmentNumber = 0;
+	std::vector<Equipment> equipmentList;
 	Location* location;
 	int locationNumber = 0;
 	std::vector<Location> locationList;
 	Quest* quest;
 	int questNumber = 0;
 	std::vector<Quest> questList;
+	Skill* skill;
+	int skillNumber = 0;
+	std::vector<Skill> skillList;
 	//Title
 	std::string title;
 	//Game State
@@ -97,10 +103,12 @@ public:
 	//Functions
 	void EndApplication();
 	void ItemList();
+	void EquipmentList();
 	void LocationList();
 	void QuestList();
 	void NPCList();
 	void SceneList();
+	void SkillList();
 };
 
 #endif

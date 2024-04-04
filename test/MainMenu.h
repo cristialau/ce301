@@ -11,13 +11,11 @@ private:
 	std::string title;
 	//Main Menu state
 	std::string mainMenuState;
-
 	int select;
 	//show main menu
 	bool showMainMenu;
 	int selectMax;
 	bool isSelected;
-
 	//show load game
 	bool showLoadGame;
 	int loadMax;
@@ -34,12 +32,10 @@ public:
 	void Initialize();
 	void Load();
 	void Update(std::string& gameState, bool& isPressed);
-	void Draw(sf::RenderWindow& window);
-
-	//Functions
 	void ShowMain(std::string& gameState, bool& isPressed);
 	void ShowLoad(bool& isPressed);
 	void ShowOptions(bool& isPressed);
+	void Draw(sf::RenderWindow& window);
 };
 
 #endif

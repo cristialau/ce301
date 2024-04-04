@@ -202,8 +202,8 @@ void Menu::OpenCharacter(Player& player, bool& isPressed)
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				characterSelect--;
 
-				if (characterSelect > characterSelectMax)
-					characterSelect = 1;
+				if (characterSelect < 1)
+					characterSelect = characterSelectMax;
 
 				std::cout << characterSelect << std::endl;
 			}
@@ -249,10 +249,12 @@ void Menu::OpenEquip(Player& player, bool& isPressed)
 		equipSelect = 1;
 
 		equipment.clear();
-		//auto compareFunc = [](const Equipment& obj1, const Equipment& obj2) {
-		//	return obj1.id < obj2.id;
-		//};
-		//std::sort(player.GetEquipInventory().begin(), player.GetEquipInventory().end(), compareFunc);
+		//if (!player.GetEquipInventory().empty()) {
+		//	auto compareFunc = [](const Equipment& obj1, const Equipment& obj2) {
+		//		return obj1.id < obj2.id;
+		//		};
+		//	std::sort (player.GetEquipInventory().begin(), player.GetEquipInventory().end(), compareFunc);
+		//}
 		
 		equipment = player.GetEquipInventory();
 		equipWeight = player.GetEquipInventoryWeight();
@@ -284,7 +286,7 @@ void Menu::OpenEquip(Player& player, bool& isPressed)
 				if (equipSelect > equipSelectMax)
 					equipSelect = 1;
 
-				std::cout << equipSelect + 1 << " / " << equipSelectMax << std::endl;
+				std::cout << equipSelect << " / " << equipSelectMax << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				equipSelect--;
@@ -308,7 +310,7 @@ void Menu::OpenEquip(Player& player, bool& isPressed)
 		if (!showEquipDetail) {
 			showEquipDetail = true;
 
-			std::cout << "Equipment: " << equipment[equipSelect].name << std::endl;
+			std::cout << "Equipment: " << equipment[equipSelect - 1].name << std::endl;
 			//
 		}
 
@@ -425,10 +427,11 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 
 		if (inventoryActive) {
 			inventory.clear();
-			//auto compareFunc = [](const Item& obj1, const Item& obj2) {
-			//	return obj1.id < obj2.id;
-			//};
-			//std::sort(player.GetCartInventory().begin(), player.GetCartInventory().end(), compareFunc);
+			//if (!player.GetCartInventory().empty()) {
+			//	std::sort(player.GetCartInventory().begin(),
+			//		player.GetCartInventory().end(),
+			//		[](Item& a, Item& b) { return a.id < b.id; });
+			//}
 			inventory = player.GetCartInventory();
 			inventoryWeight = player.GetCartInventoryWeight();
 			inventorySelectMax = (int)player.GetCartInventory().size();
@@ -449,10 +452,12 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 		}
 		else {
 			equipment.clear();
-			//auto compareFunc = [](const Equipment& obj1, const Equipment& obj2) {
-			//	return obj1.id < obj2.id;
-			//};
-			//std::sort(player.GetEquipInventory().begin(), player.GetEquipInventory().end(), compareFunc);
+			//if (!player.GetEquipInventory().empty()) {
+			//	auto compareFunc2 = [](const Equipment& obj1, const Equipment& obj2) {
+			//		return obj1.id < obj2.id;
+			//		};
+			//	std::sort (player.GetEquipInventory().begin(), player.GetEquipInventory().end(), compareFunc2);
+			//}
 			equipment = player.GetEquipInventory();
 			inventoryWeight = player.GetEquipInventoryWeight();
 			inventorySelectMax = (int)player.GetEquipInventory().size();
@@ -515,7 +520,7 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 			if (!showItem) {
 				showItem = true;
 
-				std::cout << "Item: " << inventory[inventorySelect].name << std::endl;
+				std::cout << "Item: " << inventory[inventorySelect - 1].name << std::endl;
 				//
 			}
 
@@ -532,7 +537,7 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 				showItem = true;
 				sellSelected = false;
 
-				std::cout << "Equipment: " << equipment[inventorySelect].name << std::endl;
+				std::cout << "Equipment: " << equipment[inventorySelect - 1].name << std::endl;
 				//
 			}
 
@@ -551,20 +556,24 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 				if (!showSell) {
 					showSell = true;
 
-					if (player.GetEquipInventory()[inventorySelect].isEquip)
+					if (player.GetEquipInventory()[inventorySelect - 1].isEquip)
 						std::cout << "You are currently wearing it, you cannot sell it" << std::endl;
 					else
 						std::cout << "You want to sell this equipment?" << std::endl;
 				}
-
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
-					!player.GetEquipInventory()[inventorySelect].isEquip) {
-					player.AddGold(player.GetEquipInventory()[inventorySelect].price);
-					player.ConsumeEquipment(inventorySelect);
-				}
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-					showInventory = false;
-					showSell = false;
+				
+				if (!isPressed) {
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
+						!player.GetEquipInventory()[inventorySelect - 1].isEquip) {
+						player.AddGold(player.GetEquipInventory()[inventorySelect - 1].price);
+						player.ConsumeEquipment(inventorySelect - 1);
+						showInventory = false;
+						showSell = false;
+					}
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+						showInventory = false;
+						showSell = false;
+					}
 				}
 			}
 		}

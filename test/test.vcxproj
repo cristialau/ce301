@@ -166,6 +166,7 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Quest.h" />
+    <ClInclude Include="Skill.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Trade.h" />
   </ItemGroup>

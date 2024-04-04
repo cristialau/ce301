@@ -52,9 +52,11 @@ void Game::InitGame()
     gameState = "MainMenu";
     title = "Test";
 
-    LocationList();
     ItemList();
+    EquipmentList();
+    LocationList();
     QuestList();
+    SkillList();
     NPCList();
     SceneList();
 
@@ -70,8 +72,12 @@ void Game::LoadGame()
     npc1.Load(locationList[mapNumber]);
 
     player.AddItemCart(itemList[1]);
-    player.AddItemCart(itemList[2]);
-    player.AddItemCart(itemList[3]);
+    player.AddItemCart(itemList[1]);
+    player.AddItemCart(itemList[1]);
+    player.AddEquipment(equipmentList[1]);
+    player.AddEquipment(equipmentList[1]);
+    player.AddEquipment(equipmentList[1]);
+    player.AddEquipment(equipmentList[1]);
 }
 
 void Game::UpdateSFML()
@@ -233,6 +239,31 @@ void Game::ItemList()
 
     for (int i = 0; i < 10; i++)
         itemList.push_back(item[i]);
+}
+
+void Game::EquipmentList()
+{
+    equipment = new Equipment[10];
+
+    //Equipment 1
+    //id
+    equipment[1].id = 1;
+    //icon
+    equipment[1].textureName = "none";
+    //attributes
+    equipment[1].name = "sword";
+    equipment[1].description = "Sword.";
+
+    equipment[1].durability = 10;
+    equipment[1].weight = 1;
+
+    equipment[1].isEquip = false;
+
+    equipment[1].price = 5;
+    //Equipment 1
+
+    for (int i = 0; i < 10; i++)
+        equipmentList.push_back(equipment[i]);
 }
 
 void Game::LocationList()
@@ -448,6 +479,11 @@ void Game::NPCList()
 }
 
 void Game::SceneList()
+{
+
+}
+
+void Game::SkillList()
 {
 
 }

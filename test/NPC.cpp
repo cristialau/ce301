@@ -1,6 +1,8 @@
 #include "NPC.h"
 
-NPC::NPC(Character& character, int rls, std::string job, int gold, Quest& quest, int positionX, int positionY, int locationID) : c(character), quest(quest)
+NPC::NPC(Character& character, int rls, std::string job, int gold, Quest& quest,
+	int positionX, int positionY, int locationID)
+	: c(character), quest(quest)
 {
 	//Character
 	this->rls = rls;
