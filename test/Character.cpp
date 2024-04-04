@@ -338,6 +338,7 @@ void Character::SubKlg(int klg)
 		knowledge = 5;
 }
 
+//?
 void Character::Effect(Item item)
 {
 	//bread

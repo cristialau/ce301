@@ -147,28 +147,26 @@ void Player::TalkState(NPC& npc, std::string previousState, bool& isPressed)
 			std::cout << "Dialogue" << std::endl;
 
 			std::cout << npc.GetC().GetName() << std::endl;
-			std::cout << npc.Dialogue() << std::endl;
+			std::cout << npc.GetDialogue() << std::endl;
 
 			showTalk = true;
 			select = 1;
 
 			//Merchant, villager
-			switch (npc.GetNPCState()) {
-			case 1:
+			if (npc.GetJob() == "Villager") {
 				selectMax = 1;
 				std::cout << "Cancel" << std::endl;
-				break;
-			case 2:
+			}
+			else if (npc.GetJob() == "Merchant") {
 				selectMax = 2;
 				std::cout << "Cancel" << std::endl;
 				std::cout << "Trade" << std::endl;
-				break;
-			case 3:
+			}
+			else if (npc.GetJob() == "Lord") {
 				selectMax = 3;
 				std::cout << "Cancel" << std::endl;
 				std::cout << "Trade" << std::endl;
 				std::cout << "Battle" << std::endl;
-				break;
 			}
 		}
 
@@ -304,12 +302,12 @@ void Player::AcceptQuest(NPC& npc, bool& isPressed)
 	if (!showQuest) {
 		std::cout << "Quest" << std::endl;
 
-		std::cout << npc.npcQuest().description << std::endl;
+		std::cout << npc.GetNPCQuest().description << std::endl;
 
 		showQuest = true;
 		questSelect = 1;
 
-		if (npc.npcQuest().finished || npc.npcQuest().accepted)
+		if (npc.GetNPCQuest().finished || npc.GetNPCQuest().accepted)
 			questSelectMax = 1;
 		else
 			questSelectMax = 2;
@@ -346,14 +344,14 @@ void Player::AcceptQuest(NPC& npc, bool& isPressed)
 	else {
 		switch (questSelect) {
 		case 1:
-			if (npc.npcQuest().finished)
+			if (npc.GetNPCQuest().finished)
 				std::cout << "You finished my quest" << std::endl;
-			else if (npc.npcQuest().accepted)
+			else if (npc.GetNPCQuest().accepted)
 				std::cout << "You accepted my quest" << std::endl;
 			break;
 		case 2:
-			npc.AcceptQuest();
-			AddQuest(npc.npcQuest());
+			npc.GetNPCQuest().accepted = true;
+			AddQuest(npc.GetNPCQuest());
 			std::cout << "Player accepts quest successfully" << std::endl;
 			break;
 		}

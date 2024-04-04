@@ -69,6 +69,7 @@ void Game::LoadGame()
 {
     map.Load(locationList[1]);
     c1.Load();
+    npc1.Load(locationList[mapNumber]);
 
     player.AddItemCart(itemList[1]);
     player.AddItemCart(itemList[2]);
@@ -102,7 +103,6 @@ void Game::Update()
         this->mainMenu->Update(gameState, isPressed);
     }
     else if (gameState == "InGame") {
-        npc1.Update(locationList[mapNumber]);
         player.SetUp(locationList[mapNumber]);
         //check npc
 

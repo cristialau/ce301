@@ -4,90 +4,92 @@
 #include "Character.h"
 #include "Location.h"
 #include "Quest.h"
-#include "SFML/Graphics.hpp"
-#include <iostream>
 
 class NPC
 {
 private:
-	//npcNumber and setup
-	int npcNumber = 5;
-	bool isSetUp = false;
-	//sprite tile size, scale
-	float tileSize = 16.f;
-	float scale = 3.f;
-	//sprite positions
-	float tilePositionX = 0;
-	float tilePositionY = 0;
-	//npc location
-	int positionX = 0;
-	int positionY = 0;
-	int locationID = 0;
-	//Npc current state
-	int npcState = 3;
-
 	//Character
-	Character c;
-	int gold = 0;
-	int relationship = 50;			//relationship to player - 100 -> friendly | 0 -> enemy
-	std::string job = "none";		//character job: swordie, archer, thief, clergy
-	//if have quest
-	Quest quest;
-	bool haveQuest = false;
-	//if can trade
-	bool canTrade = false;
-	bool passTradeGame = false;
-	//if can battle
-	bool canBattle = false;
-	std::string battleDialogue;
-
+	Character& c;
+	int rls;			//relationship to player - 100 -> friendly | 0 -> enemy
+	std::string job;		//character job: swordie, archer, thief, clergy
+	int gold;
+	//Quest
+	Quest& quest;
+	//Trade
+	bool canTrade;
+	bool passTradeGame;
+	//Battle
+	bool canBattle;
+	//Inventory/Shop
 	std::vector<Item> inventory;
+	int inventoryWeight;
 	std::vector<Item> shop;
+	int shopWeight;
+
+	std::string dialogue;
+
+	//npcNumber and setup
+	int npcNumber;
+	//npc location
+	int positionX;
+	int positionY;
+	int locationID;
+	//sprite tile size, scale
+	float tileSize;
+	float scale;
+	//sprite positions
+	float tilePositionX;
+	float tilePositionY;
+
+	bool isSetUp;
 
 public:
-	NPC(Character &character,
-		int relationship,
+	NPC(Character& character,
+		int rls,
 		std::string job,
+		int gold,
+		Quest& quest,
 		int positionX,
 		int positionY,
-		int locationID,
-		Quest quest,
-		std::string battleDialogue);
+		int locationID);
 	~NPC();
 	
-	void Initialize();
-	void Load();
-	void Update(Location& location);
+	void Load(Location& location);
 	void Draw(sf::RenderWindow &window);
 
-	//Getters Setters
-	Character GetC();
-	int GetRelationship();
+	//Getter Setter
+	Character& GetC();
+	int GetRls();
+	void SetRls(int rls);
 	std::string GetJob();
-	bool HaveQuest();
-	Quest npcQuest();
-	void SetTrade(bool canTrade);
-	bool CanTrade();
-	void SetBattle(bool canBattle);
-	bool CanBattle();
-	int GetNPCState();
-	void SetRelationship(int relationship);
-	void SetNPCState(int npcState);
-	std::vector<Item> GetInventory();
+	void SetJob(std::string job); //types?
 	int GetGold();
-	std::vector<Item> GetShop();
-
-	//Functions
-	std::string Dialogue();
-	std::string BattleDialogue();
-
-	void AcceptQuest();
-
-	void AddRls(int rls);
-	void MinRls(int rls);
-
+	void SetGold(int gold);
+	Quest& GetNPCQuest();
+	void SetNPCQuest(Quest& quest);
+	bool GetCanTrade();
+	void SetCanTrade(bool canTrade);
 	bool PassTradeGame();
 	void SetPassTradeGame(bool passTradeGame);
+	bool GetCanBattle();
+	void SetCanBattle(bool canBattle);
+	std::vector<Item> GetInventory();
+	int GetInventoryWeight();
+	void SetInventoryWeight(int inventoryWeight);
+	std::vector<Item> GetShop();
+	int GetShopWeight();
+	void SetShopWeight(int shopWeight);
+
+	std::string GetDialogue();
+	void SetDialogue(std::string dialogue);
+
+	//Functions
+	void AddRls(int rls);
+	void MinRls(int rls);
+	void AddGold(int gold);
+	void SubGold(int gold);
+	void AddItem(std::vector<Item> inventory, Item item);
+	void LostItem(std::vector<Item> inventory, int inventoryNumber);
 };
 
 #endif

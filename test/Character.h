@@ -104,6 +104,7 @@ public:
 	void AddKlg(int klg);
 	void SubKlg(int klg);
 
+	//?
 	void Effect(Item item); // Item effects
 };
 

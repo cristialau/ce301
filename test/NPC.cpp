@@ -1,39 +1,42 @@
 #include "NPC.h"
 
-NPC::NPC(Character &character, int relationship, std::string job, int positionX, int positionY, int locationID, Quest quest, std::string battleDialogue) : c(character)
+NPC::NPC(Character& character, int rls, std::string job, int gold, Quest& quest, int positionX, int positionY, int locationID) : c(character), quest(quest)
 {
-	this->relationship = relationship;
+	//Character
+	this->rls = rls;
 	this->job = job;
+	this->gold = gold;
+	canTrade = false;
+	passTradeGame = false;
+	canBattle = false;
+	inventoryWeight = 10;
+	shopWeight = 100;
+
+	//Setting
+	npcNumber = 2;
 	this->positionX = positionX;
 	this->positionY = positionY;
+	this->locationID = locationID;
+	tileSize = 16.f;
+	scale = 3.f;
 	tilePositionX = positionX * tileSize * scale;
 	tilePositionY = positionY * tileSize * scale;
-	this->locationID = locationID;
-	this->battleDialogue = battleDialogue;
+	
+	isSetUp = false;
 }
 
 NPC::~NPC()
 {
 }
 
-void NPC::Initialize()
+void NPC::Load(Location& location)
 {
-}
-
-void NPC::Load()
-{
-	//c.GetSprite().setPosition(sf::Vector2f(tilePositionX, tilePositionY));
-}
-
-void NPC::Update(Location& location)
-{
-	if ((location.id == locationID) && !isSetUp) {
+	//npc setup in playerMap
+	if(locationID == location.id)
 		location.playerMap[positionX][positionY] = npcNumber;
-		isSetUp = true;
-	}
-	
-	if (location.id != locationID)
-		isSetUp = false;
+
+
+	//c.GetSprite().setPosition(sf::Vector2f(tilePositionX, tilePositionY));
 }
 
 void NPC::Draw(sf::RenderWindow &window)
@@ -41,14 +44,24 @@ void NPC::Draw(sf::RenderWindow &window)
 	//window.draw(c.GetSprite());
 }
 
-Character NPC::GetC()
+//Getter Setter
+Character& NPC::GetC()
 {
 	return c;
 }
 
-int NPC::GetRelationship()
+int NPC::GetRls()
 {
-	return relationship;
+	return rls;
+}
+
+void NPC::SetRls(int rls)
+{
+	this->rls = rls;
+	if (this->rls < 0)
+		this->rls = 0;
+	if (this->rls > 100)
+		this->rls = 100;
 }
 
 std::string NPC::GetJob()
@@ -56,54 +69,10 @@ std::string NPC::GetJob()
 	return job;
 }
 
-bool NPC::HaveQuest()
+void NPC::SetJob(std::string job)
 {
-	return haveQuest;
-}
-
-Quest NPC::npcQuest()
-{
-	return quest;
-}
-
-void NPC::SetTrade(bool canTrade)
-{
-	this->canTrade = canTrade;
-}
-
-bool NPC::CanTrade()
-{
-	return canTrade;
-}
-
-void NPC::SetBattle(bool canBattle)
-{
-	this->canBattle = canBattle;
-}
-
-bool NPC::CanBattle()
-{
-	return canBattle;
-}
-
-int NPC::GetNPCState()
-{
-	return npcState;
-}
-
-void NPC::SetRelationship(int relationship)
-{
-	this->relationship = relationship;
-}
-
-void NPC::SetNPCState(int npcState)
-{
-	this->npcState = npcState;
-}
-
-std::vector<Item> NPC::GetInventory()
-{
-	return inventory;
+	this->job = job;
+	//types?
 }
 
 int NPC::GetGold()
@@ -111,38 +80,31 @@ int NPC::GetGold()
 	return gold;
 }
 
-std::vector<Item> NPC::GetShop()
+void NPC::SetGold(int gold)
 {
-	return shop;
+	this->gold = gold;
+	if (this->gold < 0)
+		gold = 0;
 }
 
-std::string NPC::Dialogue()
+Quest& NPC::GetNPCQuest()
 {
-	return std::string();
+	return quest;
 }
 
-std::string NPC::BattleDialogue()
+void NPC::SetNPCQuest(Quest& quest)
 {
-	return battleDialogue;
+	this->quest = quest;
 }
 
-void NPC::AcceptQuest()
+bool NPC::GetCanTrade()
 {
-
+	return canTrade;
 }
 
-void NPC::AddRls(int rls)
+void NPC::SetCanTrade(bool canTrade)
 {
-	relationship += rls;
-	if (relationship > 100)
-		relationship = 100;
-}
-
-void NPC::MinRls(int rls)
-{
-	relationship -= rls;
-	if (relationship < 0)
-		relationship = 0;
+	this->canTrade = canTrade;
 }
 
 bool NPC::PassTradeGame()
@@ -153,4 +115,94 @@ bool NPC::PassTradeGame()
 void NPC::SetPassTradeGame(bool passTradeGame)
 {
 	this->passTradeGame = passTradeGame;
+}
+
+bool NPC::GetCanBattle()
+{
+	return canBattle;
+}
+
+void NPC::SetCanBattle(bool canBattle)
+{
+	this->canBattle = canBattle;
+}
+
+std::vector<Item> NPC::GetInventory()
+{
+	return inventory;
+}
+
+int NPC::GetInventoryWeight()
+{
+	return inventoryWeight;
+}
+
+void NPC::SetInventoryWeight(int inventoryWeight)
+{
+	this->inventoryWeight = inventoryWeight;
+	if (this->inventoryWeight < 0)
+		this->inventoryWeight = 0;
+}
+
+std::vector<Item> NPC::GetShop()
+{
+	return shop;
+}
+
+int NPC::GetShopWeight()
+{
+	return shopWeight;
+}
+
+void NPC::SetShopWeight(int shopWeight)
+{
+	this->shopWeight = shopWeight;
+	if (this->shopWeight < 0)
+		this->shopWeight = 0;
+}
+
+std::string NPC::GetDialogue()
+{
+	return dialogue;
+}
+
+void NPC::SetDialogue(std::string dialogue)
+{
+	this->dialogue = dialogue;
+}
+
+void NPC::AddRls(int rls)
+{
+	this->rls += rls;
+	if (this->rls > 100)
+		this->rls = 100;
+}
+
+void NPC::MinRls(int rls)
+{
+	this->rls -= rls;
+	if (this->rls < 0)
+		this->rls = 0;
+}
+
+void NPC::AddGold(int gold)
+{
+	this->gold += gold;
+}
+
+void NPC::SubGold(int gold)
+{
+	this->gold -= gold;
+	if (gold < 0)
+		gold = 0;
+}
+
+void NPC::AddItem(std::vector<Item> inventory, Item item)
+{
+	inventory.push_back(item);
+}
+
+void NPC::LostItem(std::vector<Item> inventory, int inventoryNumber)
+{
+	inventory.erase(inventory.begin() + inventoryNumber);
 }
