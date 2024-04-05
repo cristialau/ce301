@@ -2,25 +2,20 @@
 
 Character::Character(std::string textureName, std::string name,
 	int hpMax, int attack, int defence,
-	int luck, int observation, int conversation, int knowledge,
-	std::string skill1, std::string skill2,
-	std::string equip1, std::string equip2, std::string equip3)
+	int luck, int observation, int conversation, int knowledge)
 {
 	this->textureName = textureName;
 	this->name = name;
 	this->hpMax = hpMax;
 	this->hp = hpMax;
 	this->attack = attack;
+	attackEx = 0;
 	this->defence = defence;
+	defenceEx = 0;
 	this->luck = luck;
 	this->observation = observation;
 	this->conversation = conversation;
 	this->knowledge = knowledge;
-	this->skill1 = skill1;
-	this->skill2 = skill2;
-	this->equip1 = equip1;
-	this->equip2 = equip2;
-	this->equip3 = equip3;
 }
 
 Character::~Character()
@@ -72,7 +67,7 @@ void Character::SetSprite(sf::Sprite sprite)
 {
 	this->sprite = sprite;
 }
-
+//---------------------------------------------
 std::string Character::GetName()
 {
 	return name;
@@ -119,6 +114,18 @@ void Character::SetAttack(int attack)
 		this->attack = 0;
 }
 
+int Character::GetAttackEx()
+{
+	return attackEx;
+}
+
+void Character::SetAttackEx(int attackEx)
+{
+	this->attackEx = attackEx;
+	if (this->attackEx < 0)
+		this->attackEx = 0;
+}
+
 int Character::GetDefence()
 {
 	return defence;
@@ -131,6 +138,18 @@ void Character::SetDefence(int defence)
 		this->defence = 0;
 }
 
+int Character::GetDefenceEx()
+{
+	return defenceEx;
+}
+
+void Character::SetDefenceEx(int defenceEx)
+{
+	this->defenceEx = defenceEx;
+	if (this->defenceEx < 0)
+		this->defenceEx = 0;
+}
+//---------------------------------------------
 int Character::GetLuck()
 {
 	return luck;
@@ -186,8 +205,8 @@ void Character::SetKnowledge(int knowledge)
 	if (this->knowledge > 25)
 		this->knowledge = 25;
 }
-
-std::string Character::GetSkill(int skillNumber)
+//---------------------------------------------
+Skill Character::GetSkill(int skillNumber)
 {
 	switch (skillNumber) {
 	case 1: return skill1; break;
@@ -198,7 +217,7 @@ std::string Character::GetSkill(int skillNumber)
 	}
 }
 
-void Character::SetSkill(int skillNumber, std::string skill)
+void Character::SetSkill(int skillNumber, Skill skill)
 {
 	switch (skillNumber) {
 	case 1: skill1 = skill; break;
@@ -209,7 +228,7 @@ void Character::SetSkill(int skillNumber, std::string skill)
 	}
 }
 
-std::string Character::GetEquip(int equipNumber)
+Equipment Character::GetEquip(int equipNumber)
 {
 	switch (equipNumber) {
 	case 1: return equip1; break;
@@ -221,7 +240,7 @@ std::string Character::GetEquip(int equipNumber)
 	}
 }
 
-void Character::SetEquip(int equipNumber, std::string equip)
+void Character::SetEquip(int equipNumber, Equipment equip)
 {
 	switch (equipNumber) {
 	case 1: equip1 = equip; break;
@@ -237,11 +256,6 @@ void Character::SetEquip(int equipNumber, std::string equip)
 void Character::AddHpMax(int hpMax)
 {
 	this->hpMax += hpMax;
-}
-
-void Character::SubHpMax(int hpMax)
-{
-	this->hpMax -= hpMax;
 	if (hpMax < 10)
 		hpMax = 10;
 	if (hp > hpMax)
@@ -253,11 +267,6 @@ void Character::AddHp(int hp)
 	this->hp += hp;
 	if (this->hp > hpMax)
 		this->hp = hpMax;
-}
-
-void Character::SubHp(int hitPoint)
-{
-	this->hp -= hp;
 	if (this->hp < 0)
 		this->hp = 0;
 }
@@ -265,25 +274,29 @@ void Character::SubHp(int hitPoint)
 void Character::AddAtk(int atk)
 {
 	attack += atk;
-}
-
-void Character::SubAtk(int atk)
-{
-	attack -= atk;
 	if (attack < 0)
 		attack = 0;
+}
+
+void Character::AddAtkEx(int atkEx)
+{
+	attackEx += atkEx;
+	if (attackEx < 0)
+		attackEx = 0;
 }
 
 void Character::AddDef(int def)
 {
 	defence += def;
-}
-
-void Character::SubDef(int def)
-{
-	defence -= def;
 	if (defence < 0)
 		defence = 0;
+}
+
+void Character::AddDefEx(int defEx)
+{
+	defenceEx += defEx;
+	if (defenceEx < 0)
+		defenceEx = 0;
 }
 
 void Character::AddLuc(int luc)
@@ -291,11 +304,6 @@ void Character::AddLuc(int luc)
 	luck += luc;
 	if (luck > 5)
 		luck = 5;
-}
-
-void Character::SubLuc(int luc)
-{
-	luck -= luc;
 	if (luck < 0)
 		luck = 0;
 }
@@ -305,11 +313,6 @@ void Character::AddOsv(int osv)
 	observation += osv;
 	if (observation > 25)
 		observation = 25;
-}
-
-void Character::SubOsv(int osv)
-{
-	observation -= osv;
 	if (observation < 5)
 		observation = 5;
 }
@@ -319,11 +322,6 @@ void Character::AddCvs(int cvs)
 	conversation += cvs;
 	if (conversation > 25)
 		conversation = 25;
-}
-
-void Character::SubCvs(int cvs)
-{
-	conversation -= cvs;
 	if (conversation < 5)
 		conversation = 5;
 }
@@ -333,11 +331,6 @@ void Character::AddKlg(int klg)
 	knowledge += klg;
 	if (knowledge > 25)
 		knowledge = 25;
-}
-
-void Character::SubKlg(int klg)
-{
-	knowledge -= klg;
 	if (knowledge < 5)
 		knowledge = 5;
 }

@@ -3,8 +3,6 @@
 
 #include "Character.h"
 #include "Item.h"
-#include "Equipment.h"
-#include "Skill.h"
 #include "Location.h"
 #include "Quest.h"
 

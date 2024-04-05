@@ -1,6 +1,8 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include "Equipment.h"
+#include "Skill.h"
 #include "SFML/Graphics.hpp"
 #include <iostream>
 
@@ -17,7 +19,9 @@ private:
 	int hpMax;					//hp max
 	int hp;						//hp
 	int attack;					//dmg
+	int attackEx;				//dmgEx
 	int defence;				//def
+	int defenceEx;				//defEx
 
 	//Trading attribute
 	int luck;					//luck
@@ -25,14 +29,14 @@ private:
 	int conversation;			//mouth
 	int knowledge;				//brain
 
-	//Characeter skill
-	std::string skill1;
-	std::string skill2;
+	//skill
+	Skill skill1;
+	Skill skill2;
 
 	//equipment
-	std::string equip1;
-	std::string equip2;
-	std::string equip3;
+	Equipment equip1;
+	Equipment equip2;
+	Equipment equip3;
 
 public:
 	Character(
@@ -44,12 +48,7 @@ public:
 		int luck,
 		int observation,
 		int conversation,
-		int knowledge,
-		std::string skill1,
-		std::string skill2,
-		std::string equip1,
-		std::string equip2,
-		std::string equip3);
+		int knowledge);
 	~Character();
 
 	void Initialize();
@@ -62,16 +61,23 @@ public:
 	void SetTexture(sf::Texture texture);
 	sf::Sprite GetSprite();
 	void SetSprite(sf::Sprite sprite);
+
 	std::string GetName();
 	void SetName(std::string name);
+
 	int GetHpMax();
 	void SetHpMax(int hpMax);
 	int GetHp();
 	void SetHp(int hp);
 	int GetAttack();
 	void SetAttack(int attack);
+	int GetAttackEx();
+	void SetAttackEx(int attackEx);
 	int GetDefence();
 	void SetDefence(int defence);
+	int GetDefenceEx();
+	void SetDefenceEx(int defenceEx);
+
 	int GetLuck();
 	void SetLuck(int luck);
 	int GetObservation();
@@ -80,28 +86,24 @@ public:
 	void SetConversation(int conversation);
 	int GetKnowledge();
 	void SetKnowledge(int knowledge);
-	std::string GetSkill(int skillNumber);
-	void SetSkill(int skillNumber, std::string skill);
-	std::string GetEquip(int equipNumber);
-	void SetEquip(int equipNumber, std::string equip);
+
+	Skill GetSkill(int skillNumber);
+	void SetSkill(int skillNumber, Skill skill);
+	Equipment GetEquip(int equipNumber);
+	void SetEquip(int equipNumber, Equipment equip);
 
 	//Functions
 	void AddHpMax(int hpMax);
-	void SubHpMax(int hpMax);
 	void AddHp(int hp);
-	void SubHp(int hp);
 	void AddAtk(int atk);
-	void SubAtk(int atk);
+	void AddAtkEx(int atkEx);
 	void AddDef(int def);
-	void SubDef(int def);
+	void AddDefEx(int defEx);
+
 	void AddLuc(int luc);
-	void SubLuc(int luc);
 	void AddOsv(int osv);
-	void SubOsv(int osv);
 	void AddCvs(int cvs);
-	void SubCvs(int cvs);
 	void AddKlg(int klg);
-	void SubKlg(int klg);
 };
 
 #endif
