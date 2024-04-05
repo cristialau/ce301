@@ -61,13 +61,14 @@ public:
 	int GetRls();
 	void SetRls(int rls);
 	std::string GetJob();
-	void SetJob(std::string job); //types?
+	void SetJob(std::string job); //Villager/Merchant/Lord/Bandit
 	int GetGold();
 	void SetGold(int gold);
 	Quest& GetNPCQuest();
 	void SetNPCQuest(Quest& quest);
 	bool PassTradeGame();
 	void SetPassTradeGame(bool passTradeGame);
+
 	std::vector<Equipment>& GetEquipInventory();
 	int GetEquipInventoryWeight();
 	void SetEquipInventoryWeight(int equipInventoryWeight);
@@ -81,13 +82,7 @@ public:
 
 	//Functions
 	void AddRls(int rls);
-	void SubRls(int rls);
 	void AddGold(int gold);
-	void SubGold(int gold);
-	void AddEquipment(Equipment equipment);
-	void LostEquipment(int inventoryNumber);
-	void AddItem(Item item);
-	void LostItem(int inventoryNumber);
 
 	void Effect();
 };

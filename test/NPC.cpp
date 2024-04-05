@@ -83,8 +83,6 @@ int NPC::GetGold()
 void NPC::SetGold(int gold)
 {
 	this->gold = gold;
-	if (this->gold < 0)
-		gold = 0;
 }
 
 Quest& NPC::GetNPCQuest()
@@ -106,7 +104,7 @@ void NPC::SetPassTradeGame(bool passTradeGame)
 {
 	this->passTradeGame = passTradeGame;
 }
-
+//------------------------------------------------
 std::vector<Equipment>& NPC::GetEquipInventory()
 {
 	return equipInventory;
@@ -145,7 +143,7 @@ std::vector<Skill>& NPC::GetSkill()
 {
 	return skillList;
 }
-
+//------------------------------------------------
 std::string NPC::GetDialogue()
 {
 	return dialogue;
@@ -161,11 +159,6 @@ void NPC::AddRls(int rls)
 	this->rls += rls;
 	if (this->rls > 100)
 		this->rls = 100;
-}
-
-void NPC::SubRls(int rls)
-{
-	this->rls -= rls;
 	if (this->rls < 0)
 		this->rls = 0;
 }
@@ -173,33 +166,8 @@ void NPC::SubRls(int rls)
 void NPC::AddGold(int gold)
 {
 	this->gold += gold;
-}
-
-void NPC::SubGold(int gold)
-{
-	this->gold -= gold;
 	if (gold < 0)
 		gold = 0;
-}
-
-void NPC::AddEquipment(Equipment equipment)
-{
-	equipInventory.push_back(equipment);
-}
-
-void NPC::LostEquipment(int inventoryNumber)
-{
-	equipInventory.erase(equipInventory.begin() + inventoryNumber);
-}
-
-void NPC::AddItem(Item item)
-{
-	shop.push_back(item);
-}
-
-void NPC::LostItem(int inventoryNumber)
-{
-	shop.erase(shop.begin() + inventoryNumber);
 }
 
 void NPC::Effect()
