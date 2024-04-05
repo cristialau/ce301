@@ -177,9 +177,59 @@ void Game::EndApplication()
     this->window->close();
 }
 
+void Game::SkillList()
+{
+
+}
+
+void Game::EquipmentList()
+{
+    equipment = new Equipment[10];
+
+    //Equipment 0 -> none;
+
+    //Equipment 1
+    //id
+    equipment[1].id = 1;
+    //icon
+    equipment[1].textureName = "none";
+    //attributes
+    equipment[1].name = "sword";
+    equipment[1].description = "Sword.";
+
+    equipment[1].durability = 10;
+    equipment[1].weight = 1;
+
+    equipment[1].isEquip = false;
+
+    equipment[1].price = 5;
+    //Equipment 1
+    //Equipment 2
+    //id
+    equipment[2].id = 2;
+    //icon
+    equipment[2].textureName = "none";
+    //attributes
+    equipment[2].name = "bow";
+    equipment[2].description = "Bow.";
+
+    equipment[2].durability = 10;
+    equipment[2].weight = 1;
+
+    equipment[2].isEquip = false;
+
+    equipment[2].price = 10;
+    //Equipment 1
+
+    for (int i = 0; i < 10; i++)
+        equipmentList.push_back(equipment[i]);
+}
+
 void Game::ItemList()
 {
     item = new Item[10];
+
+    //Item 0 = none;
 
     //Item 1
     //id
@@ -233,50 +283,12 @@ void Game::ItemList()
         itemList.push_back(item[i]);
 }
 
-void Game::EquipmentList()
-{
-    equipment = new Equipment[10];
-
-    //Equipment 1
-    //id
-    equipment[1].id = 1;
-    //icon
-    equipment[1].textureName = "none";
-    //attributes
-    equipment[1].name = "sword";
-    equipment[1].description = "Sword.";
-
-    equipment[1].durability = 10;
-    equipment[1].weight = 1;
-
-    equipment[1].isEquip = false;
-
-    equipment[1].price = 5;
-    //Equipment 1
-    //Equipment 2
-    //id
-    equipment[2].id = 2;
-    //icon
-    equipment[2].textureName = "none";
-    //attributes
-    equipment[2].name = "bow";
-    equipment[2].description = "Bow.";
-
-    equipment[2].durability = 10;
-    equipment[2].weight = 1;
-
-    equipment[2].isEquip = false;
-
-    equipment[2].price = 10;
-    //Equipment 1
-
-    for (int i = 0; i < 10; i++)
-        equipmentList.push_back(equipment[i]);
-}
 
 void Game::LocationList()
 {
     location = new Location[10];
+    
+    //Location 0 -> none;
 
     //Location 1
     location[1].id = 1;
@@ -468,6 +480,8 @@ void Game::QuestList()
 {
     quest = new Quest[10];
 
+    //quest0 = none;
+
     //quest1
     //id
     quest[1].id = 1;
@@ -488,10 +502,4 @@ void Game::NPCList()
 
 void Game::SceneList()
 {
-
-}
-
-void Game::SkillList()
-{
-
 }

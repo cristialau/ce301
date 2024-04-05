@@ -7,7 +7,7 @@
 class Menu
 {
 private:
-	bool characterActive;
+	bool characterActive;	//1 = c1, 0 = c2
 	//menu
 	bool showMenu;
 	int menuSelect;
@@ -25,14 +25,15 @@ private:
 	bool skillSelected;
 	//skill detail
 	bool showSkillDetail;
+	bool skillDetailSelected;
 	//equipment
 	bool showEquip;
 	int equipSelect;
 	int equipSelectMax;
 	bool equipSelected;
-	int equipWeight;
 	//equipment detail
 	bool showEquipDetail;
+	bool equipDetailSelected;
 	//worldmap
 	bool showLocation;
 	int locationSelect;
@@ -61,13 +62,10 @@ private:
 	//quest detail
 	bool showQuestDetail;
 	//Setting
-	bool showSetting;
-	int settingSelect;
-	
-	std::vector<Equipment> equipment;
-	std::vector<Item> inventory;
-	std::vector<Quest> quest;
-	std::vector<Skill> skill;
+	bool showOption;
+	int optionSelect;
+	int optionSelectMax;
+	bool optionSelected;
 
 public:
 	Menu();
@@ -82,7 +80,9 @@ public:
 	//Functions
 	void OpenCharacter(Player& player, bool& isPressed);
 	void OpenSkill(Player& player, bool& isPressed);
+	void SkillEquip(Player& player, bool& isPressed);
 	void OpenEquip(Player& player, bool& isPressed);
+	void EquipEquip(Player& player, bool& isPressed);
 	void OpenWorldMap(Player& player, std::vector<Location> locationList, int& locationNumber, bool& isPressed);
 	void OpenInventory(Player& player, bool& isPressed);
 	void OpenQuest(Player& player, bool& isPressed);

@@ -15,7 +15,6 @@ struct Equipment
 	//attributes
 	std::string name;
 	std::string description;
-	std::string effect;
 
 	int durability = 0;
 	int weight = 0;
@@ -27,7 +26,7 @@ struct Equipment
 	float percent = 1;
 	int bonus = 0;
 	int gold = 0;
-	int price = gold * percent * penalty + bonus;
+	int price = (int)(gold * percent * penalty) + bonus;
 };
 
 #endif

@@ -12,11 +12,11 @@ MainMenu::MainMenu(std::string title)
 	isSelected = false;
 	//load
 	showLoadGame = false;
-	loadMax = 15;
+	loadMax = 3;
 	loadSelected = false;
 	//option
 	showOption = false;
-	optionMax = 5;
+	optionMax = 0;
 	optionSelected = false;
 }
 
@@ -29,8 +29,7 @@ void MainMenu::Initialize()
 }
 
 void MainMenu::Load()
-{
-	
+{	
 }
 
 void MainMenu::Update(std::string& gameState, bool& isPressed)
@@ -107,6 +106,7 @@ void MainMenu::ShowLoad(bool& isPressed)
 		loadSelected = false;
 		select = 1;
 
+		std::cout << "Load Game" << std::endl;
 		std::cout << "Save 1: " << std::endl;
 	}
 
@@ -131,7 +131,7 @@ void MainMenu::ShowLoad(bool& isPressed)
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				//loads selected game file
 				std::cout << "load selected loading" << std::endl;
-				loadSelected = true;
+				//loadSelected = true;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 				mainMenuState = "MainMenu";
@@ -175,7 +175,7 @@ void MainMenu::ShowOptions(bool& isPressed)
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				//selected game options
-				optionSelected = true;
+				//optionSelected = true;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 				mainMenuState = "MainMenu";

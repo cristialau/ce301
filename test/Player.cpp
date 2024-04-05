@@ -18,6 +18,7 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 
 	//Map
 	currentLocationID = -1;
+	locationTime = 0;
 	for (int j = 0; j < playerMapSize; j++) {
 		for (int i = 0; i < playerMapSize; i++)
 			playerMap[j][i] = 0;
@@ -77,6 +78,7 @@ void Player::SetUp(Location location)
 		//setup for map
 		currentLocationID = location.id;
 		locationName = location.name;
+		locationTime = location.time;
 		//location player map -> player map
 		for (int j = 0; j < location.playerMapSize; j++) {
 			for (int i = 0; i < location.playerMapSize; i++)
@@ -304,6 +306,7 @@ void Player::OpenQuest(NPC& npc, bool& isPressed)
 
 void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 {
+	//Day++ when traveling
 	if (!travelSetUp) {
 		travelSetUp = true;
 		this->travelingTime = travelingTime;
@@ -510,6 +513,16 @@ int Player::GetDay()
 void Player::SetDay(int day)
 {
 	this->day = day;
+}
+
+int Player::GetCurrentLocationID()
+{
+	return currentLocationID;
+}
+
+int Player::GetLocationTime()
+{
+	return locationTime;
 }
 //--------------------------------------------------
 //Functions for map

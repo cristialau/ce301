@@ -30,6 +30,7 @@ private:
 	//Player current Map
 	int currentLocationID;
 	std::string locationName;
+	int locationTime;
 	const static int playerMapSize = 22;
 	int playerMap[playerMapSize][playerMapSize];
 	//Player Map position
@@ -113,6 +114,8 @@ public:
 	void SetPlayerState(std::string playerState);
 	int GetDay();
 	void SetDay(int day);
+	int GetCurrentLocationID();
+	int GetLocationTime();
 
 	//Functions for map
 	int GetMapPositionX(); //Player Map positionX

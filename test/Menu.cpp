@@ -20,12 +20,12 @@ Menu::Menu()
 	skillSelected = false;
 	//skill detail
 	showSkillDetail = false;
+	skillDetailSelected = false;
 	//equipment
 	showEquip = false;
 	equipSelect = 0;
 	equipSelectMax = 0;
 	equipSelected = false;
-	equipWeight = 0;
 	//equipment detail
 	showEquipDetail = false;
 	//worldmap
@@ -55,9 +55,11 @@ Menu::Menu()
 	questSelected = false;
 	//quest detail
 	showQuestDetail = false;
-	//Setting
-	showSetting = false;
-	settingSelect = 1;
+	//Options
+	showOption = false;
+	optionSelect = 1;
+	optionSelectMax = 5;
+	optionSelected = false;
 }
 
 Menu::~Menu()
@@ -73,7 +75,6 @@ void Menu::Update(Player& player, std::string& gameState, std::vector<Location> 
 
 		std::cout << player.GetPlayerState() << std::endl;
 		std::cout << "Day " << player.GetDay() << std::endl;
-		std::cout << player.GetTime() << std::endl;
 		std::cout << "Gold " << player.GetGold() << std::endl;
 		std::cout << "Please select: 1. Character 2. WorldMap 3. Inventory 4. Quest 5. Setting 6. Title" << std::endl;
 	}
@@ -157,37 +158,39 @@ void Menu::OpenCharacter(Player& player, bool& isPressed)
 		std::cout << "Character Name: " << player.GetC1().GetName() << std::endl;
 
 		std::cout << "HP: " << player.GetC1().GetHp() << " / " << player.GetC1().GetHpMax() << std::endl;
-		std::cout << "Attack: " << player.GetC1().GetAttack() << std::endl;
-		std::cout << "Defence: " << player.GetC1().GetDefence() << std::endl;
+		std::cout << "Attack: " << player.GetC1().GetAttack() + player.GetC1().GetAttackEx() << std::endl;
+		std::cout << "Defence: " << player.GetC1().GetDefence() + player.GetC1().GetDefenceEx() << std::endl;
 
 		std::cout << "OSV: " << player.GetC1().GetObservation() << std::endl;
 		std::cout << "CVS: " << player.GetC1().GetConversation() << std::endl;
 		std::cout << "KLG: " << player.GetC1().GetKnowledge() << std::endl;
+		std::cout << "LUCK:" << player.GetC1().GetLuck() << std::endl;
 
-		std::cout << "Skill 1: " << player.GetC1().GetSkill(1) << std::endl;
-		std::cout << "Skill 2: " << player.GetC1().GetSkill(2) << std::endl;
-		std::cout << "Equipment 1: " << player.GetC1().GetEquip(1) << std::endl;
-		std::cout << "Equipment 2: " << player.GetC1().GetEquip(2) << std::endl;
-		std::cout << "Equipment 3: " << player.GetC1().GetEquip(3) << std::endl;
+		std::cout << "Skill 1: " << player.GetC1().GetSkill(1).name << std::endl;
+		std::cout << "Skill 2: " << player.GetC1().GetSkill(2).name << std::endl;
+		std::cout << "Equipment 1: " << player.GetC1().GetEquip(1).name << std::endl;
+		std::cout << "Equipment 2: " << player.GetC1().GetEquip(2).name << std::endl;
+		std::cout << "Equipment 3: " << player.GetC1().GetEquip(3).name << std::endl;
 		//c1
 		//c2
 		std::cout << "Character 2" << std::endl;
 
 		std::cout << "Character Name: " << player.GetC2().GetName() << std::endl;
 
-		std::cout << "HP: " << player.GetC2().GetHp() << " / " << player.GetC2().GetHpMax() << std::endl;
-		std::cout << "Attack: " << player.GetC2().GetAttack() << std::endl;
-		std::cout << "Defence: " << player.GetC2().GetDefence() << std::endl;
+		//std::cout << "HP: " << player.GetC2().GetHp() << " / " << player.GetC2().GetHpMax() << std::endl;
+		std::cout << "Attack: " << player.GetC2().GetAttack() + player.GetC2().GetAttackEx() << std::endl;
+		std::cout << "Defence: " << player.GetC2().GetDefence() + player.GetC2().GetDefenceEx() << std::endl;
 
 		std::cout << "OSV: " << player.GetC2().GetObservation() << std::endl;
 		std::cout << "CVS: " << player.GetC2().GetConversation() << std::endl;
 		std::cout << "KLG: " << player.GetC2().GetKnowledge() << std::endl;
+		std::cout << "LUCK:" << player.GetC2().GetLuck() << std::endl;
 
-		std::cout << "Skill 1: " << player.GetC2().GetSkill(1) << std::endl;
-		std::cout << "Skill 2: " << player.GetC2().GetSkill(2) << std::endl;
-		std::cout << "Equipment 1: " << player.GetC2().GetEquip(1) << std::endl;
-		std::cout << "Equipment 2: " << player.GetC2().GetEquip(2) << std::endl;
-		std::cout << "Equipment 3: " << player.GetC2().GetEquip(3) << std::endl;
+		std::cout << "Skill 1: " << player.GetC2().GetSkill(1).name << std::endl;
+		std::cout << "Skill 2: " << player.GetC2().GetSkill(2).name << std::endl;
+		std::cout << "Equipment 1: " << player.GetC2().GetEquip(1).name << std::endl;
+		std::cout << "Equipment 2: " << player.GetC2().GetEquip(2).name << std::endl;
+		std::cout << "Equipment 3: " << player.GetC2().GetEquip(3).name << std::endl;
 		//c2
 	}
 
@@ -211,18 +214,24 @@ void Menu::OpenCharacter(Player& player, bool& isPressed)
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 				characterActive = !characterActive;
-				std::cout << characterActive << std::endl;
+				if(characterActive)
+					std::cout << "Character 1" << std::endl;
+				else
+					std::cout << "Character 2" << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 				characterActive = !characterActive;
-				std::cout << characterActive << std::endl;
+				if (characterActive)
+					std::cout << "Character 1" << std::endl;
+				else
+					std::cout << "Character 2" << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				characterSelected = true;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-				showCharacter = false;
 				showMenu = false;
+				showCharacter = false;
 			}
 		}
 	}
@@ -238,19 +247,19 @@ void Menu::OpenSkill(Player& player, bool& isPressed)
 {
 	if (!showSkill) {
 		showSkill = true;
-		skillSelect = 1;
 		skillSelected = false;
+		skillSelect = 1;
+		skillSelectMax = (int)player.GetSkill().size() - 1;
 
-		skill.clear();
-
-		skill = player.GetSkill();
-		skillSelectMax = (int)skill.size();
+		auto compareFunc = [](const Skill& obj1, const Skill& obj2) {
+			return obj1.id < obj2.id;
+			};
+		std::sort(player.GetSkill().begin(), player.GetSkill().end(), compareFunc);
 
 		std::cout << "Skill" << std::endl;
-		for (int i = 0; i < skillSelectMax; i++) {
-			std::cout <<
-				skill[i].name << " " <<
-				player.GetSkill()[i].isEquip << " " << std::endl;
+		for (int i = 0; i < player.GetSkill().size(); i++) {
+			std::cout << player.GetSkill()[i].name << " " <<
+				"  [Equiped: " << player.GetSkill()[i].isEquip << "]" << std::endl;
 		}
 		std::cout << "Please select a skill" << std::endl;
 	}
@@ -263,7 +272,7 @@ void Menu::OpenSkill(Player& player, bool& isPressed)
 				if (skillSelect > skillSelectMax)
 					skillSelect = 1;
 
-				std::cout << skillSelect << " / " << skillSelectMax << std::endl;
+				std::cout << skillSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				skillSelect--;
@@ -271,11 +280,10 @@ void Menu::OpenSkill(Player& player, bool& isPressed)
 				if (skillSelect < 1)
 					skillSelect = skillSelectMax;
 
-				std::cout << skillSelect << " / " << skillSelectMax << std::endl;
+				std::cout << skillSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				if (skillSelectMax != 0)
-					skillSelected = true;
+				skillSelected = true;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 				showCharacter = false;
@@ -286,92 +294,102 @@ void Menu::OpenSkill(Player& player, bool& isPressed)
 	else {
 		if (!showSkillDetail) {
 			showSkillDetail = true;
+			skillDetailSelected = false;
 
-			std::cout << "Skill: " << skill[skillSelect - 1].name << std::endl;
-			//
+			std::cout << "Skill: " << player.GetSkill()[skillSelect].name
+				<< "  [Equiped: " << player.GetSkill()[skillSelect].isEquip << "]" << std::endl;
+			std::cout << "Type: " << player.GetSkill()[skillSelect].type << std::endl;
+			std::cout << "Description: " << player.GetSkill()[skillSelect].description << std::endl;
 		}
 
-		if (!isPressed) {
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				if (!player.GetSkill()[skillSelect - 1].isEquip) {
-					if (characterActive) {
-						if (player.GetC1().GetSkill(characterSelect) != "none") {
-							for (int i = 0; i < player.GetSkill().size(); i++) {
-								if (player.GetSkill()[i].name == player.GetC1().GetSkill(characterSelect) &&
-									player.GetSkill()[i].isEquip) {
-									player.GetSkill()[i].isEquip = false;
-								}
-							}
-						}
-					}
-					else {
-						if (player.GetC2().GetSkill(characterSelect) != "none") {
-							for (int i = 0; i < player.GetSkill().size(); i++) {
-								if (player.GetSkill()[i].name == player.GetC2().GetSkill(characterSelect) &&
-									player.GetSkill()[i].isEquip) {
-									player.GetSkill()[i].isEquip = false;
-								}
-							}
-						}
-					}
-
-					if (characterActive) {
-						player.GetC1().SetSkill(characterSelect, skill[skillSelect - 1].name);
-						std::cout << "C1 skill: " << skill[skillSelect - 1].name
-							<< " is equiped." << std::endl;
-						player.GetSkill()[skillSelect - 1].isEquip = true;
-					}
-					else {
-						player.GetC2().SetSkill(characterSelect, skill[skillSelect - 1].name);
-						std::cout << "C2 skill: " << skill[skillSelect - 1].name
-							<< " is equiped." << std::endl;
-						player.GetSkill()[skillSelect - 1].isEquip = true;
-					}
+		if (!skillDetailSelected) {
+			if (!isPressed) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					skillDetailSelected = true;
 				}
-				else {
-					if (characterActive) {
-						if (player.GetSkill()[skillSelect - 1].name != player.GetC1().GetSkill(characterSelect)) {
-							std::cout << "This skill is equiped in other slot." << std::endl;
-						}
-						else {
-							for (int i = 0; i < skillSelectMax; i++) {
-								if (player.GetSkill()[i].name == player.GetC1().GetSkill(characterSelect) &&
-									player.GetSkill()[i].isEquip) {
-									player.GetSkill()[i].isEquip = false;
-								}
-							}
-							std::cout << "C1 skill: " << player.GetC1().GetSkill(characterSelect)
-								<< " is off." << std::endl;
-							player.GetC1().SetSkill(characterSelect, "none");
-						}
-					}
-					else {
-						if (player.GetSkill()[skillSelect - 1].name != player.GetC2().GetSkill(characterSelect)) {
-							std::cout << "This skill is equiped in other slot." << std::endl;
-						}
-						else {
-							for (int i = 0; i < skillSelectMax; i++) {
-								if (player.GetSkill()[i].name == player.GetC2().GetSkill(characterSelect) &&
-									player.GetSkill()[i].isEquip) {
-									player.GetSkill()[i].isEquip = false;
-								}
-							}
-							std::cout << "C2 skill: " << player.GetC2().GetSkill(characterSelect)
-								<< " is off." << std::endl;
-							player.GetC2().SetSkill(characterSelect, "none");
-						}
-					}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+					showSkill = false;
+					showSkillDetail = false;
 				}
-
-				showSkill = false;
-				showSkillDetail = false;
 			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-				showSkill = false;
-				showSkillDetail = false;
+		}
+		else {
+			SkillEquip(player, isPressed);
+		}
+	}
+}
+
+void Menu::SkillEquip(Player& player, bool& isPressed)
+{
+	if (!player.GetSkill()[skillSelect].isEquip) {
+		if (characterActive) {
+			if (player.GetC1().GetSkill(characterSelect).id != player.GetSkill()[0].id) {
+				for (int i = 0; i < player.GetSkill().size(); i++) {
+					if (player.GetC1().GetSkill(characterSelect).id == player.GetSkill()[i].id &&
+						player.GetSkill()[i].isEquip) {
+						player.GetSkill()[i].isEquip = false;
+						break;
+					}
+				}
+			}
+
+			player.GetC1().(characterSelect, player.GetSkill()[skillSelect]);
+			std::cout << "C1 skill: " << player.GetSkill()[skillSelect].name << " is equiped." << std::endl;
+			player.GetSkill()[skillSelect].isEquip = true;
+		}
+		else {
+			if (player.GetC2().GetSkill(characterSelect).id != player.GetSkill()[0].id) {
+				for (int i = 0; i < player.GetSkill().size(); i++) {
+					if (player.GetC2().GetSkill(characterSelect).id == player.GetSkill()[i].id &&
+						player.GetSkill()[i].isEquip) {
+						player.GetSkill()[i].isEquip = false;
+						break;
+					}
+				}
+			}
+
+			player.GetC2().SetSkill(characterSelect, player.GetSkill()[skillSelect]);
+			std::cout << "C2 skill: " << player.GetSkill()[skillSelect].name << " is equiped." << std::endl;
+			player.GetSkill()[skillSelect].isEquip = true;
+		}
+	}
+	else {
+		if (characterActive) {
+			if (player.GetC1().GetSkill(characterSelect).id != player.GetSkill()[skillSelect].id) {
+				std::cout << "This skill is equiped in other slot." << std::endl;
+			}
+			else {
+				for (int i = 0; i < player.GetSkill().size(); i++) {
+					if (player.GetC1().GetSkill(characterSelect).id == player.GetSkill()[i].id &&
+						player.GetSkill()[i].isEquip) {
+						player.GetSkill()[i].isEquip = false;
+						break;
+					}
+				}
+				std::cout << "C1 skill: " << player.GetC1().GetSkill(characterSelect).name << " is off." << std::endl;
+				player.GetC1().SetSkill(characterSelect, player.GetSkill()[0]);
+			}
+		}
+		else {
+			if (player.GetC2().GetSkill(characterSelect).id != player.GetSkill()[skillSelect].id) {
+				std::cout << "This skill is equiped in other slot." << std::endl;
+			}
+			else {
+				for (int i = 0; i < player.GetSkill().size(); i++) {
+					if (player.GetC2().GetSkill(characterSelect).id == player.GetSkill()[i].id &&
+						player.GetSkill()[i].isEquip) {
+						player.GetSkill()[i].isEquip = false;
+						break;
+					}
+				}
+				std::cout << "C2 skill: " << player.GetC2().GetSkill(characterSelect).name << " is off." << std::endl;
+				player.GetC2().SetSkill(characterSelect, player.GetSkill()[0]);
 			}
 		}
 	}
+
+	showSkill = false;
+	showSkillDetail = false;
 }
 
 void Menu::OpenEquip(Player& player, bool& isPressed)
@@ -380,34 +398,24 @@ void Menu::OpenEquip(Player& player, bool& isPressed)
 		showEquip = true;
 		equipSelected = false;
 		equipSelect = 1;
+		equipSelectMax = (int)player.GetEquipInventory().size() - 1;
 		 
-		equipment.clear();
-		if (!player.GetEquipInventory().empty()) {
-			auto compareFunc = [](const Equipment& obj1, const Equipment& obj2) {
-				return obj1.id < obj2.id;
-				};
-			std::sort (player.GetEquipInventory().begin(), player.GetEquipInventory().end(), compareFunc);
-		}
-		
-		equipment = player.GetEquipInventory();
-		equipWeight = player.GetEquipInventoryWeight();
-		equipSelectMax = (int)equipment.size();
+		auto compareFunc = [](const Equipment& obj1, const Equipment& obj2) {
+			return obj1.id < obj2.id;
+			};
+		std::sort(player.GetEquipInventory().begin(), player.GetEquipInventory().end(), compareFunc);
 
 		int weight = 0;
-		for (int i = 0; i < equipSelectMax; i++) {
+		for (int i = 0; i < player.GetEquipInventory().size(); i++) {
 			if(!player.GetEquipInventory()[i].isEquip)
-				weight += equipment[i].weight;
+				weight += player.GetEquipInventory()[i].weight;
 		}
-
 		std::cout << "Equipment" << std::endl;
-		std::cout << "Weight " << weight << " / " << equipWeight << std::endl;
-
+		std::cout << "Weight " << weight << " / " << player.GetEquipInventoryWeight() << std::endl;
 		for (int i = 0; i < equipSelectMax; i++) {
-			std::cout <<
-				equipment[i].name << " " <<
-				player.GetEquipInventory()[i].isEquip << " " << std::endl;
+			std::cout << player.GetEquipInventory()[i].name 
+				<<  "  [Equiped: " << player.GetEquipInventory()[i].isEquip << "]" << std::endl;
 		}
-
 		std::cout << "Please select an equipment" << std::endl;
 	}
 
@@ -430,8 +438,7 @@ void Menu::OpenEquip(Player& player, bool& isPressed)
 				std::cout << equipSelect << " / " << equipSelectMax << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				if (equipSelectMax != 0)
-					equipSelected = true;
+				equipSelected = true;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 				showCharacter = false;
@@ -442,92 +449,104 @@ void Menu::OpenEquip(Player& player, bool& isPressed)
 	else {
 		if (!showEquipDetail) {
 			showEquipDetail = true;
+			equipDetailSelected = false;
 
-			std::cout << "Equipment: " << equipment[equipSelect - 1].name << std::endl;
-			//
+			std::cout << "Equipment: " << player.GetEquipInventory()[equipSelect].name
+				<< "  [Equiped: " << player.GetEquipInventory()[equipSelect].isEquip << "]"
+				<< " Duability: " << player.GetEquipInventory()[equipSelect].durability << std::endl;
+			std::cout << "Description: " << player.GetEquipInventory()[equipSelect].description << std::endl;
 		}
 
-		if (!isPressed) {
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				if (!player.GetEquipInventory()[equipSelect - 1].isEquip) {
-					if (characterActive) {
-						if (player.GetC1().GetEquip(characterSelect - 2) != "none") {
-							for (int i = 0; i < player.GetEquipInventory().size(); i++) {
-								if (player.GetEquipInventory()[i].name == player.GetC1().GetEquip(characterSelect - 2) &&
-									player.GetEquipInventory()[i].isEquip) {
-									player.GetEquipInventory()[i].isEquip = false;
-								}
-							}
-						}
-					}
-					else {
-						if (player.GetC2().GetEquip(characterSelect - 2) != "none") {
-							for (int i = 0; i < player.GetEquipInventory().size(); i++) {
-								if (player.GetEquipInventory()[i].name == player.GetC2().GetEquip(characterSelect - 2) &&
-									player.GetEquipInventory()[i].isEquip) {
-									player.GetEquipInventory()[i].isEquip = false;
-								}
-							}
-						}
-					}
-
-					if (characterActive) {
-						player.GetC1().SetEquip(characterSelect - 2, equipment[equipSelect - 1].name);
-						std::cout << "C1 Equipment: " << equipment[equipSelect - 1].name 
-							<< " is equiped." << std::endl;
-						player.GetEquipInventory()[equipSelect - 1].isEquip = true;
-					}
-					else {
-						player.GetC2().SetEquip(characterSelect - 2, equipment[equipSelect - 1].name);
-						std::cout << "C2 Equipment: " << equipment[equipSelect - 1].name
-							<< " is equiped." << std::endl;
-						player.GetEquipInventory()[equipSelect - 1].isEquip = true;
-					}
+		if (!equipDetailSelected) {
+			if (!isPressed) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					equipDetailSelected = true;
 				}
-				else {
-					if (characterActive) {
-						if (player.GetEquipInventory()[equipSelect - 1].name != player.GetC1().GetEquip(characterSelect - 2)) {
-							std::cout << "This Equipment is equiped in other slot." << std::endl;
-						}
-						else {
-							for (int i = 0; i < equipSelectMax; i++) {
-								if (player.GetEquipInventory()[i].name == player.GetC1().GetEquip(characterSelect - 2) &&
-									player.GetEquipInventory()[i].isEquip) {
-									player.GetEquipInventory()[i].isEquip = false;
-								}
-							}
-							std::cout << "C1 Equipment: " << player.GetC1().GetEquip(characterSelect - 2)
-								<< " is off." << std::endl;
-							player.GetC1().SetEquip(characterSelect - 2, "none");
-						}
-					}
-					else {
-						if (player.GetEquipInventory()[equipSelect - 1].name != player.GetC2().GetEquip(characterSelect - 2)) {
-							std::cout << "This Equipment is equiped in other slot." << std::endl;
-						}
-						else {
-							for (int i = 0; i < equipSelectMax; i++) {
-								if (player.GetEquipInventory()[i].name == player.GetC2().GetEquip(characterSelect - 2) &&
-									player.GetEquipInventory()[i].isEquip) {
-									player.GetEquipInventory()[i].isEquip = false;
-								}
-							}
-							std::cout << "C2 Equipment: " << player.GetC2().GetEquip(characterSelect - 2)
-								<< " is off." << std::endl;
-							player.GetC2().SetEquip(characterSelect - 2, "none");
-						}
-					}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+					showEquip = false;
+					showEquipDetail = false;
 				}
-
-				showEquip = false;
-				showEquipDetail = false;
 			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-				showEquip = false;
-				showEquipDetail = false;
+		}
+		else {
+			OpenEquip(player, isPressed);
+		}
+	}
+}
+
+void Menu::EquipEquip(Player& player, bool& isPressed)
+{
+	characterSelect -= 2;
+
+	if (!player.GetEquipInventory()[equipSelect].isEquip) {
+		if (characterActive) {
+			if (player.GetC1().GetEquip(characterSelect).id != player.GetEquipInventory()[0].id) {
+				for (int i = 0; i < player.GetEquipInventory().size(); i++) {
+					if (player.GetC1().GetEquip(characterSelect).id == player.GetEquipInventory()[i].id &&
+						player.GetEquipInventory()[i].isEquip) {
+						player.GetEquipInventory()[i].isEquip = false;
+						break;
+					}
+				}
+			}
+
+			player.GetC1().SetEquip(characterSelect, player.GetEquipInventory()[equipSelect]);
+			std::cout << "C1 equipment: " << player.GetEquipInventory()[equipSelect].name << " is equiped." << std::endl;
+			player.GetEquipInventory()[equipSelect].isEquip = true;
+		}
+		else {
+			if (player.GetC2().GetEquip(characterSelect).id != player.GetEquipInventory()[0].id) {
+				for (int i = 0; i < player.GetEquipInventory().size(); i++) {
+					if (player.GetC2().GetEquip(characterSelect).id == player.GetEquipInventory()[i].id &&
+						player.GetEquipInventory()[i].isEquip) {
+						player.GetEquipInventory()[i].isEquip = false;
+						break;
+					}
+				}
+			}
+
+			player.GetC2().SetEquip(characterSelect, player.GetEquipInventory()[equipSelect]);
+			std::cout << "C2 equipment: " << player.GetEquipInventory()[equipSelect].name << " is equiped." << std::endl;
+			player.GetEquipInventory()[equipSelect].isEquip = true;
+		}
+	}
+	else {
+		if (characterActive) {
+			if (player.GetC1().GetEquip(characterSelect).id != player.GetEquipInventory()[equipSelect].id) {
+				std::cout << "This equipment is equiped in other slot." << std::endl;
+			}
+			else {
+				for (int i = 0; i < player.GetEquipInventory().size(); i++) {
+					if (player.GetC1().GetEquip(characterSelect).id == player.GetEquipInventory()[i].id &&
+						player.GetEquipInventory()[i].isEquip) {
+						player.GetEquipInventory()[i].isEquip = false;
+						break;
+					}
+				}
+				std::cout << "C1 equipment: " << player.GetC1().GetEquip(characterSelect).name << " is off." << std::endl;
+				player.GetC1().SetEquip(characterSelect, player.GetEquipInventory()[0]);
+			}
+		}
+		else {
+			if (player.GetC2().GetEquip(characterSelect).id != player.GetEquipInventory()[equipSelect].id) {
+				std::cout << "This equipment is equiped in other slot." << std::endl;
+			}
+			else {
+				for (int i = 0; i < player.GetEquipInventory().size(); i++) {
+					if (player.GetC2().GetEquip(characterSelect).id == player.GetEquipInventory()[i].id &&
+						player.GetEquipInventory()[i].isEquip) {
+						player.GetEquipInventory()[i].isEquip = false;
+						break;
+					}
+				}
+				std::cout << "C2 equipment: " << player.GetC2().GetEquip(characterSelect).name << " is off." << std::endl;
+				player.GetC2().SetEquip(characterSelect, player.GetEquipInventory()[0]);
 			}
 		}
 	}
+
+	showEquip = false;
+	showEquipDetail = false;
 }
 
 void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int& mapNumber, bool& isPressed)
@@ -536,13 +555,12 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 		showLocation = true;
 		locationSelected = false;
 		locationSelect = 1;
-		locationSelectMax = (int)locationList.size();
+		locationSelectMax = (int)locationList.size() - 1;
 
 		std::cout << "Select location" << std::endl;
 
 		for (int i = 1; i < locationSelectMax; i++) {
-			std::cout << i << ": " << locationList[i].name <<
-				std::endl;
+			std::cout << i << ": " << locationList[i].name << std::endl;
 		}
 	}
 
@@ -577,28 +595,26 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 		if (!showSelectedLocation) {
 			showSelectedLocation = true;
 
-			std::cout << "Location: " << locationList[locationSelect].name << std::endl;
+			int percent = 0;
+			percent = locationList[locationSelect].percent * 100 - 100;
+			std::cout << "Location: " << locationList[locationSelect].name 
+				<< "Status: " << percent << std::endl;
+			std::cout << locationList[locationSelect].description << std::endl;
 			//
 
-			if (player.GetLocation().id == locationList[locationSelect].id) {
+			if (player.GetCurrentLocationID() == locationList[locationSelect].id) {
 				sameLocation = true;
 				std::cout << "You are here" << std::endl;
 			}
 			else {
 				sameLocation = false;
-				travelingTime = player.GetLocation().time - locationList[locationSelect].time;
-
+				travelingTime = player.GetLocationTime() - locationList[locationSelect].time;
 				std::cout << "Estimate travel time: " << abs(travelingTime) << std::endl;
 				std::cout << "Start your travel?" << std::endl;
 			}
 		}
 
 		if (!isPressed) {
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-				showLocation = false;
-				showSelectedLocation = false;
-			}
-
 			if (!sameLocation) {
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 					player.SetPlayerState("Traveling");
@@ -606,6 +622,11 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 					showLocation = false;
 					showSelectedLocation = false;
 				}
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				showLocation = false;
+				showSelectedLocation = false;
 			}
 		}
 	}
@@ -615,59 +636,49 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 {
 	if (!showInventory) {
 		showInventory = true;
-		inventorySelect = 1;
 		inventorySelected = false;
+		inventorySelect = 1;
 
 		if (inventoryActive) {
-			inventory.clear();
-			if (!player.GetCartInventory().empty()) {
-				std::sort(player.GetCartInventory().begin(),
-					player.GetCartInventory().end(),
-					[](Item& a, Item& b) { return a.id < b.id; });
-			}
-			inventory = player.GetCartInventory();
-			inventoryWeight = player.GetCartInventoryWeight();
-			inventorySelectMax = (int)player.GetCartInventory().size();
+			inventorySelectMax = (int)player.GetCartInventory().size() - 1;
 
+			auto compareFunc = [](const Item& obj1, const Item& obj2) {
+				return obj1.id < obj2.id;
+				};
+			std::sort(player.GetCartInventory().begin(), player.GetCartInventory().end(), compareFunc);
+			
 			int weight = 0;
 			for (int i = 0; i < inventorySelectMax; i++) {
-				weight += inventory[i].weight;
+				weight += player.GetCartInventory()[i].weight;
 			}
-
 			std::cout << "Inventory" << std::endl;
-			std::cout << "Weight " << weight << " / " << inventoryWeight << std::endl;
+			std::cout << "Weight " << weight << " / " << player.GetCartInventoryWeight() << std::endl;
 
-			for (int i = 0; i < inventorySelectMax; i++) {
-				std::cout <<
-					inventory[i].name << " " <<
-					std::endl;
+			for (int i = 0; i < player.GetCartInventory().size(); i++) {
+				std::cout << player.GetCartInventory()[i].name
+					<< " " << player.GetCartInventory()[i].price << std::endl;
 			}
 		}
 		else {
-			equipment.clear();
-			if (!player.GetEquipInventory().empty()) {
-				auto compareFunc2 = [](const Equipment& obj1, const Equipment& obj2) {
-					return obj1.id < obj2.id;
-					};
-				std::sort(player.GetEquipInventory().begin(), player.GetEquipInventory().end(), compareFunc2);
-			}
-			equipment = player.GetEquipInventory();
-			inventoryWeight = player.GetEquipInventoryWeight();
-			inventorySelectMax = (int)player.GetEquipInventory().size();
+			inventorySelectMax = (int)player.GetEquipInventory().size() - 1;
+
+			auto compareFunc = [](const Equipment& obj1, const Equipment& obj2) {
+				return obj1.id < obj2.id;
+				};
+			std::sort(player.GetEquipInventory().begin(), player.GetEquipInventory().end(), compareFunc);
 
 			int weight = 0;
 			for (int i = 0; i < inventorySelectMax; i++) {
-				if(!equipment[i].isEquip)
-					weight += equipment[i].weight;
+				if(!player.GetEquipInventory()[i].isEquip)
+					weight += player.GetEquipInventory()[i].weight;
 			}
 
 			std::cout << "Equipment" << std::endl;
-			std::cout << "Weight " << weight << " / " << inventoryWeight << std::endl;
+			std::cout << "Weight " << weight << " / " << player.GetEquipInventoryWeight() << std::endl;
 
 			for (int i = 0; i < inventorySelectMax; i++) {
-				std::cout <<
-					equipment[i].name << " " <<
-					equipment[i].isEquip << " " << std::endl;
+				std::cout << player.GetEquipInventory()[i].name 
+					<< "  [Equiped: " << player.GetEquipInventory()[i].isEquip << "]" << std::endl;
 			}
 		}
 	}
@@ -680,7 +691,7 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 				if (inventorySelect > inventorySelectMax)
 					inventorySelect = 1;
 
-				std::cout << inventorySelect << " / " << inventorySelectMax << std::endl;
+				std::cout << inventorySelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				inventorySelect--;
@@ -688,7 +699,7 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 				if (inventorySelect < 1)
 					inventorySelect = inventorySelectMax;
 
-				std::cout << inventorySelect << " / " << inventorySelectMax << std::endl;
+				std::cout << inventorySelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 				inventoryActive = !inventoryActive;
@@ -699,8 +710,7 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 				showInventory = false;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				if (inventorySelectMax != 0)
-					inventorySelected = true;
+				inventorySelected = true;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 				showMenu = false;
@@ -713,8 +723,12 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 			if (!showItem) {
 				showItem = true;
 
-				std::cout << "Item: " << inventory[inventorySelect - 1].name << std::endl;
-				//
+				std::cout << "Item: " << player.GetCartInventory()[inventorySelect].name << std::endl;
+				std::cout << "Type: " << player.GetCartInventory()[inventorySelect].type << std::endl;
+				std::cout << "Price: " << player.GetCartInventory()[inventorySelect].price
+					<< "Durability: " << player.GetCartInventory()[inventorySelect].durability
+					<< "Weight: " << player.GetCartInventory()[inventorySelect].weight << std::endl;
+				std::cout << "Description: " << player.GetCartInventory()[inventorySelect].description << std::endl;
 			}
 
 			if (!isPressed) {
@@ -730,8 +744,12 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 				showItem = true;
 				sellSelected = false;
 
-				std::cout << "Equipment: " << equipment[inventorySelect - 1].name << std::endl;
-				//
+				std::cout << "Equipment: " << player.GetEquipInventory()[inventorySelect].name 
+					<< "  [Equiped: " << player.GetEquipInventory()[inventorySelect].isEquip << "]" << std::endl;
+				std::cout << "Price: " << player.GetEquipInventory()[inventorySelect].price
+					<< "Durability: " << player.GetEquipInventory()[inventorySelect].durability
+					<< "Weight: " << player.GetEquipInventory()[inventorySelect].weight << std::endl;
+				std::cout << "Description: " << player.GetEquipInventory()[inventorySelect].description << std::endl;
 			}
 
 			if (!sellSelected) {
@@ -749,7 +767,7 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 				if (!showSell) {
 					showSell = true;
 
-					if (player.GetEquipInventory()[inventorySelect - 1].isEquip)
+					if (player.GetEquipInventory()[inventorySelect].isEquip)
 						std::cout << "You are currently wearing it, you cannot sell it" << std::endl;
 					else
 						std::cout << "You want to sell this equipment?" << std::endl;
@@ -757,9 +775,9 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 				
 				if (!isPressed) {
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
-						!player.GetEquipInventory()[inventorySelect - 1].isEquip) {
-						player.AddGold(player.GetEquipInventory()[inventorySelect - 1].price);
-						player.ConsumeEquipment(inventorySelect - 1);
+						!player.GetEquipInventory()[inventorySelect].isEquip) {
+						player.AddGold(player.GetEquipInventory()[inventorySelect].price);
+						player.GetEquipInventory().erase(player.GetEquipInventory().begin() + inventorySelect);
 						showInventory = false;
 						showSell = false;
 					}
@@ -778,17 +796,22 @@ void Menu::OpenQuest(Player& player, bool& isPressed)
 	if (!showQuest) {
 		showQuest = true;
 		questSelect = 1;
-		quest.clear();
-		quest = player.GetQuest();
-		questSelectMax = quest.size();
+		questSelectMax = player.GetQuest().size() - 1;
+		
+		auto compareFunc = [](const Quest& obj1, const Quest& obj2) {
+			return obj1.id < obj2.id;
+			};
+		std::sort(player.GetQuest().begin(), player.GetQuest().end(), compareFunc);
 
 		std::cout << "Quests" << std::endl;
 		
 		int finished = 0;
 		for (int i = 0; i < questSelectMax; i++) {
-			std::cout << quest[i].name << " " << quest[i].finished << std::endl;
-			if (quest[i].finished)
+			std::cout << player.GetQuest()[i].name << " " 
+				<< "  [Finished: " << player.GetQuest()[i].finished << "]" << std::endl;
+			if (player.GetQuest()[i].finished) {
 				finished++;
+			}
 		}
 		std::cout << "Finished Quest " << finished << " / " << questSelectMax << std::endl;
 	}
@@ -801,7 +824,7 @@ void Menu::OpenQuest(Player& player, bool& isPressed)
 				if (questSelect > questSelectMax)
 					questSelect = 1;
 
-				std::cout << questSelect << " / " << questSelectMax << std::endl;
+				std::cout << questSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				questSelect--;
@@ -809,11 +832,12 @@ void Menu::OpenQuest(Player& player, bool& isPressed)
 				if (questSelect < 1)
 					questSelect = questSelectMax;
 
-				std::cout << questSelect << " / " << questSelectMax << std::endl;
+				std::cout << questSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				if (questSelectMax != 0)
+				if (questSelectMax != 0) {
 					questSelected = true;
+				}
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 				showMenu = false;
@@ -825,8 +849,11 @@ void Menu::OpenQuest(Player& player, bool& isPressed)
 		if (!showQuestDetail) {
 			showQuestDetail = true;
 
-			std::cout << "Quest: " << quest[questSelect].name << std::endl;
-			//
+			std::cout << "Quest: " << player.GetQuest()[questSelect].name << std::endl;
+			std::cout << "Owner: " << player.GetQuest()[questSelect].ownerName << std::endl;
+			std::cout << "Finished " << player.GetQuest()[questSelect].finished << std::endl;
+			std::cout << "Reward " << player.GetQuest()[questSelect].gotReward << std::endl;
+			std::cout << "Description: " << player.GetQuest()[questSelect].description << std::endl;
 		}
 
 		if (isPressed) {
@@ -841,16 +868,42 @@ void Menu::OpenQuest(Player& player, bool& isPressed)
 
 void Menu::OpenSetting(bool& isPressed)
 {
-	if (!showSetting) {
-		showSetting = true;
-		settingSelect = 1;
-		menuSelected = false;
+	if (!showOption) {
+		showOption = true;
+		optionSelect = 1;
+		optionSelected = false;
+		
+		std::cout << "Option" << std::endl;
 	}
 
-	if (!isPressed) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-			showMenu = false;
-			showSetting = false;
+	if (!optionSelected) {
+		if (!isPressed) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				optionSelect++;
+
+				if (optionSelect > optionSelectMax)
+					optionSelect = 1;
+
+				std::cout << optionSelect << std::endl;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				optionSelect--;
+
+				if (optionSelect < 1)
+					optionSelect = optionSelectMax;
+
+				std::cout << optionSelect << std::endl;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+				optionSelected = true;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				showMenu = false;
+				showOption = false;
+			}
 		}
+	}
+	else {
+		//options
 	}
 }

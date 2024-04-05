@@ -102,13 +102,15 @@ public:
 
 	//Functions
 	void EndApplication();
-	void ItemList();
+
+	void SkillList();
 	void EquipmentList();
+	void ItemList();
 	void LocationList();
 	void QuestList();
 	void NPCList();
 	void SceneList();
-	void SkillList();
+	
 };
 
 #endif

@@ -13,6 +13,7 @@ struct Quest
 	sf::Texture texture;
 	sf::Sprite icon;
 	//attributes
+	std::string ownerName;
 	std::string name;
 	std::string description;
 

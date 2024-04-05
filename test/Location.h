@@ -52,6 +52,9 @@ struct Location
 
 	int playerPositionX = 0;
 	int playerPositionY = 0;
+	
+	//Trade percent
+	int percent = 1;
 };
 
 #endif
