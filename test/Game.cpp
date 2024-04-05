@@ -72,8 +72,9 @@ void Game::LoadGame()
     npc1.Load(locationList[mapNumber]);
 
     player.AddItemCart(itemList[1]);
+    player.AddItemCart(itemList[3]);
     player.AddItemCart(itemList[1]);
-    player.AddItemCart(itemList[1]);
+    player.AddItemCart(itemList[2]);
     player.AddEquipment(equipmentList[1]);
     player.AddEquipment(equipmentList[1]);
     player.AddEquipment(equipmentList[1]);

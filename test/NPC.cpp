@@ -107,7 +107,7 @@ void NPC::SetPassTradeGame(bool passTradeGame)
 	this->passTradeGame = passTradeGame;
 }
 
-std::vector<Equipment> NPC::GetEquipInventory()
+std::vector<Equipment>& NPC::GetEquipInventory()
 {
 	return equipInventory;
 }
@@ -124,7 +124,7 @@ void NPC::SetEquipInventoryWeight(int equipInventoryWeight)
 		this->equipInventoryWeight = 0;
 }
 
-std::vector<Item> NPC::GetShop()
+std::vector<Item>& NPC::GetShop()
 {
 	return shop;
 }
@@ -139,6 +139,11 @@ void NPC::SetShopWeight(int shopWeight)
 	this->shopWeight = shopWeight;
 	if (this->shopWeight < 0)
 		this->shopWeight = 0;
+}
+
+std::vector<Skill>& NPC::GetSkill()
+{
+	return skillList;
 }
 
 std::string NPC::GetDialogue()

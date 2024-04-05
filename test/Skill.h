@@ -16,6 +16,8 @@ struct Skill
 	std::string name;
 	std::string type;
 	std::string description;
+
+	bool isEquip = false;
 };
 
 #endif

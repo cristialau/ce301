@@ -423,12 +423,12 @@ void Player::Draw(sf::RenderWindow& window)
 }
 
 //getters setters
-Character Player::GetC1()
+Character& Player::GetC1()
 {
 	return c1;
 }
 
-Character Player::GetC2()
+Character& Player::GetC2()
 {
 	return c2;
 }
@@ -465,7 +465,7 @@ void Player::SetSpMax(int SpMax)
 		this->SpMax = 0;
 }
 
-std::vector<Equipment> Player::GetEquipInventory()
+std::vector<Equipment>& Player::GetEquipInventory()
 {
 	return equipInventory;
 }
@@ -480,7 +480,7 @@ void Player::SetEquipInventoryWeight(int equipInventoryWeight)
 	this->equipInventoryWeight = equipInventoryWeight;
 }
 
-std::vector<Item> Player::GetCartInventory()
+std::vector<Item>& Player::GetCartInventory()
 {
 	return cartInventory;
 }
@@ -495,9 +495,14 @@ void Player::SetCartInventoryWeight(int cartInventoryWeight)
 	this->cartInventoryWeight = cartInventoryWeight;
 }
 
-std::vector<Quest> Player::GetQuest()
+std::vector<Quest>& Player::GetQuest()
 {
 	return questList;
+}
+
+std::vector<Skill>& Player::GetSkill()
+{
+	return skillList;
 }
 
 int Player::GetGold()
@@ -598,6 +603,11 @@ void Player::Rust(int inventoryNumber)
 void Player::AddQuest(Quest quest)
 {
 	questList.push_back(quest);
+}
+
+void Player::AddSkill(Skill skill)
+{
+	skillList.push_back(skill);
 }
 
 void Player::AddGold(int gold)

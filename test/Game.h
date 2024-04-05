@@ -71,8 +71,8 @@ private:
 	//NPC npctrade;
 
 	//Player
-	Character c1 = Character("Textures/npc.png", "player1", 100, 10, 10, 0, 0, 0, 0, "skill1", "skill2", "equip1", "equip2", "equip3");
-	Character c2 = Character("none", "player2", 40, 10, 10, 0, 0, 0, 0, "skill3", "skill4", "equip1", "equip2", "equip3");
+	Character c1 = Character("Textures/npc.png", "player1", 100, 10, 10, 0, 0, 0, 0, "none", "none", "none", "none", "none");
+	Character c2 = Character("none", "player2", 40, 10, 10, 0, 0, 0, 0, "none", "none", "none", "none", "none");
 	Player player = Player(c1, c2);
 	
 	

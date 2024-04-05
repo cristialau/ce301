@@ -23,6 +23,8 @@ private:
 	int skillSelect;
 	int skillSelectMax;
 	bool skillSelected;
+	//skill detail
+	bool showSkillDetail;
 	//equipment
 	bool showEquip;
 	int equipSelect;
@@ -65,6 +67,7 @@ private:
 	std::vector<Equipment> equipment;
 	std::vector<Item> inventory;
 	std::vector<Quest> quest;
+	std::vector<Skill> skill;
 
 public:
 	Menu();

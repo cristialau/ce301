@@ -8,8 +8,8 @@ class Player
 {
 private:
 	//Characters
-	Character c1;
-	Character c2;
+	Character& c1;
+	Character& c2;
 	bool isC1;
 	bool isC2;
 	int SpMax;
@@ -19,6 +19,7 @@ private:
 	std::vector<Item> cartInventory;
 	int cartInventoryWeight;
 	std::vector<Quest> questList;
+	std::vector<Skill> skillList;
 
 	int gold;
 
@@ -83,21 +84,22 @@ public:
 	void Draw(sf::RenderWindow& window);
 
 	//getters setters
-	Character GetC1();
-	Character GetC2();
+	Character& GetC1();
+	Character& GetC2();
 	bool GetIsC1();
 	void SetIsC1(bool isC1);
 	bool GetIsC2();
 	void SetIsC2(bool isC2);
 	int GetSpMax();
 	void SetSpMax(int SpMax);
-	std::vector<Equipment> GetEquipInventory();
+	std::vector<Equipment>& GetEquipInventory();
 	int GetEquipInventoryWeight();
 	void SetEquipInventoryWeight(int equipInventoryWeight);
-	std::vector<Item> GetCartInventory();
+	std::vector<Item>& GetCartInventory();
 	int GetCartInventoryWeight();
 	void SetCartInventoryWeight(int cartInventoryWeight);
-	std::vector<Quest> GetQuest();
+	std::vector<Quest>& GetQuest();
+	std::vector<Skill>& GetSkill();
 	int GetGold();
 	void SetGold(int gold);
 	std::string GetPlayerState();
@@ -119,6 +121,7 @@ public:
 	void ConsumeCart(int inventoryNumber);
 	void Rust(int inventoryNumber);
 	void AddQuest(Quest quest);
+	void AddSkill(Skill skill);
 	void AddGold(int gold);
 	void MinGold(int gold);
 	void SetHPAfterBattle(int HP);

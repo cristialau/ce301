@@ -25,6 +25,7 @@ private:
 	int equipInventoryWeight;
 	std::vector<Item> shop;
 	int shopWeight;
+	std::vector<Skill> skillList;
 
 	std::string dialogue;
 
@@ -69,12 +70,13 @@ public:
 	void SetNPCQuest(Quest& quest);
 	bool PassTradeGame();
 	void SetPassTradeGame(bool passTradeGame);
-	std::vector<Equipment> GetEquipInventory();
+	std::vector<Equipment>& GetEquipInventory();
 	int GetEquipInventoryWeight();
 	void SetEquipInventoryWeight(int equipInventoryWeight);
-	std::vector<Item> GetShop();
+	std::vector<Item>& GetShop();
 	int GetShopWeight();
 	void SetShopWeight(int shopWeight);
+	std::vector<Skill>& GetSkill();
 
 	std::string GetDialogue();
 	void SetDialogue(std::string dialogue);
