@@ -166,8 +166,6 @@ void NPC::AddRls(int rls)
 void NPC::AddGold(int gold)
 {
 	this->gold += gold;
-	if (gold < 0)
-		gold = 0;
 }
 
 void NPC::Effect()

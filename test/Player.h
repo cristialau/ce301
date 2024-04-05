@@ -13,6 +13,7 @@ private:
 	bool isC1;
 	bool isC2;
 	int SpMax;
+	int gold;
 
 	std::vector<Equipment> equipInventory;
 	int equipInventoryWeight;
@@ -20,18 +21,15 @@ private:
 	int cartInventoryWeight;
 	std::vector<Quest> questList;
 	std::vector<Skill> skillList;
-
-	int gold;
-
-	std::string playerState;
-	//Normal, Talking, Trading, Battle, Traveling, Menu
+	
+	std::string playerState;	//Normal, Talking, Trading, Battle, Traveling, Menu
+	
 	int day;
-	int time;
 	int npcNumber;
 
 	//Player current Map
-	Location location;
 	int currentLocationID;
+	std::string locationName;
 	const static int playerMapSize = 22;
 	int playerMap[playerMapSize][playerMapSize];
 	//Player Map position
@@ -47,6 +45,9 @@ private:
 	float viewX;
 	float viewY;
 
+	//Normal
+	bool showNormal;
+
 	//Talk
 	bool showTalk;
 	int talkSelect;
@@ -56,8 +57,7 @@ private:
 	bool questSelected;
 	int questSelectMax;
 	int questSelect;
-	bool isSetUp;
-
+	
 	//Travel
 	bool travelSetUp;
 	bool showTravel;
@@ -66,8 +66,10 @@ private:
 	float timer;
 	bool roll;
 	int result;
-
 	bool showWarning;
+
+	//End
+	int goalGold;
 
 public:
 	Player(Character& c1, Character& c2);
@@ -80,7 +82,9 @@ public:
 	void TalkState(NPC& npc, std::string previousState, bool& isPressed);
 	void OpenQuest(NPC& npc, bool& isPressed);
 	void TravelState(int travelingTime, float dt, bool& isPressed);
+	
 	void EndGame();
+	
 	void Draw(sf::RenderWindow& window);
 
 	//getters setters
@@ -90,8 +94,12 @@ public:
 	void SetIsC1(bool isC1);
 	bool GetIsC2();
 	void SetIsC2(bool isC2);
+
 	int GetSpMax();
 	void SetSpMax(int SpMax);
+	int GetGold();
+	void SetGold(int gold);
+
 	std::vector<Equipment>& GetEquipInventory();
 	int GetEquipInventoryWeight();
 	void SetEquipInventoryWeight(int equipInventoryWeight);
@@ -100,35 +108,28 @@ public:
 	void SetCartInventoryWeight(int cartInventoryWeight);
 	std::vector<Quest>& GetQuest();
 	std::vector<Skill>& GetSkill();
-	int GetGold();
-	void SetGold(int gold);
+	
 	std::string GetPlayerState();
 	void SetPlayerState(std::string playerState);
 	int GetDay();
 	void SetDay(int day);
-	int GetTime();
-	void SetTime(int time);
-	Location GetLocation();
-	void SetLocation(Location location);
+
 	//Functions for map
 	int GetMapPositionX(); //Player Map positionX
 	int GetMapPositionY(); //Player Map positionY
 
 	//Functions
-	void AddEquipment(Equipment equipment);
-	void ConsumeEquipment(int inventoryNumber);
-	void AddItemCart(Item item);
-	void ConsumeCart(int inventoryNumber);
-	void Rust(int inventoryNumber);
 	void AddQuest(Quest quest);
 	void AddSkill(Skill skill);
 	void AddGold(int gold);
-	void MinGold(int gold);
-	void SetHPAfterBattle(int HP);
+
+	void Rust();			//Day++ -> Rust
 	int RandomEvent();
 
 	void Reward(int type); // start from 1
 	void Effect();			// equip effects
+
+	void PrintMap();
 };
 
 #endif

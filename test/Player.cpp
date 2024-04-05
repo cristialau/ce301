@@ -6,13 +6,14 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 	isC1 = true;
 	isC2 = true;
 	SpMax = 7;
+
 	equipInventoryWeight = 10;
 	cartInventoryWeight = 20;
 	gold = 0;
 
 	playerState = "Normal";
+
 	day = 1;
-	time = 0;
 	npcNumber = 2;
 
 	//Map
@@ -23,12 +24,16 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 	}
 	positionX = 0;
 	positionY = 0;
+	//sfml
 	tileSize = 16.f;
 	scale = 3.f;
 	tilePositionX = 0;
 	tilePositionY = 0;
 	viewX = 0;
 	viewY = 0;
+
+	//Normal
+	showNormal = false;
 
 	//Talk
 	showTalk = false;
@@ -39,7 +44,6 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 	questSelected = false;
 	questSelectMax = 0;
 	questSelect = 0;
-	isSetUp = false;
 
 	//Travel
 	travelSetUp = false;
@@ -49,8 +53,10 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 	timer = 0;
 	roll = false;
 	result = 0;
-
 	showWarning = false;
+
+	//End
+	goalGold = 2000;
 }
 
 Player::~Player()
@@ -69,12 +75,12 @@ void Player::SetUp(Location location)
 {
 	if (currentLocationID != location.id) {
 		//setup for map
-		this->location = location;
-		currentLocationID = this->location.id;
+		currentLocationID = location.id;
+		locationName = location.name;
 		//location player map -> player map
 		for (int j = 0; j < location.playerMapSize; j++) {
 			for (int i = 0; i < location.playerMapSize; i++)
-				this->playerMap[j][i] = location.playerMap[j][i];
+				playerMap[j][i] = location.playerMap[j][i];
 		}
 
 		positionX = location.playerPositionX;
@@ -95,76 +101,52 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 		SetPlayerState("EndGame");
 	}
 	else {
-		if (!isSetUp) {
+		if (!showNormal) {
+			showNormal = true;
+
 			playerState = "Normal";
-			std::cout << "Location: " << location.name << std::endl;
+			std::cout << "Location: " << locationName << std::endl;
 			for (int i = 0; i < playerMapSize; ++i) {
 				for (int j = 0; j < playerMapSize; ++j)
 					std::cout << playerMap[i][j] << " ";
 				std::cout << std::endl;
 			}
 			std::cout << "position: " << positionX << " " << positionY << std::endl;
-
-			isSetUp = true;
 		}
 
 		if (!isPressed) {
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
-				playerMap[positionY][positionX + 1] != 0) {
+				playerMap[positionY][positionX++] != 0) {
 				positionX++;
 				//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
-
-				for (int i = 0; i < playerMapSize; ++i) {
-					for (int j = 0; j < playerMapSize; ++j)
-						std::cout << playerMap[i][j] << " ";
-					std::cout << std::endl;
-				}
-				std::cout << "position: " << positionX << " " << positionY << std::endl;
+				PrintMap();
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
-				playerMap[positionY][positionX - 1] != 0) {
+				playerMap[positionY][positionX--] != 0) {
 				positionX--;
 				//c1.GetSprite().move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
-
-				for (int i = 0; i < playerMapSize; ++i) {
-					for (int j = 0; j < playerMapSize; ++j)
-						std::cout << playerMap[i][j] << " ";
-					std::cout << std::endl;
-				}
-				std::cout << "position: " << positionX << " " << positionY << std::endl;
+				PrintMap();
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
-				playerMap[positionY - 1][positionX] != 0) {
+				playerMap[positionY--][positionX] != 0) {
 				positionY--;
 				//c1.GetSprite().move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
-
-				for (int i = 0; i < playerMapSize; ++i) {
-					for (int j = 0; j < playerMapSize; ++j)
-						std::cout << playerMap[i][j] << " ";
-					std::cout << std::endl;
-				}
-				std::cout << "position: " << positionX << " " << positionY << std::endl;
+				PrintMap();
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
-				playerMap[positionY + 1][positionX] != 0) {
+				playerMap[positionY++][positionX] != 0) {
 				positionY++;
 				//c1.GetSprite().move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
-
-				for (int i = 0; i < playerMapSize; ++i) {
-					for (int j = 0; j < playerMapSize; ++j)
-						std::cout << playerMap[i][j] << " ";
-					std::cout << std::endl;
-				}
-				std::cout << "position: " << positionX << " " << positionY << std::endl;
+				PrintMap();
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
 				(playerMap[positionY][positionX] == npcNumber)) {
 				playerState = "Talking";
-				isSetUp = false;
+				showNormal = false;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 				playerState = "Menu";
-				isSetUp = false;
+				showNormal = false;
 			}
 		}
 	}
@@ -178,9 +160,12 @@ void Player::TalkState(NPC& npc, std::string previousState, bool& isPressed)
 	else {
 		if (!showTalk) {
 			showTalk = true;
-			std::cout << "Dialogue" << std::endl;
+			talkSelect = 1;
+			talkSelected = false;
 
+			std::cout << "~Talking~" << std::endl;
 			std::cout << npc.GetC().GetName() << std::endl;
+			//npc scripts
 			std::cout << npc.GetDialogue() << std::endl;
 
 			//Merchant, villager
@@ -205,8 +190,6 @@ void Player::TalkState(NPC& npc, std::string previousState, bool& isPressed)
 				std::cout << "Trade" << std::endl;
 				std::cout << "Quest" << std::endl;
 			}
-
-			talkSelect = 1;
 		}
 
 		if (!talkSelected) {
@@ -233,18 +216,16 @@ void Player::TalkState(NPC& npc, std::string previousState, bool& isPressed)
 			}
 		}
 		else {
-			showTalk = false;
-			
 			switch (talkSelect) {
-			case 1:	SetPlayerState("Normal"); talkSelected = false; break;
-			case 2:	SetPlayerState("Trading"); talkSelected = false; break;
+			case 1:	SetPlayerState("Normal"); showTalk = false; break;
+			case 2:	SetPlayerState("Trading"); showTalk = false; break;
 			case 3:	
 				if (npc.GetJob() == "Lord") {
 					OpenQuest(npc, isPressed);
 				}
 				else if (npc.GetJob() == "Bandit") {
 					SetPlayerState("Battle");
-					talkSelected = false;
+					showTalk = false;
 				}
 				break;
 			}
@@ -256,8 +237,10 @@ void Player::OpenQuest(NPC& npc, bool& isPressed)
 {
 	if (!showQuest) {
 		showQuest = true;
-		std::cout << "Quest" << std::endl;
+		questSelected = false;
+		questSelect = 1;
 
+		std::cout << "Quest" << std::endl;
 		std::cout << npc.GetNPCQuest().description << std::endl;
 
 		if (npc.GetNPCQuest().gotReward) {
@@ -272,8 +255,6 @@ void Player::OpenQuest(NPC& npc, bool& isPressed)
 			std::cout << "1. Cancel 2. Accept" << std::endl;
 			questSelectMax = 2;
 		}
-		
-		questSelect = 1;
 	}
 
 	if (!questSelected) {
@@ -313,13 +294,11 @@ void Player::OpenQuest(NPC& npc, bool& isPressed)
 				npc.GetNPCQuest().accepted = true;
 				AddQuest(npc.GetNPCQuest());
 				std::cout << "Player accepts quest successfully" << std::endl;
-				SetPlayerState("Normal");
 			}
 		}
 
-		talkSelected = false;
+		showTalk = false;
 		showQuest = false;
-		questSelected = false;
 	}
 }
 
@@ -333,8 +312,8 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 
 	if (!showTravel) {
 		showTravel = true;
-		std::cout << "Traveling" << std::endl;
 
+		std::cout << "Traveling" << std::endl;
 		std::cout << "Day: " << day << std::endl;
 		std::cout << "Time: " << time << std::endl;
 		std::cout << "TravelingTime: " << this->travelingTime << std::endl;
@@ -342,19 +321,18 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 
 	if (this->travelingTime > 0) {
 		if (this->travelingTime % 500 == 0 && this->travelingTime != travelingTime) {
-
 			if (!roll) {
-				result = RandomEvent();
 				roll = true;
+				result = RandomEvent();
 			}
 
 			switch (result) {
-			case 1: Reward(1);  roll = false; this->travelingTime--; break;
+			case 1: Reward(1); roll = false; this->travelingTime--; break;
 			case 2: Reward(2); roll = false; this->travelingTime--; break;
 			case 3:
 				if (!showWarning) {
-					std::cout << "encounter bandit" << std::endl;
 					showWarning = true;
+					std::cout << "encounter bandit" << std::endl;
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 					SetPlayerState("Battle");
@@ -365,8 +343,8 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 				break;
 			case 4: 
 				if (!showWarning) {
-					std::cout << "encounter merchant" << std::endl;
 					showWarning = true;
+					std::cout << "encounter merchant" << std::endl;
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 					SetPlayerState("Trading");
@@ -379,12 +357,10 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 		}
 		else {
 			timer += dt;
-
 			if (timer >= 1000.0f) {
 				this->travelingTime -= 100;
 				timer = 0;
 			}
-
 			std::cout << "Traveling Time: " << this->travelingTime << std::endl;
 		}
 	}
@@ -407,14 +383,15 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 
 void Player::EndGame()
 {
-	/*
-	if (gold = > 2000)
-		goodEnd;
-	else if (gold < 2000 && gold > 0)
-		normalEnd;
-	else
-		badEnd;
-	*/
+	if (gold >= goalGold) {
+		std::cout << "You get a Happy Ending!" << std::endl;
+	}
+	else if (gold < goalGold && gold > 0) {
+		std::cout << "You get a Normal Ending!" << std::endl;
+	}
+	else {
+		std::cout << "You get a Bad Ending!" << std::endl;
+	}
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -452,7 +429,7 @@ void Player::SetIsC2(bool isC2)
 {
 	this->isC2 = isC2;
 }
-
+//--------------------------------------------------
 int Player::GetSpMax()
 {
 	return SpMax;
@@ -465,6 +442,16 @@ void Player::SetSpMax(int SpMax)
 		this->SpMax = 0;
 }
 
+int Player::GetGold()
+{
+	return gold;
+}
+
+void Player::SetGold(int gold)
+{
+	this->gold = gold;
+}
+//--------------------------------------------------
 std::vector<Equipment>& Player::GetEquipInventory()
 {
 	return equipInventory;
@@ -504,19 +491,7 @@ std::vector<Skill>& Player::GetSkill()
 {
 	return skillList;
 }
-
-int Player::GetGold()
-{
-	return gold;
-}
-
-void Player::SetGold(int gold)
-{
-	this->gold = gold;
-	if (this->gold < 0)
-		this->gold = 0;
-}
-
+//--------------------------------------------------
 std::string Player::GetPlayerState()
 {
 	return playerState;
@@ -536,27 +511,7 @@ void Player::SetDay(int day)
 {
 	this->day = day;
 }
-
-int Player::GetTime()
-{
-	return time;
-}
-
-void Player::SetTime(int time)
-{
-	this->time = time;
-}
-
-Location Player::GetLocation()
-{
-	return location;
-}
-
-void Player::SetLocation(Location location)
-{
-	this->location = location;
-}
-
+//--------------------------------------------------
 //Functions for map
 int Player::GetMapPositionX()
 {
@@ -567,37 +522,8 @@ int Player::GetMapPositionY()
 {
 	return positionY;
 }
-
+//--------------------------------------------------
 //Functions
-void Player::AddEquipment(Equipment equipment)
-{
-	equipInventory.push_back(equipment);
-}
-
-void Player::ConsumeEquipment(int inventoryNumber)
-{
-	equipInventory.erase(equipInventory.begin() + inventoryNumber);
-}
-
-void Player::AddItemCart(Item item)
-{
-	cartInventory.push_back(item);
-}
-
-void Player::ConsumeCart(int inventoryNumber)
-{
-	cartInventory.erase(cartInventory.begin() + inventoryNumber);
-}
-
-void Player::Rust(int inventoryNumber)
-{
-	cartInventory[inventoryNumber].durability -= 10;
-	if (cartInventory[inventoryNumber].durability <= 0) {
-		cartInventory.erase(cartInventory.begin() + inventoryNumber);
-		std::cout << cartInventory[inventoryNumber].name << " is destoryed due to no durability" << std::endl;
-	}
-}
-
 void Player::AddQuest(Quest quest)
 {
 	questList.push_back(quest);
@@ -612,25 +538,16 @@ void Player::AddGold(int gold)
 {
 	this->gold += gold;
 }
-
-void Player::MinGold(int gold)
+//--------------------------------------------------
+void Player::Rust()
 {
-	this->gold -= gold;
-}
-
-void Player::SetHPAfterBattle(int HP)
-{
-	c1.SetHp(HP);
-	/*
-	if (HP <= 40) {
-		c1.SetHp(HP);
-		c2.SetHp(1);
+	for (int i = 0; i < cartInventory.size(); i++) {
+		cartInventory[i].durability -= 10;
+		if (cartInventory[i].durability <= 0) {
+			std::cout << cartInventory[i].name << " is destoryed due to no durability" << std::endl;
+			cartInventory.erase(cartInventory.begin() + i);
+		}
 	}
-	else {
-		c1.SetHp(HP - 40);
-		c2.SetHp(40);
-	}
-	*/
 }
 
 int Player::RandomEvent()
@@ -641,9 +558,7 @@ int Player::RandomEvent()
 	std::mt19937_64 eng(rd()); // Mersenne Twister 64-bit RNG
 	// Define a distribution
 	std::uniform_int_distribution<int> distr3(1, 10); // Range from 1 to 3
-
 	int random = distr3(eng);
-	int result = 0;
 
 	if (random <= 4)
 		return 1;
@@ -654,7 +569,7 @@ int Player::RandomEvent()
 	else
 		return 4;
 }
-
+//--------------------------------------------------
 void Player::Reward(int type)
 {
 	switch (type) {
@@ -684,4 +599,15 @@ void Player::Effect()
 	}
 	*/
 	
+}
+//--------------------------------------------------
+void Player::PrintMap()
+{
+	std::cout << "Location: " << locationName << std::endl;
+	for (int i = 0; i < playerMapSize; ++i) {
+		for (int j = 0; j < playerMapSize; ++j)
+			std::cout << playerMap[i][j] << " ";
+		std::cout << std::endl;
+	}
+	std::cout << "position: " << positionX << " " << positionY << std::endl;
 }

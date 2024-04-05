@@ -362,10 +362,10 @@ void Battle::EndBattle(Player& player, std::vector<NPC>& enemy)
 
 	if (playerTeamHP <= 0) {
 		std::cout << "You Lose" << std::endl;
-		player.MinGold((int)(player.GetGold() * 0.2));
+		player.AddGold((int)(-player.GetGold() * 0.2));
 		std::cout << "You Lost: " << (int)(player.GetGold() * 0.2) << std::endl;
 
-		player.SetHPAfterBattle((int)((playerTeamHP - 40) * 0.75));
+		player.GetC1().SetHp((int)((playerTeamHP) * 0.75));
 	}
 	else if (enemyTeamHP <= 0) {
 		std::cout << "You Win" << std::endl;
@@ -392,7 +392,7 @@ void Battle::EndBattle(Player& player, std::vector<NPC>& enemy)
 			std::cout << enemy[i].GetGold() << " Gold" << std::endl;
 		}
 
-		player.SetHPAfterBattle(playerTeamHP);
+		player.GetC1().SetHp(playerTeamHP);
 	}
 
 	player.SetPlayerState(previousState);

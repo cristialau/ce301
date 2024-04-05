@@ -19,7 +19,9 @@ private:
 	std::string playerStatus;	//player battle status, normal, buff, debuff
 	int playerTeamHPMax;		//player's hp
 	int playerTeamHP;
-	int playerTeamSPMax;		//player's sp
+	int playerTeam
+		
+		;		//player's sp
 	int playerTeamSP;
 	int playerAttackDmg;		//player's atk
 	int playerDefence;			//player's def
