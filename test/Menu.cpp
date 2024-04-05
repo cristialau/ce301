@@ -295,6 +295,27 @@ void Menu::OpenSkill(Player& player, bool& isPressed)
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				if (!player.GetSkill()[skillSelect - 1].isEquip) {
 					if (characterActive) {
+						if (player.GetC1().GetSkill(characterSelect) != "none") {
+							for (int i = 0; i < player.GetSkill().size(); i++) {
+								if (player.GetSkill()[i].name == player.GetC1().GetSkill(characterSelect) &&
+									player.GetSkill()[i].isEquip) {
+									player.GetSkill()[i].isEquip = false;
+								}
+							}
+						}
+					}
+					else {
+						if (player.GetC2().GetSkill(characterSelect) != "none") {
+							for (int i = 0; i < player.GetSkill().size(); i++) {
+								if (player.GetSkill()[i].name == player.GetC2().GetSkill(characterSelect) &&
+									player.GetSkill()[i].isEquip) {
+									player.GetSkill()[i].isEquip = false;
+								}
+							}
+						}
+					}
+
+					if (characterActive) {
 						player.GetC1().SetSkill(characterSelect, skill[skillSelect - 1].name);
 						std::cout << "C1 skill: " << skill[skillSelect - 1].name
 							<< " is equiped." << std::endl;
@@ -342,12 +363,12 @@ void Menu::OpenSkill(Player& player, bool& isPressed)
 					}
 				}
 
-				showEquip = false;
-				showEquipDetail = false;
+				showSkill = false;
+				showSkillDetail = false;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-				showEquip = false;
-				showEquipDetail = false;
+				showSkill = false;
+				showSkillDetail = false;
 			}
 		}
 	}
@@ -429,6 +450,27 @@ void Menu::OpenEquip(Player& player, bool& isPressed)
 		if (!isPressed) {
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				if (!player.GetEquipInventory()[equipSelect - 1].isEquip) {
+					if (characterActive) {
+						if (player.GetC1().GetEquip(characterSelect - 2) != "none") {
+							for (int i = 0; i < player.GetEquipInventory().size(); i++) {
+								if (player.GetEquipInventory()[i].name == player.GetC1().GetEquip(characterSelect - 2) &&
+									player.GetEquipInventory()[i].isEquip) {
+									player.GetEquipInventory()[i].isEquip = false;
+								}
+							}
+						}
+					}
+					else {
+						if (player.GetC2().GetEquip(characterSelect - 2) != "none") {
+							for (int i = 0; i < player.GetEquipInventory().size(); i++) {
+								if (player.GetEquipInventory()[i].name == player.GetC2().GetEquip(characterSelect - 2) &&
+									player.GetEquipInventory()[i].isEquip) {
+									player.GetEquipInventory()[i].isEquip = false;
+								}
+							}
+						}
+					}
+
 					if (characterActive) {
 						player.GetC1().SetEquip(characterSelect - 2, equipment[equipSelect - 1].name);
 						std::cout << "C1 Equipment: " << equipment[equipSelect - 1].name 

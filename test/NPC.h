@@ -90,6 +90,8 @@ public:
 	void LostEquipment(int inventoryNumber);
 	void AddItem(Item item);
 	void LostItem(int inventoryNumber);
+
+	void Effect();
 };
 
 #endif

@@ -77,8 +77,8 @@ void Game::LoadGame()
     player.AddItemCart(itemList[2]);
     player.AddEquipment(equipmentList[1]);
     player.AddEquipment(equipmentList[1]);
-    player.AddEquipment(equipmentList[1]);
-    player.AddEquipment(equipmentList[1]);
+    player.AddEquipment(equipmentList[2]);
+    player.AddEquipment(equipmentList[2]);
 }
 
 void Game::UpdateSFML()
@@ -194,9 +194,6 @@ void Game::ItemList()
     item[1].durability = 10;
     item[1].weight = 1;
 
-    item[1].consumable = true;
-    item[1].haveDurability = true;
-
     item[1].price = 5;
     //Item 1
 
@@ -213,9 +210,6 @@ void Game::ItemList()
     item[2].durability = 10;
     item[2].weight = 1;
 
-    item[2].consumable = true;
-    item[2].haveDurability = true;
-
     item[2].price = 4;
     //Item 2
 
@@ -231,9 +225,6 @@ void Game::ItemList()
 
     item[3].durability = 10;
     item[3].weight = 3;
-
-    item[3].consumable = false;
-    item[3].haveDurability = true;
 
     item[3].price = 10;
     //Item 2
@@ -261,6 +252,22 @@ void Game::EquipmentList()
     equipment[1].isEquip = false;
 
     equipment[1].price = 5;
+    //Equipment 1
+    //Equipment 2
+    //id
+    equipment[2].id = 2;
+    //icon
+    equipment[2].textureName = "none";
+    //attributes
+    equipment[2].name = "bow";
+    equipment[2].description = "Bow.";
+
+    equipment[2].durability = 10;
+    equipment[2].weight = 1;
+
+    equipment[2].isEquip = false;
+
+    equipment[2].price = 10;
     //Equipment 1
 
     for (int i = 0; i < 10; i++)

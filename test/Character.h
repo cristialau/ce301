@@ -25,7 +25,7 @@ private:
 	int conversation;			//mouth
 	int knowledge;				//brain
 
-	//Characeter passive
+	//Characeter skill
 	std::string skill1;
 	std::string skill2;
 

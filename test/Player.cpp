@@ -591,12 +591,10 @@ void Player::ConsumeCart(int inventoryNumber)
 
 void Player::Rust(int inventoryNumber)
 {
-	if (cartInventory[inventoryNumber].haveDurability) {
-		cartInventory[inventoryNumber].durability -= 10;
-		if (cartInventory[inventoryNumber].durability <= 0) {
-			cartInventory.erase(cartInventory.begin() + inventoryNumber);
-			std::cout << cartInventory[inventoryNumber].name << " is destoryed due to no durability" << std::endl;
-		}
+	cartInventory[inventoryNumber].durability -= 10;
+	if (cartInventory[inventoryNumber].durability <= 0) {
+		cartInventory.erase(cartInventory.begin() + inventoryNumber);
+		std::cout << cartInventory[inventoryNumber].name << " is destoryed due to no durability" << std::endl;
 	}
 }
 
@@ -673,18 +671,17 @@ void Player::Reward(int type)
 	}
 }
 
-void Player::Effect(bool characterActive, Equipment equipment)
+void Player::Effect()
 {
-	if (characterActive) {
-		if (equipment.name == "sword") {
+	/*
+	if (c1.GetEquip(1).id == 1) {
+		if (!cl.GetEquip(1).Buffed) {
+			c1.GetEquip(1).Buffed = true;
 			c1.AddAtk(10);
-			std::cout << c1.GetName() << " equip a sword" << std::endl;
 		}
+		
+		
 	}
-	else {
-		if (equipment.name == "sword") {
-			c2.AddAtk(10);
-			std::cout << c2.GetName() << " equip a sword" << std::endl;
-		}
-	}
+	*/
+	
 }

@@ -201,3 +201,8 @@ void NPC::LostItem(int inventoryNumber)
 {
 	shop.erase(shop.begin() + inventoryNumber);
 }
+
+void NPC::Effect()
+{
+
+}

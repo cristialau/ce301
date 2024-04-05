@@ -128,7 +128,7 @@ public:
 	int RandomEvent();
 
 	void Reward(int type); // start from 1
-	void Effect(bool characterActive, Equipment equipment); // equip effects
+	void Effect();			// equip effects
 };
 
 #endif

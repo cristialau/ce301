@@ -1,6 +1,10 @@
 #include "Character.h"
 
-Character::Character(std::string textureName, std::string name, int hpMax, int attack, int defence, int luck, int observation, int conversation, int knowledge, std::string skill1, std::string skill2, std::string equip1, std::string equip2, std::string equip3)
+Character::Character(std::string textureName, std::string name,
+	int hpMax, int attack, int defence,
+	int luck, int observation, int conversation, int knowledge,
+	std::string skill1, std::string skill2,
+	std::string equip1, std::string equip2, std::string equip3)
 {
 	this->textureName = textureName;
 	this->name = name;

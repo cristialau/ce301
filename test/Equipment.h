@@ -21,6 +21,7 @@ struct Equipment
 	int weight = 0;
 
 	bool isEquip = false;
+	bool Buffed = false;
 
 	int penalty = 1;
 	float percent = 1;
