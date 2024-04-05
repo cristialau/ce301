@@ -133,38 +133,64 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, bool
 void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 {
 	if (!showShop) {
+		showShop = true;
+		shopSelected = false;
+		
 		std::cout << "Trade" << std::endl;
 
 		switch (inventoryNumber) {
 		case 1:
+			if (!player.GetCartInventory().empty()) {
+				std::sort(player.GetCartInventory().begin(),
+					player.GetCartInventory().end(),
+					[](Item& a, Item& b) { return a.id < b.id; });
+			}
+
 			std::cout << "Player Cart Inventory" << std::endl;
 			for (int i = 0; i < player.GetCartInventory().size(); i++) {
-
+				//Show Player Cart
 			}
 
 			shopSelectMax = (int)player.GetCartInventory().size();
 			break;
 		case 2:
+			if (!playerTrolley.empty()) {
+				std::sort(playerTrolley.begin(),
+					playerTrolley.end(),
+					[](Item& a, Item& b) { return a.id < b.id; });
+			}
+
 			std::cout << "Player Trolley" << std::endl;
 			for (int pt = 0; pt < playerTrolley.size(); pt++) {
-
+				//Show Player Trolley
 			}
 
 			shopSelectMax = (int)playerTrolley.size();
 			break;
 		case 3:
+			if (!npcTrolley.empty()) {
+				std::sort(npcTrolley.begin(),
+					npcTrolley.end(),
+					[](Item& a, Item& b) { return a.id < b.id; });
+			}
+
 			std::cout << "NPC Trolley" << std::endl;
 			for (int nt = 0; nt < npcTrolley.size(); nt++) {
-
+				//Show NPC Trolley
 			}
 
 			shopSelectMax = (int)npcTrolley.size();
 			break;
 		case 4:
+			if (!npc.GetShop().empty()) {
+				std::sort(npc.GetShop().begin(),
+					npc.GetShop().end(),
+					[](Item& a, Item& b) { return a.id < b.id; });
+			}
+
 			std::cout << "Merchant " << npc.GetC().GetName() << std::endl;
 			for (int i = 0; i < npc.GetShop().size(); i++) {
-				//same as show inventory
-				//npc.GetShop()
+				//Show NPC Shop
 			}
 
 			shopSelectMax = (int)npc.GetShop().size();
@@ -172,28 +198,21 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 		}
 
 		shopSelectMax++;
-		shopSelect = 1;
-		showShop = true;
 	}
 
 	if (!shopSelected) {
 		if (!isPressed) {
-			isPressed = true;
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				shopSelect++;
 
 				if (shopSelect > shopSelectMax)
 					shopSelect = 1;
-				if (shopSelect < 1)
-					shopSelect = shopSelectMax;
 
 				std::cout << shopSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				shopSelect--;
 
-				if (shopSelect > shopSelectMax)
-					shopSelect = 1;
 				if (shopSelect < 1)
 					shopSelect = shopSelectMax;
 
@@ -202,8 +221,6 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 				inventoryNumber--;
 
-				if (inventoryNumber > inventoryNumberMax)
-					inventoryNumber = 1;
 				if (inventoryNumber < 1)
 					inventoryNumber = inventoryNumberMax;
 
@@ -214,52 +231,124 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 
 				if (inventoryNumber > inventoryNumberMax)
 					inventoryNumber = 1;
-				if (inventoryNumber < 1)
-					inventoryNumber = inventoryNumberMax;
 
 				showShop = false;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				if (shopSelect < shopSelectMax) {
+					shopSelect--;
 					switch (inventoryNumber) {
 					case 1:
-						playerTrolley.push_back(player.GetCartInventory()[shopSelect - 1]);
-						player.GetCartInventory().erase(player.GetCartInventory().begin() + shopSelect - 1);
+						playerTrolley.push_back(player.GetCartInventory()[shopSelect]);
+						player.GetCartInventory().erase(player.GetCartInventory().begin() + shopSelect);
 						break;
 					case 2:
-						player.GetCartInventory().push_back(playerTrolley[shopSelect - 1]);
-						playerTrolley.erase(playerTrolley.begin() + shopSelect - 1);
+						player.GetCartInventory().push_back(playerTrolley[shopSelect]);
+						playerTrolley.erase(playerTrolley.begin() + shopSelect);
 						break;
 					case 3:
-						npc.GetShop().push_back(npcTrolley[shopSelect - 1]);
+						npc.GetShop().push_back(npcTrolley[shopSelect]);
 						npcTrolley.erase(npcTrolley.begin() + shopSelect);
 						break;
 					case 4:
-						npcTrolley.push_back(npc.GetShop()[shopSelect - 1]);
-						npc.GetShop().erase(npc.GetShop().begin() + shopSelect - 1);
+						npcTrolley.push_back(npc.GetShop()[shopSelect]);
+						npc.GetShop().erase(npc.GetShop().begin() + shopSelect);
 						break;
 					}
+					showShop = false;
 				}
 				else {
 					shopSelected = true;
 				}
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				for (int i = 0; i < playerTrolley.size(); i++) {
+					player.GetCartInventory().push_back(playerTrolley[i]);
+				}
+				for (int i = 0; i < npcTrolley.size(); i++) {
+					npc.GetShop().push_back(npcTrolley[i]);
+				}
+
 				player.SetPlayerState(previousState);
 				showShop = false;
-				shopSelected = false;
+				shopSelect = 1;
 				played = false;
+				inventoryNumber = 1;
 			}
 		}
 	}
 	else {
 		if (!showTradingBox) {
-
 			showTradingBox = true;
+			gold = 0;
+
+			std::cout << "Trading Box" << std::endl;
+			
+			std::cout << "Player Trolley" << std::endl;
+			for (int i = 0; i < playerTrolley.size(); i++) {
+				std::cout << playerTrolley[i].name
+					<< playerTrolley[i].price
+					<< playerTrolley[i].durability << std::endl;
+				gold += playerTrolley[i].price;
+			}
+			std::cout << "NPC Trolley" << std::endl;
+			for (int i = 0; i < npcTrolley.size(); i++) {
+				std::cout << npcTrolley[i].name
+					<< npcTrolley[i].price
+					<< npcTrolley[i].durability << std::endl;
+				gold -= npcTrolley[i].price;
+			}
+
+			std::cout << "Profit: " << gold << std::endl;
+			//Trade List
 		}
 
-		showShop = false;
-		shopSelected = false;
+		if (!confirm) {
+			if (!isPressed) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					confirm = true;
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+					showShop = false;
+					showTradingBox = false;
+				}
+			}
+		}
+		else {
+			if (!showConfirm) {
+				showConfirm = true;
+
+				for (int i = 0; i < npcTrolley.size(); i++) {
+					player.GetCartInventory().push_back(npcTrolley[i]);
+				}
+
+				for (int i = 0; i < playerTrolley.size(); i++) {
+					npc.GetShop().push_back(playerTrolley[i]);
+				}
+				
+				player.AddGold(gold);
+
+				if (gold > 0) {
+					std::cout << "You gain: " << gold << std::endl;
+				}
+				else {
+					std::cout << "You lost: " << gold << std::endl;
+				}
+
+				std::cout << "Confirmed" << std::endl;
+			}
+
+			if (!isPressed) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
+					sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+					player.SetPlayerState(previousState);
+					showShop = false;
+					played = false;
+					showConfirm = false;
+					showTradingBox = false;
+				}
+			}
+		}
 	}
 }
 

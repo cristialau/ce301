@@ -23,7 +23,10 @@ struct Equipment
 	bool isEquip = false;
 
 	int penalty = 1;
-	int price = 0 * penalty;
+	float percent = 1;
+	int bonus = 0;
+	int gold = 0;
+	int price = gold * percent * penalty + bonus;
 };
 
 #endif

@@ -99,7 +99,6 @@ void Battle::BattleRun(Player& player, std::vector<NPC>& enemy, std::string prev
 		if (playerStatus == "Normal") {
 			if (!playerSelected) {
 				if (!isPressed) {
-					isPressed = true;
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 						select++;
 
@@ -349,8 +348,11 @@ void Battle::Attack(int attackdmg)
 void Battle::Skill(std::string skill)
 {
 	//Skill List
-	if (skill == " ") {
-
+	if (skill == "none") {
+		std::cout << "Nothing happen" << std::endl;
+	}
+	else {
+		std::cout << "Skill: " << skill << " is not avaliable." << std::endl;
 	}
 }
 
@@ -363,20 +365,23 @@ void Battle::EndBattle(Player& player, std::vector<NPC>& enemy)
 		player.MinGold((int)(player.GetGold() * 0.2));
 		std::cout << "You Lost: " << (int)(player.GetGold() * 0.2) << std::endl;
 
-		player.SetHPAfterBattle((int)(playerTeamHP * 0.75));
+		player.SetHPAfterBattle((int)((playerTeamHP - 40) * 0.75));
 	}
 	else if (enemyTeamHP <= 0) {
 		std::cout << "You Win" << std::endl;
 		std::cout << "You Gain: " << std::endl;
 
 		for (int i = 0; i < enemy.size(); i++) {
-			if (enemy[i].GetEquipInventory().size() >= 1) {
+			if (enemy[i].GetEquipInventory().size() != 0) {
 				for (int j = 0; j < enemy[i].GetEquipInventory().size(); j++) {
+					if (enemy[i].GetEquipInventory()[j].isEquip) {
+						enemy[i].GetEquipInventory()[j].isEquip = false;
+					}
 					player.GetEquipInventory().push_back(enemy[i].GetEquipInventory()[j]);
 					std::cout << enemy[i].GetEquipInventory()[j].name << std::endl;
 				}
 			}
-			if (enemy[i].GetShop().size() >= 1) {
+			if (enemy[i].GetShop().size() != 0) {
 				for (int j = 0; j < enemy[i].GetShop().size(); j++) {
 					player.GetCartInventory().push_back(enemy[i].GetShop()[j]);
 					std::cout << enemy[i].GetShop()[j].name << std::endl;

@@ -54,6 +54,9 @@ private:
 	int shopSelect = 0;
 	int shopSelectMax = 0;
 	bool showTradingBox = false;
+	bool confirm = false;
+	bool showConfirm = false;
+	int gold = 0;
 
 public:
 	Trade();
