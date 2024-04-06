@@ -26,6 +26,10 @@ private:
 	int playerAttackDmg;		//player's atk
 	int playerDefence;			//player's def
 
+	float phpMaxMul;
+	float patkMul;
+	float pdefMul;
+
 	int enemyNumber;			//enemy number
 	
 	//normal, buff, debuff
@@ -34,6 +38,11 @@ private:
 	int enemyTeamHP;
 	int enemyAttackDmg;			//enemy's atk
 	int enemyDefence;			//enemy's def
+	
+	float ehpMaxMul;
+	float eatkMul;
+	float edefMul;
+	
 	bool useEnemyAttack;
 
 	int select;				//player select

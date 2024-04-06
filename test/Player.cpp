@@ -7,7 +7,6 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 	isC2 = true;
 	SpMax = 7;
 
-	equipInventoryWeight = 10;
 	cartInventoryWeight = 20;
 	gold = 0;
 
@@ -51,6 +50,7 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 	showTravel = false;
 	showArrived = false;
 	travelingTime = 0;
+	passEvent = false;
 	timer = 0;
 	roll = false;
 	result = 0;
@@ -70,6 +70,7 @@ void Player::Initialize()
 
 void Player::Load()
 {
+	//c1.GetSprite().setPosition(sf::Vector2f(positionX * tileSize * scale, positionY * tileSize * scale));
 }
 
 void Player::SetUp(Location location)
@@ -84,12 +85,17 @@ void Player::SetUp(Location location)
 			for (int i = 0; i < location.playerMapSize; i++)
 				playerMap[j][i] = location.playerMap[j][i];
 		}
+		//change percent depends on location
+		for (int i = 1; i < cartInventory.size(); i++) {
+			cartInventory[i].percent = location.percent;
+		}
+		for (int i = 1; i < equipInventory.size(); i++) {
+			equipInventory[i].percent = location.percent;
+		}
 
 		positionX = location.playerPositionX;
 		positionY = location.playerPositionY;
 	}
-	
-	//c1.GetSprite().setPosition(sf::Vector2f(positionX * tileSize * scale, positionY * tileSize * scale));
 }
 
 void Player::NormalState(sf::View& view, bool& isPressed)
@@ -164,7 +170,7 @@ void Player::TalkState(NPC& npc, std::string previousState, bool& isPressed)
 			talkSelect = 1;
 			talkSelected = false;
 
-			std::cout << "~Talking~" << std::endl;
+			std::cout << "Talking" << std::endl;
 			std::cout << npc.GetC().GetName() << std::endl;
 			//npc scripts
 			std::cout << npc.GetDialogue() << std::endl;
@@ -241,8 +247,8 @@ void Player::OpenQuest(NPC& npc, bool& isPressed)
 		questSelected = false;
 		questSelect = 1;
 
-		std::cout << "Quest" << std::endl;
-		std::cout << npc.GetNPCQuest().description << std::endl;
+		std::cout << "Quest: " << npc.GetNPCQuest().name << std::endl;
+		std::cout << "Description: " << npc.GetNPCQuest().description << std::endl;
 
 		if (npc.GetNPCQuest().gotReward) {
 			std::cout << "You finished my quest" << std::endl;
@@ -285,6 +291,10 @@ void Player::OpenQuest(NPC& npc, bool& isPressed)
 		if (questSelect == 2) {
 			if (npc.GetNPCQuest().finished) {
 				npc.GetNPCQuest().gotReward = true;
+				for (int i = 1; i < questList.size(); i++) {
+					if (questList[i].id == npc.GetNPCQuest().id)
+						questList[i].gotReward = true;
+				}
 				std::cout << "You finished my quest" << std::endl;
 				Reward(npc.GetNPCQuest().reward);
 			}
@@ -317,20 +327,26 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 
 		std::cout << "Traveling" << std::endl;
 		std::cout << "Day: " << day << std::endl;
-		std::cout << "Time: " << time << std::endl;
 		std::cout << "TravelingTime: " << this->travelingTime << std::endl;
 	}
 
 	if (this->travelingTime > 0) {
-		if (this->travelingTime % 500 == 0 && this->travelingTime != travelingTime) {
+		if (this->travelingTime % 1000 == 0 && !passDay) {
+			passDay = true;
+			day++;
+			Rust();
+		}
+			
+
+		if (this->travelingTime % 500 == 0 && this->travelingTime != travelingTime && !passEvent && this->travelingTime != 0) {
 			if (!roll) {
 				roll = true;
 				result = RandomEvent();
 			}
 
 			switch (result) {
-			case 1: Reward(1); roll = false; this->travelingTime--; break;
-			case 2: Reward(2); roll = false; this->travelingTime--; break;
+			case 1: Reward(1); roll = false; passEvent = true; break;
+			case 2: Reward(2); roll = false; passEvent = true; break;
 			case 3:
 				if (!showWarning) {
 					showWarning = true;
@@ -340,7 +356,7 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 					SetPlayerState("Battle");
 					roll = false;
 					showWarning = false;
-					this->travelingTime--;
+					passEvent = true;
 				}
 				break;
 			case 4: 
@@ -352,7 +368,7 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 					SetPlayerState("Trading");
 					roll = false;
 					showWarning = false;
-					this->travelingTime--;
+					passEvent = true;
 				}
 				break;
 			}
@@ -361,6 +377,8 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 			timer += dt;
 			if (timer >= 1000.0f) {
 				this->travelingTime -= 100;
+				passEvent = false;
+				passDay = false;
 				timer = 0;
 			}
 			std::cout << "Traveling Time: " << this->travelingTime << std::endl;
@@ -459,16 +477,6 @@ std::vector<Equipment>& Player::GetEquipInventory()
 	return equipInventory;
 }
 
-int Player::GetEquipInventoryWeight()
-{
-	return equipInventoryWeight;
-}
-
-void Player::SetEquipInventoryWeight(int equipInventoryWeight)
-{
-	this->equipInventoryWeight = equipInventoryWeight;
-}
-
 std::vector<Item>& Player::GetCartInventory()
 {
 	return cartInventory;
@@ -551,10 +559,29 @@ void Player::AddGold(int gold)
 	this->gold += gold;
 }
 //--------------------------------------------------
+bool Player::InDebt()
+{
+	if (gold < 0)
+		return true;
+	return false;
+}
+
 void Player::Rust()
 {
 	for (int i = 0; i < cartInventory.size(); i++) {
-		cartInventory[i].durability -= 10;
+		if (cartInventory[i].type == "food") {
+			cartInventory[i].durability -= 34;
+		}
+		else if (cartInventory[i].type == "liquid") {
+			cartInventory[i].durability -= 15;
+		}
+		else if (cartInventory[i].type == "mineral" || cartInventory[i].type == "spice") {
+			cartInventory[i].durability -= 10;
+		}
+		else if (cartInventory[i].type == "textile" || cartInventory[i].type == "arts&crafts") {
+			cartInventory[i].durability -= 20;
+		}
+		
 		if (cartInventory[i].durability <= 0) {
 			std::cout << cartInventory[i].name << " is destoryed due to no durability" << std::endl;
 			cartInventory.erase(cartInventory.begin() + i);
@@ -584,6 +611,9 @@ int Player::RandomEvent()
 //--------------------------------------------------
 void Player::Reward(int type)
 {
+	//1, 2, 3 Travel reward
+	//4.. Trade reward
+	//Quest reward
 	switch (type) {
 	case 1:
 		std::cout << "Recieve 50 gold" << std::endl;

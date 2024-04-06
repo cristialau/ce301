@@ -407,13 +407,7 @@ void Menu::OpenEquip(Player& player, bool& isPressed)
 			};
 		std::sort(player.GetEquipInventory().begin(), player.GetEquipInventory().end(), compareFunc);
 
-		int weight = 0;
-		for (int i = 1; i < player.GetEquipInventory().size(); i++) {
-			if(!player.GetEquipInventory()[i].isEquip)
-				weight += player.GetEquipInventory()[i].weight;
-		}
 		std::cout << "Equipment" << std::endl;
-		std::cout << "Weight " << weight << " / " << player.GetEquipInventoryWeight() << std::endl;
 		for (int i = 1; i < player.GetEquipInventory().size(); i++) {
 			std::cout << player.GetEquipInventory()[i].name 
 				<<  "  [Equiped: " << player.GetEquipInventory()[i].isEquip << "]" << std::endl;
@@ -455,8 +449,7 @@ void Menu::OpenEquip(Player& player, bool& isPressed)
 			equipDetailSelected = false;
 
 			std::cout << "Equipment: " << player.GetEquipInventory()[equipSelect].name
-				<< "  [Equiped: " << player.GetEquipInventory()[equipSelect].isEquip << "]"
-				<< " Duability: " << player.GetEquipInventory()[equipSelect].durability << std::endl;
+				<< "  [Equiped: " << player.GetEquipInventory()[equipSelect].isEquip << "]" << std::endl;
 			std::cout << "Description: " << player.GetEquipInventory()[equipSelect].description << std::endl;
 		}
 
@@ -563,7 +556,7 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 
 		std::cout << "Select location" << std::endl;
 
-		for (int i = 0; i < locationSelectMax; i++) {
+		for (int i = 1; i < locationSelectMax; i++) {
 			std::cout << i << ": " << locationList[i].name << std::endl;
 		}
 	}
@@ -587,7 +580,10 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 				std::cout << locationSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				if (locationSelectMax > 0)
+				if (CheckWeight(player)) {
+					std::cout << "Your inventory is full, you cannot travel now." << std::endl;
+				}
+				else if (locationSelectMax > 0)
 					locationSelected = true;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
@@ -603,7 +599,7 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 			int percent = 0;
 			percent = locationList[locationSelect].percent * 100 - 100;
 			std::cout << "Location: " << locationList[locationSelect].name 
-				<< "Status: " << percent << std::endl;
+				<< "  Status: " << percent << std::endl;
 			std::cout << locationList[locationSelect].description << std::endl;
 			//
 
@@ -624,6 +620,7 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 					player.SetPlayerState("Traveling");
 					mapNumber = locationSelect;
+					showMenu = false;
 					showLocation = false;
 					showSelectedLocation = false;
 				}
@@ -672,14 +669,7 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 				};
 			std::sort(player.GetEquipInventory().begin(), player.GetEquipInventory().end(), compareFunc);
 
-			int weight = 0;
-			for (int i = 1; i < player.GetEquipInventory().size(); i++) {
-				if(!player.GetEquipInventory()[i].isEquip)
-					weight += player.GetEquipInventory()[i].weight;
-			}
-
 			std::cout << "Equipment" << std::endl;
-			std::cout << "Weight " << weight << " / " << player.GetEquipInventoryWeight() << std::endl;
 
 			for (int i = 1; i < player.GetEquipInventory().size(); i++) {
 				std::cout << player.GetEquipInventory()[i].name 
@@ -752,9 +742,7 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 
 				std::cout << "Equipment: " << player.GetEquipInventory()[inventorySelect].name 
 					<< "  [Equiped: " << player.GetEquipInventory()[inventorySelect].isEquip << "]" << std::endl;
-				std::cout << "Price: " << player.GetEquipInventory()[inventorySelect].price
-					<< "  Durability: " << player.GetEquipInventory()[inventorySelect].durability
-					<< "  Weight: " << player.GetEquipInventory()[inventorySelect].weight << std::endl;
+				std::cout << "Price: " << player.GetEquipInventory()[inventorySelect].price << std::endl;
 				std::cout << "Description: " << player.GetEquipInventory()[inventorySelect].description << std::endl;
 				std::cout << std::endl;
 				std::cout << "Sell?" << std::endl;
@@ -816,12 +804,9 @@ void Menu::OpenQuest(Player& player, bool& isPressed)
 		int finished = 0;
 		for (int i = 1; i < player.GetQuest().size(); i++) {
 			std::cout << player.GetQuest()[i].name << " " 
-				<< "  [Finished: " << player.GetQuest()[i].finished << "]" << std::endl;
-			if (player.GetQuest()[i].finished) {
-				finished++;
-			}
+				<< "  [Finished: " << player.GetQuest()[i].finished << "]"
+				<< "  [Got Reward: " << player.GetQuest()[i].gotReward << "]" << std::endl;
 		}
-		std::cout << "Finished Quest " << finished << " / " << questSelectMax << std::endl;
 	}
 	
 	if (!questSelected) {
@@ -913,4 +898,14 @@ void Menu::OpenSetting(bool& isPressed)
 	else {
 		//options
 	}
+}
+
+bool Menu::CheckWeight(Player& player)
+{
+	int weight = 0;
+	for (int i = 1; i < player.GetCartInventory().size(); i++) {
+		weight += player.GetCartInventory()[i].weight;
+	}
+	
+	return weight > player.GetCartInventoryWeight();
 }

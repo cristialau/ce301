@@ -21,7 +21,6 @@ private:
 	int npcReward;
 	//Equipment/Shop
 	std::vector<Equipment> equipInventory;
-	int equipInventoryWeight;
 	std::vector<Item> shop;
 	int shopWeight;
 	std::vector<Skill> skillList;
@@ -62,6 +61,7 @@ public:
 	Character& GetC();
 	int GetRls();
 	void SetRls(int rls);
+	int GetLocationID();
 	std::string GetJob();
 	void SetJob(std::string job); //Villager/Merchant/Lord/Bandit
 	int GetGold();
@@ -73,8 +73,6 @@ public:
 	void SetPassTradeGame(bool passTradeGame);
 
 	std::vector<Equipment>& GetEquipInventory();
-	int GetEquipInventoryWeight();
-	void SetEquipInventoryWeight(int equipInventoryWeight);
 	std::vector<Item>& GetShop();
 	int GetShopWeight();
 	void SetShopWeight(int shopWeight);

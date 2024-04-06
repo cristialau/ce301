@@ -10,7 +10,6 @@ NPC::NPC(Character& character, int rls, std::string job, int gold, int npcReward
 	this->gold = gold;
 	passTradeGame = false;
 	this->npcReward = npcReward;
-	equipInventoryWeight = 10;
 	shopWeight = 100;
 
 	//Setting
@@ -65,6 +64,11 @@ void NPC::SetRls(int rls)
 		this->rls = 100;
 }
 
+int NPC::GetLocationID()
+{
+	return locationID;
+}
+
 std::string NPC::GetJob()
 {
 	return job;
@@ -114,18 +118,6 @@ void NPC::SetPassTradeGame(bool passTradeGame)
 std::vector<Equipment>& NPC::GetEquipInventory()
 {
 	return equipInventory;
-}
-
-int NPC::GetEquipInventoryWeight()
-{
-	return equipInventoryWeight;
-}
-
-void NPC::SetEquipInventoryWeight(int equipInventoryWeight)
-{
-	this->equipInventoryWeight = equipInventoryWeight;
-	if (this->equipInventoryWeight < 0)
-		this->equipInventoryWeight = 0;
 }
 
 std::vector<Item>& NPC::GetShop()

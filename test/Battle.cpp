@@ -11,7 +11,6 @@ Battle::Battle()
 
 	haveC1 = false;
 	haveC2 = false;
-
 	
 	playerTeamHPMax = 0;
 	playerTeamHP = 0;
@@ -20,11 +19,20 @@ Battle::Battle()
 	playerAttackDmg = 0;
 	playerDefence = 0;
 
+	phpMaxMul = 1.f;
+	patkMul = 1.f;
+	pdefMul = 1.f;
+
 	enemyNumber = 0;
 	enemyTeamHPMax = 0;
 	enemyTeamHP = 0;
 	enemyAttackDmg = 0;
 	enemyDefence = 0;
+
+	ehpMaxMul = 1.f;
+	eatkMul = 1.f;
+	edefMul = 1.f;
+
 	useEnemyAttack = false;
 
 	select = 1;
@@ -382,24 +390,36 @@ void Battle::Status(Player player, std::vector<NPC> enemy)
 
 	if (haveC1 && haveC2) {
 		playerTeamHPMax = player.GetC1().GetHpMax();
-		playerAttackDmg = player.GetC1().GetAttack() + player.GetC1().GetAttackEx() 
-			+ player.GetC2().GetAttack() + player.GetC2().GetAttackEx();
-		playerDefence = player.GetC1().GetDefence() + player.GetC2().GetDefenceEx() 
-			+ player.GetC2().GetDefence() + player.GetC2().GetDefenceEx();
+		playerAttackDmg = (int)(player.GetC1().GetAttack()
+			+ player.GetC1().GetAttackEx()
+			+ player.GetC2().GetAttack()
+			+ player.GetC2().GetAttackEx());
+		playerDefence = (int)(player.GetC1().GetDefence()
+			+ player.GetC2().GetDefenceEx()
+			+ player.GetC2().GetDefence()
+			+ player.GetC2().GetDefenceEx());
 	}
 	else if (haveC1) {
 		playerTeamHPMax = player.GetC1().GetHpMax();
-		playerAttackDmg = player.GetC1().GetAttack() + player.GetC1().GetAttackEx();
-		playerDefence = player.GetC1().GetDefence() + player.GetC2().GetDefenceEx();
+		playerAttackDmg = (int)(player.GetC1().GetAttack()
+			+ player.GetC1().GetAttackEx());
+		playerDefence = (int)(player.GetC1().GetDefence()
+			+ player.GetC2().GetDefenceEx());
 	}
 	else if (haveC2) {
 		playerTeamHPMax = player.GetC2().GetHpMax();
-		playerAttackDmg = player.GetC2().GetAttack() + player.GetC2().GetAttackEx();
-		playerDefence = player.GetC2().GetDefence() + player.GetC2().GetDefenceEx();
+		playerAttackDmg = (int)(player.GetC2().GetAttack()
+			+ player.GetC2().GetAttackEx());
+		playerDefence = (int)(player.GetC2().GetDefence()
+			+ player.GetC2().GetDefenceEx());
 	}
 	else {
 		playerTeamHP = 0;
 	}
+
+	playerTeamHPMax = (int)(playerTeamHPMax * phpMaxMul);
+	playerAttackDmg = (int)(playerAttackDmg * patkMul);
+	playerDefence = (int)(playerDefence * pdefMul);
 
 	playerTeamSPMax = player.GetSpMax();
 
@@ -420,13 +440,17 @@ void Battle::Status(Player player, std::vector<NPC> enemy)
 		enemyTeamHPMax = enemy[0].GetC().GetHpMax() + enemy[1].GetC().GetHpMax() + enemy[2].GetC().GetHpMax();
 		enemyAttackDmg = (int)((enemy[0].GetC().GetAttack() + enemy[0].GetC().GetAttackEx() +
 			enemy[1].GetC().GetAttack() + enemy[1].GetC().GetAttackEx() +
-			enemy[2].GetC().GetAttack() + enemy[2].GetC().GetAttackEx()) * 0.5);
+			enemy[2].GetC().GetAttack() + enemy[2].GetC().GetAttackEx()) * 0.58);
 		enemyDefence = (int)((enemy[0].GetC().GetDefence() + enemy[0].GetC().GetDefenceEx() +
 			enemy[1].GetC().GetDefence() + enemy[1].GetC().GetDefenceEx() +
-			enemy[2].GetC().GetDefence() + enemy[2].GetC().GetDefenceEx()) * 0.5);
+			enemy[2].GetC().GetDefence() + enemy[2].GetC().GetDefenceEx()) * 0.58);
 	default:
 		enemyTeamHP = 0;
 	}
+
+	enemyTeamHPMax = (int)(enemyTeamHPMax * ehpMaxMul);
+	enemyAttackDmg = (int)(enemyAttackDmg * eatkMul);
+	enemyDefence = (int)(enemyDefence * edefMul);
 }
 
 void Battle::AddSp(int sp)

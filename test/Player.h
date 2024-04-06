@@ -16,7 +16,6 @@ private:
 	int gold;
 
 	std::vector<Equipment> equipInventory;
-	int equipInventoryWeight;
 	std::vector<Item> cartInventory;
 	int cartInventoryWeight;
 	std::vector<Quest> questList;
@@ -64,6 +63,8 @@ private:
 	bool showTravel;
 	bool showArrived;
 	int travelingTime;
+	bool passEvent;
+	bool passDay;
 	float timer;
 	bool roll;
 	int result;
@@ -102,8 +103,6 @@ public:
 	void SetGold(int gold);
 
 	std::vector<Equipment>& GetEquipInventory();
-	int GetEquipInventoryWeight();
-	void SetEquipInventoryWeight(int equipInventoryWeight);
 	std::vector<Item>& GetCartInventory();
 	int GetCartInventoryWeight();
 	void SetCartInventoryWeight(int cartInventoryWeight);
@@ -126,6 +125,7 @@ public:
 	void AddSkill(Skill skill);
 	void AddGold(int gold);
 
+	bool InDebt();
 	void Rust();			//Day++ -> Rust
 	int RandomEvent();
 

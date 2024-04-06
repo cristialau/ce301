@@ -29,22 +29,22 @@ private:
 	float dt;
 	//View
 	sf::View view;
-	//item, location, quest, skill
-	Item* item;
-	int itemNumber = 0;
-	std::vector<Item> itemList;
+	//skill, equip, item, location, quest
+	Skill* skill;
+	int skillNumber = 0;
+	std::vector<Skill> skillList;
 	Equipment* equipment;
 	int equipmentNumber = 0;
 	std::vector<Equipment> equipmentList;
+	Item* item;
+	int itemNumber = 0;
+	std::vector<Item> itemList;
 	Location* location;
 	int locationNumber = 0;
 	std::vector<Location> locationList;
 	Quest* quest;
 	int questNumber = 0;
 	std::vector<Quest> questList;
-	Skill* skill;
-	int skillNumber = 0;
-	std::vector<Skill> skillList;
 	//Title
 	std::string title;
 	//Game State
@@ -54,7 +54,8 @@ private:
 
 	std::string previousState;
 	std::string temp;
-	bool change = false;
+	bool changeState = false;
+	bool changePercent = false;
 	//MainMenu
 	MainMenu* mainMenu;
 	//Map
@@ -62,7 +63,7 @@ private:
 	Map map = Map();
 	//NPC
 	//NPC npc;
-	//std::vector<NPC> npcList;
+	std::vector<NPC> npcList;
 	Quest npc1Quest;
 	Character c3 = Character("none", "npc1", 100, 25, 10, 0, 0, 0, 0);
 	NPC npc1 = NPC(c3, 100, "none", 100, 1, npc1Quest, 5, 5, 1);
@@ -101,6 +102,8 @@ public:
 
 	//Functions
 	void EndApplication();
+	void Status();
+	float RandomFloat();
 
 	void SkillList();
 	void EquipmentList();

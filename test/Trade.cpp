@@ -73,17 +73,17 @@ void Trade::Load()
 {
 }
 
-void Trade::Update(Player& player, NPC& npc, std::string previousState, bool& isPressed)
+void Trade::Update(Player& player, NPC& npc, std::string previousState, Location& location, bool& isPressed)
 {
 	if (!npc.PassTradeGame()) {
-		StartTrade(player, npc, previousState, isPressed);
+		StartTrade(player, npc, previousState, location, isPressed);
 	}
 	else {
-		StartShop(player, npc, isPressed);
+		StartShop(player, npc, location, isPressed);
 	}
 }
 
-void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, bool& isPressed)
+void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, Location& location, bool& isPressed)
 {
 	if (!played) {
 		if (!StartTrading)
@@ -142,12 +142,14 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, bool
 		}
 	}
 	else {
-		StartShop(player, npc, isPressed);
+		StartShop(player, npc, location, isPressed);
 	}
 }
 
-void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
+void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPressed)
 {
+	SetUp(player, npc, location);
+
 	if (!showShop) {
 		showShop = true;
 		shopSelected = false;
@@ -163,10 +165,10 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 			std::cout << "Player Cart Inventory" << std::endl;
 			for (int i = 0; i < player.GetCartInventory().size(); i++) {
 				std::cout << "Item: " << player.GetCartInventory()[i].name
-						<< "Type: " << player.GetCartInventory()[i].type
-						<< "Price: " << player.GetCartInventory()[i].price
-						<< "Durability: " << player.GetCartInventory()[i].durability
-						<< "Weight: " << player.GetCartInventory()[i].weight << std::endl;
+						<< "  Type: " << player.GetCartInventory()[i].type
+						<< "  Price: " << player.GetCartInventory()[i].price
+						<< "  Durability: " << player.GetCartInventory()[i].durability
+						<< "  Weight: " << player.GetCartInventory()[i].weight << std::endl;
 			}
 
 			shopSelectMax = (int)player.GetCartInventory().size();
@@ -179,10 +181,10 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 			std::cout << "Player Trolley" << std::endl;
 			for (int pt = 0; pt < playerTrolley.size(); pt++) {
 				std::cout << "Item: " << playerTrolley[pt].name
-					<< "Type: " << playerTrolley[pt].type
-					<< "Price: " << playerTrolley[pt].price
-					<< "Durability: " << playerTrolley[pt].durability
-					<< "Weight: " << playerTrolley[pt].weight << std::endl;
+					<< "  Type: " << playerTrolley[pt].type
+					<< "  Price: " << playerTrolley[pt].price
+					<< "  Durability: " << playerTrolley[pt].durability
+					<< "  Weight: " << playerTrolley[pt].weight << std::endl;
 			}
 
 			shopSelectMax = (int)playerTrolley.size();
@@ -195,10 +197,10 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 			std::cout << "NPC Trolley" << std::endl;
 			for (int nt = 0; nt < npcTrolley.size(); nt++) {
 				std::cout << "Item: " << npcTrolley[nt].name
-					<< "Type: " << npcTrolley[nt].type
-					<< "Price: " << npcTrolley[nt].price
-					<< "Durability: " << npcTrolley[nt].durability
-					<< "Weight: " << npcTrolley[nt].weight << std::endl;
+					<< "  Type: " << npcTrolley[nt].type
+					<< "  Price: " << npcTrolley[nt].price
+					<< "  Durability: " << npcTrolley[nt].durability
+					<< "  Weight: " << npcTrolley[nt].weight << std::endl;
 			}
 
 			shopSelectMax = (int)npcTrolley.size();
@@ -211,10 +213,10 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 			std::cout << "Merchant " << npc.GetC().GetName() << std::endl;
 			for (int i = 0; i < npc.GetShop().size(); i++) {
 				std::cout << "Item: " << npc.GetShop()[i].name
-					<< "Type: " << npc.GetShop()[i].type
-					<< "Price: " << npc.GetShop()[i].price
-					<< "Durability: " << npc.GetShop()[i].durability
-					<< "Weight: " << npc.GetShop()[i].weight << std::endl;
+					<< "  Type: " << npc.GetShop()[i].type
+					<< "  Price: " << npc.GetShop()[i].price
+					<< "  Durability: " << npc.GetShop()[i].durability
+					<< "  Weight: " << npc.GetShop()[i].weight << std::endl;
 			}
 
 			shopSelectMax = (int)npc.GetShop().size();
@@ -318,15 +320,15 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 			
 			std::cout << "Player Trolley" << std::endl;
 			for (int i = 1; i < playerTrolley.size(); i++) {
-				std::cout << playerTrolley[i].name
-					<< playerTrolley[i].price
+				std::cout << playerTrolley[i].name << " "
+					<< playerTrolley[i].price << " "
 					<< playerTrolley[i].durability << std::endl;
 				price += playerTrolley[i].price;
 			}
 			std::cout << "NPC Trolley" << std::endl;
 			for (int i = 1; i < npcTrolley.size(); i++) {
-				std::cout << npcTrolley[i].name
-					<< npcTrolley[i].price
+				std::cout << npcTrolley[i].name << " "
+					<< npcTrolley[i].price << " "
 					<< npcTrolley[i].durability << std::endl;
 				price -= npcTrolley[i].price;
 			}
@@ -338,7 +340,11 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 		if (!confirm) {
 			if (!isPressed) {
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-					confirm = true;
+					if (CheckWeight(player)) {
+						std::cout << "Inventory Weight is overflow." << std::endl;
+					}
+					else
+						confirm = true;
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 					showShop = false;
@@ -349,6 +355,8 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 		else {
 			if (!showConfirm) {
 				showConfirm = true;
+
+				location.rls += 25;
 
 				for (int i = 1; i < npcTrolley.size(); i++) {
 					player.GetCartInventory().push_back(npcTrolley[i]);
@@ -883,4 +891,36 @@ void Trade::PrintPanel(NPC npc)
 		std::cout << std::endl;
 	}
 	std::cout << "Gamepanel: " << x - 1 << " " << y - 1 << std::endl;
+}
+
+bool Trade::CheckWeight(Player& player)
+{
+	int weight = 0;
+	for (int i = 1; i < player.GetCartInventory().size(); i++) {
+		weight += player.GetCartInventory()[i].weight;
+	}
+	for (int i = 1; i < npcTrolley.size(); i++) {
+		weight += npcTrolley[i].weight;
+	}
+
+	return weight > player.GetCartInventoryWeight();
+}
+
+void Trade::SetUp(Player player, NPC& npc, Location location)
+{
+	int size = (int)npc.GetShop().size();
+	for (int i = 1; i < size; i++) {
+		npc.GetShop()[i].percent = location.percent;
+	}
+
+	if (player.InDebt()) {
+		for (int i = 1; i < size; i++) {
+			npc.GetShop()[i].penalty = 1.10;
+		}
+	}
+	else {
+		for (int i = 1; i < size; i++) {
+			npc.GetShop()[i].penalty = 1;
+		}
+	}
 }

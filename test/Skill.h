@@ -18,6 +18,7 @@ struct Skill
 	std::string description;
 
 	bool isEquip = false;
+	bool Buffed = false;
 
 	int sp = 0;
 };

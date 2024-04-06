@@ -14,13 +14,13 @@ struct Item
 	sf::Sprite icon;
 	//attributes
 	std::string name;
-	std::string type;
+	std::string type;	//food, liquid, mineral, spice, textile, arts&crafts
 	std::string description;
 
 	int durability = 0;
 	int weight = 0;
 
-	int penalty = 1;
+	float penalty = 1;
 	float percent = 1;
 	int bonus = 0;
 	int gold = 0;

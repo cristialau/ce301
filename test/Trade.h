@@ -64,9 +64,9 @@ public:
 
 	void Initialize(Item item);
 	void Load();
-	void Update(Player& player, NPC& npc, std::string previousState, bool& isPressed);
-	void StartTrade(Player& player, NPC& npc, std::string previousState, bool& isPressed);
-	void StartShop(Player& player, NPC& npc, bool& isPressed);
+	void Update(Player& player, NPC& npc, std::string previousState, Location& location, bool& isPressed);
+	void StartTrade(Player& player, NPC& npc, std::string previousState, Location& location, bool& isPressed);
+	void StartShop(Player& player, NPC& npc, Location& lcoation, bool& isPressed);
 	void Draw();
 
 	//Trade games
@@ -81,6 +81,8 @@ public:
 	void AddMultiplier(int temp, char element);
 
 	void PrintPanel(NPC npc);
+	bool CheckWeight(Player& player);
+	void SetUp(Player player,NPC& npc, Location location);
 };
 
 #endif

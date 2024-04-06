@@ -65,12 +65,6 @@ void Game::InitGame()
     this->mainMenu = new MainMenu(title);
 
     trade.Initialize(itemList[0]);
-
-    //default
-    player.GetCartInventory().push_back(itemList[0]);
-    player.GetEquipInventory().push_back(equipmentList[0]);
-    player.GetSkill().push_back(skillList[0]);
-    player.GetQuest().push_back(questList[0]);
 }
 
 void Game::LoadGame()
@@ -78,6 +72,13 @@ void Game::LoadGame()
     map.Load(locationList[1]);
     c1.Load();
     npc1.Load(locationList[mapNumber]);
+
+    //default
+    player.GetCartInventory().push_back(itemList[0]);
+    player.GetEquipInventory().push_back(equipmentList[0]);
+    player.GetSkill().push_back(skillList[0]);
+    player.GetQuest().push_back(questList[0]);
+    //default
 
     player.GetCartInventory().push_back(itemList[1]);
     player.GetCartInventory().push_back(itemList[3]);
@@ -103,15 +104,7 @@ void Game::UpdateSFML()
 
 void Game::Update()
 {
-    if (temp != player.GetPlayerState()) {
-        change = true;
-        if (change) {
-            previousState = temp;
-            change = false;
-        }
-        temp = player.GetPlayerState();
-        std::cout << previousState << std::endl;
-    }
+    Status();
 
     if (gameState == "MainMenu") {
         this->mainMenu->Update(gameState, isPressed);
@@ -136,7 +129,7 @@ void Game::Update()
             battle.Update(player, npc, previousState, isPressed);
         }
         else if (player.GetPlayerState() == "Trading") {
-            trade.Update(player, npc1, previousState, isPressed);
+            trade.Update(player, npc1, previousState, locationList[mapNumber], isPressed);
         }
         else if (player.GetPlayerState() == "Talking") {
             player.TalkState(npc1, previousState, isPressed);
@@ -184,10 +177,74 @@ void Game::EndApplication()
     std::cout << "Ending Application" << "\n";
     this->window->close();
 }
+
+void Game::Status()
+{
+    //player states
+    if (temp != player.GetPlayerState()) {
+        changeState = true;
+        if (changeState) {
+            previousState = temp;
+            changeState = false;
+        }
+        temp = player.GetPlayerState();
+        std::cout << previousState << std::endl;
+    }
+    //in debt
+    if (player.InDebt()) {
+        for (int i = 1; i < itemList.size(); i++) {
+            itemList[i].penalty = 0.9;
+        }
+        for (int i = 1; i < equipmentList.size(); i++) {
+            equipmentList[i].penalty = 0.85;
+        }
+    }
+    //3 days change once
+    if (player.GetDay() % 3 != 0) {
+        changePercent = false;
+    }
+    if (player.GetDay() % 3 == 0 && !changePercent) {
+        changePercent = true;
+
+        for (int i = 1; i < locationList.size(); i++) {
+            location[i].percent = RandomFloat();
+        }
+    }
+    //set npc rls in location
+    for (int i = 1; i < npcList.size(); i++) {
+        if (npcList[i].GetLocationID() == locationList[mapNumber].id) {
+            npcList[i].SetRls(locationList[mapNumber].rls);
+        }
+    }
+    
+}
+
+float Game::RandomFloat()
+{
+    // Create a random device to seed the generator
+    std::random_device rd;
+    // Create a random number engine
+    std::mt19937_64 eng(rd()); // Mersenne Twister 64-bit RNG
+    // Define a distribution
+    std::uniform_int_distribution<int> distr1(50, 150); // Range from 1 to 4
+
+    float result = distr1(eng) / 100;
+
+    return result;
+}
 //Data-----------------------------------
 void Game::SkillList()
 {
+    skill = new Skill[10];
 
+    //Skill 0 -> none;
+
+    //Skill 1
+
+    //Skill 1
+
+    for (int i = 0; i < 10; i++)
+        skillList.push_back(skill[i]);
 }
 
 void Game::EquipmentList()
@@ -205,9 +262,6 @@ void Game::EquipmentList()
     equipment[1].name = "sword";
     equipment[1].description = "Sword.";
 
-    equipment[1].durability = 10;
-    equipment[1].weight = 1;
-
     equipment[1].isEquip = false;
 
     equipment[1].price = 5;
@@ -220,9 +274,6 @@ void Game::EquipmentList()
     //attributes
     equipment[2].name = "bow";
     equipment[2].description = "Bow.";
-
-    equipment[2].durability = 10;
-    equipment[2].weight = 1;
 
     equipment[2].isEquip = false;
 
@@ -479,7 +530,8 @@ void Game::LocationList()
     location[2].playerPositionY = 19;
     //Location2
 
-    for(int i = 0; i < 10; i++)
+    //7 locations in total
+    for(int i = 0; i < 8; i++)
         locationList.push_back(location[i]);
 }
 
@@ -501,6 +553,9 @@ void Game::QuestList()
     quest[1].accepted = false;
     quest[1].finished = false;
     //quest1
+
+    for (int i = 0; i < 10; i++)
+        questList.push_back(quest[i]);
 }
 
 void Game::NPCList()

@@ -55,6 +55,8 @@ struct Location
 	
 	//Trade percent
 	int percent = 1;
+
+	int rls = 0;
 };
 
 #endif

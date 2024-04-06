@@ -16,13 +16,10 @@ struct Equipment
 	std::string name;
 	std::string description;
 
-	int durability = 0;
-	int weight = 0;
-
 	bool isEquip = false;
 	bool Buffed = false;
 
-	int penalty = 1;
+	float penalty = 1;
 	float percent = 1;
 	int bonus = 0;
 	int gold = 0;

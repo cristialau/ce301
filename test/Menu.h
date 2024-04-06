@@ -87,6 +87,8 @@ public:
 	void OpenInventory(Player& player, bool& isPressed);
 	void OpenQuest(Player& player, bool& isPressed);
 	void OpenSetting(bool& isPressed);
+
+	bool CheckWeight(Player& player);
 };
 
 #endif
