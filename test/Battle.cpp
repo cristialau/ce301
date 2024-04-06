@@ -58,6 +58,8 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 	//round start
 	if (!roundStart) {
 		roundStart = true;
+		playerTurn = true;
+		//playerSelected = false;
 		round++;
 		std::cout << "Round: " << round << std::endl;
 		//sp recover
@@ -130,7 +132,6 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 					else if (player.GetC1().GetSkill(1).type != "passive") {
 						SkillEffect(player.GetC1().GetSkill(1));
 						playerTurn = false;
-						playerSelected = false;
 					}
 					else
 						std::cout << "This skill is a passsive.";
@@ -141,7 +142,6 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 					else if (player.GetC1().GetSkill(2).type != "passive") {
 						SkillEffect(player.GetC1().GetSkill(2));
 						playerTurn = false;
-						playerSelected = false;
 					}
 					else
 						std::cout << "This skill is a passsive.";
@@ -152,7 +152,6 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 					else if (player.GetC2().GetSkill(1).type != "passive") {
 						SkillEffect(player.GetC2().GetSkill(1));
 						playerTurn = false;
-						playerSelected = false;
 					}
 					else
 						std::cout << "This skill is a passsive.";
@@ -163,7 +162,6 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 					else if (player.GetC2().GetSkill(2).type != "passive") {
 						SkillEffect(player.GetC2().GetSkill(2));
 						playerTurn = false;
-						playerSelected = false;
 					}
 					else
 						std::cout << "This skill is a passsive.";
@@ -180,7 +178,6 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 					else if (player.GetC2().GetSkill(1).type != "passive") {
 						SkillEffect(player.GetC2().GetSkill(1));
 						playerTurn = false;
-						playerSelected = false;
 					}
 					else
 						std::cout << "This skill is a passsive.";
@@ -191,7 +188,6 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 					else if (player.GetC2().GetSkill(2).type != "passive") {
 						SkillEffect(player.GetC2().GetSkill(2));
 						playerTurn = false;
-						playerSelected = false;
 					}		
 					else
 						std::cout << "This skill is a passsive.";
@@ -199,6 +195,8 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 				default: std::cout << select << "?" << std::endl; break;
 				}
 			}
+
+			playerSelected = false;
 		}
 	}
 	else {
@@ -280,7 +278,6 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 			break;
 		}
 
-		playerTurn = true;
 		roundStart = false;
 	}
 }
@@ -301,7 +298,7 @@ void Battle::EndBattle(Player& player, std::vector<NPC>& enemy, bool& isPressed)
 		std::cout << "You Gain: " << std::endl;
 
 		for (int i = 0; i < enemy.size(); i++) {
-			if (enemy[i].GetEquipInventory().size() != 1) {
+			if (enemy[i].GetEquipInventory().size() > 1) {
 				for (int j = 1; j < enemy[i].GetEquipInventory().size(); j++) {
 					if (enemy[i].GetEquipInventory()[j].isEquip) {
 						enemy[i].GetEquipInventory()[j].isEquip = false;
@@ -310,7 +307,7 @@ void Battle::EndBattle(Player& player, std::vector<NPC>& enemy, bool& isPressed)
 					std::cout << enemy[i].GetEquipInventory()[j].name << std::endl;
 				}
 			}
-			if (enemy[i].GetShop().size() != 1) {
+			if (enemy[i].GetShop().size() > 1) {
 				for (int j = 1; j < enemy[i].GetShop().size(); j++) {
 					player.GetCartInventory().push_back(enemy[i].GetShop()[j]);
 					std::cout << enemy[i].GetShop()[j].name << std::endl;

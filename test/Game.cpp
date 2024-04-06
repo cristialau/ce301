@@ -65,6 +65,12 @@ void Game::InitGame()
     this->mainMenu = new MainMenu(title);
 
     trade.Initialize(itemList[0]);
+
+    //default
+    player.GetCartInventory().push_back(itemList[0]);
+    player.GetEquipInventory().push_back(equipmentList[0]);
+    player.GetSkill().push_back(skillList[0]);
+    player.GetQuest().push_back(questList[0]);
 }
 
 void Game::LoadGame()
@@ -73,12 +79,11 @@ void Game::LoadGame()
     c1.Load();
     npc1.Load(locationList[mapNumber]);
 
-
-    //test
     player.GetCartInventory().push_back(itemList[1]);
     player.GetCartInventory().push_back(itemList[3]);
     player.GetCartInventory().push_back(itemList[1]);
     player.GetCartInventory().push_back(itemList[2]);
+    
     player.GetEquipInventory().push_back(equipmentList[1]);
     player.GetEquipInventory().push_back(equipmentList[1]);
     player.GetEquipInventory().push_back(equipmentList[2]);
@@ -137,7 +142,6 @@ void Game::Update()
             player.TalkState(npc1, previousState, isPressed);
         }
         else if (player.GetPlayerState() == "EndGame") {
-            //Day > 30
             player.EndGame();
         }
     }
@@ -180,7 +184,7 @@ void Game::EndApplication()
     std::cout << "Ending Application" << "\n";
     this->window->close();
 }
-
+//Data-----------------------------------
 void Game::SkillList()
 {
 
@@ -286,7 +290,6 @@ void Game::ItemList()
     for (int i = 0; i < 10; i++)
         itemList.push_back(item[i]);
 }
-
 
 void Game::LocationList()
 {
@@ -502,6 +505,13 @@ void Game::QuestList()
 
 void Game::NPCList()
 {
+    //if job = Merchant/Lord/Bandit -> trade
+    //if job = Lord -> quest
+    //if job = Bandit -> battle
+    //equipInventory.push_back("none");
+    //shop.push_back("none");
+    //skillList.push_back("none");
+    //c.SetSkill(2, "none");
 }
 
 void Game::SceneList()

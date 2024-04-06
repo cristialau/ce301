@@ -99,57 +99,56 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 	//sf::Vector2f center(viewX, viewY);
 	//view.setCenter(center);
 	
-	if (day >= 30) {
+	if (day > 30) {
 		SetPlayerState("EndGame");
 	}
-	else {
-		if (!showNormal) {
-			showNormal = true;
 
-			playerState = "Normal";
-			std::cout << "Location: " << locationName << std::endl;
-			for (int i = 0; i < playerMapSize; ++i) {
-				for (int j = 0; j < playerMapSize; ++j)
-					std::cout << playerMap[i][j] << " ";
-				std::cout << std::endl;
-			}
-			std::cout << "position: " << positionX << " " << positionY << std::endl;
+	if (!showNormal) {
+		showNormal = true;
+
+		playerState = "Normal";
+		std::cout << "Location: " << locationName << std::endl;
+		for (int i = 0; i < playerMapSize; ++i) {
+			for (int j = 0; j < playerMapSize; ++j)
+				std::cout << playerMap[i][j] << " ";
+			std::cout << std::endl;
 		}
+		std::cout << "position: " << positionX << " " << positionY << std::endl;
+	}
 
-		if (!isPressed) {
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
-				playerMap[positionY][positionX++] != 0) {
-				positionX++;
-				//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
-				PrintMap();
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
-				playerMap[positionY][positionX--] != 0) {
-				positionX--;
-				//c1.GetSprite().move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
-				PrintMap();
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
-				playerMap[positionY--][positionX] != 0) {
-				positionY--;
-				//c1.GetSprite().move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
-				PrintMap();
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
-				playerMap[positionY++][positionX] != 0) {
-				positionY++;
-				//c1.GetSprite().move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
-				PrintMap();
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
-				(playerMap[positionY][positionX] == npcNumber)) {
-				playerState = "Talking";
-				showNormal = false;
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-				playerState = "Menu";
-				showNormal = false;
-			}
+	if (!isPressed) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
+			playerMap[positionY][positionX++] != 0) {
+			positionX++;
+			//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
+			PrintMap();
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
+			playerMap[positionY][positionX--] != 0) {
+			positionX--;
+			//c1.GetSprite().move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
+			PrintMap();
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
+			playerMap[positionY--][positionX] != 0) {
+			positionY--;
+			//c1.GetSprite().move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
+			PrintMap();
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
+			playerMap[positionY++][positionX] != 0) {
+			positionY++;
+			//c1.GetSprite().move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
+			PrintMap();
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
+			(playerMap[positionY][positionX] == npcNumber)) {
+			playerState = "Talking";
+			showNormal = false;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+			playerState = "Menu";
+			showNormal = false;
 		}
 	}
 }

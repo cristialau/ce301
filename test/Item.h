@@ -7,7 +7,7 @@
 struct Item
 {
 	//id
-	int id = -1;
+	int id = 0;
 	//icon
 	std::string textureName;
 	sf::Texture texture;

@@ -70,7 +70,7 @@ public:
 	void Draw();
 
 	//Trade games
-	void SetUpGamePanel(std::string previousState);
+	void SetUpGamePanel(NPC npc, std::string previousState);
 	bool HaveLuck();
 	void ChangeElement(int selected1, int selected2, int &move);
 	void CalculateScore();

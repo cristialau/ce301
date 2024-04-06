@@ -24,15 +24,6 @@ NPC::NPC(Character& character, int rls, std::string job, int gold, int npcReward
 	tilePositionY = positionY * tileSize * scale;
 	
 	isSetUp = false;
-
-	//----------------------------
-	//if job = Merchant/Lord/Bandit -> trade
-	//if job = Lord -> quest
-	//if job = Bandit -> battle
-	//equipInventory.push_back("none");
-	//shop.push_back("none");
-	//skillList.push_back("none");
-	//c.SetSkill(2, "none");
 }
 
 NPC::~NPC()

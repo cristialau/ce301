@@ -7,7 +7,7 @@
 struct Location
 {
 	//id
-	int id = -1;
+	int id = 0;
 	//icon texture
 	std::string iconTextureName;
 	sf::Texture iconTexture;

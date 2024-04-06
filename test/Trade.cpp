@@ -87,7 +87,7 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, bool
 {
 	if (!played) {
 		if (!StartTrading)
-			SetUpGamePanel(previousState);
+			SetUpGamePanel(npc, previousState);
 
 		if (move >= 0) {
 			if (!isPressed) {
@@ -119,6 +119,8 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, bool
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 					ChangeElement(y - 1, x - 1, move);
+
+					PrintPanel(npc);
 				}
 			}
 		}
@@ -258,25 +260,25 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 				if (shopSelect < shopSelectMax) {
 					switch (inventoryNumber) {
 					case 1:
-						if (player.GetCartInventory().size() != 1) {
+						if (player.GetCartInventory().size() > 1) {
 							playerTrolley.push_back(player.GetCartInventory()[shopSelect]);
 							player.GetCartInventory().erase(player.GetCartInventory().begin() + shopSelect);
 						}
 						break;
 					case 2:
-						if (playerTrolley.size() != 1) {
+						if (playerTrolley.size() > 1) {
 							player.GetCartInventory().push_back(playerTrolley[shopSelect]);
 							playerTrolley.erase(playerTrolley.begin() + shopSelect);
 						}
 						break;
 					case 3:
-						if (npcTrolley.size() != 1) {
+						if (npcTrolley.size() > 1) {
 							npc.GetShop().push_back(npcTrolley[shopSelect]);
 							npcTrolley.erase(npcTrolley.begin() + shopSelect);
 						}
 						break;
 					case 4:
-						if (npc.GetShop().size() != 1) {
+						if (npc.GetShop().size() > 1) {
 							npcTrolley.push_back(npc.GetShop()[shopSelect]);
 							npc.GetShop().erase(npc.GetShop().begin() + shopSelect);
 						}
@@ -285,7 +287,7 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 					showShop = false;
 				}
 				else {
-					if (playerTrolley.size() != 1 && npcTrolley.size() != 1)
+					if (playerTrolley.size() > 1 && npcTrolley.size() > 1)
 						shopSelected = true;
 					else
 						std::cout << "There is nothing in both trolley." << std::endl;
@@ -390,7 +392,7 @@ void Trade::Draw()
 }
 
 //Functions
-void Trade::SetUpGamePanel(std::string previousState)
+void Trade::SetUpGamePanel(NPC npc, std::string previousState)
 {
 	this->previousState = previousState;
 	StartTrading = true;
@@ -457,7 +459,7 @@ void Trade::SetUpGamePanel(std::string previousState)
 		}
 	}
 
-	PrintPanel();
+	PrintPanel(npc);
 }
 
 bool Trade::HaveLuck()
@@ -488,7 +490,6 @@ void Trade::ChangeElement(int y, int x, int &move)
 
 	move--;
 	std::cout << "Move: " << move << std::endl;
-	PrintPanel();
 }
 
 void Trade::CalculateScore()
@@ -719,13 +720,6 @@ void Trade::CheckDiag()
 
 void Trade::CheckDiagX()
 {
-	// ij
-	//       02 03 04
-	//    11 12 13 14
-	// 20 21 22 23 24
-	// 30 31 32 33
-	// 40 41 42
-
 	for (int k = 0; k < 3; k++) {
 		same1 = 0;
 		same2 = 0;
