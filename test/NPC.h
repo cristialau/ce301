@@ -18,6 +18,7 @@ private:
 	Quest& quest;
 	//Trade
 	bool passTradeGame;
+	int npcReward;
 	//Equipment/Shop
 	std::vector<Equipment> equipInventory;
 	int equipInventoryWeight;
@@ -47,6 +48,7 @@ public:
 		int rls,
 		std::string job,
 		int gold,
+		int npcReward,
 		Quest& quest,
 		int positionX,
 		int positionY,
@@ -64,6 +66,7 @@ public:
 	void SetJob(std::string job); //Villager/Merchant/Lord/Bandit
 	int GetGold();
 	void SetGold(int gold);
+	int GetNPCReward();
 	Quest& GetNPCQuest();
 	void SetNPCQuest(Quest& quest);
 	bool PassTradeGame();

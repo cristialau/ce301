@@ -1,6 +1,6 @@
 #include "NPC.h"
 
-NPC::NPC(Character& character, int rls, std::string job, int gold, Quest& quest,
+NPC::NPC(Character& character, int rls, std::string job, int gold, int npcReward, Quest& quest,
 	int positionX, int positionY, int locationID)
 	: c(character), quest(quest)
 {
@@ -9,6 +9,7 @@ NPC::NPC(Character& character, int rls, std::string job, int gold, Quest& quest,
 	this->job = job;
 	this->gold = gold;
 	passTradeGame = false;
+	this->npcReward = npcReward;
 	equipInventoryWeight = 10;
 	shopWeight = 100;
 
@@ -23,6 +24,15 @@ NPC::NPC(Character& character, int rls, std::string job, int gold, Quest& quest,
 	tilePositionY = positionY * tileSize * scale;
 	
 	isSetUp = false;
+
+	//----------------------------
+	//if job = Merchant/Lord/Bandit -> trade
+	//if job = Lord -> quest
+	//if job = Bandit -> battle
+	//equipInventory.push_back("none");
+	//shop.push_back("none");
+	//skillList.push_back("none");
+	//c.SetSkill(2, "none");
 }
 
 NPC::~NPC()
@@ -83,6 +93,11 @@ int NPC::GetGold()
 void NPC::SetGold(int gold)
 {
 	this->gold = gold;
+}
+
+int NPC::GetNPCReward()
+{
+	return npcReward;
 }
 
 Quest& NPC::GetNPCQuest()

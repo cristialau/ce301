@@ -46,32 +46,28 @@ private:
 	//Trading shop
 	std::vector<Item> playerTrolley;
 	std::vector<Item> npcTrolley;
-	int inventoryNumber = 1;
-	int inventoryNumberMax = 4;
-	bool buy = false;
-	bool showShop = false;
-	bool shopSelected = false;
-	int shopSelect = 0;
-	int shopSelectMax = 0;
-	bool showTradingBox = false;
-	bool confirm = false;
-	bool showConfirm = false;
-	int gold = 0;
+	int inventoryNumber;
+	int inventoryNumberMax;
+	bool buy;
+	bool showShop;
+	bool shopSelected;
+	int shopSelect;
+	int shopSelectMax;
+	bool showTradingBox;
+	bool confirm;
+	bool showConfirm;
+	int price;
 
 public:
 	Trade();
 	~Trade();
 
-	void Initialize();
+	void Initialize(Item item);
 	void Load();
 	void Update(Player& player, NPC& npc, std::string previousState, bool& isPressed);
 	void StartTrade(Player& player, NPC& npc, std::string previousState, bool& isPressed);
 	void StartShop(Player& player, NPC& npc, bool& isPressed);
 	void Draw();
-
-	//Getter Setter
-	void SetStartTrading(bool StartTrading);
-	bool GetStartTrading();
 
 	//Trade games
 	void SetUpGamePanel(std::string previousState);
@@ -83,7 +79,8 @@ public:
 	void CheckDiag();
 	void CheckDiagX();
 	void AddMultiplier(int temp, char element);
-	void PrintPanel();
+
+	void PrintPanel(NPC npc);
 };
 
 #endif

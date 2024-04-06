@@ -13,9 +13,9 @@ Character::Character(std::string textureName, std::string name,
 	this->defence = defence;
 	defenceEx = 0;
 	this->luck = luck;
-	this->observation = observation;
-	this->conversation = conversation;
-	this->knowledge = knowledge;
+	SetObservation(observation);
+	SetConversation(conversation);
+	SetKnowledge(knowledge);
 }
 
 Character::~Character()

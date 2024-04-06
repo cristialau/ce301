@@ -45,18 +45,32 @@ Trade::Trade()
 		for (int j = 0; j < 7; j++)
 			playerGamepanel[i][j] = 0;
 	}
+
+	inventoryNumber = 1;
+	inventoryNumberMax = 4;
+	buy = false;
+	showShop = false;
+	shopSelected = false;
+	shopSelect = 0;
+	shopSelectMax = 0;
+	showTradingBox = false;
+	confirm = false;
+	showConfirm = false;
+	price = 0;
 }
 
 Trade::~Trade()
 {
 }
 
-void Trade::Initialize()
+void Trade::Initialize(Item item)
 {
+	playerTrolley.push_back(item);
+	npcTrolley.push_back(item);
 }
 
 void Trade::Load()
-{	
+{
 }
 
 void Trade::Update(Player& player, NPC& npc, std::string previousState, bool& isPressed)
@@ -82,25 +96,25 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, bool
 					playerGamepanel[y + 1][x] != 0) {
 					y++;
 
-					PrintPanel();
+					PrintPanel(npc);
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
 					playerGamepanel[y - 1][x] != 0) {
 					y--;
 
-					PrintPanel();
+					PrintPanel(npc);
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
 					playerGamepanel[y][x - 1] != 0) {
 					x--;
 
-					PrintPanel();
+					PrintPanel(npc);
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
 					playerGamepanel[y][x + 1] != 0) {
 					x++;
 
-					PrintPanel();
+					PrintPanel(npc);
 				}
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
@@ -117,7 +131,7 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, bool
 			if (observationScore > npc.GetC().GetObservation() &&
 				conversationScore > npc.GetC().GetConversation() &&
 				knowledgeScore > npc.GetC().GetKnowledge()) {
-				player.Reward(1);
+				player.Reward(npc.GetNPCReward());
 				npc.SetPassTradeGame(true);
 			}
 
@@ -140,64 +154,70 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 
 		switch (inventoryNumber) {
 		case 1:
-			if (!player.GetCartInventory().empty()) {
-				std::sort(player.GetCartInventory().begin(),
-					player.GetCartInventory().end(),
-					[](Item& a, Item& b) { return a.id < b.id; });
-			}
+			std::sort(player.GetCartInventory().begin(),
+				player.GetCartInventory().end(),
+				[](Item& a, Item& b) { return a.id < b.id; });
 
 			std::cout << "Player Cart Inventory" << std::endl;
 			for (int i = 0; i < player.GetCartInventory().size(); i++) {
-				//Show Player Cart
+				std::cout << "Item: " << player.GetCartInventory()[i].name
+						<< "Type: " << player.GetCartInventory()[i].type
+						<< "Price: " << player.GetCartInventory()[i].price
+						<< "Durability: " << player.GetCartInventory()[i].durability
+						<< "Weight: " << player.GetCartInventory()[i].weight << std::endl;
 			}
 
 			shopSelectMax = (int)player.GetCartInventory().size();
 			break;
 		case 2:
-			if (!playerTrolley.empty()) {
-				std::sort(playerTrolley.begin(),
-					playerTrolley.end(),
-					[](Item& a, Item& b) { return a.id < b.id; });
-			}
+			std::sort(playerTrolley.begin(),
+				playerTrolley.end(),
+				[](Item& a, Item& b) { return a.id < b.id; });
 
 			std::cout << "Player Trolley" << std::endl;
 			for (int pt = 0; pt < playerTrolley.size(); pt++) {
-				//Show Player Trolley
+				std::cout << "Item: " << playerTrolley[pt].name
+					<< "Type: " << playerTrolley[pt].type
+					<< "Price: " << playerTrolley[pt].price
+					<< "Durability: " << playerTrolley[pt].durability
+					<< "Weight: " << playerTrolley[pt].weight << std::endl;
 			}
 
 			shopSelectMax = (int)playerTrolley.size();
 			break;
 		case 3:
-			if (!npcTrolley.empty()) {
-				std::sort(npcTrolley.begin(),
-					npcTrolley.end(),
-					[](Item& a, Item& b) { return a.id < b.id; });
-			}
+			std::sort(npcTrolley.begin(),
+				npcTrolley.end(),
+				[](Item& a, Item& b) { return a.id < b.id; });
 
 			std::cout << "NPC Trolley" << std::endl;
 			for (int nt = 0; nt < npcTrolley.size(); nt++) {
-				//Show NPC Trolley
+				std::cout << "Item: " << npcTrolley[nt].name
+					<< "Type: " << npcTrolley[nt].type
+					<< "Price: " << npcTrolley[nt].price
+					<< "Durability: " << npcTrolley[nt].durability
+					<< "Weight: " << npcTrolley[nt].weight << std::endl;
 			}
 
 			shopSelectMax = (int)npcTrolley.size();
 			break;
 		case 4:
-			if (!npc.GetShop().empty()) {
-				std::sort(npc.GetShop().begin(),
-					npc.GetShop().end(),
-					[](Item& a, Item& b) { return a.id < b.id; });
-			}
+			std::sort(npc.GetShop().begin(),
+				npc.GetShop().end(),
+				[](Item& a, Item& b) { return a.id < b.id; });
 
 			std::cout << "Merchant " << npc.GetC().GetName() << std::endl;
 			for (int i = 0; i < npc.GetShop().size(); i++) {
-				//Show NPC Shop
+				std::cout << "Item: " << npc.GetShop()[i].name
+					<< "Type: " << npc.GetShop()[i].type
+					<< "Price: " << npc.GetShop()[i].price
+					<< "Durability: " << npc.GetShop()[i].durability
+					<< "Weight: " << npc.GetShop()[i].weight << std::endl;
 			}
 
 			shopSelectMax = (int)npc.GetShop().size();
 			break;
 		}
-
-		shopSelectMax++;
 	}
 
 	if (!shopSelected) {
@@ -236,70 +256,80 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				if (shopSelect < shopSelectMax) {
-					shopSelect--;
 					switch (inventoryNumber) {
 					case 1:
-						playerTrolley.push_back(player.GetCartInventory()[shopSelect]);
-						player.GetCartInventory().erase(player.GetCartInventory().begin() + shopSelect);
+						if (player.GetCartInventory().size() != 1) {
+							playerTrolley.push_back(player.GetCartInventory()[shopSelect]);
+							player.GetCartInventory().erase(player.GetCartInventory().begin() + shopSelect);
+						}
 						break;
 					case 2:
-						player.GetCartInventory().push_back(playerTrolley[shopSelect]);
-						playerTrolley.erase(playerTrolley.begin() + shopSelect);
+						if (playerTrolley.size() != 1) {
+							player.GetCartInventory().push_back(playerTrolley[shopSelect]);
+							playerTrolley.erase(playerTrolley.begin() + shopSelect);
+						}
 						break;
 					case 3:
-						npc.GetShop().push_back(npcTrolley[shopSelect]);
-						npcTrolley.erase(npcTrolley.begin() + shopSelect);
+						if (npcTrolley.size() != 1) {
+							npc.GetShop().push_back(npcTrolley[shopSelect]);
+							npcTrolley.erase(npcTrolley.begin() + shopSelect);
+						}
 						break;
 					case 4:
-						npcTrolley.push_back(npc.GetShop()[shopSelect]);
-						npc.GetShop().erase(npc.GetShop().begin() + shopSelect);
+						if (npc.GetShop().size() != 1) {
+							npcTrolley.push_back(npc.GetShop()[shopSelect]);
+							npc.GetShop().erase(npc.GetShop().begin() + shopSelect);
+						}
 						break;
 					}
 					showShop = false;
 				}
 				else {
-					shopSelected = true;
+					if (playerTrolley.size() != 1 && npcTrolley.size() != 1)
+						shopSelected = true;
+					else
+						std::cout << "There is nothing in both trolley." << std::endl;
 				}
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-				for (int i = 0; i < playerTrolley.size(); i++) {
+				for (int i = 1; i < playerTrolley.size(); i++) {
 					player.GetCartInventory().push_back(playerTrolley[i]);
 				}
-				for (int i = 0; i < npcTrolley.size(); i++) {
+				for (int i = 1; i < npcTrolley.size(); i++) {
 					npc.GetShop().push_back(npcTrolley[i]);
 				}
 
 				player.SetPlayerState(previousState);
 				showShop = false;
 				shopSelect = 1;
-				played = false;
 				inventoryNumber = 1;
+				played = false;
 			}
 		}
 	}
 	else {
 		if (!showTradingBox) {
 			showTradingBox = true;
-			gold = 0;
+			price = 0;
 
 			std::cout << "Trading Box" << std::endl;
 			
 			std::cout << "Player Trolley" << std::endl;
-			for (int i = 0; i < playerTrolley.size(); i++) {
+			for (int i = 1; i < playerTrolley.size(); i++) {
 				std::cout << playerTrolley[i].name
 					<< playerTrolley[i].price
 					<< playerTrolley[i].durability << std::endl;
-				gold += playerTrolley[i].price;
+				price += playerTrolley[i].price;
 			}
 			std::cout << "NPC Trolley" << std::endl;
-			for (int i = 0; i < npcTrolley.size(); i++) {
+			for (int i = 1; i < npcTrolley.size(); i++) {
 				std::cout << npcTrolley[i].name
 					<< npcTrolley[i].price
 					<< npcTrolley[i].durability << std::endl;
-				gold -= npcTrolley[i].price;
+				price -= npcTrolley[i].price;
 			}
 
-			std::cout << "Profit: " << gold << std::endl;
+			std::cout << "Profit: " << price << std::endl;
 			//Trade List
 		}
 
@@ -318,21 +348,24 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 			if (!showConfirm) {
 				showConfirm = true;
 
-				for (int i = 0; i < npcTrolley.size(); i++) {
+				for (int i = 1; i < npcTrolley.size(); i++) {
 					player.GetCartInventory().push_back(npcTrolley[i]);
 				}
 
-				for (int i = 0; i < playerTrolley.size(); i++) {
+				for (int i = 1; i < playerTrolley.size(); i++) {
 					npc.GetShop().push_back(playerTrolley[i]);
 				}
 				
-				player.AddGold(gold);
+				player.AddGold(price);
 
-				if (gold > 0) {
-					std::cout << "You gain: " << gold << std::endl;
+				if (price > 0) {
+					std::cout << "You gain: " << price << std::endl;
+				}
+				else if (price < 0) {
+					std::cout << "You lost: " << abs(price) << std::endl;
 				}
 				else {
-					std::cout << "You lost: " << gold << std::endl;
+					std::cout << "Fair trade" << std::endl;
 				}
 
 				std::cout << "Confirmed" << std::endl;
@@ -342,10 +375,10 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
 					sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 					player.SetPlayerState(previousState);
-					showShop = false;
 					played = false;
-					showConfirm = false;
+					showShop = false;
 					showTradingBox = false;
+					showConfirm = false;
 				}
 			}
 		}
@@ -354,17 +387,6 @@ void Trade::StartShop(Player& player, NPC& npc, bool& isPressed)
 
 void Trade::Draw()
 {
-}
-
-//Getter Setter
-void Trade::SetStartTrading(bool StartTrading)
-{
-	this->StartTrading = StartTrading;
-}
-
-bool Trade::GetStartTrading()
-{
-	return StartTrading;
 }
 
 //Functions
@@ -854,8 +876,13 @@ void Trade::AddMultiplier(int temp, char element)
 	}
 }
 
-void Trade::PrintPanel()
+void Trade::PrintPanel(NPC npc)
 {
+	std::cout << "NPC: " << npc.GetC().GetName() << std::endl;
+	std::cout << "O: " << npc.GetC().GetObservation() 
+		<< "C: " << npc.GetC().GetConversation()
+		<< "K: " << npc.GetC().GetKnowledge() << std::endl;
+
 	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < 5; i++)
 			std::cout << gamepanel[j][i] << " ";

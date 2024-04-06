@@ -63,6 +63,8 @@ void Game::InitGame()
     mapNumber = 1;
 
     this->mainMenu = new MainMenu(title);
+
+    trade.Initialize(itemList[0]);
 }
 
 void Game::LoadGame()
@@ -71,14 +73,16 @@ void Game::LoadGame()
     c1.Load();
     npc1.Load(locationList[mapNumber]);
 
-    player.AddItemCart(itemList[1]);
-    player.AddItemCart(itemList[3]);
-    player.AddItemCart(itemList[1]);
-    player.AddItemCart(itemList[2]);
-    player.AddEquipment(equipmentList[1]);
-    player.AddEquipment(equipmentList[1]);
-    player.AddEquipment(equipmentList[2]);
-    player.AddEquipment(equipmentList[2]);
+
+    //test
+    player.GetCartInventory().push_back(itemList[1]);
+    player.GetCartInventory().push_back(itemList[3]);
+    player.GetCartInventory().push_back(itemList[1]);
+    player.GetCartInventory().push_back(itemList[2]);
+    player.GetEquipInventory().push_back(equipmentList[1]);
+    player.GetEquipInventory().push_back(equipmentList[1]);
+    player.GetEquipInventory().push_back(equipmentList[2]);
+    player.GetEquipInventory().push_back(equipmentList[2]);
 }
 
 void Game::UpdateSFML()
