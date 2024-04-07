@@ -1,0 +1,37 @@
+//Item Data
+//item[0]
+id = 0
+textureName = none
+name = none
+type = none
+description = none
+weight = 0
+gold = 0
+----------------------------------------------
+//item[1]
+id = 1
+textureName = none
+name = bread
+type = food
+description = Bread, you can eat it.
+weight = 1
+gold = 5
+----------------------------------------------
+//item[2]
+id = 2
+textureName = none
+name = water
+type = liquid
+description = Water, you can drink it.
+weight = 1
+gold = 4
+----------------------------------------------
+//item[3]
+id = 3
+textureName = none
+name = iron
+type = mineral
+description = Iron, you can sell it.
+weight = 2
+gold = 10
+----------------------------------------------

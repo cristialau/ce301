@@ -1,11 +1,10 @@
 #include "NPC.h"
 
-NPC::NPC(Character& character, int rls, std::string job, int gold, int npcReward, Quest& quest,
+NPC::NPC(Character& character, std::string job, int gold, int npcReward, Quest& quest,
 	int positionX, int positionY, int locationID)
 	: c(character), quest(quest)
 {
 	//Character
-	this->rls = rls;
 	this->job = job;
 	this->gold = gold;
 	passTradeGame = false;

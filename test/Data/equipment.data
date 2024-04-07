@@ -1,0 +1,29 @@
+//Equipment Data
+//equipment[0]
+id = 0
+textureName = none
+name = none
+description = none
+gold = 0
+----------------------------------------------
+//equipment[1]
+id = 1
+textureName = none
+name = sword
+description = This is a sword.
+gold = 5
+----------------------------------------------
+//equipment[2]
+id = 2
+textureName = none
+name = bow
+description = This is a bow.
+gold = 5
+----------------------------------------------
+//equipment[3]
+id = 3
+textureName = none
+name = cane
+description = This is a cane.
+gold = 3
+----------------------------------------------

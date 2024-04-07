@@ -13,18 +13,23 @@ struct Location
 	sf::Texture iconTexture;
 	sf::Sprite icon;
 	//icon position on map
-	int locationPositionX = 0;
-	int locationPositionY = 0;
+	int spritePositionX = 0;
+	int spritePositionY = 0;
 	//name
 	std::string name;
 	std::string description;
 	//traveling time
 	int time = 0;
+	//player position in map;
+	int playerPositionX = 0;
+	int playerPositionY = 0;
+
 	//map texture
-	std::string mapTextureName;
+	std::string mapTextureName = "Textures/Pipoya RPG Tileset 16x16/Pipoya RPG Tileset 16x16/[Base]BaseChip_pipo.png";
 	//map
 	const static int mapSize = 20;
 	std::vector<int> map[mapSize][mapSize];
+	//player map
 	const static int playerMapSize = mapSize + 2;
 	int playerMap[playerMapSize][playerMapSize] =
 	{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -50,12 +55,9 @@ struct Location
 	{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-	int playerPositionX = 0;
-	int playerPositionY = 0;
-	
 	//Trade percent
-	int percent = 1;
-
+	float percent = 1.f;
+	//relationship
 	int rls = 0;
 };
 

@@ -1,0 +1,65 @@
+//Quest Data
+//quest[0]
+id = 0
+textureName = none
+name = none
+ownerName = none
+description = none
+reward = 0
+----------------------------------------------
+//quest[1]
+id = 1
+textureName = none
+name = none
+ownerName = none
+description = none
+reward = 4
+----------------------------------------------
+//quest[2]
+id = 2
+textureName = none
+name = none
+ownerName = none
+description = none
+reward = 5
+----------------------------------------------
+//quest[3]
+id = 3
+textureName = none
+name = none
+ownerName = none
+description = none
+reward = 6
+----------------------------------------------
+//quest[4]
+id = 4
+textureName = none
+name = none
+ownerName = none
+description = none
+reward = 7
+----------------------------------------------
+//quest[5]
+id = 5
+textureName = none
+name = none
+ownerName = none
+description = none
+reward = 8
+----------------------------------------------
+//quest[6]
+id = 6
+textureName = none
+name = none
+ownerName = none
+description = none
+reward = 9
+----------------------------------------------
+//quest[7]
+id = 7
+textureName = none
+name = none
+ownerName = none
+description = none
+reward = 10
+----------------------------------------------

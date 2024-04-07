@@ -44,7 +44,6 @@ private:
 
 public:
 	NPC(Character& character,
-		int rls,
 		std::string job,
 		int gold,
 		int npcReward,

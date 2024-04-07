@@ -1,0 +1,121 @@
+//NPC Data
+//npc[0]
+job = none
+gold = 0
+npcReward = 0
+positionX = 0
+positionY = 0
+locationID = 0
+----------------------------------------------
+//npc[1]
+job = Lord
+gold = 1000
+npcReward = 1
+positionX = 5
+positionY = 5
+locationID = 1
+----------------------------------------------
+//npc[2]
+job = Lord
+gold = 1000
+npcReward = 2
+positionX = 5
+positionY = 5
+locationID = 2
+----------------------------------------------
+//npc[3]
+job = Lord
+gold = 1000
+npcReward = 3
+positionX = 5
+positionY = 5
+locationID = 3
+----------------------------------------------
+//npc[4]
+job = Lord
+gold = 1000
+npcReward = 4
+positionX = 5
+positionY = 5
+locationID = 4
+----------------------------------------------
+//npc[5]
+job = Lord
+gold = 1000
+npcReward = 5
+positionX = 5
+positionY = 5
+locationID = 5
+----------------------------------------------
+//npc[6]
+job = Lord
+gold = 1000
+npcReward = 6
+positionX = 5
+positionY = 5
+locationID = 6
+----------------------------------------------
+//npc[7]
+job = Lord
+gold = 1000
+npcReward = 7
+positionX = 5
+positionY = 5
+locationID = 7
+----------------------------------------------
+//npc[8]
+job = Merchant
+gold = 500
+npcReward = 8
+positionX = 12
+positionY = 12
+locationID = 1
+----------------------------------------------
+//npc[9]
+job = Merchant
+gold = 500
+npcReward = 9
+positionX = 12
+positionY = 12
+locationID = 2
+----------------------------------------------
+//npc[10]
+job = Merchant
+gold = 500
+npcReward = 10
+positionX = 12
+positionY = 12
+locationID = 3
+----------------------------------------------
+//npc[11]
+job = Merchant
+gold = 500
+npcReward = 11
+positionX = 12
+positionY = 12
+locationID = 4
+----------------------------------------------
+//npc[12]
+job = Merchant
+gold = 500
+npcReward = 12
+positionX = 12
+positionY = 12
+locationID = 5
+----------------------------------------------
+//npc[13]
+job = Merchant
+gold = 500
+npcReward = 13
+positionX = 12
+positionY = 12
+locationID = 6
+----------------------------------------------
+//npc[14]
+job = Merchant
+gold = 500
+npcReward = 14
+positionX = 12
+positionY = 12
+locationID = 7
+----------------------------------------------

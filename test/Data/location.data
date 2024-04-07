@@ -1,0 +1,89 @@
+//Location Data
+//location[0]
+id = 0
+iconTextureName = none
+spritePositionX = 0
+spritePositionY = 0
+name = none
+description = none
+time = 0
+playerPositionX = 0
+playerPostionY = 0
+----------------------------------------------
+//location[1]
+id = 1
+iconTextureName = none
+spritePositionX = 0
+spritePositionY = 0
+name = Location 1
+description = Location 1.
+time = 0
+playerPositionX = 7
+playerPositionY = 7
+----------------------------------------------
+//location[2]
+id = 2
+iconTextureName = none
+spritePositionX = 0
+spritePositionY = 0
+name = Location 2
+description = Location 2.
+time = 1000
+playerPositionX = 16
+playerPositionY = 16
+----------------------------------------------
+//location[3]
+id = 3
+iconTextureName = none
+spritePositionX = 0
+spritePositionY = 0
+name = Location 3
+description = Location 3.
+time = 1000
+playerPositionX = 16
+playerPositionY = 16
+----------------------------------------------
+//location[4]
+id = 4
+iconTextureName = none
+spritePositionX = 0
+spritePositionY = 0
+name = Location 4
+description = Location 4.
+time = 1000
+playerPositionX = 16
+playerPositionY = 16
+----------------------------------------------
+//location[5]
+id = 5
+iconTextureName = none
+spritePositionX = 0
+spritePositionY = 0
+name = Location 5
+description = Location 5.
+time = 1000
+playerPositionX = 16
+playerPositionY = 16
+----------------------------------------------
+//location[6]
+id = 6
+iconTextureName = none
+spritePositionX = 0
+spritePositionY = 0
+name = Location 6
+description = Location 6.
+time = 1000
+playerPositionX = 16
+playerPositionY = 16
+----------------------------------------------
+//location[7]
+id = 7
+iconTextureName = none
+spritePositionX = 0
+spritePositionY = 0
+name = Location 7
+description = Location 7.
+time = 10000
+playerPositionX = 16
+playerPositionY = 16
+----------------------------------------------

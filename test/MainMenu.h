@@ -8,7 +8,7 @@ class MainMenu
 {
 private:
 	//Title
-	std::string title;
+	//std::string title;
 	//Main Menu state
 	std::string mainMenuState;
 	int select;
@@ -26,7 +26,7 @@ private:
 	bool optionSelected;
 
 public:
-	MainMenu(std::string title);
+	MainMenu();
 	~MainMenu();
 
 	void Initialize();

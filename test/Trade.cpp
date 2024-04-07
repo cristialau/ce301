@@ -163,7 +163,7 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 				[](Item& a, Item& b) { return a.id < b.id; });
 
 			std::cout << "Player Cart Inventory" << std::endl;
-			for (int i = 0; i < player.GetCartInventory().size(); i++) {
+			for (int i = 1; i < player.GetCartInventory().size(); i++) {
 				std::cout << "Item: " << player.GetCartInventory()[i].name
 						<< "  Type: " << player.GetCartInventory()[i].type
 						<< "  Price: " << player.GetCartInventory()[i].price
@@ -179,7 +179,7 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 				[](Item& a, Item& b) { return a.id < b.id; });
 
 			std::cout << "Player Trolley" << std::endl;
-			for (int pt = 0; pt < playerTrolley.size(); pt++) {
+			for (int pt = 1; pt < playerTrolley.size(); pt++) {
 				std::cout << "Item: " << playerTrolley[pt].name
 					<< "  Type: " << playerTrolley[pt].type
 					<< "  Price: " << playerTrolley[pt].price
@@ -195,7 +195,7 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 				[](Item& a, Item& b) { return a.id < b.id; });
 
 			std::cout << "NPC Trolley" << std::endl;
-			for (int nt = 0; nt < npcTrolley.size(); nt++) {
+			for (int nt = 1; nt < npcTrolley.size(); nt++) {
 				std::cout << "Item: " << npcTrolley[nt].name
 					<< "  Type: " << npcTrolley[nt].type
 					<< "  Price: " << npcTrolley[nt].price
@@ -211,7 +211,7 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 				[](Item& a, Item& b) { return a.id < b.id; });
 
 			std::cout << "Merchant " << npc.GetC().GetName() << std::endl;
-			for (int i = 0; i < npc.GetShop().size(); i++) {
+			for (int i = 1; i < npc.GetShop().size(); i++) {
 				std::cout << "Item: " << npc.GetShop()[i].name
 					<< "  Type: " << npc.GetShop()[i].type
 					<< "  Price: " << npc.GetShop()[i].price
@@ -915,7 +915,7 @@ void Trade::SetUp(Player player, NPC& npc, Location location)
 
 	if (player.InDebt()) {
 		for (int i = 1; i < size; i++) {
-			npc.GetShop()[i].penalty = 1.10;
+			npc.GetShop()[i].penalty = 1.1;
 		}
 	}
 	else {

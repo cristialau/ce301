@@ -17,11 +17,11 @@ struct Item
 	std::string type;	//food, liquid, mineral, spice, textile, arts&crafts
 	std::string description;
 
-	int durability = 0;
-	int weight = 0;
+	int durability = 100;
+	int weight = 1;
 
-	float penalty = 1;
-	float percent = 1;
+	float penalty = 1.f;
+	float percent = 1.f;
 	int bonus = 0;
 	int gold = 0;
 	int price = (int)(gold * percent * penalty) + bonus;

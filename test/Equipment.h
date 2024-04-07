@@ -19,8 +19,8 @@ struct Equipment
 	bool isEquip = false;
 	bool Buffed = false;
 
-	float penalty = 1;
-	float percent = 1;
+	float penalty = 1.f;
+	float percent = 1.f;
 	int bonus = 0;
 	int gold = 0;
 	int price = (int)(gold * percent * penalty) + bonus;

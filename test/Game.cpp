@@ -47,31 +47,40 @@ void Game::InitWindow()
 
 void Game::InitGame()
 {
+    title = "Test";
+    //sfml;
     dt = 0;
 
-    gameState = "MainMenu";
-    title = "Test";
-
-    ItemList();
-    EquipmentList();
-    LocationList();
-    QuestList();
+    //skill, equip, item, location, quest, npc
     SkillList();
+    EquipmentList();
+    ItemList();
+    QuestList();
+    LocationList();
+    CharacterList();
+
     NPCList();
+
     SceneList();
 
-    mapNumber = 1;
+    this->map = new Map();
+    this->mainMenu = new MainMenu();
+    this->menu = new Menu();
+    this->trade = new Trade();
+    this->trade->Initialize(itemList[0]);
+    this->battle = new Battle();
 
-    this->mainMenu = new MainMenu(title);
+    gameState = "MainMenu";
 
-    trade.Initialize(itemList[0]);
+    //trade.Initialize(itemList[0]);
 }
 
 void Game::LoadGame()
 {
-    map.Load(locationList[1]);
-    c1.Load();
-    npc1.Load(locationList[mapNumber]);
+    this->map->Load(locationList[1]);
+
+    //c1.Load();
+    npcList[1].Load(locationList[mapNumber]);
 
     //default
     player.GetCartInventory().push_back(itemList[0]);
@@ -117,22 +126,19 @@ void Game::Update()
             player.NormalState(view, isPressed);
         }
         else if (player.GetPlayerState() == "Menu") {
-            menu.Update(player, gameState, locationList, mapNumber, isPressed);
+            this->menu->Update(player, gameState, locationList, mapNumber, isPressed);
         }
         else if (player.GetPlayerState() == "Traveling") {
-            player.TravelState(menu.GetTravelingTime(), dt, isPressed);
+            player.TravelState(this->menu->GetTravelingTime(), dt, isPressed);
         }
         else if (player.GetPlayerState() == "Battle") {
-            if (npc.empty())
-                npc.push_back(npc1);
-
-            battle.Update(player, npc, previousState, isPressed);
+            this->battle->Update(player, enemyList, previousState, isPressed);
         }
         else if (player.GetPlayerState() == "Trading") {
-            trade.Update(player, npc1, previousState, locationList[mapNumber], isPressed);
+            this->trade->Update(player, npcList[1], previousState, locationList[mapNumber], isPressed);
         }
         else if (player.GetPlayerState() == "Talking") {
-            player.TalkState(npc1, previousState, isPressed);
+            player.TalkState(npcList[1], previousState, isPressed);
         }
         else if (player.GetPlayerState() == "EndGame") {
             player.EndGame();
@@ -207,7 +213,7 @@ void Game::Status()
         changePercent = true;
 
         for (int i = 1; i < locationList.size(); i++) {
-            location[i].percent = RandomFloat();
+            locationList[i].percent = RandomFloat();
         }
     }
     //set npc rls in location
@@ -216,7 +222,6 @@ void Game::Status()
             npcList[i].SetRls(locationList[mapNumber].rls);
         }
     }
-    
 }
 
 float Game::RandomFloat()
@@ -235,331 +240,352 @@ float Game::RandomFloat()
 //Data-----------------------------------
 void Game::SkillList()
 {
-    skill = new Skill[10];
+    std::ifstream ifSkill("data/equipment.data");
 
-    //Skill 0 -> none;
+    if (ifSkill.is_open()) {
+        std::string line;
+        Skill skill;
 
-    //Skill 1
+        while (std::getline(ifSkill, line)) {
+            if (line.find("id =") != std::string::npos) {
+                skill.id = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("textureName =") != std::string::npos) {
+                skill.textureName = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("name =") != std::string::npos) {
+                skill.name = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("type =") != std::string::npos) {
+                skill.type = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("description =") != std::string::npos) {
+                skill.description = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("sp =") != std::string::npos) {
+                skill.sp = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line == "----------------------------------------------") {
+                skillList.push_back(skill);
+                skill = {};
+            }
+        }
 
-    //Skill 1
-
-    for (int i = 0; i < 10; i++)
-        skillList.push_back(skill[i]);
+        ifSkill.close();
+    }
+    else {
+        std::cout << "Error: where is the skill.data?" << std::endl;
+    }
 }
 
 void Game::EquipmentList()
 {
-    equipment = new Equipment[10];
+    std::ifstream ifEquip("data/equipment.data");
 
-    //Equipment 0 -> none;
+    if (ifEquip.is_open()) {
+        std::string line;
+        Equipment equipment;
 
-    //Equipment 1
-    //id
-    equipment[1].id = 1;
-    //icon
-    equipment[1].textureName = "none";
-    //attributes
-    equipment[1].name = "sword";
-    equipment[1].description = "Sword.";
+        while (std::getline(ifEquip, line)) {
+            if (line.find("id =") != std::string::npos) {
+                equipment.id = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("textureName =") != std::string::npos) {
+                equipment.textureName = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("name =") != std::string::npos) {
+                equipment.name = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("description =") != std::string::npos) {
+                equipment.description = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("gold =") != std::string::npos) {
+                equipment.gold = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line == "----------------------------------------------") {
+                equipmentList.push_back(equipment);
+                equipment = {};
+            }
+        }
 
-    equipment[1].isEquip = false;
-
-    equipment[1].price = 5;
-    //Equipment 1
-    //Equipment 2
-    //id
-    equipment[2].id = 2;
-    //icon
-    equipment[2].textureName = "none";
-    //attributes
-    equipment[2].name = "bow";
-    equipment[2].description = "Bow.";
-
-    equipment[2].isEquip = false;
-
-    equipment[2].price = 10;
-    //Equipment 1
-
-    for (int i = 0; i < 10; i++)
-        equipmentList.push_back(equipment[i]);
+        ifEquip.close();
+    }
+    else {
+        std::cout << "Error: where is the equipment.data?" << std::endl;
+    }
 }
 
 void Game::ItemList()
 {
-    item = new Item[10];
+    std::ifstream ifItem("data/item.data");
 
-    //Item 0 = none;
+    if (ifItem.is_open()) {
+        std::string line;
+        Item item;
 
-    //Item 1
-    //id
-    item[1].id = 1;
-    //icon
-    item[1].textureName = "none";
-    //attributes
-    item[1].name = "bread";
-    item[1].type = "food";
-    item[1].description = "Bread, you can eat it.";
-
-    item[1].durability = 10;
-    item[1].weight = 1;
-
-    item[1].price = 5;
-    //Item 1
-
-    //Item 2
-    //id
-    item[2].id = 2;
-    //icon
-    item[2].textureName = "none";
-    //attributes
-    item[2].name = "water";
-    item[2].type = "food";
-    item[2].description = "Water, you can drink it.";
-
-    item[2].durability = 10;
-    item[2].weight = 1;
-
-    item[2].price = 4;
-    //Item 2
-
-    //Item 2
-    //id
-    item[3].id = 3;
-    //icon
-    item[3].textureName = "none";
-    //attributes
-    item[3].name = "hat";
-    item[3].type = "Item";
-    item[3].description = "A hat.";
-
-    item[3].durability = 10;
-    item[3].weight = 3;
-
-    item[3].price = 10;
-    //Item 2
-
-    for (int i = 0; i < 10; i++)
-        itemList.push_back(item[i]);
-}
-
-void Game::LocationList()
-{
-    location = new Location[10];
-    
-    //Location 0 -> none;
-
-    //Location 1
-    location[1].id = 1;
-    //icon
-    location[1].iconTextureName = "none";
-    location[1].locationPositionX = 1;
-    location[1].locationPositionY = 1;
-    //attributes
-    location[1].name = "location 1";
-    location[1].description = "Location 1.";
-    //traveling time
-    location[1].time = 1000;
-    //map texture
-    location[1].mapTextureName = "Textures/Pipoya RPG Tileset 16x16/Pipoya RPG Tileset 16x16/[Base]BaseChip_pipo.png";
-    //map
-    int map1bg[location[1].mapSize][location[1].mapSize] =
-    { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
-    int map1dec[location[1].mapSize][location[1].mapSize] =
-    {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 882, 883, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1036, 1037, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 941, 0, 0, 0, 0, 0, 0, 941, 0, 1044, 1045, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 884, 885, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 877, 877, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 941, 0, 0, 0, 0, 0, 0, 941, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-    int map1surface[location[1].mapSize][location[1].mapSize] =
-    {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 120, 122, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 909, 909, 909, 909, 909, 0, 0, 120, 122, 0, 0, 909, 909, 909, 909, 909, 0, 0},
-     { 0, 0, 917, 917, 917, 917, 917, 0, 0, 120, 122, 0, 0, 917, 917, 917, 917, 917, 0, 0},
-     { 0, 0, 933, 925, 925, 925, 933, 0, 0, 120, 122, 0, 0, 933, 925, 925, 925, 933, 0, 0},
-     { 0, 0, 941, 890, 891, 0, 658, 0, 235, 120, 122, 0, 0, 669, 1033, 1034, 1035, 941, 0, 0},
-     { 0, 0, 949, 898, 899, 874, 949, 0, 112, 124, 123, 114, 0, 949, 1041, 1042, 1043, 949, 0, 0},
-     { 113, 113, 113, 113, 113, 113, 113, 113, 124, 5, 5, 123, 113, 113, 113, 113, 113, 113, 113, 113},
-     { 129, 129, 129, 129, 129, 129, 129, 129, 116, 5, 5, 115, 129, 129, 129, 129, 129, 129, 129, 129},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 128, 116, 115, 130, 172, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 909, 909, 909, 909, 909, 0, 0, 120, 122, 0, 0, 909, 909, 909, 909, 909, 0, 0},
-     { 0, 0, 917, 917, 917, 917, 917, 0, 0, 120, 122, 0, 0, 917, 917, 917, 917, 917, 0, 0},
-     { 0, 0, 933, 925, 925, 925, 933, 0, 0, 120, 122, 172, 0, 933, 925, 925, 925, 933, 0, 0},
-     { 0, 0, 941, 892, 893, 0, 660, 0, 0, 120, 122, 0, 0, 666, 0, 877, 878, 941, 0, 0},
-     { 0, 0, 949, 900, 901, 875, 949, 0, 112, 124, 123, 114, 0, 949, 876, 877, 879, 949, 0, 0},
-     { 113, 113, 113, 113, 113, 113, 113, 113, 124, 5, 5, 123, 113, 113, 113, 113, 113, 113, 113, 113},
-     { 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-
-    for (int y = 0; y < location[1].mapSize; ++y) {
-        for (int x = 0; x < location[1].mapSize; ++x) {
-            location[1].map[y][x].push_back(map1bg[y][x]);
-            location[1].map[y][x].push_back(map1dec[y][x]);
-            location[1].map[y][x].push_back(map1surface[y][x]);
+        while (std::getline(ifItem, line)) {
+            if (line.find("id =") != std::string::npos) {
+                item.id = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("textureName =") != std::string::npos) {
+                item.name = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("name =") != std::string::npos) {
+                item.name = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("type =") != std::string::npos) {
+                item.type = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("description =") != std::string::npos) {
+                item.description = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("weight =") != std::string::npos) {
+                item.weight = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("gold =") != std::string::npos) {
+                item.gold = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line == "----------------------------------------------") {
+                itemList.push_back(item);
+                item = {};
+            }
         }
+
+        ifItem.close();
     }
-   
-    //playermap
-    location[1].playerPositionX = 1;
-    location[1].playerPositionY = 1;
-    //Location 1
-
-    //Location 2
-    location[2].id = 2;
-    //icon
-    location[2].iconTextureName = "none";
-    location[2].locationPositionX = 1;
-    location[2].locationPositionY = 1;
-    //attributes
-    location[2].name = "location 2";
-    location[2].description = "Location 2.";
-    //traveling time
-    location[2].time = 2000;
-    //map texture
-    location[2].mapTextureName = "Textures/Pipoya RPG Tileset 16x16/Pipoya RPG Tileset 16x16/[Base]BaseChip_pipo.png";
-    //map
-    int map2bg[location[2].mapSize][location[2].mapSize] =
-    { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
-    int map2dec[location[2].mapSize][location[2].mapSize] =
-    { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 882, 883, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1036, 1037, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 941, 0, 0, 0, 0, 0, 0, 941, 0, 1044, 1045, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 884, 885, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 877, 877, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 941, 0, 0, 0, 0, 0, 0, 941, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
-    int map2surface[location[2].mapSize][location[2].mapSize] =
-    { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 120, 122, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 909, 909, 909, 909, 909, 0, 0, 120, 122, 0, 0, 909, 909, 909, 909, 909, 0, 0},
-     { 0, 0, 917, 917, 917, 917, 917, 0, 0, 120, 122, 0, 0, 917, 917, 917, 917, 917, 0, 0},
-     { 0, 0, 933, 925, 925, 925, 933, 0, 0, 120, 122, 0, 0, 933, 925, 925, 925, 933, 0, 0},
-     { 0, 0, 941, 890, 891, 0, 658, 0, 235, 120, 122, 0, 0, 669, 1033, 1034, 1035, 941, 0, 0},
-     { 0, 0, 949, 898, 899, 874, 949, 0, 112, 124, 123, 114, 0, 949, 1041, 1042, 1043, 949, 0, 0},
-     { 113, 113, 113, 113, 113, 113, 113, 113, 124, 5, 5, 123, 113, 113, 113, 113, 113, 113, 113, 113},
-     { 129, 129, 129, 129, 129, 129, 129, 129, 116, 5, 5, 115, 129, 129, 129, 129, 129, 129, 129, 129},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 128, 116, 115, 130, 172, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 909, 909, 909, 909, 909, 0, 0, 120, 122, 0, 0, 909, 909, 909, 909, 909, 0, 0},
-     { 0, 0, 917, 917, 917, 917, 917, 0, 0, 120, 122, 0, 0, 917, 917, 917, 917, 917, 0, 0},
-     { 0, 0, 933, 925, 925, 925, 933, 0, 0, 120, 122, 172, 0, 933, 925, 925, 925, 933, 0, 0},
-     { 0, 0, 941, 892, 893, 0, 660, 0, 0, 120, 122, 0, 0, 666, 0, 877, 878, 941, 0, 0},
-     { 0, 0, 949, 900, 901, 875, 949, 0, 112, 124, 123, 114, 0, 949, 876, 877, 879, 949, 0, 0},
-     { 113, 113, 113, 113, 113, 113, 113, 113, 124, 5, 5, 123, 113, 113, 113, 113, 113, 113, 113, 113},
-     { 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
-
-    for (int y = 0; y < location[2].mapSize; ++y) {
-        for (int x = 0; x < location[2].mapSize; ++x) {
-            location[2].map[y][x].push_back(map1bg[y][x]);
-            location[2].map[y][x].push_back(map1dec[y][x]);
-            location[2].map[y][x].push_back(map1surface[y][x]);
-        }
+    else {
+        std::cout << "Error: where is the item.data?" << std::endl;
     }
-
-    //playermap
-    location[2].playerPositionX = 19;
-    location[2].playerPositionY = 19;
-    //Location2
-
-    //7 locations in total
-    for(int i = 0; i < 8; i++)
-        locationList.push_back(location[i]);
 }
 
 void Game::QuestList()
 {
-    quest = new Quest[10];
+    std::ifstream ifQuest("data/quest.data");
 
-    //quest0 = none;
+    if (ifQuest.is_open()) {
+        std::string line;
+        Quest quest;
 
-    //quest1
-    //id
-    quest[1].id = 1;
-    //icon
-    quest[1].textureName = "none";
-    //attributes
-    quest[1].name = "Quest 1";
-    quest[1].description = "Quest 1.";
+        while (std::getline(ifQuest, line)) {
+            if (line.find("id =") != std::string::npos) {
+                quest.id = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("textureName =") != std::string::npos) {
+                quest.textureName = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("name =") != std::string::npos) {
+                quest.name = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("name =") != std::string::npos) {
+                quest.ownerName = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("description =") != std::string::npos) {
+                quest.description = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("gold =") != std::string::npos) {
+                quest.reward = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line == "----------------------------------------------") {
+                questList.push_back(quest);
+                quest = {};
+            }
+        }
 
-    quest[1].accepted = false;
-    quest[1].finished = false;
-    //quest1
+        ifQuest.close();
+    }
+    else {
+        std::cout << "Error: where is the quest.data?" << std::endl;
+    }
+}
 
-    for (int i = 0; i < 10; i++)
-        questList.push_back(quest[i]);
+void Game::LocationList()
+{
+    std::ifstream ifLocation("data/location.data");
+
+    if (ifLocation.is_open()) {
+        Location location;
+        std::string line;
+        int layers = 0;
+
+        while (std::getline(ifLocation, line)) {
+            
+
+            if (line.find("id =") != std::string::npos) {
+                location.id = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("iconTextureName =") != std::string::npos) {
+                location.iconTextureName = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("spritePositionX =") != std::string::npos) {
+                location.spritePositionX = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("spritePositionY =") != std::string::npos) {
+                location.spritePositionY = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("name =") != std::string::npos) {
+                location.name = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("description =") != std::string::npos) {
+                location.description = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("time =") != std::string::npos) {
+                location.time = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("playerPositionX =") != std::string::npos) {
+                location.playerPositionX = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("playerPositionY =") != std::string::npos) {
+                location.playerPositionY = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line == "----------------------------------------------") {
+                locationList.push_back(location);
+                location = {};
+            }
+            else {
+                continue;
+            }
+        }
+        
+        ifLocation.close();
+    }
+    else {
+        std::cout << "Error: location.data?" << std::endl;
+    }
+    /*
+    //7 locations in total
+    
+    else if (line.find("layers =") != std::string::npos) {
+        layers = std::stoi(line.substr(line.find("=") + 2));
+
+        for (int i = 0; i < layers; i++) {
+            int locationMap[location.mapSize][location.mapSize];
+            for (int x = 0; x < location.mapSize; x++) {
+                for (int y = 0; y < location.mapSize; y++) {
+                    ifLocation >> locationMap[x][y];
+                    location.map[x][y].push_back(locationMap[x][y]);
+                    std::cout << "bug? " << i << ", " << x << ", " << y << "   " << location.map[x][y][i] << std::endl;
+                }
+            }
+        }
+    }
+    */
+}
+
+void Game::CharacterList()
+{
+    std::ifstream ifCharacter("data/character.data");
+
+    if (ifCharacter.is_open()) {
+        std::string line;
+        std::string textureName;
+        std::string name;
+        int totalHp = 0;
+        int attack = 0;
+        int defence = 0;
+        int luck = 0;
+        int observation = 0;
+        int conversation = 0;
+        int knowledge = 0;
+
+        while (std::getline(ifCharacter, line)) {
+            if (line.find("textureName =") != std::string::npos) {
+                textureName = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("name =") != std::string::npos) {
+                name = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("totalHp =") != std::string::npos) {
+                totalHp = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("attack =") != std::string::npos) {
+                attack = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("defence =") != std::string::npos) {
+                defence = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("luck =") != std::string::npos) {
+                luck = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("observation =") != std::string::npos) {
+                observation = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("conversation =") != std::string::npos) {
+                conversation = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("knowledge =") != std::string::npos) {
+                knowledge = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line == "----------------------------------------------") {
+                Character c(textureName, name, totalHp, attack, defence, luck, observation, conversation, knowledge);
+                characterList.push_back(c);
+            }
+        }
+        ifCharacter.close();
+    }
+    else {
+        std::cout << "Error: character.data?" << std::endl;
+    }
 }
 
 void Game::NPCList()
 {
+    std::ifstream ifNPC("data/npc.data");
+
+    if (ifNPC.is_open()) {
+        std::string line;
+        std::string job;
+        int gold = 0;
+        int npcReward = 0;
+        int positionX = 0;
+        int positionY = 0;
+        int locationID = 0;
+        int i = 0;
+        int j = 0;
+
+        while (std::getline(ifNPC, line)) {
+            if (line.find("job =") != std::string::npos) {
+                job = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("gold =") != std::string::npos) {
+                gold = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("npcReward =") != std::string::npos) {
+                npcReward = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("positionX =") != std::string::npos) {
+                positionX = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("positionY =") != std::string::npos) {
+                positionY = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line.find("locationID =") != std::string::npos) {
+                locationID = std::stoi(line.substr(line.find("=") + 2));
+            }
+            else if (line == "----------------------------------------------") {
+                if (i == 0) {
+                    NPC npc(characterList[i], job, gold, npcReward, questList[j], positionX, positionY, locationID);
+                    npc.GetEquipInventory().push_back(equipmentList[0]);
+                    npc.GetShop().push_back(itemList[0]);
+                    npcList.push_back(npc);
+                }
+                else {
+                    NPC npc(characterList[i + 2], job, gold, npcReward, questList[j], positionX, positionY, locationID);
+                    npc.GetEquipInventory().push_back(equipmentList[0]);
+                    npc.GetShop().push_back(itemList[0]);
+                    npcList.push_back(npc);
+                }
+                i++;
+                j = i;
+                if (j > 7)
+                    j = 0;
+            }
+        }
+        ifNPC.close();
+    }
+    else {
+        std::cout << "Error: npc.data?" << std::endl;
+    }
+
     //if job = Merchant/Lord/Bandit -> trade
     //if job = Lord -> quest
     //if job = Bandit -> battle

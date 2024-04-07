@@ -38,7 +38,7 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 	//Talk
 	showTalk = false;
 	talkSelect = 0;
-	talkSelectMax = 0;
+	talkSelectMax = 1;
 	talkSelected = false;
 	showQuest = false;
 	questSelected = false;
@@ -124,25 +124,25 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 
 	if (!isPressed) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
-			playerMap[positionY][positionX++] != 0) {
+			playerMap[positionY][positionX + 1] != 0) {
 			positionX++;
 			//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
 			PrintMap();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
-			playerMap[positionY][positionX--] != 0) {
+			playerMap[positionY][positionX - 1] != 0) {
 			positionX--;
 			//c1.GetSprite().move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
 			PrintMap();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
-			playerMap[positionY--][positionX] != 0) {
+			playerMap[positionY - 1][positionX] != 0) {
 			positionY--;
 			//c1.GetSprite().move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
 			PrintMap();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
-			playerMap[positionY++][positionX] != 0) {
+			playerMap[positionY + 1][positionX] != 0) {
 			positionY++;
 			//c1.GetSprite().move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
 			PrintMap();
@@ -336,17 +336,17 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 			day++;
 			Rust();
 		}
-			
 
-		if (this->travelingTime % 500 == 0 && this->travelingTime != travelingTime && !passEvent && this->travelingTime != 0) {
+		if (this->travelingTime % 500 == 0 && this->travelingTime != travelingTime &&
+			!passEvent && this->travelingTime != 0) {
 			if (!roll) {
 				roll = true;
 				result = RandomEvent();
 			}
 
 			switch (result) {
-			case 1: Reward(1); roll = false; passEvent = true; break;
-			case 2: Reward(2); roll = false; passEvent = true; break;
+			case 1: Reward(8); roll = false; passEvent = true; break;
+			case 2: Reward(9); roll = false; passEvent = true; break;
 			case 3:
 				if (!showWarning) {
 					showWarning = true;
@@ -601,12 +601,12 @@ int Player::RandomEvent()
 
 	if (random <= 4)
 		return 1;
-	else if (random > 4 && random < 8)
+	else if (random >= 5 && random <= 8)
 		return 2;
 	else if (random == 9)
-		return 3;
-	else
 		return 4;
+	else
+		return 5;
 }
 //--------------------------------------------------
 void Player::Reward(int type)
@@ -616,12 +616,29 @@ void Player::Reward(int type)
 	//Quest reward
 	switch (type) {
 	case 1:
-		std::cout << "Recieve 50 gold" << std::endl;
-		gold += 50;
 		break;
 	case 2:
-		std::cout << "Lost 30 gold" << std::endl;
-		gold -= 30;
+		break;
+	case 3:
+		break;
+	case 4:
+		break;
+	case 5:
+		break;
+	case 6:
+		break;
+	case 7:
+		break;
+	case 8:
+		std::cout << "Recieve gold" << std::endl;
+		gold += 100;
+		break;
+	case 9:
+		std::cout << "Lost gold" << std::endl;
+		gold -= 100;
+		break;
+	case 10:
+
 		break;
 	default:
 		break;

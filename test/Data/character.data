@@ -1,0 +1,188 @@
+//Character Data
+//charater[0]
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[1] player1
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[2] player2
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[3] L1
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[4] L2
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[5] L3
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[6] L4
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[7] L5
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[8] L6
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[9] L7
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[10] M1
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[11] M2
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[12] M3
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[13] M4
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[14] M5
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[15] M6
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[16] M7
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------

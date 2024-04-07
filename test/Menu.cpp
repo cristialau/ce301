@@ -556,7 +556,7 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 
 		std::cout << "Select location" << std::endl;
 
-		for (int i = 1; i < locationSelectMax; i++) {
+		for (int i = 1; i < locationList.size(); i++) {
 			std::cout << i << ": " << locationList[i].name << std::endl;
 		}
 	}
@@ -610,7 +610,7 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 			else {
 				sameLocation = false;
 				travelingTime = player.GetLocationTime() - locationList[locationSelect].time;
-				std::cout << "Estimate travel time: " << abs(travelingTime) << std::endl;
+				std::cout << "Estimate travel time: " << abs(travelingTime) / 1000 << " Day" << std::endl;
 				std::cout << "Start your travel?" << std::endl;
 			}
 		}

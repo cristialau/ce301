@@ -1,9 +1,7 @@
 #include "MainMenu.h"
 
-MainMenu::MainMenu(std::string title)
+MainMenu::MainMenu()
 {
-	this->title = title;
-
 	mainMenuState = "MainMenu";
 	select = 1;
 	//main
@@ -50,7 +48,7 @@ void MainMenu::ShowMain(std::string& gameState, bool& isPressed)
 		isSelected = false;
 		select = 1;
 
-		std::cout << title << std::endl;
+		//std::cout << title << std::endl;
 		std::cout << "1. Start" << std::endl;
 		std::cout << "2. Load" << std::endl;
 		std::cout << "3. Option" << std::endl;
