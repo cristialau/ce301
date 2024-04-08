@@ -23,7 +23,9 @@ struct Equipment
 	float percent = 1.f;
 	int bonus = 0;
 	int gold = 0;
-	int price = (int)(gold * percent * penalty) + bonus;
+	
+	int price = 0;
+	//int price = (int)(gold * percent * penalty) + bonus;
 };
 
 #endif

@@ -7,7 +7,7 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 	isC2 = true;
 	SpMax = 7;
 
-	cartInventoryWeight = 20;
+	cartInventoryWeight = 7;
 	gold = 0;
 
 	playerState = "Normal";

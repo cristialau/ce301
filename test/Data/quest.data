@@ -13,7 +13,7 @@ textureName = none
 name = none
 ownerName = none
 description = none
-reward = 4
+reward = 1
 ----------------------------------------------
 //quest[2]
 id = 2
@@ -21,7 +21,7 @@ textureName = none
 name = none
 ownerName = none
 description = none
-reward = 5
+reward = 2
 ----------------------------------------------
 //quest[3]
 id = 3
@@ -29,7 +29,7 @@ textureName = none
 name = none
 ownerName = none
 description = none
-reward = 6
+reward = 3
 ----------------------------------------------
 //quest[4]
 id = 4
@@ -37,7 +37,7 @@ textureName = none
 name = none
 ownerName = none
 description = none
-reward = 7
+reward = 4
 ----------------------------------------------
 //quest[5]
 id = 5
@@ -45,7 +45,7 @@ textureName = none
 name = none
 ownerName = none
 description = none
-reward = 8
+reward = 5
 ----------------------------------------------
 //quest[6]
 id = 6
@@ -53,7 +53,7 @@ textureName = none
 name = none
 ownerName = none
 description = none
-reward = 9
+reward = 6
 ----------------------------------------------
 //quest[7]
 id = 7
@@ -61,5 +61,5 @@ textureName = none
 name = none
 ownerName = none
 description = none
-reward = 10
+reward = 7
 ----------------------------------------------

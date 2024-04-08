@@ -58,6 +58,9 @@ private:
 	bool showConfirm;
 	int price;
 
+	Item item;
+	bool setUp;
+
 public:
 	Trade();
 	~Trade();
@@ -82,7 +85,7 @@ public:
 
 	void PrintPanel(NPC npc);
 	bool CheckWeight(Player& player);
-	void SetUp(Player player,NPC& npc, Location location);
+	void SetUp(Player& player,NPC& npc, Location location);
 };
 
 #endif

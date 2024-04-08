@@ -89,10 +89,10 @@ void Game::LoadGame()
     player.GetQuest().push_back(questList[0]);
     //default
 
-    player.GetCartInventory().push_back(itemList[1]);
-    player.GetCartInventory().push_back(itemList[3]);
-    player.GetCartInventory().push_back(itemList[1]);
-    player.GetCartInventory().push_back(itemList[2]);
+    //player.GetCartInventory().push_back(itemList[1]);
+    //player.GetCartInventory().push_back(itemList[2]);
+    //player.GetCartInventory().push_back(itemList[3]);
+    
     
     player.GetEquipInventory().push_back(equipmentList[1]);
     player.GetEquipInventory().push_back(equipmentList[1]);
@@ -205,6 +205,14 @@ void Game::Status()
             equipmentList[i].penalty = 0.85;
         }
     }
+    else {
+        for (int i = 1; i < itemList.size(); i++) {
+            itemList[i].penalty = 1;
+        }
+        for (int i = 1; i < equipmentList.size(); i++) {
+            equipmentList[i].penalty = 1;
+        }
+    }
     //3 days change once
     if (player.GetDay() % 3 != 0) {
         changePercent = false;
@@ -231,9 +239,9 @@ float Game::RandomFloat()
     // Create a random number engine
     std::mt19937_64 eng(rd()); // Mersenne Twister 64-bit RNG
     // Define a distribution
-    std::uniform_int_distribution<int> distr1(50, 150); // Range from 1 to 4
+    std::uniform_int_distribution<int> distr1(50, 150); // Range from 50 to 150
 
-    float result = distr1(eng) / 100;
+    float result = (float)(distr1(eng)) / 100;
 
     return result;
 }
@@ -303,6 +311,7 @@ void Game::EquipmentList()
                 equipment.gold = std::stoi(line.substr(line.find("=") + 2));
             }
             else if (line == "----------------------------------------------") {
+                equipment.price = (int)(equipment.gold * equipment.percent * equipment.penalty) + equipment.bonus;
                 equipmentList.push_back(equipment);
                 equipment = {};
             }
@@ -346,11 +355,13 @@ void Game::ItemList()
                 item.gold = std::stoi(line.substr(line.find("=") + 2));
             }
             else if (line == "----------------------------------------------") {
+                item.price = (int)(item.gold * item.percent * item.penalty) + item.bonus;
                 itemList.push_back(item);
                 item = {};
             }
+            
         }
-
+        
         ifItem.close();
     }
     else {

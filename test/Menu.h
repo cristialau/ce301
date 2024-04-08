@@ -84,7 +84,7 @@ public:
 	void OpenEquip(Player& player, bool& isPressed);
 	void EquipEquip(Player& player, bool& isPressed);
 	void OpenWorldMap(Player& player, std::vector<Location> locationList, int& locationNumber, bool& isPressed);
-	void OpenInventory(Player& player, bool& isPressed);
+	void OpenInventory(Player& player, Location location, bool& isPressed);
 	void OpenQuest(Player& player, bool& isPressed);
 	void OpenSetting(bool& isPressed);
 

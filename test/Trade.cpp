@@ -57,6 +57,8 @@ Trade::Trade()
 	confirm = false;
 	showConfirm = false;
 	price = 0;
+
+	setUp = false;
 }
 
 Trade::~Trade()
@@ -65,8 +67,7 @@ Trade::~Trade()
 
 void Trade::Initialize(Item item)
 {
-	playerTrolley.push_back(item);
-	npcTrolley.push_back(item);
+	this->item = item;
 }
 
 void Trade::Load()
@@ -148,12 +149,16 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, Loca
 
 void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPressed)
 {
-	SetUp(player, npc, location);
+	if(!setUp)
+		SetUp(player, npc, location);
 
 	if (!showShop) {
 		showShop = true;
 		shopSelected = false;
-		
+		shopSelect = 1;
+
+		int check = 0;
+
 		std::cout << "Trade" << std::endl;
 
 		switch (inventoryNumber) {
@@ -289,10 +294,10 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 					showShop = false;
 				}
 				else {
-					if (playerTrolley.size() > 1 && npcTrolley.size() > 1)
+					if (playerTrolley.size() > 1 || npcTrolley.size() > 1)
 						shopSelected = true;
 					else
-						std::cout << "There is nothing in both trolley." << std::endl;
+						std::cout << "There is nothing in trolley." << std::endl;
 				}
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
@@ -308,6 +313,7 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 				shopSelect = 1;
 				inventoryNumber = 1;
 				played = false;
+				setUp = false;
 			}
 		}
 	}
@@ -389,6 +395,7 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 					showShop = false;
 					showTradingBox = false;
 					showConfirm = false;
+					setUp = false;
 				}
 			}
 		}
@@ -906,21 +913,47 @@ bool Trade::CheckWeight(Player& player)
 	return weight > player.GetCartInventoryWeight();
 }
 
-void Trade::SetUp(Player player, NPC& npc, Location location)
+void Trade::SetUp(Player& player, NPC& npc, Location location)
 {
-	int size = (int)npc.GetShop().size();
-	for (int i = 1; i < size; i++) {
-		npc.GetShop()[i].percent = location.percent;
-	}
+	setUp = true;
+
+	playerTrolley.clear();
+	npcTrolley.clear();
+
+	playerTrolley.push_back(item);
+	npcTrolley.push_back(item);
+
+	int size1 = (int)npc.GetShop().size();
+	int size2 = (int)player.GetCartInventory().size();
 
 	if (player.InDebt()) {
-		for (int i = 1; i < size; i++) {
+		for (int i = 1; i < size1; i++) {
 			npc.GetShop()[i].penalty = 1.1;
+		}
+		for (int i = 1; i < size2; i++) {
+			player.GetCartInventory()[i].penalty = 0.9;
 		}
 	}
 	else {
-		for (int i = 1; i < size; i++) {
+		for (int i = 1; i < size1; i++) {
 			npc.GetShop()[i].penalty = 1;
 		}
+		for (int i = 1; i < size2; i++) {
+			player.GetCartInventory()[i].penalty = 1;
+		}
+	}
+
+	for (int i = 1; i < size1; i++) {
+		npc.GetShop()[i].percent = location.percent;
+		npc.GetShop()[i].price = (int)(npc.GetShop()[i].gold *
+			npc.GetShop()[i].percent * npc.GetShop()[i].penalty) 
+			+ npc.GetShop()[i].bonus;
+	}
+
+	for (int i = 1; i < size2; i++) {
+		player.GetCartInventory()[i].percent = location.percent;
+		player.GetCartInventory()[i].price = (int)(player.GetCartInventory()[i].gold *
+			player.GetCartInventory()[i].percent * player.GetCartInventory()[i].penalty)
+			+ player.GetCartInventory()[i].bonus;
 	}
 }

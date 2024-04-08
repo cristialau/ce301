@@ -39,7 +39,7 @@ spritePositionX = 0
 spritePositionY = 0
 name = Location 3
 description = Location 3.
-time = 1000
+time = 2000
 playerPositionX = 16
 playerPositionY = 16
 ----------------------------------------------
@@ -50,7 +50,7 @@ spritePositionX = 0
 spritePositionY = 0
 name = Location 4
 description = Location 4.
-time = 1000
+time = 3000
 playerPositionX = 16
 playerPositionY = 16
 ----------------------------------------------
@@ -61,7 +61,7 @@ spritePositionX = 0
 spritePositionY = 0
 name = Location 5
 description = Location 5.
-time = 1000
+time = 5000
 playerPositionX = 16
 playerPositionY = 16
 ----------------------------------------------
@@ -72,7 +72,7 @@ spritePositionX = 0
 spritePositionY = 0
 name = Location 6
 description = Location 6.
-time = 1000
+time = 6000
 playerPositionX = 16
 playerPositionY = 16
 ----------------------------------------------
@@ -83,7 +83,7 @@ spritePositionX = 0
 spritePositionY = 0
 name = Location 7
 description = Location 7.
-time = 10000
+time = 8000
 playerPositionX = 16
 playerPositionY = 16
 ----------------------------------------------

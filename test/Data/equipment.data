@@ -9,21 +9,21 @@ gold = 0
 //equipment[1]
 id = 1
 textureName = none
-name = sword
-description = This is a sword.
-gold = 5
+name = Sword
+description = Sword. And magic in this game.
+gold = 150
 ----------------------------------------------
 //equipment[2]
 id = 2
 textureName = none
-name = bow
-description = This is a bow.
-gold = 5
+name = Bow
+description = Bow. AD carry is easy, be careful of your distance.
+gold = 100
 ----------------------------------------------
 //equipment[3]
 id = 3
 textureName = none
-name = cane
-description = This is a cane.
-gold = 3
+name = Cane
+description = Cane. If a character with cane or umbrella, he will gain my attention.
+gold = 100
 ----------------------------------------------

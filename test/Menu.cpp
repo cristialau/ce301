@@ -116,7 +116,7 @@ void Menu::Update(Player& player, std::string& gameState, std::vector<Location> 
 			OpenWorldMap(player, locationList, mapNumber, isPressed);
 			break;
 		case 3:
-			OpenInventory(player, isPressed);
+			OpenInventory(player, locationList[mapNumber], isPressed);
 			break;
 		case 4:
 			OpenQuest(player, isPressed);
@@ -634,12 +634,29 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 	}
 }
 
-void Menu::OpenInventory(Player& player, bool& isPressed)
+void Menu::OpenInventory(Player& player, Location location, bool& isPressed)
 {
 	if (!showInventory) {
 		showInventory = true;
 		inventorySelected = false;
 		inventorySelect = 1;
+
+		if (player.InDebt()) {
+			for (int i = 1; i < player.GetCartInventory().size(); i++) {
+				player.GetCartInventory()[i].penalty = 0.9;
+			}
+			for (int i = 1; i < player.GetEquipInventory().size(); i++) {
+				player.GetEquipInventory()[i].penalty = 0.85;
+			}
+		}
+		else {
+			for (int i = 1; i < player.GetCartInventory().size(); i++) {
+				player.GetCartInventory()[i].penalty = 1;
+			}
+			for (int i = 1; i < player.GetEquipInventory().size(); i++) {
+				player.GetEquipInventory()[i].penalty = 1;
+			}
+		}
 
 		if (inventoryActive) {
 			inventorySelectMax = (int)player.GetCartInventory().size() - 1;
@@ -656,9 +673,16 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 			std::cout << "Inventory" << std::endl;
 			std::cout << "Weight " << weight << " / " << player.GetCartInventoryWeight() << std::endl;
 
+			
+
 			for (int i = 1; i < player.GetCartInventory().size(); i++) {
+				player.GetCartInventory()[i].percent = location.percent;
+				player.GetCartInventory()[i].price = (int)(player.GetCartInventory()[i].gold *
+					player.GetCartInventory()[i].percent * player.GetCartInventory()[i].penalty)
+					+ player.GetCartInventory()[i].bonus;
 				std::cout << player.GetCartInventory()[i].name
-					<< " " << player.GetCartInventory()[i].price << std::endl;
+					<< " " << player.GetCartInventory()[i].price 
+					<< " " << player.GetCartInventory()[i].percent << std::endl;
 			}
 		}
 		else {
@@ -672,8 +696,13 @@ void Menu::OpenInventory(Player& player, bool& isPressed)
 			std::cout << "Equipment" << std::endl;
 
 			for (int i = 1; i < player.GetEquipInventory().size(); i++) {
+				player.GetEquipInventory()[i].percent = location.percent;
+				player.GetEquipInventory()[i].price = (int)(player.GetEquipInventory()[i].gold *
+					player.GetEquipInventory()[i].percent * player.GetEquipInventory()[i].penalty)
+					+ player.GetEquipInventory()[i].bonus;
 				std::cout << player.GetEquipInventory()[i].name 
-					<< "  [Equiped: " << player.GetEquipInventory()[i].isEquip << "]" << std::endl;
+					<< "  [Equiped: " << player.GetEquipInventory()[i].isEquip << "]"
+					<< " " << player.GetEquipInventory()[i].price << std::endl;
 			}
 		}
 	}

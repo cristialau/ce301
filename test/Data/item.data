@@ -11,27 +11,297 @@ gold = 0
 //item[1]
 id = 1
 textureName = none
-name = bread
+name = Rye
 type = food
-description = Bread, you can eat it.
+description = Rye, cheapest ingredient, I guess.
 weight = 1
-gold = 5
+gold = 50
 ----------------------------------------------
 //item[2]
 id = 2
 textureName = none
-name = water
-type = liquid
-description = Water, you can drink it.
+name = Peas
+type = food
+description = Peas, vegetables, common food. Don't mix with carrots and corn.
 weight = 1
-gold = 4
+gold = 100
 ----------------------------------------------
 //item[3]
 id = 3
 textureName = none
-name = iron
+name = Mackerel
+type = food
+description = Mackerel, fish, common food. 10k+ each in Nostale.
+weight = 1
+gold = 150
+----------------------------------------------
+//item[4]
+id = 4
+textureName = none
+name = Pork
+type = food
+description = Pork, meat, common food. Chicken is better.
+weight = 1
+gold = 250
+----------------------------------------------
+//item[5]
+id = 5
+textureName = none
+name = Lamb
+type = food
+description = Lamb, meat, common food. I can count on one hand the number of times I've eaten lamb.
+weight = 1
+gold = 130
+----------------------------------------------
+//item[6]
+id = 6
+textureName = none
+name = Cabbage
+type = food
+description = Cabbage, vegetables, common food. Good taste.
+weight = 1
+gold = 120
+----------------------------------------------
+//item[7]
+id = 7
+textureName = none
+name = Chicken
+type = food
+description = Chicken, meat, common food. Chicken is better.
+weight = 1
+gold = 150
+----------------------------------------------
+//item[8]
+id = 8
+textureName = none
+name = Ale
+type = liquid
+description = Ale, common liquid. I have not tasted it yet.
+weight = 1
+gold = 50
+----------------------------------------------
+//item[9]
+id = 9
+textureName = none
+name = Beer
+type = liquid
+description = Beer, common liquid. Beer tasted good, but I didn't like the taste in my mouth.
+weight = 1
+gold = 120
+----------------------------------------------
+//item[10]
+id = 10
+textureName = none
+name = Mead
+type = liquid
+description = Mead, luxurious liquid. I guess it's expensive because it's made with honey.
+weight = 1
+gold = 250
+----------------------------------------------
+//item[11]
+id = 11
+textureName = none
+name = Cider
+type = liquid
+description = Cider, common liquid. Favourite.
+weight = 1
+gold = 150
+----------------------------------------------
+//item[12]
+id = 12
+textureName = none
+name = Wine
+type = liquid
+description = Wine, common liquid. I thought wine was more expensive.
+weight = 1
+gold = 100
+----------------------------------------------
+//item[13]
+id = 13
+textureName = none
+name = Iron
 type = mineral
-description = Iron, you can sell it.
-weight = 2
-gold = 10
+description = Iron, common mineral. Basic material on Earth.
+weight = 1
+gold = 200
+----------------------------------------------
+//item[14]
+id = 14
+textureName = none
+name = Quartz
+type = mineral
+description = Quartz, common mineral. Beautiful texture.
+weight = 1
+gold = 320
+----------------------------------------------
+//item[15]
+id = 15
+textureName = none
+name = Lead
+type = mineral
+description = Lead, common mineral. Widely used in daily industries and products.
+weight = 1
+gold = 280
+----------------------------------------------
+//item[16]
+id = 16
+textureName = none
+name = Tin
+type = mineral
+description = Tin, common mineral. Tin is common in any game.
+weight = 1
+gold = 350
+----------------------------------------------
+//item[17]
+id = 17
+textureName = none
+name = Silver
+type = mineral
+description = Silver, rare mineral. Expensive as usual.
+weight = 1
+gold = 450
+----------------------------------------------
+//item[18]
+id = 18
+textureName = none
+name = Coal
+type = mineral
+description = Coal, common mineral. Minecraft is a good game.
+weight = 1
+gold = 150
+----------------------------------------------
+//item[19]
+id = 19
+textureName = none
+name = Copper
+type = mineral
+description = Copper, common mineral. Surprised it cost more than iron.
+weight = 1
+gold = 300
+----------------------------------------------
+//item[20]
+id = 20
+textureName = none
+name = Cotton
+type = fabric
+description = Cotton, common fabric. Okay, Tree Wool, stay dry.
+weight = 1
+gold = 200
+----------------------------------------------
+//item[21]
+id = 21
+textureName = none
+name = Linen
+type = fabric
+description = Linen, common fabric. Light linen colour is the most comfortable colour, in my opinion.
+weight = 1
+gold = 100
+----------------------------------------------
+//item[22]
+id = 22
+textureName = none
+name = Leather
+type = fabric
+description = Leather, unique fabric. Leather is tough, only suitable for wallets.
+weight = 1
+gold = 300
+----------------------------------------------
+//item[23]
+id = 23
+textureName = none
+name = Wool
+type = fabric
+description = Wool, common fabric. Warm, but I don't like wearing wool.
+weight = 1
+gold = 250
+----------------------------------------------
+//item[24]
+id = 24
+textureName = none
+name = Silk
+type = fabric
+description = Silk, rare fabric. Too smooth, hard to catch it.
+weight = 1
+gold = 550
+----------------------------------------------
+//item[25]
+id = 25
+textureName = none
+name = Flannel
+type = fabric
+description = Flannel, new fabric. I like the touch.
+weight = 1
+gold = 500
+----------------------------------------------
+//item[26]
+id = 26
+textureName = none
+name = Pottery
+type = arts&crafts
+description = Pottery, common arts&crafts. They can be found in every house, Skyrim.
+weight = 1
+gold = 150
+----------------------------------------------
+//item[27]
+id = 27
+textureName = none
+name = Oil Painting
+type = arts&crafts
+description = Oil Painting, common arts&crafts. I like painting, but I am bad.
+weight = 1
+gold = 450
+----------------------------------------------
+//item[28]
+id = 28
+textureName = none
+name = Toys
+type = arts&crafts
+description = Toys, uncommon arts&crafts. Who doesn’t want a shoulder to cry on?
+weight = 1
+gold = 350
+----------------------------------------------
+//item[29]
+id = 29
+textureName = none
+name = Glassware
+type = arts&crafts
+description = Glassware, expensive arts&crafts. Easily break by just touching it, like a snowflake.
+weight = 1
+gold = 600
+----------------------------------------------
+//item[30]
+id = 30
+textureName = none
+name = Pewterware
+type = arts&crafts
+description = Pewterware, common arts&crafts. Too many pewterware in The Witcher 3.
+weight = 1
+gold = 180
+----------------------------------------------
+//item[31]
+id = 31
+textureName = none
+name = Gold
+type = luxury
+description = Gold, Luxury. This gold is not that gold.
+weight = 1
+gold = 800
+----------------------------------------------
+//item[32]
+id = 32
+textureName = none
+name = Spice
+type = luxury
+description = Spice, Luxury. Do you know spice means wealthy and powerful?
+weight = 1
+gold = 850
+----------------------------------------------
+//item[33]
+id = 33
+textureName = none
+name = Jewellery
+type = luxury
+description = Jewellery, Luxury. Jewellery, useless stuff, I don't know, I'm poor.
+weight = 1
+gold = 1000
 ----------------------------------------------
