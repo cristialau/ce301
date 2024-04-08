@@ -7,27 +7,123 @@ type = none
 description = none
 sp = 0
 ----------------------------------------------
-//skill[1]
-id = 0
+//skill[1] saa
+id = 1
+textureName = none
+name = none
+type = dmg
+description = none
+sp = 0
+----------------------------------------------
+//skill[2] maa
+id = 2
+textureName = none
+name = none
+type = buff
+description = none
+sp = 0
+----------------------------------------------
+//skill[3] laa
+id = 3
 textureName = none
 name = none
 type = none
 description = none
 sp = 0
 ----------------------------------------------
-//skill[2]
-id = 0
+//skill[4] socka
+id = 4
 textureName = none
 name = none
 type = none
 description = none
 sp = 0
 ----------------------------------------------
-//skill[3]
-id = 0
+//skill[5] mocka
+id = 5
 textureName = none
 name = none
 type = none
 description = none
+sp = 0
+----------------------------------------------
+//skill[6] locka
+id = 6
+textureName = none
+name = none
+type = none
+description = none
+sp = 0
+----------------------------------------------
+//skill[7] ud
+id = 7
+textureName = none
+name = none
+type = none
+description = none
+sp = 0
+----------------------------------------------
+//skill[8] ua
+id = 8
+textureName = none
+name = none
+type = none
+description = none
+sp = 0
+----------------------------------------------
+//skill[9] h
+id = 9
+textureName = none
+name = none
+type = none
+description = none
+sp = 0
+----------------------------------------------
+//skill[10] pa
+id = 10
+textureName = none
+name = ATK+
+type = passive
+description = ATK+. A normal increase attack damage passive. + 25 ATK
+sp = 0
+----------------------------------------------
+//skill[11] pd
+id = 11
+textureName = none
+name = DEF+
+type = passive
+description = DEF+. A normal increase attack damage passive. + 25 DEF
+sp = 0
+----------------------------------------------
+//skill[12] ph
+id = 12
+textureName = none
+name = HP+
+type = passive
+description = HP+. A normal increase attack damage passive. + 50 HPMAX
+sp = 0
+----------------------------------------------
+//skill[13] po
+id = 13
+textureName = none
+name = OSV+
+type = passive
+description = OSV+. A normal increase attack damage passive. + 8 OSV
+sp = 0
+----------------------------------------------
+//skill[14] pc
+id = 14
+textureName = none
+name = CVS+
+type = passive
+description = CVS+. A normal increase attack damage passive. + 8 CVS
+sp = 0
+----------------------------------------------
+//skill[15] pk
+id = 15
+textureName = none
+name = KLG+
+type = passive
+description = KLG+. A normal increase attack damage passive. + 8 KLG
 sp = 0
 ----------------------------------------------

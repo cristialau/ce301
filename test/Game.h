@@ -46,6 +46,7 @@ private:
 	//map texture
 	//location[1].mapTextureName = "Textures/Pipoya RPG Tileset 16x16/Pipoya RPG Tileset 16x16/[Base]BaseChip_pipo.png";
 	MainMenu* mainMenu;		//MainMenu
+	Player* player;			//Player
 	Menu* menu;				//Menu
 	Trade* trade;			//Trade
 	Battle* battle;			//Battle
@@ -62,10 +63,7 @@ private:
 	bool changeState = false;
 	bool changePercent = false;
 
-	//Player
-	Character c1 = Character("Textures/npc.png", "player1", 100, 10, 10, 0, 0, 0, 0);
-	Character c2 = Character("none", "player2", 10, 10, 10, 0, 0, 0, 0);
-	Player player = Player(c1, c2);
+	
 	
 public:
 	Game();
@@ -88,6 +86,8 @@ public:
 	void EndApplication();
 	void Status();
 	float RandomFloat();
+	void ResetShop(std::string job, int locationID, NPC& npc);
+	NPC& CheckNPC();
 
 	//Data
 	void SkillList();

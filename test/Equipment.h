@@ -17,7 +17,6 @@ struct Equipment
 	std::string description;
 
 	bool isEquip = false;
-	bool Buffed = false;
 
 	float penalty = 1.f;
 	float percent = 1.f;

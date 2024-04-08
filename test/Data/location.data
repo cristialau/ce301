@@ -15,75 +15,75 @@ id = 1
 iconTextureName = none
 spritePositionX = 0
 spritePositionY = 0
-name = Location 1
-description = Location 1.
+name = Star
+description = Star. Start from Star.. Can't think of a better name, lack of time.
 time = 0
-playerPositionX = 7
-playerPositionY = 7
+playerPositionX = 10
+playerPositionY = 10
 ----------------------------------------------
 //location[2]
 id = 2
 iconTextureName = none
 spritePositionX = 0
 spritePositionY = 0
-name = Location 2
-description = Location 2.
+name = Resfeber
+description = Resfeber. The closest town from Star.
 time = 1000
-playerPositionX = 16
-playerPositionY = 16
+playerPositionX = 10
+playerPositionY = 10
 ----------------------------------------------
 //location[3]
 id = 3
 iconTextureName = none
 spritePositionX = 0
 spritePositionY = 0
-name = Location 3
-description = Location 3.
+name = Komorebi
+description = Komorebi. Meaning the sunlight which filtered through the leaves.
 time = 2000
-playerPositionX = 16
-playerPositionY = 16
+playerPositionX = 10
+playerPositionY = 10
 ----------------------------------------------
 //location[4]
 id = 4
 iconTextureName = none
 spritePositionX = 0
 spritePositionY = 0
-name = Location 4
-description = Location 4.
+name = On The Way
+description = On The Way. Middle of the map.
 time = 3000
-playerPositionX = 16
-playerPositionY = 16
+playerPositionX = 10
+playerPositionY = 10
 ----------------------------------------------
 //location[5]
 id = 5
 iconTextureName = none
 spritePositionX = 0
 spritePositionY = 0
-name = Location 5
-description = Location 5.
+name = Coddiwomple
+description = Coddiwomple. No destination in this game, I don't know, I search from the Internet.
 time = 5000
-playerPositionX = 16
-playerPositionY = 16
+playerPositionX = 10
+playerPositionY = 10
 ----------------------------------------------
 //location[6]
 id = 6
 iconTextureName = none
 spritePositionX = 0
 spritePositionY = 0
-name = Location 6
-description = Location 6.
+name = Mid Night
+description = Mid Night. I usually work at midnight, it's my habit.
 time = 6000
-playerPositionX = 16
-playerPositionY = 16
+playerPositionX = 10
+playerPositionY = 10
 ----------------------------------------------
 //location[7]
 id = 7
 iconTextureName = none
 spritePositionX = 0
 spritePositionY = 0
-name = Location 7
-description = Location 7.
+name = Edge
+description = Edge. Need 8 days to travel from Edge to Star.
 time = 8000
-playerPositionX = 16
-playerPositionY = 16
+playerPositionX = 10
+playerPositionY = 10
 ----------------------------------------------

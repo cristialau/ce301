@@ -4,8 +4,9 @@ Trade::Trade()
 {	
 	played = false;
 	StartTrading = false;
-	move = 10;
 	random = 0;
+	move = 10;
+	showResult = false;
 	//elements
 	luck = 'l';
 	observation = 'o';
@@ -28,8 +29,6 @@ Trade::Trade()
 	same1 = 0;
 	same2 = 0;
 	same3 = 0;
-	//temp1 = 0;
-	//temp2 = 0;
 	element = 0;
 	element1 = 0;
 	element2 = 0;
@@ -90,9 +89,8 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, Loca
 		if (!StartTrading)
 			SetUpGamePanel(npc, previousState);
 
-		if (move >= 0) {
+		if (move > 0) {
 			if (!isPressed) {
-				isPressed = true;
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
 					playerGamepanel[y + 1][x] != 0) {
 					y++;
@@ -126,20 +124,40 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, Loca
 			}
 		}
 		else {
-			CalculateScore();
-			observationScore += player.GetC2().GetObservation() + player.GetC2().GetLuck();
-			conversationScore += player.GetC2().GetConversation() + player.GetC2().GetLuck();
-			knowledgeScore += player.GetC2().GetKnowledge() + player.GetC2().GetLuck();
+			if (!showResult) {
+				showResult = true;
 
-			if (observationScore > npc.GetC().GetObservation() &&
-				conversationScore > npc.GetC().GetConversation() &&
-				knowledgeScore > npc.GetC().GetKnowledge()) {
-				player.Reward(npc.GetNPCReward());
-				npc.SetPassTradeGame(true);
+				CalculateScore();
+				observationScore += (int) ((player.GetC1().GetObservation() + player.GetC2().GetObservation()) / 2)
+					+ player.GetC1().GetLuck() + player.GetC2().GetLuck();
+				conversationScore += (int) ((player.GetC1().GetConversation() + player.GetC2().GetConversation()) / 2)
+					+ player.GetC1().GetLuck() + player.GetC2().GetLuck();
+				knowledgeScore += (int) ((player.GetC1().GetKnowledge() + player.GetC2().GetKnowledge()) / 2)
+					+ player.GetC1().GetLuck() + player.GetC2().GetLuck();
+
+				if (observationScore > npc.GetC().GetObservation() * 2 &&
+					conversationScore > npc.GetC().GetConversation() * 2 &&
+					knowledgeScore > npc.GetC().GetKnowledge() * 2) {
+					player.Reward(npc.GetNPCReward());
+					npc.SetPassTradeGame(true);
+				}
+
+				std::cout << "NPC OSV: " << npc.GetC().GetObservation() * 2
+					<< "  Player score: " << observationScore << std::endl;
+				std::cout << "NPC CVS: " << npc.GetC().GetConversation() * 2
+					<< "  Player score: " << conversationScore << std::endl;
+				std::cout << "NPC KLG: " << npc.GetC().GetKnowledge() * 2
+					<< "  Player score: " << knowledgeScore << std::endl;
 			}
 
-			StartTrading = false;
-			played = true;
+			if (!isPressed) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
+					sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+					StartTrading = false;
+					showResult = false;
+					played = true;
+				}
+			}
 		}
 	}
 	else {
@@ -160,6 +178,7 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 		int check = 0;
 
 		std::cout << "Trade" << std::endl;
+		std::cout << "Press Esc to leave" << std::endl;
 
 		switch (inventoryNumber) {
 		case 1:
@@ -312,8 +331,8 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 				showShop = false;
 				shopSelect = 1;
 				inventoryNumber = 1;
-				played = false;
 				setUp = false;
+				played = false;
 			}
 		}
 	}
@@ -391,11 +410,11 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
 					sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 					player.SetPlayerState(previousState);
-					played = false;
 					showShop = false;
 					showTradingBox = false;
 					showConfirm = false;
 					setUp = false;
+					played = false;
 				}
 			}
 		}
@@ -888,9 +907,9 @@ void Trade::AddMultiplier(int temp, char element)
 void Trade::PrintPanel(NPC npc)
 {
 	std::cout << "NPC: " << npc.GetC().GetName() << std::endl;
-	std::cout << "O: " << npc.GetC().GetObservation() 
-		<< "C: " << npc.GetC().GetConversation()
-		<< "K: " << npc.GetC().GetKnowledge() << std::endl;
+	std::cout << "O: " << npc.GetC().GetObservation()  * 2
+		<< "C: " << npc.GetC().GetConversation() * 2
+		<< "K: " << npc.GetC().GetKnowledge() * 2 << std::endl;
 
 	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < 5; i++)

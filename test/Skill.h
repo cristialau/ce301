@@ -14,11 +14,10 @@ struct Skill
 	sf::Sprite icon;
 	//attributes
 	std::string name;
-	std::string type;			//dmg/passive/buff/debuff
+	std::string type;			//dmg/passive/buff
 	std::string description;
 
 	bool isEquip = false;
-	bool Buffed = false;
 
 	int sp = 0;
 };

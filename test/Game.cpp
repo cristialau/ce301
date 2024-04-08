@@ -65,39 +65,33 @@ void Game::InitGame()
 
     this->map = new Map();
     this->mainMenu = new MainMenu();
+    this->player = new Player(characterList[1], characterList[2]);
+    this->player->Initialize(itemList, equipmentList, skillList, questList[0]);
     this->menu = new Menu();
     this->trade = new Trade();
     this->trade->Initialize(itemList[0]);
     this->battle = new Battle();
 
     gameState = "MainMenu";
-
-    //trade.Initialize(itemList[0]);
 }
 
 void Game::LoadGame()
 {
-    this->map->Load(locationList[1]);
+    this->map->Load(locationList[mapNumber]);
 
-    //c1.Load();
-    npcList[1].Load(locationList[mapNumber]);
-
-    //default
-    player.GetCartInventory().push_back(itemList[0]);
-    player.GetEquipInventory().push_back(equipmentList[0]);
-    player.GetSkill().push_back(skillList[0]);
-    player.GetQuest().push_back(questList[0]);
-    //default
+    //Load npcs
+    for (int i = 0; i < npcList.size(); i++) {
+        npcList[i].Load(locationList[mapNumber]);
+    }
 
     //player.GetCartInventory().push_back(itemList[1]);
     //player.GetCartInventory().push_back(itemList[2]);
     //player.GetCartInventory().push_back(itemList[3]);
     
-    
-    player.GetEquipInventory().push_back(equipmentList[1]);
-    player.GetEquipInventory().push_back(equipmentList[1]);
-    player.GetEquipInventory().push_back(equipmentList[2]);
-    player.GetEquipInventory().push_back(equipmentList[2]);
+    this->player->GetEquipInventory().push_back(equipmentList[1]);
+    //player.GetEquipInventory().push_back(equipmentList[1]);
+    this->player->GetEquipInventory().push_back(equipmentList[2]);
+    //player.GetEquipInventory().push_back(equipmentList[2]);
 }
 
 void Game::UpdateSFML()
@@ -119,29 +113,29 @@ void Game::Update()
         this->mainMenu->Update(gameState, isPressed);
     }
     else if (gameState == "InGame") {
-        player.SetUp(locationList[mapNumber]);
+        this->player->SetUp(locationList[mapNumber]);
         //check npc
 
-        if (player.GetPlayerState() == "Normal") {
-            player.NormalState(view, isPressed);
+        if (this->player->GetPlayerState() == "Normal") {
+            this->player->NormalState(view, isPressed);
         }
-        else if (player.GetPlayerState() == "Menu") {
-            this->menu->Update(player, gameState, locationList, mapNumber, isPressed);
+        else if (this->player->GetPlayerState() == "Menu") {
+            this->menu->Update(*player, gameState, locationList, mapNumber, isPressed);
         }
-        else if (player.GetPlayerState() == "Traveling") {
-            player.TravelState(this->menu->GetTravelingTime(), dt, isPressed);
+        else if (this->player->GetPlayerState() == "Traveling") {
+            this->player->TravelState(this->menu->GetTravelingTime(), dt, isPressed);
         }
-        else if (player.GetPlayerState() == "Battle") {
-            this->battle->Update(player, enemyList, previousState, isPressed);
+        else if (this->player->GetPlayerState() == "Battle") {
+            this->battle->Update(*player, enemyList, previousState, isPressed);
         }
-        else if (player.GetPlayerState() == "Trading") {
-            this->trade->Update(player, npcList[1], previousState, locationList[mapNumber], isPressed);
+        else if (this->player->GetPlayerState() == "Trading") {
+            this->trade->Update(*player, CheckNPC(), previousState, locationList[mapNumber], isPressed);
         }
-        else if (player.GetPlayerState() == "Talking") {
-            player.TalkState(npcList[1], previousState, isPressed);
+        else if (this->player->GetPlayerState() == "Talking") {
+            this->player->TalkState(CheckNPC(), locationList[mapNumber], previousState, isPressed);
         }
-        else if (player.GetPlayerState() == "EndGame") {
-            player.EndGame();
+        else if (this->player->GetPlayerState() == "EndGame") {
+            this->player->EndGame();
         }
     }
     
@@ -187,17 +181,20 @@ void Game::EndApplication()
 void Game::Status()
 {
     //player states
-    if (temp != player.GetPlayerState()) {
-        changeState = true;
-        if (changeState) {
-            previousState = temp;
-            changeState = false;
-        }
-        temp = player.GetPlayerState();
+    if (temp != this->player->GetPlayerState()) {
+        previousState = temp;
+        temp = this->player->GetPlayerState();
         std::cout << previousState << std::endl;
     }
+    //set npc rls in location
+    for (int i = 1; i < npcList.size(); i++) {
+        for (int j = 1; j < locationList.size(); j++) {
+            if (npcList[i].GetLocationID() == locationList[j].id)
+                npcList[i].SetRls(locationList[j].rls);
+        }
+    }
     //in debt
-    if (player.InDebt()) {
+    if (this->player->InDebt()) {
         for (int i = 1; i < itemList.size(); i++) {
             itemList[i].penalty = 0.9;
         }
@@ -214,21 +211,31 @@ void Game::Status()
         }
     }
     //3 days change once
-    if (player.GetDay() % 3 != 0) {
+    if (this->player->GetDay() % 3 != 0) {
         changePercent = false;
     }
-    if (player.GetDay() % 3 == 0 && !changePercent) {
+    if (this->player->GetDay() % 3 == 0 && !changePercent) {
         changePercent = true;
 
         for (int i = 1; i < locationList.size(); i++) {
             locationList[i].percent = RandomFloat();
         }
-    }
-    //set npc rls in location
-    for (int i = 1; i < npcList.size(); i++) {
-        if (npcList[i].GetLocationID() == locationList[mapNumber].id) {
-            npcList[i].SetRls(locationList[mapNumber].rls);
+
+        for (int i = 1; i < npcList.size(); i++) {
+            npcList[i].GetShop().clear();
+            npcList[i].GetShop().push_back(itemList[0]);
+            ResetShop(npcList[i].GetJob(), npcList[i].GetLocationID(), npcList[i]);
         }
+    }
+    
+    this->player->Effect();
+
+    for (int i = 1; i < npcList.size(); i++) {
+        npcList[i].Effect();
+    }
+
+    for (int i = 0; i < enemyList.size(); i++) {
+        enemyList[i].Effect();
     }
 }
 
@@ -245,6 +252,354 @@ float Game::RandomFloat()
 
     return result;
 }
+
+void Game::ResetShop(std::string job, int locationID, NPC& npc)
+{
+    switch (locationID) {
+    case 1:
+        if (job == "Merchant") {
+            if (locationList[locationID].rls < 50) {
+                for (int i = 0; i < 5; i++) {
+                    npc.GetShop().push_back(itemList[1]);
+                    npc.GetShop().push_back(itemList[8]);
+                }
+            }
+            else if (locationList[locationID].rls < 100) {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[1]);
+                    npc.GetShop().push_back(itemList[8]);
+                }
+                for (int i = 0; i < 3; i++) {
+                    npc.GetShop().push_back(itemList[10]);
+                }
+            }
+            else {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[1]);
+                    npc.GetShop().push_back(itemList[8]);
+                    npc.GetShop().push_back(itemList[10]);
+                }
+            }
+        }
+        else if (job == "Lord") {
+            if (locationList[locationID].rls < 50) {
+                for (int i = 0; i < 5; i++) {
+                    npc.GetShop().push_back(itemList[13]);
+                }
+            }
+            else if (locationList[locationID].rls < 100) {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[13]);
+                }
+                for (int i = 0; i < 3; i++) {
+                    npc.GetShop().push_back(itemList[27]);
+                }
+            }
+            else {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[13]);
+                    npc.GetShop().push_back(itemList[27]);
+                }
+            }
+        }
+        break;
+    case 2:
+        if (job == "Merchant") {
+            if (locationList[locationID].rls < 50) {
+                for (int i = 0; i < 5; i++) {
+                    npc.GetShop().push_back(itemList[2]);
+                    npc.GetShop().push_back(itemList[11]);
+                }
+            }
+            else if (locationList[locationID].rls < 100) {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[2]);
+                    npc.GetShop().push_back(itemList[11]);
+                }
+                for (int i = 0; i < 3; i++) {
+                    npc.GetShop().push_back(itemList[4]);
+                }
+            }
+            else {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[2]);
+                    npc.GetShop().push_back(itemList[11]);
+                    npc.GetShop().push_back(itemList[4]);
+                }
+            }
+        }
+        else if (job == "Lord") {
+            if (locationList[locationID].rls < 50) {
+                for (int i = 0; i < 5; i++) {
+                    npc.GetShop().push_back(itemList[14]);
+                }
+            }
+            else if (locationList[locationID].rls < 100) {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[14]);
+                }
+                for (int i = 0; i < 3; i++) {
+                    npc.GetShop().push_back(itemList[25]);
+                }
+            }
+            else {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[14]);
+                    npc.GetShop().push_back(itemList[25]);
+                }
+            }
+        }
+        break;
+    case 3:
+        if (job == "Merchant") {
+            if (locationList[locationID].rls < 50) {
+                for (int i = 0; i < 5; i++) {
+                    npc.GetShop().push_back(itemList[12]);
+                    npc.GetShop().push_back(itemList[26]);
+                }
+            }
+            else if (locationList[locationID].rls < 100) {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[12]);
+                    npc.GetShop().push_back(itemList[26]);
+                }
+                for (int i = 0; i < 3; i++) {
+                    npc.GetShop().push_back(itemList[20]);
+                }
+            }
+            else {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[12]);
+                    npc.GetShop().push_back(itemList[26]);
+                    npc.GetShop().push_back(itemList[20]);
+                }
+            }
+        }
+        else if (job == "Lord") {
+            if (locationList[locationID].rls < 50) {
+                for (int i = 0; i < 5; i++) {
+                    npc.GetShop().push_back(itemList[17]);
+                }
+            }
+            else if (locationList[locationID].rls < 100) {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[17]);
+                }
+                for (int i = 0; i < 3; i++) {
+                    npc.GetShop().push_back(itemList[32]);
+                }
+            }
+            else {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[17]);
+                    npc.GetShop().push_back(itemList[32]);
+                }
+            }
+        }
+        break;
+    case 4:
+        if (job == "Merchant") {
+            if (locationList[locationID].rls < 50) {
+                for (int i = 0; i < 5; i++) {
+                    npc.GetShop().push_back(itemList[3]);
+                    npc.GetShop().push_back(itemList[5]);
+                }
+            }
+            else if (locationList[locationID].rls < 100) {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[3]);
+                    npc.GetShop().push_back(itemList[5]);
+                }
+                for (int i = 0; i < 3; i++) {
+                    npc.GetShop().push_back(itemList[10]);
+                }
+            }
+            else {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[3]);
+                    npc.GetShop().push_back(itemList[5]);
+                    npc.GetShop().push_back(itemList[10]);
+                }
+            }
+        }
+        else if (job == "Lord") {
+            if (locationList[locationID].rls < 50) {
+                for (int i = 0; i < 5; i++) {
+                    npc.GetShop().push_back(itemList[19]);
+                }
+            }
+            else if (locationList[locationID].rls < 100) {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[19]);
+                }
+                for (int i = 0; i < 3; i++) {
+                    npc.GetShop().push_back(itemList[31]);
+                }
+            }
+            else {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[19]);
+                    npc.GetShop().push_back(itemList[31]);
+                }
+            }
+        }
+        break;
+    case 5:
+        if (job == "Merchant") {
+            if (locationList[locationID].rls < 50) {
+                for (int i = 0; i < 5; i++) {
+                    npc.GetShop().push_back(itemList[6]);
+                    npc.GetShop().push_back(itemList[7]);
+                }
+            }
+            else if (locationList[locationID].rls < 100) {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[6]);
+                    npc.GetShop().push_back(itemList[7]);
+                }
+                for (int i = 0; i < 3; i++) {
+                    npc.GetShop().push_back(itemList[22]);
+                }
+            }
+            else {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[6]);
+                    npc.GetShop().push_back(itemList[7]);
+                    npc.GetShop().push_back(itemList[22]);
+                }
+            }
+        }
+        else if (job == "Lord") {
+            if (locationList[locationID].rls < 50) {
+                for (int i = 0; i < 5; i++) {
+                    npc.GetShop().push_back(itemList[16]);
+                }
+            }
+            else if (locationList[locationID].rls < 100) {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[16]);
+                }
+                for (int i = 0; i < 3; i++) {
+                    npc.GetShop().push_back(itemList[24]);
+                }
+            }
+            else {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[16]);
+                    npc.GetShop().push_back(itemList[24]);
+                }
+            }
+        }
+        break;
+    case 6:
+        if (job == "Merchant") {
+            if (locationList[locationID].rls < 50) {
+                for (int i = 0; i < 5; i++) {
+                    npc.GetShop().push_back(itemList[9]);
+                    npc.GetShop().push_back(itemList[18]);
+                }
+            }
+            else if (locationList[locationID].rls < 100) {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[9]);
+                    npc.GetShop().push_back(itemList[18]);
+                }
+                for (int i = 0; i < 3; i++) {
+                    npc.GetShop().push_back(itemList[13]);
+                }
+            }
+            else {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[9]);
+                    npc.GetShop().push_back(itemList[18]);
+                    npc.GetShop().push_back(itemList[13]);
+                }
+            }
+        }
+        else if (job == "Lord") {
+            if (locationList[locationID].rls < 50) {
+                for (int i = 0; i < 5; i++) {
+                    npc.GetShop().push_back(itemList[28]);
+                }
+            }
+            else if (locationList[locationID].rls < 100) {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[28]);
+                }
+                for (int i = 0; i < 3; i++) {
+                    npc.GetShop().push_back(itemList[29]);
+                }
+            }
+            else {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[28]);
+                    npc.GetShop().push_back(itemList[29]);
+                }
+            }
+        }
+        break;
+    case 7:
+        if (job == "Merchant") {
+            if (locationList[locationID].rls < 50) {
+                for (int i = 0; i < 5; i++) {
+                    npc.GetShop().push_back(itemList[21]);
+                    npc.GetShop().push_back(itemList[30]);
+                }
+            }
+            else if (locationList[locationID].rls < 100) {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[21]);
+                    npc.GetShop().push_back(itemList[30]);
+                }
+                for (int i = 0; i < 3; i++) {
+                    npc.GetShop().push_back(itemList[23]);
+                }
+            }
+            else {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[21]);
+                    npc.GetShop().push_back(itemList[30]);
+                    npc.GetShop().push_back(itemList[23]);
+                }
+            }
+        }
+        else if (job == "Lord") {
+            if (locationList[locationID].rls < 50) {
+                for (int i = 0; i < 5; i++) {
+                    npc.GetShop().push_back(itemList[15]);
+                }
+            }
+            else if (locationList[locationID].rls < 100) {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[15]);
+                }
+                for (int i = 0; i < 3; i++) {
+                    npc.GetShop().push_back(itemList[33]);
+                }
+            }
+            else {
+                for (int i = 0; i < 8; i++) {
+                    npc.GetShop().push_back(itemList[15]);
+                    npc.GetShop().push_back(itemList[33]);
+                }
+            }
+        }
+        break;
+    }
+}
+
+NPC& Game::CheckNPC()
+{
+    for (int i = 0; i < npcList.size(); i++) {
+        if (npcList[i].GetLocationID() == mapNumber &&
+            npcList[i].GetPositionX() == this->player->GetMapPositionX() &&
+            npcList[i].GetPositionY() == this->player->GetMapPositionY())
+            return npcList[i];
+    }
+
+    return npcList[1];
+}
+
 //Data-----------------------------------
 void Game::SkillList()
 {
@@ -347,9 +702,6 @@ void Game::ItemList()
             }
             else if (line.find("description =") != std::string::npos) {
                 item.description = line.substr(line.find("=") + 2);
-            }
-            else if (line.find("weight =") != std::string::npos) {
-                item.weight = std::stoi(line.substr(line.find("=") + 2));
             }
             else if (line.find("gold =") != std::string::npos) {
                 item.gold = std::stoi(line.substr(line.find("=") + 2));

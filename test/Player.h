@@ -20,11 +20,27 @@ private:
 	int cartInventoryWeight;
 	std::vector<Quest> questList;
 	std::vector<Skill> skillList;
+
+	std::vector<Equipment> eq;
+	std::vector<Skill> sk;
 	
 	std::string playerState;	//Normal, Talking, Trading, Battle, Traveling, Menu
 	
 	int day;
 	int npcNumber;
+
+	int c1s1previousID = 0;
+	int c1s2previousID = 0;
+	int c1e1previousID = 0;
+	int c1e2previousID = 0;
+	int c1e3previousID = 0;
+	int c2s1previousID = 0;
+	int c2s2previousID = 0;
+	int c2e1previousID = 0;
+	int c2e2previousID = 0;
+	int c2e3previousID = 0;
+
+	int bonus = 0;
 
 	//Player current Map
 	int currentLocationID;
@@ -77,12 +93,12 @@ public:
 	Player(Character& c1, Character& c2);
 	~Player();
 
-	void Initialize();
+	void Initialize(std::vector<Item> item, std::vector<Equipment> equipment, std::vector<Skill> skill, Quest quest);
 	void Load();
 	void SetUp(Location location);
 	void NormalState(sf::View& view, bool& isPressed);
-	void TalkState(NPC& npc, std::string previousState, bool& isPressed);
-	void OpenQuest(NPC& npc, bool& isPressed);
+	void TalkState(NPC& npc, Location& location, std::string previousState, bool& isPressed);
+	void OpenQuest(NPC& npc, Location& location, bool& isPressed);
 	void TravelState(int travelingTime, float dt, bool& isPressed);
 	
 	void EndGame();

@@ -8,11 +8,11 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 	SpMax = 7;
 
 	cartInventoryWeight = 7;
-	gold = 0;
+	gold = 500;
 
 	playerState = "Normal";
 
-	day = 1;
+	day = 0;
 	npcNumber = 2;
 
 	//Map
@@ -64,8 +64,29 @@ Player::~Player()
 {
 }
 
-void Player::Initialize()
+void Player::Initialize(std::vector<Item> item, std::vector<Equipment> equipment, std::vector<Skill> skill, Quest quest)
 {
+	cartInventory.push_back(item[0]);
+	equipInventory.push_back(equipment[0]);
+	skillList.push_back(skill[0]);
+	skillList.push_back(skill[1]);
+	skillList.push_back(skill[2]);
+	questList.push_back(quest);
+	//----------------------------------
+	eq = equipment;
+	sk = skill;
+	//----------------------------------
+	c1.SetSkill(1, skillList[0]);
+	c1.SetSkill(2, skillList[0]);
+	c1.SetEquip(1, equipInventory[0]);
+	c1.SetEquip(2, equipInventory[0]);
+	c1.SetEquip(3, equipInventory[0]);
+	c2.SetSkill(1, skillList[0]);
+	c2.SetSkill(2, skillList[0]);
+	c2.SetEquip(1, equipInventory[0]);
+	c2.SetEquip(2, equipInventory[0]);
+	c2.SetEquip(3, equipInventory[0]);
+	//----------------------------------
 }
 
 void Player::Load()
@@ -159,7 +180,7 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 	}
 }
 
-void Player::TalkState(NPC& npc, std::string previousState, bool& isPressed)
+void Player::TalkState(NPC& npc, Location& location, std::string previousState, bool& isPressed)
 {
 	if (previousState == "Trading" || previousState == "Battle") {
 		SetPlayerState("Normal");
@@ -228,7 +249,7 @@ void Player::TalkState(NPC& npc, std::string previousState, bool& isPressed)
 			case 2:	SetPlayerState("Trading"); showTalk = false; break;
 			case 3:	
 				if (npc.GetJob() == "Lord") {
-					OpenQuest(npc, isPressed);
+					OpenQuest(npc, location, isPressed);
 				}
 				else if (npc.GetJob() == "Bandit") {
 					SetPlayerState("Battle");
@@ -240,7 +261,7 @@ void Player::TalkState(NPC& npc, std::string previousState, bool& isPressed)
 	}
 }
 
-void Player::OpenQuest(NPC& npc, bool& isPressed)
+void Player::OpenQuest(NPC& npc, Location& location, bool& isPressed)
 {
 	if (!showQuest) {
 		showQuest = true;
@@ -289,22 +310,26 @@ void Player::OpenQuest(NPC& npc, bool& isPressed)
 	}
 	else {
 		if (questSelect == 2) {
-			if (npc.GetNPCQuest().finished) {
+			if (npc.GetNPCQuest().finished && !npc.GetNPCQuest().gotReward) {
 				npc.GetNPCQuest().gotReward = true;
 				for (int i = 1; i < questList.size(); i++) {
 					if (questList[i].id == npc.GetNPCQuest().id)
 						questList[i].gotReward = true;
 				}
-				std::cout << "You finished my quest" << std::endl;
+				std::cout << "You finished my quest." << std::endl;
+				location.rls += 25;
 				Reward(npc.GetNPCQuest().reward);
 			}
 			else if (npc.GetNPCQuest().accepted) {
-				std::cout << "You have not finished my quest" << std::endl;
+				std::cout << "You have not finished my quest." << std::endl;
 			}
-			else {
+			else if (!npc.GetNPCQuest().accepted){
 				npc.GetNPCQuest().accepted = true;
 				AddQuest(npc.GetNPCQuest());
-				std::cout << "Player accepts quest successfully" << std::endl;
+				std::cout << "Player accepts quest successfully." << std::endl;
+			}
+			else {
+				std::cout << "You recieved my reward." << std::endl;
 			}
 		}
 
@@ -583,7 +608,7 @@ void Player::Rust()
 		}
 		
 		if (cartInventory[i].durability <= 0) {
-			std::cout << cartInventory[i].name << " is destoryed due to no durability" << std::endl;
+			std::cout << cartInventory[i].name << " is destoryed." << std::endl;
 			cartInventory.erase(cartInventory.begin() + i);
 		}
 	}
@@ -611,53 +636,228 @@ int Player::RandomEvent()
 //--------------------------------------------------
 void Player::Reward(int type)
 {
-	//1, 2, 3 Travel reward
-	//4.. Trade reward
-	//Quest reward
 	switch (type) {
-	case 1:
-		break;
-	case 2:
-		break;
-	case 3:
-		break;
-	case 4:
-		break;
-	case 5:
-		break;
-	case 6:
-		break;
-	case 7:
-		break;
-	case 8:
-		std::cout << "Recieve gold" << std::endl;
-		gold += 100;
-		break;
-	case 9:
-		std::cout << "Lost gold" << std::endl;
-		gold -= 100;
-		break;
-	case 10:
-
-		break;
-	default:
-		break;
+	case 1: std::cout << "Finished quest 1." << std::endl; skillList.push_back(sk[3]); AddGold(500); break;
+	case 2: std::cout << "Finished quest 2." << std::endl; skillList.push_back(sk[4]); AddGold(500); break;
+	case 3: std::cout << "Finished quest 3." << std::endl; skillList.push_back(sk[5]);	AddGold(500); break;
+	case 4: std::cout << "Finished quest 4." << std::endl; SetCartInventoryWeight(12); skillList.push_back(sk[6]); AddGold(1000); break;
+	case 5: std::cout << "Finished quest 5." << std::endl; skillList.push_back(sk[7]); AddGold(1000); break;
+	case 6: std::cout << "Finished quest 6." << std::endl; skillList.push_back(sk[8]);	AddGold(1000); break;
+	case 7: std::cout << "Finished quest 7." << std::endl; SetCartInventoryWeight(15); skillList.push_back(sk[9]); AddGold(1000); break;
+	case 8:	std::cout << "Recieve 100 gold." << std::endl; AddGold(100); break;
+	case 9:	std::cout << "Lost 100 gold." << std::endl; AddGold(-100); break;
+	case 10: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[1]); break;
+	case 11: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[2]); break;
+	case 12: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[3]); break;
+	case 13: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[4]); break;
+	case 14: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[5]); break;
+	case 15: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[6]); break;
+	case 16: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[7]); break;
+	case 17: std::cout << "Get Trade Reward." << std::endl; AddGold(250); break;
+	default: break;
 	}
 }
 
 void Player::Effect()
 {
-	/*
-	if (c1.GetEquip(1).id == 1) {
-		if (!cl.GetEquip(1).Buffed) {
-			c1.GetEquip(1).Buffed = true;
-			c1.AddAtk(10);
+	if (c1e1previousID != c1.GetEquip(1).id ||
+		c1e2previousID != c1.GetEquip(2).id ||
+		c1e3previousID != c1.GetEquip(3).id) {
+
+		int temp1 = 0;
+		int temp2 = 0;
+
+		if (c1e1previousID != c1.GetEquip(1).id) {
+			temp1 = c1e1previousID;
+			temp2 = c1.GetEquip(1).id;
 		}
-		
-		
+		else if (c1e2previousID != c1.GetEquip(2).id) {
+			temp1 = c1e2previousID;
+			temp2 = c1.GetEquip(2).id;
+		}
+		else if (c1e3previousID != c1.GetEquip(3).id) {
+			temp1 = c1e3previousID;
+			temp2 = c1.GetEquip(3).id;
+		}
+
+		switch (temp1) {
+		case 1:	c1.AddAtkEx(-25); c1.AddDefEx(-25); break;
+		case 2: c1.AddAtkEx(-40); break;
+		case 3: c1.AddOsv(-10); c1.AddCvs(-10); c1.AddKlg(-10); break;
+		case 4: c1.AddDefEx(-50); break;
+		case 5: c1.AddAtkEx(-15); c1.AddOsv(-5); c1.AddCvs(-5); c1.AddKlg(-5); break;
+		case 6: c1.AddOsv(-5); c1.AddCvs(-5); c1.AddKlg(-5); bonus -= 25; break;
+		case 7: c1.AddAtkEx(-15); c1.AddDefEx(-15); bonus -= 25; break;
+		case 8: c1.AddHpMax(-100); break;
+		case 9: c1.AddDefEx(-20); c1.AddKlg(-20); bonus -= 5; break;
+		case 10: bonus -= 300; break;
+		case 11: c1.AddAtkEx(-10); c1.AddDefEx(-10); c1.AddOsv(-5); c1.AddCvs(-5); c1.AddKlg(-5); bonus -= 100; break;
+		case 12: c1.AddLuc(-5); bonus -= 250; break;
+		default: break;
+		}
+
+		switch (temp2) {
+		case 1:	c1.AddAtkEx(25); c1.AddDefEx(25); break;
+		case 2:	c1.AddAtkEx(40); break;
+		case 3: c1.AddOsv(10); c1.AddCvs(10); c1.AddKlg(10); break;
+		case 4: c1.AddDefEx(50); break;
+		case 5: c1.AddAtkEx(15); c1.AddOsv(5); c1.AddCvs(5); c1.AddKlg(5); break;
+		case 6: c1.AddOsv(5); c1.AddCvs(5); c1.AddKlg(5); bonus += 25; break;
+		case 7: c1.AddAtkEx(15); c1.AddDefEx(15); bonus += 25; break;
+		case 8: c1.AddHpMax(100); break;
+		case 9: c1.AddDefEx(20); c1.AddKlg(20); bonus += 5; break;
+		case 10: bonus += 300; break;
+		case 11: c1.AddAtkEx(10); c1.AddDefEx(10); c1.AddOsv(5); c1.AddCvs(5); c1.AddKlg(5); bonus += 100; break;
+		case 12: c1.AddLuc(5); bonus += 250; break;
+		default: break;
+		}
+
+		c1e1previousID = c1.GetEquip(1).id;
+		c1e2previousID = c1.GetEquip(2).id;
+		c1e3previousID = c1.GetEquip(3).id;
 	}
-	*/
-	
+
+	if (c2e1previousID != c2.GetEquip(1).id ||
+		c2e2previousID != c2.GetEquip(2).id ||
+		c2e3previousID != c2.GetEquip(3).id) {
+
+		int temp1 = 0;
+		int temp2 = 0;
+
+		if (c2e1previousID != c2.GetEquip(1).id) {
+			temp1 = c2e1previousID;
+			temp2 = c2.GetEquip(1).id;
+		}
+		else if (c2e2previousID != c2.GetEquip(2).id) {
+			temp1 = c2e2previousID;
+			temp2 = c2.GetEquip(2).id;
+		}
+		else if (c2e3previousID != c2.GetEquip(3).id) {
+			temp1 = c2e3previousID;
+			temp2 = c2.GetEquip(3).id;
+		}
+
+		switch (temp1) {
+		case 1:	c2.AddAtkEx(-25); c2.AddDefEx(-25); break;
+		case 2: c2.AddAtkEx(-40); break;
+		case 3: c2.AddOsv(-10); c2.AddCvs(-10); c2.AddKlg(-10); break;
+		case 4: c2.AddDefEx(-50); break;
+		case 5: c2.AddAtkEx(-15); c2.AddOsv(-5); c2.AddCvs(-5); c2.AddKlg(-5); break;
+		case 6: c2.AddOsv(-5); c2.AddCvs(-5); c2.AddKlg(-5); bonus -= 25; break;
+		case 7: c2.AddAtkEx(-15); c2.AddDefEx(-15); bonus -= 25; break;
+		case 8: c2.AddHpMax(-100); break;
+		case 9: c2.AddDefEx(-20); c2.AddKlg(-20); bonus -= 5; break;
+		case 10: bonus -= 300; break;
+		case 11: c2.AddAtkEx(-10); c2.AddDefEx(-10); c2.AddOsv(-5); c2.AddCvs(-5); c2.AddKlg(-5); bonus -= 100; break;
+		case 12: c2.AddLuc(-5); bonus -= 250; break;
+		default: break;
+		}
+
+		switch (temp2) {
+		case 1:	c2.AddAtkEx(25); c2.AddDefEx(25); break;
+		case 2:	c2.AddAtkEx(40); break;
+		case 3: c2.AddOsv(10); c2.AddCvs(10); c2.AddKlg(10); break;
+		case 4: c2.AddDefEx(50); break;
+		case 5: c2.AddAtkEx(15); c2.AddOsv(5); c2.AddCvs(5); c2.AddKlg(5); break;
+		case 6: c2.AddOsv(5); c2.AddCvs(5); c2.AddKlg(5); bonus += 25; break;
+		case 7: c2.AddAtkEx(15); c2.AddDefEx(15); bonus += 25; break;
+		case 8: c2.AddHpMax(100); break;
+		case 9: c2.AddDefEx(20); c2.AddKlg(20); bonus += 5; break;
+		case 10: bonus += 300; break;
+		case 11: c2.AddAtkEx(10); c2.AddDefEx(10); c2.AddOsv(5); c2.AddCvs(5); c2.AddKlg(5); bonus += 100; break;
+		case 12: c2.AddLuc(5); bonus += 250; break;
+		default: break;
+		}
+
+		c2e1previousID = c2.GetEquip(1).id;
+		c2e2previousID = c2.GetEquip(2).id;
+		c2e3previousID = c2.GetEquip(3).id;
+	}
+
+	if (c1s1previousID != c1.GetSkill(1).id ||
+		c1s2previousID != c1.GetSkill(2).id) {
+
+		int temp1 = 0;
+		int temp2 = 0;
+
+		if (c1s1previousID != c1.GetSkill(1).id) {
+			temp1 = c1s1previousID;
+			temp2 = c1.GetSkill(1).id;
+		}
+		else if (c1s2previousID != c1.GetSkill(2).id) {
+			temp1 = c1s2previousID;
+			temp2 = c1.GetSkill(2).id;
+		}
+
+		switch (temp1) {
+		case 10: c1.AddAtk(-25); break;
+		case 11: c1.AddDef(-25); break;
+		case 12: c1.AddHpMax(-50); break;
+		case 13: c1.AddOsv(-8); break;
+		case 14: c1.AddCvs(-8); break;
+		case 15: c1.AddKlg(-8); break;
+		default: break;
+		}
+
+		switch (temp2) {
+		case 10: c1.AddAtk(25); break;
+		case 11: c1.AddDef(25); break;
+		case 12: c1.AddHpMax(50); break;
+		case 13: c1.AddOsv(8); break;
+		case 14: c1.AddCvs(8); break;
+		case 15: c1.AddKlg(8); break;
+		default: break;
+		}
+
+		c1s1previousID = c1.GetSkill(1).id;
+		c1s2previousID = c1.GetSkill(2).id;
+	}
+
+	if (c2s1previousID != c2.GetSkill(1).id ||
+		c2s2previousID != c2.GetSkill(2).id) {
+
+		int temp1 = 0;
+		int temp2 = 0;
+
+		if (c2s1previousID != c2.GetSkill(1).id) {
+			temp1 = c2s1previousID;
+			temp2 = c2.GetSkill(1).id;
+		}
+		else if (c2s2previousID != c2.GetSkill(2).id) {
+			temp1 = c2s2previousID;
+			temp2 = c2.GetSkill(2).id;
+		}
+
+		switch (temp1) {
+		case 10: c2.AddAtk(-25); break;
+		case 11: c2.AddDef(-25); break;
+		case 12: c2.AddHpMax(-50); break;
+		case 13: c2.AddOsv(-8); break;
+		case 14: c2.AddCvs(-8); break;
+		case 15: c2.AddKlg(-8); break;
+		default: break;
+		}
+
+		switch (temp2) {
+		case 10: c2.AddAtk(25); break;
+		case 11: c2.AddDef(25); break;
+		case 12: c2.AddHpMax(50); break;
+		case 13: c2.AddOsv(8); break;
+		case 14: c2.AddCvs(8); break;
+		case 15: c2.AddKlg(8); break;
+		default: break;
+		}
+
+		c2s1previousID = c2.GetSkill(1).id;
+		c2s2previousID = c2.GetSkill(2).id;
+	}
+
+	for (int i = 0; i < equipInventory.size(); i++) {
+		equipInventory[i].bonus = bonus;
+	}
+	for (int i = 0; i < cartInventory.size(); i++) {
+		cartInventory[i].bonus = bonus;
+	}
 }
 //--------------------------------------------------
 void Player::PrintMap()

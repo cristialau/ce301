@@ -26,6 +26,9 @@ private:
 	std::vector<Skill> skillList;
 
 	std::string dialogue;
+	int s1previousID = 0;
+	int e1previousID = 0;
+	int bonus = 0;
 
 	//npcNumber and setup
 	int npcNumber;
@@ -79,6 +82,8 @@ public:
 
 	std::string GetDialogue();
 	void SetDialogue(std::string dialogue);
+	int GetPositionX();
+	int GetPositionY();
 
 	//Functions
 	void AddRls(int rls);

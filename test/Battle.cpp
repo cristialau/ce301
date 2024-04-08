@@ -216,8 +216,7 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 			if (useEnemyAttack) {
 				useEnemyAttack = false;
 
-				if ((enemy[0].GetC().GetSkill(1).type == "debuff" && playerStatus == "normal") ||
-					(enemy[0].GetC().GetSkill(1).type == "buff" && enemyStatus == "normal") ||
+				if ((enemy[0].GetC().GetSkill(1).type == "buff" && enemyStatus == "normal") ||
 					(enemy[0].GetC().GetSkill(1).type == "damage")) {
 					SkillEffect(enemy[0].GetC().GetSkill(1));
 				}
@@ -241,8 +240,7 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 			if (useEnemyAttack) {
 				useEnemyAttack = false;
 
-				if ((enemy[random].GetC().GetSkill(1).type == "debuff" && playerStatus == "normal") ||
-					(enemy[random].GetC().GetSkill(1).type == "buff" && enemyStatus == "normal") ||
+				if ((enemy[random].GetC().GetSkill(1).type == "buff" && enemyStatus == "normal") ||
 					(enemy[random].GetC().GetSkill(1).type == "damage")) {
 					SkillEffect(enemy[random].GetC().GetSkill(1));
 				}
@@ -266,8 +264,7 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 			if (useEnemyAttack) {
 				useEnemyAttack = false;
 
-				if ((enemy[random].GetC().GetSkill(1).type == "debuff" && playerStatus == "normal") ||
-					(enemy[random].GetC().GetSkill(1).type == "buff" && enemyStatus == "normal") ||
+				if ((enemy[random].GetC().GetSkill(1).type == "buff" && enemyStatus == "normal") ||
 					(enemy[random].GetC().GetSkill(1).type == "damage")) {
 					SkillEffect(enemy[random].GetC().GetSkill(1));
 				}
@@ -325,8 +322,6 @@ void Battle::EndBattle(Player& player, std::vector<NPC>& enemy, bool& isPressed)
 			player.AddGold(enemy[i].GetGold());
 			std::cout << enemy[i].GetGold() << " Gold" << std::endl;
 		}
-
-		player.GetC1().SetHp(playerTeamHP);
 	}
 
 	if (!isPressed) {
@@ -490,6 +485,32 @@ void Battle::Attack(int attackdmg)
 void Battle::SkillEffect(Skill skill)
 {
 	//Skill List
-	
-
+	if (playerTurn) {
+		switch (skill.id) {
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+		default: Attack(playerAttackDmg); break;
+		}
+	}
+	else {
+		switch (skill.id) {
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+		default: Attack(enemyAttackDmg); break;
+		}
+	}
 }

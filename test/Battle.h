@@ -17,7 +17,7 @@ private:
 	bool haveC1;				//c1 in battle
 	bool haveC2;				//c2 in battle
 	
-	//normal, buff, debuff
+	//normal, buff
 	std::string playerStatus;	//player battle status
 	int playerTeamHPMax;		//player's hp
 	int playerTeamHP;

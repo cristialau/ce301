@@ -13,6 +13,7 @@ private:
 	int random;
 	//Turn
 	int move;
+	bool showResult;
 	//Game panels
 	char gamepanel[5][5];
 	int playerGamepanel[7][7];

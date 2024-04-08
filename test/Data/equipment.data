@@ -10,20 +10,83 @@ gold = 0
 id = 1
 textureName = none
 name = Sword
-description = Sword. And magic in this game.
-gold = 150
+description = Sword. And magic in this game. + 25 ATK / + 25 DEF
+gold = 50
 ----------------------------------------------
 //equipment[2]
 id = 2
 textureName = none
-name = Bow
-description = Bow. AD carry is easy, be careful of your distance.
+name = Bow&Arrow
+description = Bow&Arrow. AD carry is easy, be careful of your distance. + 40 ATK
 gold = 100
 ----------------------------------------------
 //equipment[3]
 id = 3
 textureName = none
 name = Cane
-description = Cane. If a character with cane or umbrella, he will gain my attention.
+description = Cane. If a character with cane or umbrella, he will gain my attention. + 10 OSV / + 10 CVS / + 10 KLG
 gold = 100
+----------------------------------------------
+//equipment[4]
+id = 4
+textureName = none
+name = Shield
+description = Shield. Usually shield is useless in-game. + 50 DEF
+gold = 100
+----------------------------------------------
+//equipment[5]
+id = 5
+textureName = none
+name = Dagger
+description = Dagger. Dagger looks harmless. + 15 ATK / + 5 OSV / + 5 CVS / + 5 KLG
+gold = 100
+----------------------------------------------
+//equipment[6]
+id = 6
+textureName = none
+name = Compass
+description = Compass. We don't need compass, we won't travel that far. + 5 OSV / + 5 CVS / + 5 KLG / + 25 bonus
+gold = 250
+----------------------------------------------
+//equipment[7]
+id = 7
+textureName = none
+name = Glasses
+description = Glasses. My glasses are not in UK, I left them at home. + 15 ATK / + 15 DEF / + 50 bonus
+gold = 250
+----------------------------------------------
+//equipment[8]
+id = 8
+textureName = none
+name = Medkit
+description = Medkit. The only equip that add HP MAX. + 100 HPMAX
+gold = 200
+----------------------------------------------
+//equipment[9]
+id = 9
+textureName = none
+name = Book
+description = Book. Increase your knowledge, and also, waste your time. + 20 DEF / + 20 KLG / + 5 bonus
+gold = 300
+----------------------------------------------
+//equipment[10]
+id = 10
+textureName = none
+name = Map
+description = Map. I almost forget this, but my mousepad is a map of Spice&Wolf. + 300 bonus
+gold = 100
+----------------------------------------------
+//equipment[11]
+id = 11
+textureName = none
+name = Crown
+description = Crown. The most powerful word in-game I guess. + 10 ATK / + 10 DEF / + 5 OSV / + 5 CVS / + 5 KLG / + 100 bonus
+gold = 500
+----------------------------------------------
+//equipment[12]
+id = 12
+textureName = none
+name = LuckyGloves
+description = LuckyGloves. Luck doesn't affect so much in this game. + 5 LUC / + 250 bonus
+gold = 500
 ----------------------------------------------

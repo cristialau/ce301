@@ -12,36 +12,36 @@ knowledge = 0
 ----------------------------------------------
 //charater[1] player1
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
+name = p1
+totalHp = 200
+attack = 50
+defence = 50
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 5
+conversation = 5
+knowledge = 5
 ----------------------------------------------
 //charater[2] player2
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
+name = p2
+totalHp = 10
+attack = 25
+defence = 30
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 12
+conversation = 12
+knowledge = 12
 ----------------------------------------------
 //charater[3] L1
 textureName = none
 name = none
-totalHp = 0
-attack = 0
-defence = 0
-luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+totalHp = 150
+attack = 70
+defence = 50
+luck = 5
+observation = 15
+conversation = 15
+knowledge = 15
 ----------------------------------------------
 //charater[4] L2
 textureName = none
@@ -176,6 +176,160 @@ conversation = 0
 knowledge = 0
 ----------------------------------------------
 //charater[16] M7
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[0] V1
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[0] V2
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[0] V3
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[0] V4
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[0] V5
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[0] V6
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[0] V7
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[0] V8
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[0] V9
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[0] V10
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[0] V11
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[0] V12
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[0] V13
+textureName = none
+name = none
+totalHp = 0
+attack = 0
+defence = 0
+luck = 0
+observation = 0
+conversation = 0
+knowledge = 0
+----------------------------------------------
+//charater[0] V14
 textureName = none
 name = none
 totalHp = 0

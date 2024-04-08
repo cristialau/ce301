@@ -12,6 +12,7 @@ NPC::NPC(Character& character, std::string job, int gold, int npcReward, Quest& 
 	shopWeight = 100;
 
 	//Setting
+	rls = 0;
 	npcNumber = 2;
 	this->positionX = positionX;
 	this->positionY = positionY;
@@ -151,6 +152,16 @@ void NPC::SetDialogue(std::string dialogue)
 	this->dialogue = dialogue;
 }
 
+int NPC::GetPositionX()
+{
+	return positionX;
+}
+
+int NPC::GetPositionY()
+{
+	return positionY;
+}
+
 void NPC::AddRls(int rls)
 {
 	this->rls += rls;
@@ -167,5 +178,69 @@ void NPC::AddGold(int gold)
 
 void NPC::Effect()
 {
+	if (e1previousID != c.GetEquip(1).id) {
 
+		switch (e1previousID) {
+		case 1:	c.AddAtkEx(-25); c.AddDefEx(-25); break;
+		case 2: c.AddAtkEx(-40); break;
+		case 3: c.AddOsv(-10); c.AddCvs(-10); c.AddKlg(-10); break;
+		case 4: c.AddDefEx(-50); break;
+		case 5: c.AddAtkEx(-15); c.AddOsv(-5); c.AddCvs(-5); c.AddKlg(-5); break;
+		case 6: c.AddOsv(-5); c.AddCvs(-5); c.AddKlg(-5); bonus -= 25; break;
+		case 7: c.AddAtkEx(-15); c.AddDefEx(-15); bonus -= 25; break;
+		case 8: c.AddHpMax(-100); break;
+		case 9: c.AddDefEx(-20); c.AddKlg(-20); bonus -= 5; break;
+		case 10: bonus -= 300; break;
+		case 11: c.AddAtkEx(-10); c.AddDefEx(-10); c.AddOsv(-5); c.AddCvs(-5); c.AddKlg(-5); bonus -= 100; break;
+		case 12: c.AddLuc(-5); bonus -= 250; break;
+		default: break;
+		}
+
+		switch (c.GetEquip(1).id) {
+		case 1:	c.AddAtkEx(25); c.AddDefEx(25); break;
+		case 2:	c.AddAtkEx(40); break;
+		case 3: c.AddOsv(10); c.AddCvs(10); c.AddKlg(10); break;
+		case 4: c.AddDefEx(50); break;
+		case 5: c.AddAtkEx(15); c.AddOsv(5); c.AddCvs(5); c.AddKlg(5); break;
+		case 6: c.AddOsv(5); c.AddCvs(5); c.AddKlg(5); bonus += 25; break;
+		case 7: c.AddAtkEx(15); c.AddDefEx(15); bonus += 25; break;
+		case 8: c.AddHpMax(100); break;
+		case 9: c.AddDefEx(20); c.AddKlg(20); bonus += 5; break;
+		case 10: bonus += 300; break;
+		case 11: c.AddAtkEx(10); c.AddDefEx(10); c.AddOsv(5); c.AddCvs(5); c.AddKlg(5); bonus += 100; break;
+		case 12: c.AddLuc(5); bonus += 250; break;
+		default: break;
+		}
+
+		e1previousID = c.GetEquip(1).id;
+	}
+
+	if (s1previousID != c.GetSkill(1).id) {
+
+		switch (s1previousID) {
+		case 10: c.AddAtk(-25); break;
+		case 11: c.AddDef(-25); break;
+		case 12: c.AddHpMax(-50); break;
+		case 13: c.AddOsv(-8); break;
+		case 14: c.AddCvs(-8); break;
+		case 15: c.AddKlg(-8); break;
+		default: break;
+		}
+
+		switch (c.GetSkill(1).id) {
+		case 10: c.AddAtk(25); break;
+		case 11: c.AddDef(25); break;
+		case 12: c.AddHpMax(50); break;
+		case 13: c.AddOsv(8); break;
+		case 14: c.AddCvs(8); break;
+		case 15: c.AddKlg(8); break;
+		default: break;
+		}
+
+		s1previousID = c.GetSkill(1).id;
+	}
+
+	for (int i = 1; i < shop.size(); i++) {
+		shop[i].bonus = bonus;
+	}
 }

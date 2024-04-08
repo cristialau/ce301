@@ -66,7 +66,7 @@ locationID = 7
 //npc[8]
 job = Merchant
 gold = 500
-npcReward = 17
+npcReward = 10
 positionX = 12
 positionY = 12
 locationID = 1
@@ -74,7 +74,7 @@ locationID = 1
 //npc[9]
 job = Merchant
 gold = 500
-npcReward = 18
+npcReward = 11
 positionX = 12
 positionY = 12
 locationID = 2
@@ -82,7 +82,7 @@ locationID = 2
 //npc[10]
 job = Merchant
 gold = 500
-npcReward = 19
+npcReward = 12
 positionX = 12
 positionY = 12
 locationID = 3
@@ -90,7 +90,7 @@ locationID = 3
 //npc[11]
 job = Merchant
 gold = 500
-npcReward = 20
+npcReward = 13
 positionX = 12
 positionY = 12
 locationID = 4
@@ -98,7 +98,7 @@ locationID = 4
 //npc[12]
 job = Merchant
 gold = 500
-npcReward = 21
+npcReward = 14
 positionX = 12
 positionY = 12
 locationID = 5
@@ -106,7 +106,7 @@ locationID = 5
 //npc[13]
 job = Merchant
 gold = 500
-npcReward = 22
+npcReward = 15
 positionX = 12
 positionY = 12
 locationID = 6
@@ -114,8 +114,120 @@ locationID = 6
 //npc[14]
 job = Merchant
 gold = 500
-npcReward = 23
+npcReward = 16
 positionX = 12
+positionY = 12
+locationID = 7
+----------------------------------------------
+//npc[15]
+job = Villager
+gold = 500
+npcReward = 23
+positionX = 7
+positionY = 12
+locationID = 1
+----------------------------------------------
+//npc[15]
+job = Villager
+gold = 500
+npcReward = 23
+positionX = 8
+positionY = 12
+locationID = 1
+----------------------------------------------
+//npc[15]
+job = Villager
+gold = 500
+npcReward = 23
+positionX = 7
+positionY = 12
+locationID = 2
+----------------------------------------------
+//npc[15]
+job = Villager
+gold = 500
+npcReward = 23
+positionX = 8
+positionY = 12
+locationID = 2
+----------------------------------------------
+//npc[15]
+job = Villager
+gold = 500
+npcReward = 23
+positionX = 7
+positionY = 12
+locationID = 3
+----------------------------------------------
+//npc[15]
+job = Villager
+gold = 500
+npcReward = 23
+positionX = 8
+positionY = 12
+locationID = 3
+----------------------------------------------
+//npc[15]
+job = Villager
+gold = 500
+npcReward = 23
+positionX = 7
+positionY = 12
+locationID = 4
+----------------------------------------------
+//npc[15]
+job = Villager
+gold = 500
+npcReward = 23
+positionX = 8
+positionY = 12
+locationID = 4
+----------------------------------------------
+//npc[15]
+job = Villager
+gold = 500
+npcReward = 23
+positionX = 7
+positionY = 12
+locationID = 5
+----------------------------------------------
+//npc[15]
+job = Villager
+gold = 500
+npcReward = 23
+positionX = 8
+positionY = 12
+locationID = 5
+----------------------------------------------
+//npc[15]
+job = Villager
+gold = 500
+npcReward = 23
+positionX = 7
+positionY = 12
+locationID = 6
+----------------------------------------------
+//npc[15]
+job = Villager
+gold = 500
+npcReward = 23
+positionX = 8
+positionY = 12
+locationID = 6
+----------------------------------------------
+//npc[15]
+job = Villager
+gold = 500
+npcReward = 23
+positionX = 7
+positionY = 12
+locationID = 7
+----------------------------------------------
+//npc[15]
+job = Villager
+gold = 500
+npcReward = 23
+positionX = 8
 positionY = 12
 locationID = 7
 ----------------------------------------------

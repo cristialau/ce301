@@ -610,7 +610,8 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 			else {
 				sameLocation = false;
 				travelingTime = player.GetLocationTime() - locationList[locationSelect].time;
-				std::cout << "Estimate travel time: " << abs(travelingTime) / 1000 << " Day" << std::endl;
+				std::cout << "Estimate travel time: " << abs(travelingTime) / 1000 << " Day." << std::endl;
+				std::cout << "You need " << abs(travelingTime) / 100 << " Gold for travel." << std::endl;
 				std::cout << "Start your travel?" << std::endl;
 			}
 		}
@@ -619,6 +620,7 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 			if (!sameLocation) {
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 					player.SetPlayerState("Traveling");
+					player.AddGold(-(abs(travelingTime) / 100));
 					mapNumber = locationSelect;
 					showMenu = false;
 					showLocation = false;
