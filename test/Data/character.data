@@ -188,14 +188,14 @@ knowledge = 0
 ----------------------------------------------
 //charater[17] B
 textureName = none
-name = none
+name = bandits
 totalHp = 100
 attack = 10
 defence = 10
 luck = 0
-observation = 5
-conversation = 5
-knowledge = 5
+observation = 8
+conversation = 8
+knowledge = 8
 ----------------------------------------------
 //charater[18] V1
 textureName = none
@@ -219,7 +219,7 @@ observation = 0
 conversation = 0
 knowledge = 0
 ----------------------------------------------
-//charater[0] V3
+//charater[20] V3
 textureName = none
 name = none
 totalHp = 0
@@ -230,7 +230,7 @@ observation = 0
 conversation = 0
 knowledge = 0
 ----------------------------------------------
-//charater[0] V4
+//charater[21] V4
 textureName = none
 name = none
 totalHp = 0
@@ -241,7 +241,7 @@ observation = 0
 conversation = 0
 knowledge = 0
 ----------------------------------------------
-//charater[0] V5
+//charater[22] V5
 textureName = none
 name = none
 totalHp = 0
@@ -252,7 +252,7 @@ observation = 0
 conversation = 0
 knowledge = 0
 ----------------------------------------------
-//charater[0] V6
+//charater[23] V6
 textureName = none
 name = none
 totalHp = 0
@@ -263,7 +263,7 @@ observation = 0
 conversation = 0
 knowledge = 0
 ----------------------------------------------
-//charater[0] V7
+//charater[24] V7
 textureName = none
 name = none
 totalHp = 0
@@ -274,7 +274,7 @@ observation = 0
 conversation = 0
 knowledge = 0
 ----------------------------------------------
-//charater[0] V8
+//charater[25] V8
 textureName = none
 name = none
 totalHp = 0
@@ -285,7 +285,7 @@ observation = 0
 conversation = 0
 knowledge = 0
 ----------------------------------------------
-//charater[0] V9
+//charater[26] V9
 textureName = none
 name = none
 totalHp = 0
@@ -296,7 +296,7 @@ observation = 0
 conversation = 0
 knowledge = 0
 ----------------------------------------------
-//charater[0] V10
+//charater[27] V10
 textureName = none
 name = none
 totalHp = 0
@@ -307,7 +307,7 @@ observation = 0
 conversation = 0
 knowledge = 0
 ----------------------------------------------
-//charater[0] V11
+//charater[28] V11
 textureName = none
 name = none
 totalHp = 0
@@ -318,7 +318,7 @@ observation = 0
 conversation = 0
 knowledge = 0
 ----------------------------------------------
-//charater[0] V12
+//charater[29] V12
 textureName = none
 name = none
 totalHp = 0
@@ -329,7 +329,7 @@ observation = 0
 conversation = 0
 knowledge = 0
 ----------------------------------------------
-//charater[0] V13
+//charater[30] V13
 textureName = none
 name = none
 totalHp = 0
@@ -340,7 +340,7 @@ observation = 0
 conversation = 0
 knowledge = 0
 ----------------------------------------------
-//charater[0] V14
+//charater[31] V14
 textureName = none
 name = none
 totalHp = 0

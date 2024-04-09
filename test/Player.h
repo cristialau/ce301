@@ -88,11 +88,11 @@ private:
 
 	//Quest
 	int banditDefeated;
-	bool showFinish3 = false;
-	bool save4 = false;
-	int tempGold = 0;
-	int tradeGameCount = 0;
-	int talkCount = 0;
+	bool showFinish3;
+	bool save4;
+	int tempGold;
+	int tradeGameCount;
+	int talkCount;
 
 	//End
 	int goalGold;

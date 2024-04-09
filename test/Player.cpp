@@ -71,6 +71,11 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 
 	//Quest
 	banditDefeated = 0;
+	showFinish3 = false;
+	save4 = false;
+	tempGold = 0;
+	tradeGameCount = 0;
+	talkCount = 0;
 
 	//End
 	goalGold = 20000;
