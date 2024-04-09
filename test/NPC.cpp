@@ -33,7 +33,7 @@ void NPC::Load(Location& location)
 {
 	//npc setup in playerMap
 	if(locationID == location.id)
-		location.playerMap[positionX][positionY] = npcNumber;
+		location.playerMap[positionY][positionX] = npcNumber;
 
 
 	//c.GetSprite().setPosition(sf::Vector2f(tilePositionX, tilePositionY));
@@ -218,8 +218,8 @@ void NPC::Effect()
 	if (s1previousID != c.GetSkill(1).id) {
 
 		switch (s1previousID) {
-		case 10: c.AddAtk(-25); break;
-		case 11: c.AddDef(-25); break;
+		case 10: c.AddAtk(-20); break;
+		case 11: c.AddDef(-20); break;
 		case 12: c.AddHpMax(-50); break;
 		case 13: c.AddOsv(-8); break;
 		case 14: c.AddCvs(-8); break;
@@ -228,8 +228,8 @@ void NPC::Effect()
 		}
 
 		switch (c.GetSkill(1).id) {
-		case 10: c.AddAtk(25); break;
-		case 11: c.AddDef(25); break;
+		case 10: c.AddAtk(20); break;
+		case 11: c.AddDef(20); break;
 		case 12: c.AddHpMax(50); break;
 		case 13: c.AddOsv(8); break;
 		case 14: c.AddCvs(8); break;

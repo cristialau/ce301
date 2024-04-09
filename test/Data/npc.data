@@ -122,112 +122,16 @@ locationID = 7
 //npc[15]
 job = Villager
 gold = 500
-npcReward = 23
+npcReward = 0
 positionX = 7
 positionY = 12
 locationID = 1
 ----------------------------------------------
-//npc[15]
+//npc[16]
 job = Villager
 gold = 500
-npcReward = 23
+npcReward = 0
 positionX = 8
 positionY = 12
 locationID = 1
-----------------------------------------------
-//npc[15]
-job = Villager
-gold = 500
-npcReward = 23
-positionX = 7
-positionY = 12
-locationID = 2
-----------------------------------------------
-//npc[15]
-job = Villager
-gold = 500
-npcReward = 23
-positionX = 8
-positionY = 12
-locationID = 2
-----------------------------------------------
-//npc[15]
-job = Villager
-gold = 500
-npcReward = 23
-positionX = 7
-positionY = 12
-locationID = 3
-----------------------------------------------
-//npc[15]
-job = Villager
-gold = 500
-npcReward = 23
-positionX = 8
-positionY = 12
-locationID = 3
-----------------------------------------------
-//npc[15]
-job = Villager
-gold = 500
-npcReward = 23
-positionX = 7
-positionY = 12
-locationID = 4
-----------------------------------------------
-//npc[15]
-job = Villager
-gold = 500
-npcReward = 23
-positionX = 8
-positionY = 12
-locationID = 4
-----------------------------------------------
-//npc[15]
-job = Villager
-gold = 500
-npcReward = 23
-positionX = 7
-positionY = 12
-locationID = 5
-----------------------------------------------
-//npc[15]
-job = Villager
-gold = 500
-npcReward = 23
-positionX = 8
-positionY = 12
-locationID = 5
-----------------------------------------------
-//npc[15]
-job = Villager
-gold = 500
-npcReward = 23
-positionX = 7
-positionY = 12
-locationID = 6
-----------------------------------------------
-//npc[15]
-job = Villager
-gold = 500
-npcReward = 23
-positionX = 8
-positionY = 12
-locationID = 6
-----------------------------------------------
-//npc[15]
-job = Villager
-gold = 500
-npcReward = 23
-positionX = 7
-positionY = 12
-locationID = 7
-----------------------------------------------
-//npc[15]
-job = Villager
-gold = 500
-npcReward = 23
-positionX = 8
-positionY = 12
-locationID = 7
 ----------------------------------------------

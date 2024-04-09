@@ -58,7 +58,6 @@ void Game::InitGame()
     QuestList();
     LocationList();
     CharacterList();
-
     NPCList();
 
     SceneList();
@@ -80,13 +79,17 @@ void Game::LoadGame()
     this->map->Load(locationList[mapNumber]);
 
     //Load npcs
-    for (int i = 0; i < npcList.size(); i++) {
-        npcList[i].Load(locationList[mapNumber]);
+    for (int j = 1; j < locationList.size(); j++) {
+        for (int i = 1; i < npcList.size(); i++) {
+            if(npcList[i].GetLocationID() == locationList[j].id)
+                npcList[i].Load(locationList[j]);
+        }
     }
 
-    //player.GetCartInventory().push_back(itemList[1]);
-    //player.GetCartInventory().push_back(itemList[2]);
-    //player.GetCartInventory().push_back(itemList[3]);
+    //------------------------------------------------------
+    this->player->GetCartInventory().push_back(itemList[1]);
+    this->player->GetCartInventory().push_back(itemList[2]);
+    this->player->GetCartInventory().push_back(itemList[3]);
     
     this->player->GetEquipInventory().push_back(equipmentList[1]);
     //player.GetEquipInventory().push_back(equipmentList[1]);
@@ -126,6 +129,7 @@ void Game::Update()
             this->player->TravelState(this->menu->GetTravelingTime(), dt, isPressed);
         }
         else if (this->player->GetPlayerState() == "Battle") {
+            CheckEnemy();
             this->battle->Update(*player, enemyList, previousState, isPressed);
         }
         else if (this->player->GetPlayerState() == "Trading") {
@@ -237,6 +241,20 @@ void Game::Status()
     for (int i = 0; i < enemyList.size(); i++) {
         enemyList[i].Effect();
     }
+}
+
+int Game::RandomInt(int num)
+{
+    // Create a random device to seed the generator
+    std::random_device rd;
+    // Create a random number engine
+    std::mt19937_64 eng(rd()); // Mersenne Twister 64-bit RNG
+    // Define a distribution
+    std::uniform_int_distribution<int> distr1(1, num); // Range from 1 to 3
+
+    int result = distr1(eng);
+
+    return result;
 }
 
 float Game::RandomFloat()
@@ -590,20 +608,53 @@ void Game::ResetShop(std::string job, int locationID, NPC& npc)
 
 NPC& Game::CheckNPC()
 {
-    for (int i = 0; i < npcList.size(); i++) {
+    for (int i = 1; i < npcList.size(); i++) {
         if (npcList[i].GetLocationID() == mapNumber &&
             npcList[i].GetPositionX() == this->player->GetMapPositionX() &&
             npcList[i].GetPositionY() == this->player->GetMapPositionY())
             return npcList[i];
     }
+}
 
-    return npcList[1];
+void Game::CheckEnemy()
+{
+    if (enemyList.empty()) {
+        NPC npc1(characterList[17], "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
+        NPC npc2(characterList[17], "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
+        NPC npc3(characterList[17], "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
+
+        int random = 0;
+        npc1.GetC().SetSkill(1, skillList[RandomInt(15)]);
+        random = RandomInt(5);
+        npc1.GetC().SetEquip(1, equipmentList[random]);
+        npc1.GetEquipInventory().push_back(equipmentList[0]);
+        npc1.GetEquipInventory().push_back(equipmentList[random]);
+
+        npc2.GetC().SetSkill(1, skillList[RandomInt(15)]);
+        random = RandomInt(5);
+        npc2.GetC().SetEquip(1, equipmentList[random]);
+        npc2.GetEquipInventory().push_back(equipmentList[0]);
+        npc2.GetEquipInventory().push_back(equipmentList[random]);
+
+        npc3.GetC().SetSkill(1, skillList[RandomInt(15)]);
+        random = RandomInt(5);
+        npc3.GetC().SetEquip(1, equipmentList[random]);
+        npc3.GetEquipInventory().push_back(equipmentList[0]);
+        npc3.GetEquipInventory().push_back(equipmentList[random]);
+
+        switch (RandomInt(3)) {
+        case 1: enemyList.push_back(npc1); break;
+        case 2: enemyList.push_back(npc1); enemyList.push_back(npc2); break;
+        case 3: enemyList.push_back(npc1); enemyList.push_back(npc2); enemyList.push_back(npc3); break;
+        default: enemyList.push_back(npc1); break;
+        }
+    }
 }
 
 //Data-----------------------------------
 void Game::SkillList()
 {
-    std::ifstream ifSkill("data/equipment.data");
+    std::ifstream ifSkill("data/skill.data");
 
     if (ifSkill.is_open()) {
         std::string line;

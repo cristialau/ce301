@@ -369,7 +369,7 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 				result = RandomEvent();
 			}
 
-			switch (result) {
+			switch (3) {
 			case 1: Reward(8); roll = false; passEvent = true; break;
 			case 2: Reward(9); roll = false; passEvent = true; break;
 			case 3:
@@ -379,18 +379,6 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 					SetPlayerState("Battle");
-					roll = false;
-					showWarning = false;
-					passEvent = true;
-				}
-				break;
-			case 4: 
-				if (!showWarning) {
-					showWarning = true;
-					std::cout << "encounter merchant" << std::endl;
-				}
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-					SetPlayerState("Trading");
 					roll = false;
 					showWarning = false;
 					passEvent = true;
@@ -621,17 +609,15 @@ int Player::RandomEvent()
 	// Create a random number engine
 	std::mt19937_64 eng(rd()); // Mersenne Twister 64-bit RNG
 	// Define a distribution
-	std::uniform_int_distribution<int> distr3(1, 10); // Range from 1 to 3
+	std::uniform_int_distribution<int> distr3(1, 9); // Range from 1 to 3
 	int random = distr3(eng);
 
 	if (random <= 4)
 		return 1;
 	else if (random >= 5 && random <= 8)
 		return 2;
-	else if (random == 9)
-		return 4;
 	else
-		return 5;
+		return 3;
 }
 //--------------------------------------------------
 void Player::Reward(int type)
@@ -790,8 +776,8 @@ void Player::Effect()
 		}
 
 		switch (temp1) {
-		case 10: c1.AddAtk(-25); break;
-		case 11: c1.AddDef(-25); break;
+		case 10: c1.AddAtk(-20); break;
+		case 11: c1.AddDef(-20); break;
 		case 12: c1.AddHpMax(-50); break;
 		case 13: c1.AddOsv(-8); break;
 		case 14: c1.AddCvs(-8); break;
@@ -800,8 +786,8 @@ void Player::Effect()
 		}
 
 		switch (temp2) {
-		case 10: c1.AddAtk(25); break;
-		case 11: c1.AddDef(25); break;
+		case 10: c1.AddAtk(20); break;
+		case 11: c1.AddDef(20); break;
 		case 12: c1.AddHpMax(50); break;
 		case 13: c1.AddOsv(8); break;
 		case 14: c1.AddCvs(8); break;
@@ -829,8 +815,8 @@ void Player::Effect()
 		}
 
 		switch (temp1) {
-		case 10: c2.AddAtk(-25); break;
-		case 11: c2.AddDef(-25); break;
+		case 10: c2.AddAtk(-20); break;
+		case 11: c2.AddDef(-20); break;
 		case 12: c2.AddHpMax(-50); break;
 		case 13: c2.AddOsv(-8); break;
 		case 14: c2.AddCvs(-8); break;
@@ -839,8 +825,8 @@ void Player::Effect()
 		}
 
 		switch (temp2) {
-		case 10: c2.AddAtk(25); break;
-		case 11: c2.AddDef(25); break;
+		case 10: c2.AddAtk(20); break;
+		case 11: c2.AddDef(20); break;
 		case 12: c2.AddHpMax(50); break;
 		case 13: c2.AddOsv(8); break;
 		case 14: c2.AddCvs(8); break;

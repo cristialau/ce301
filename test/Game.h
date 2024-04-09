@@ -62,8 +62,6 @@ private:
 	std::string temp;
 	bool changeState = false;
 	bool changePercent = false;
-
-	
 	
 public:
 	Game();
@@ -85,9 +83,11 @@ public:
 	//Functions
 	void EndApplication();
 	void Status();
+	int RandomInt(int num);
 	float RandomFloat();
 	void ResetShop(std::string job, int locationID, NPC& npc);
 	NPC& CheckNPC();
+	void CheckEnemy();
 
 	//Data
 	void SkillList();

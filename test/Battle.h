@@ -13,7 +13,8 @@ private:
 	int random;
 	
 	int round;					//rounds
-	
+	int roundtemp;
+
 	bool haveC1;				//c1 in battle
 	bool haveC2;				//c2 in battle
 	
@@ -25,10 +26,21 @@ private:
 	int playerTeamSP;
 	int playerAttackDmg;		//player's atk
 	int playerDefence;			//player's def
+	int playerOSV;
+	int playerCVS;
+	int playerKLG;
 
-	float phpMaxMul;
-	float patkMul;
-	float pdefMul;
+	bool pb1 = false;
+	int playerBuff1 = 0;
+	int ptemp1 = 0;
+	bool pb2 = false;
+	int playerBuff2 = 0;
+	int ptemp2 = 0;
+	bool pb3 = false;
+	int playerBuff3 = 0;
+	int ptemp3 = 0;
+	int ptemp4 = 0;
+	int ptemp5 = 0;
 
 	int enemyNumber;			//enemy number
 	
@@ -38,16 +50,29 @@ private:
 	int enemyTeamHP;
 	int enemyAttackDmg;			//enemy's atk
 	int enemyDefence;			//enemy's def
-	
-	float ehpMaxMul;
-	float eatkMul;
-	float edefMul;
+	int enemyOSV;
+	int enemyCVS;
+	int enemyKLG;
+
+	bool eb1 = false;
+	int enemyBuff1 = 0;
+	int etemp1 = 0;
+	bool eb2 = false;
+	int enemyBuff2 = 0;
+	int etemp2 = 0;
+	bool eb3 = false;
+	int enemyBuff3 = 0;
+	int etemp3 = 0;
+	int etemp4 = 0;
+	int etemp5 = 0;
 	
 	bool useEnemyAttack;
 
 	int select;				//player select
 	int selectMax;
 	bool playerSelected;
+
+	bool showEndBattle = false;
 
 public:
 	Battle();
@@ -61,12 +86,11 @@ public:
 	
 	//Functions
 	void SetUp(Player player, std::vector<NPC> enemy, std::string previousState);
-	void Status(Player player, std::vector<NPC> enemy);
 	void AddSp(int sp);
 	int Random();
 	void Attack(int attackdmg);
 	void SkillEffect(Skill skill);
-	
+	void Effect();
 };
 
 #endif
