@@ -140,6 +140,7 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, Loca
 					knowledgeScore > npc.GetC().GetKnowledge() * 2) {
 					player.Reward(npc.GetNPCReward());
 					npc.SetPassTradeGame(true);
+					player.AddTradeGameWin(1);
 				}
 
 				std::cout << "NPC OSV: " << npc.GetC().GetObservation() * 2

@@ -61,6 +61,8 @@ Battle::Battle()
 	select = 1;
 	selectMax = 1;
 	playerSelected = false;
+
+	showEndBattle = false;
 }
 
 Battle::~Battle()
@@ -376,6 +378,7 @@ void Battle::EndBattle(Player& player, std::vector<NPC>& enemy, bool& isPressed)
 			player.SetPlayerState(previousState);
 			startBattle = false;
 			showEndBattle = false;
+			player.AddBanditDefeat(enemyNumber);
 			enemy.clear();
 		}
 	}

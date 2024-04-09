@@ -10,56 +10,56 @@ reward = 0
 //quest[1]
 id = 1
 textureName = none
-name = none
-ownerName = none
-description = none
+name = To the Edge
+ownerName = L1
+description = Arrived the Edge and come back. I will give you what you want.
 reward = 1
 ----------------------------------------------
 //quest[2]
 id = 2
 textureName = none
-name = none
-ownerName = none
-description = none
+name = Cleaning
+ownerName = L2
+description = Defeat 6 bandits. we could clean this quest fast too, hopefully.
 reward = 2
 ----------------------------------------------
 //quest[3]
 id = 3
 textureName = none
-name = none
-ownerName = none
-description = none
+name = Ordering
+ownerName = L3
+description = Bring me 4 Oil Paintings. Time to decorate my new house.
 reward = 3
 ----------------------------------------------
 //quest[4]
 id = 4
 textureName = none
-name = none
-ownerName = none
-description = none
+name = Money
+ownerName = L4
+description = Earn 7500 gold. Show your ability.
 reward = 4
 ----------------------------------------------
 //quest[5]
 id = 5
 textureName = none
-name = none
-ownerName = none
-description = none
+name = Winning
+ownerName = L5
+description = Try to win 5 boring trade games.
 reward = 5
 ----------------------------------------------
 //quest[6]
 id = 6
 textureName = none
-name = none
-ownerName = none
-description = none
+name = ...
+ownerName = L6
+description = ...
 reward = 6
 ----------------------------------------------
 //quest[7]
 id = 7
 textureName = none
-name = none
-ownerName = none
-description = none
+name = Greedy
+ownerName = L7
+description = Give me money. 20000 gold is enough.
 reward = 7
 ----------------------------------------------

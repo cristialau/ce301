@@ -15,6 +15,19 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 	day = 0;
 	npcNumber = 2;
 
+	c1s1previousID = 0;
+	c1s2previousID = 0;
+	c1e1previousID = 0;
+	c1e2previousID = 0;
+	c1e3previousID = 0;
+	c2s1previousID = 0;
+	c2s2previousID = 0;
+	c2e1previousID = 0;
+	c2e2previousID = 0;
+	c2e3previousID = 0;
+
+	bonus = 0;
+
 	//Map
 	currentLocationID = -1;
 	locationTime = 0;
@@ -56,8 +69,11 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 	result = 0;
 	showWarning = false;
 
+	//Quest
+	banditDefeated = 0;
+
 	//End
-	goalGold = 2000;
+	goalGold = 20000;
 }
 
 Player::~Player()
@@ -126,7 +142,7 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 	//sf::Vector2f center(viewX, viewY);
 	//view.setCenter(center);
 	
-	if (day > 30) {
+	if (day >= 30) {
 		SetPlayerState("EndGame");
 	}
 
@@ -272,7 +288,12 @@ void Player::OpenQuest(NPC& npc, Location& location, bool& isPressed)
 		std::cout << "Description: " << npc.GetNPCQuest().description << std::endl;
 
 		if (npc.GetNPCQuest().gotReward) {
-			std::cout << "You finished my quest" << std::endl;
+			if (npc.GetNPCQuest().id == 6) {
+				std::cout << ":)" << std::endl;
+			}
+			else {
+				std::cout << "You finished my quest" << std::endl;
+			}
 			questSelectMax = 1;
 		}
 		else if (npc.GetNPCQuest().finished || npc.GetNPCQuest().accepted) {
@@ -305,6 +326,9 @@ void Player::OpenQuest(NPC& npc, Location& location, bool& isPressed)
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				questSelected = true;
+				if (npc.GetNPCQuest().id == 6) {
+					talkCount++;
+				}
 			}
 		}
 	}
@@ -316,12 +340,23 @@ void Player::OpenQuest(NPC& npc, Location& location, bool& isPressed)
 					if (questList[i].id == npc.GetNPCQuest().id)
 						questList[i].gotReward = true;
 				}
-				std::cout << "You finished my quest." << std::endl;
+				if (npc.GetNPCQuest().id == 6) {
+					std::cout << ":)" << std::endl;
+				}
+				else {
+					std::cout << "You finished my quest." << std::endl;
+				}
+				
 				location.rls += 25;
 				Reward(npc.GetNPCQuest().reward);
 			}
 			else if (npc.GetNPCQuest().accepted) {
-				std::cout << "You have not finished my quest." << std::endl;
+				if (npc.GetNPCQuest().id == 6) {
+					std::cout << "....." << std::endl;
+				}
+				else {
+					std::cout << "You have not finished my quest." << std::endl;
+				}
 			}
 			else if (!npc.GetNPCQuest().accepted){
 				npc.GetNPCQuest().accepted = true;
@@ -329,7 +364,12 @@ void Player::OpenQuest(NPC& npc, Location& location, bool& isPressed)
 				std::cout << "Player accepts quest successfully." << std::endl;
 			}
 			else {
-				std::cout << "You recieved my reward." << std::endl;
+				if (npc.GetNPCQuest().id == 6) {
+					std::cout << "._." << std::endl;
+				}
+				else {
+					std::cout << "You recieved my reward." << std::endl;
+				}
 			}
 		}
 
@@ -571,6 +611,16 @@ void Player::AddGold(int gold)
 {
 	this->gold += gold;
 }
+
+void Player::AddBanditDefeat(int enemyNumber)
+{
+	banditDefeated += enemyNumber;
+}
+
+void Player::AddTradeGameWin(int tradeGamecount)
+{
+	tradeGameCount += tradeGamecount;
+}
 //--------------------------------------------------
 bool Player::InDebt()
 {
@@ -622,14 +672,28 @@ int Player::RandomEvent()
 //--------------------------------------------------
 void Player::Reward(int type)
 {
+	int count3 = 0;
 	switch (type) {
-	case 1: std::cout << "Finished quest 1." << std::endl; skillList.push_back(sk[3]); AddGold(500); break;
-	case 2: std::cout << "Finished quest 2." << std::endl; skillList.push_back(sk[4]); AddGold(500); break;
-	case 3: std::cout << "Finished quest 3." << std::endl; skillList.push_back(sk[5]);	AddGold(500); break;
-	case 4: std::cout << "Finished quest 4." << std::endl; SetCartInventoryWeight(12); skillList.push_back(sk[6]); AddGold(1000); break;
-	case 5: std::cout << "Finished quest 5." << std::endl; skillList.push_back(sk[7]); AddGold(1000); break;
-	case 6: std::cout << "Finished quest 6." << std::endl; skillList.push_back(sk[8]);	AddGold(1000); break;
-	case 7: std::cout << "Finished quest 7." << std::endl; SetCartInventoryWeight(15); skillList.push_back(sk[9]); AddGold(1000); break;
+	case 1: std::cout << "Get Reward from quest 1." << std::endl; cartInventoryWeight += 5; skillList.push_back(sk[6]); AddGold(1000); break;
+	case 2: std::cout << "Get Reward from quest 2." << std::endl; skillList.push_back(sk[4]); AddGold(500); break;
+	case 3: std::cout << "Get Reward from quest 3." << std::endl; skillList.push_back(sk[5]);	AddGold(750);
+		while (count3 < 4) {
+			for (int i = 1; i < cartInventory.size(); i++) {
+				if (cartInventory[i].id == 27 && count3 < 4) {
+					cartInventory.erase(cartInventory.begin() + i);
+					count3++;
+					if (count3 == 4)
+						break;
+				}
+			}
+			if (count3 == 4)
+				break;
+		}
+		break;
+	case 4: std::cout << "Get Reward from quest 4." << std::endl; skillList.push_back(sk[3]); AddGold(500); break;
+	case 5: std::cout << "Get Reward from quest 5." << std::endl; skillList.push_back(sk[7]); AddGold(1000); break;
+	case 6: std::cout << "Get Reward from quest 6." << std::endl; skillList.push_back(sk[8]); AddGold(1000); break;
+	case 7: std::cout << "Get Reward from quest 7." << std::endl; cartInventoryWeight += 5; skillList.push_back(sk[9]); AddGold(-20000); break;
 	case 8:	std::cout << "Recieve 100 gold." << std::endl; AddGold(100); break;
 	case 9:	std::cout << "Lost 100 gold." << std::endl; AddGold(-100); break;
 	case 10: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[1]); break;
@@ -640,7 +704,7 @@ void Player::Reward(int type)
 	case 15: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[6]); break;
 	case 16: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[7]); break;
 	case 17: std::cout << "Get Trade Reward." << std::endl; AddGold(250); break;
-	default: break;
+	default: std::cout << type << " bug?" << std::endl; break;
 	}
 }
 
@@ -843,6 +907,133 @@ void Player::Effect()
 	}
 	for (int i = 0; i < cartInventory.size(); i++) {
 		cartInventory[i].bonus = bonus;
+	}
+}
+
+void Player::QuestCondition(std::vector<NPC>& npcList)
+{
+	for (int i = 1; i < questList.size(); i++) {
+
+		if (questList[i].id == 1 && questList[i].accepted && !questList[i].finished) {
+			if (currentLocationID == 7) {
+				questList[i].finished = true;
+				std::cout << "Finished Quest 1." << std::endl;
+				for (int j = 1; j < npcList.size(); j++) {
+					if (npcList[j].GetNPCQuest().id == questList[i].id) {
+						npcList[j].GetNPCQuest().finished = true;
+						break;
+					}
+				}
+			}
+		}
+
+		if (questList[i].id == 2 && questList[i].accepted && !questList[i].finished) {
+			if (banditDefeated >= 6) {
+				questList[i].finished = true;
+				std::cout << "Finished Quest 2." << std::endl;
+				for (int j = 1; j < npcList.size(); j++) {
+					if (npcList[j].GetNPCQuest().id == questList[i].id) {
+						npcList[j].GetNPCQuest().finished = true;
+						break;
+					}
+				}
+			}
+		}
+
+		if (questList[i].id == 3 && questList[i].accepted && !questList[i].gotReward) {
+			int count = 0;
+
+			for (int i = 1; i < cartInventory.size(); i++) {
+				if (cartInventory[i].id == 27) {
+					count++;
+				}
+			}
+
+			if (count >= 4) {
+				questList[i].finished = true;
+				if (!showFinish3) {
+					showFinish3 = true;
+					std::cout << "Enough items for Quest 3." << std::endl;
+					for (int j = 1; j < npcList.size(); j++) {
+						if (npcList[j].GetNPCQuest().id == questList[i].id) {
+							npcList[j].GetNPCQuest().finished = true;
+							break;
+						}
+					}
+				}
+			}
+			else {
+				questList[i].finished = false;
+				if (showFinish3) {
+					showFinish3 = false;
+					std::cout << "Not enough items for Quest 3." << std::endl;
+
+					for (int j = 1; j < npcList.size(); j++) {
+						if (npcList[j].GetNPCQuest().id == questList[i].id) {
+							npcList[j].GetNPCQuest().finished = false;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		if (questList[i].id == 4 && questList[i].accepted && !questList[i].finished) {
+			if (!save4) {
+				save4 = true;
+				tempGold = gold;
+			}
+
+			if ((gold - tempGold) >= 7500) {
+				questList[i].finished = true;
+				std::cout << "Finished Quest 4." << std::endl;
+				for (int j = 1; j < npcList.size(); j++) {
+					if (npcList[j].GetNPCQuest().id == questList[i].id) {
+						npcList[j].GetNPCQuest().finished = true;
+						break;
+					}
+				}
+			}
+		}
+
+		if (questList[i].id == 5 && questList[i].accepted && !questList[i].finished) {
+			if (tradeGameCount >= 5) {
+				questList[i].finished = true;
+				std::cout << "Finished Quest 5." << std::endl;
+				for (int j = 1; j < npcList.size(); j++) {
+					if (npcList[j].GetNPCQuest().id == questList[i].id) {
+						npcList[j].GetNPCQuest().finished = true;
+						break;
+					}
+				}
+			}
+		}
+
+		if (questList[i].id == 6 && questList[i].accepted && !questList[i].finished) {
+			if (talkCount >= 5) {
+				questList[i].finished = true;
+				std::cout << "Finished Quest 6." << std::endl;
+				for (int j = 1; j < npcList.size(); j++) {
+					if (npcList[j].GetNPCQuest().id == questList[i].id) {
+						npcList[j].GetNPCQuest().finished = true;
+						break;
+					}
+				}
+			}
+		}
+
+		if (questList[i].id == 7 && questList[i].accepted && !questList[i].finished) {
+			if (gold >= 20000) {
+				questList[i].finished = true;
+				std::cout << "Finished Quest 7." << std::endl;
+				for (int j = 1; j < npcList.size(); j++) {
+					if (npcList[j].GetNPCQuest().id == questList[i].id) {
+						npcList[j].GetNPCQuest().finished = true;
+						break;
+					}
+				}
+			}
+		}
 	}
 }
 //--------------------------------------------------

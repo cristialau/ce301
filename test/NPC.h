@@ -26,9 +26,9 @@ private:
 	std::vector<Skill> skillList;
 
 	std::string dialogue;
-	int s1previousID = 0;
-	int e1previousID = 0;
-	int bonus = 0;
+	int s1previousID;
+	int e1previousID;
+	int bonus;
 
 	//npcNumber and setup
 	int npcNumber;

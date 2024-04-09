@@ -30,17 +30,17 @@ private:
 	int playerCVS;
 	int playerKLG;
 
-	bool pb1 = false;
-	int playerBuff1 = 0;
-	int ptemp1 = 0;
-	bool pb2 = false;
-	int playerBuff2 = 0;
-	int ptemp2 = 0;
-	bool pb3 = false;
-	int playerBuff3 = 0;
-	int ptemp3 = 0;
-	int ptemp4 = 0;
-	int ptemp5 = 0;
+	bool pb1;
+	int playerBuff1;
+	int ptemp1;
+	bool pb2;
+	int playerBuff2;
+	int ptemp2;
+	bool pb3;
+	int playerBuff3;
+	int ptemp3;
+	int ptemp4;
+	int ptemp5;
 
 	int enemyNumber;			//enemy number
 	
@@ -54,17 +54,17 @@ private:
 	int enemyCVS;
 	int enemyKLG;
 
-	bool eb1 = false;
-	int enemyBuff1 = 0;
-	int etemp1 = 0;
-	bool eb2 = false;
-	int enemyBuff2 = 0;
-	int etemp2 = 0;
-	bool eb3 = false;
-	int enemyBuff3 = 0;
-	int etemp3 = 0;
-	int etemp4 = 0;
-	int etemp5 = 0;
+	bool eb1;
+	int enemyBuff1;
+	int etemp1;
+	bool eb2;
+	int enemyBuff2;
+	int etemp2;
+	bool eb3;
+	int enemyBuff3;
+	int etemp3;
+	int etemp4;
+	int etemp5;
 	
 	bool useEnemyAttack;
 
@@ -72,7 +72,7 @@ private:
 	int selectMax;
 	bool playerSelected;
 
-	bool showEndBattle = false;
+	bool showEndBattle;
 
 public:
 	Battle();

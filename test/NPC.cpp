@@ -11,6 +11,10 @@ NPC::NPC(Character& character, std::string job, int gold, int npcReward, Quest& 
 	this->npcReward = npcReward;
 	shopWeight = 100;
 
+	s1previousID = 0;
+	e1previousID = 0;
+	bonus = 0;
+
 	//Setting
 	rls = 0;
 	npcNumber = 2;

@@ -233,6 +233,7 @@ void Game::Status()
     }
     
     this->player->Effect();
+    this->player->QuestCondition(npcList);
 
     for (int i = 1; i < npcList.size(); i++) {
         npcList[i].Effect();
@@ -790,13 +791,13 @@ void Game::QuestList()
             else if (line.find("name =") != std::string::npos) {
                 quest.name = line.substr(line.find("=") + 2);
             }
-            else if (line.find("name =") != std::string::npos) {
+            else if (line.find("ownerName =") != std::string::npos) {
                 quest.ownerName = line.substr(line.find("=") + 2);
             }
             else if (line.find("description =") != std::string::npos) {
                 quest.description = line.substr(line.find("=") + 2);
             }
-            else if (line.find("gold =") != std::string::npos) {
+            else if (line.find("reward =") != std::string::npos) {
                 quest.reward = std::stoi(line.substr(line.find("=") + 2));
             }
             else if (line == "----------------------------------------------") {

@@ -29,18 +29,18 @@ private:
 	int day;
 	int npcNumber;
 
-	int c1s1previousID = 0;
-	int c1s2previousID = 0;
-	int c1e1previousID = 0;
-	int c1e2previousID = 0;
-	int c1e3previousID = 0;
-	int c2s1previousID = 0;
-	int c2s2previousID = 0;
-	int c2e1previousID = 0;
-	int c2e2previousID = 0;
-	int c2e3previousID = 0;
+	int c1s1previousID;
+	int c1s2previousID;
+	int c1e1previousID;
+	int c1e2previousID;
+	int c1e3previousID;
+	int c2s1previousID;
+	int c2s2previousID;
+	int c2e1previousID;
+	int c2e2previousID;
+	int c2e3previousID;
 
-	int bonus = 0;
+	int bonus;
 
 	//Player current Map
 	int currentLocationID;
@@ -85,6 +85,14 @@ private:
 	bool roll;
 	int result;
 	bool showWarning;
+
+	//Quest
+	int banditDefeated;
+	bool showFinish3 = false;
+	bool save4 = false;
+	int tempGold = 0;
+	int tradeGameCount = 0;
+	int talkCount = 0;
 
 	//End
 	int goalGold;
@@ -141,12 +149,16 @@ public:
 	void AddSkill(Skill skill);
 	void AddGold(int gold);
 
+	void AddBanditDefeat(int enemyNumber);
+	void AddTradeGameWin(int tradeGameCount);
+
 	bool InDebt();
 	void Rust();			//Day++ -> Rust
 	int RandomEvent();
 
 	void Reward(int type); // start from 1
 	void Effect();			// equip effects
+	void QuestCondition(std::vector<NPC>& npcList);
 
 	void PrintMap();
 };
