@@ -46,308 +46,308 @@ knowledge = 15
 //charater[4] L2
 textureName = none
 name = L2
-totalHp = 0
-attack = 0
-defence = 0
-luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+totalHp = 150
+attack = 75
+defence = 40
+luck = 4
+observation = 17
+conversation = 14
+knowledge = 10
 ----------------------------------------------
 //charater[5] L3
 textureName = none
 name = L3
-totalHp = 0
-attack = 0
-defence = 0
-luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+totalHp = 150
+attack = 60
+defence = 30
+luck = 4
+observation = 5
+conversation = 20
+knowledge = 9
 ----------------------------------------------
 //charater[6] L4
 textureName = none
 name = L4
-totalHp = 0
-attack = 0
-defence = 0
-luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+totalHp = 150
+attack = 50
+defence = 80
+luck = 3
+observation = 17
+conversation = 17
+knowledge = 7
 ----------------------------------------------
 //charater[7] L5
 textureName = none
 name = L5
-totalHp = 0
-attack = 0
-defence = 0
-luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+totalHp = 150
+attack = 65
+defence = 60
+luck = 3
+observation = 18
+conversation = 18
+knowledge = 18
 ----------------------------------------------
 //charater[8] L6
 textureName = none
 name = L6
-totalHp = 0
-attack = 0
-defence = 0
-luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+totalHp = 150
+attack = 80
+defence = 100
+luck = 5
+observation = 16
+conversation = 5
+knowledge = 25
 ----------------------------------------------
 //charater[9] L7
 textureName = none
 name = L7
-totalHp = 0
-attack = 0
-defence = 0
-luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+totalHp = 150
+attack = 50
+defence = 50
+luck = 4
+observation = 12
+conversation = 14
+knowledge = 5
 ----------------------------------------------
 //charater[10] M1
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
-luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+name = M1
+totalHp = 100
+attack = 10
+defence = 10
+luck = 3
+observation = 17
+conversation = 18
+knowledge = 15
 ----------------------------------------------
 //charater[11] M2
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
-luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+name = M2
+totalHp = 100
+attack = 15
+defence = 15
+luck = 2
+observation = 10
+conversation = 13
+knowledge = 20
 ----------------------------------------------
 //charater[12] M3
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
-luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+name = M3
+totalHp = 100
+attack = 10
+defence = 15
+luck = 5
+observation = 20
+conversation = 12
+knowledge = 8
 ----------------------------------------------
 //charater[13] M4
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
-luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+name = M4
+totalHp = 100
+attack = 20
+defence = 5
+luck = 2
+observation = 12
+conversation = 13
+knowledge = 15
 ----------------------------------------------
 //charater[14] M5
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
-luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+name = M5
+totalHp = 100
+attack = 15
+defence = 10
+luck = 5
+observation = 20
+conversation = 10
+knowledge = 5
 ----------------------------------------------
 //charater[15] M6
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
-luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+name = M6
+totalHp = 100
+attack = 15
+defence = 15
+luck = 1
+observation = 5
+conversation = 5
+knowledge = 25
 ----------------------------------------------
 //charater[16] M7
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
-luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+name = M7
+totalHp = 100
+attack = 10
+defence = 10
+luck = 3
+observation = 20
+conversation = 20
+knowledge = 20
 ----------------------------------------------
 //charater[17] B
 textureName = none
 name = bandits
 totalHp = 100
-attack = 10
-defence = 10
+attack = 25
+defence = 15
 luck = 0
-observation = 8
-conversation = 8
-knowledge = 8
+observation = 10
+conversation = 10
+knowledge = 10
 ----------------------------------------------
 //charater[18] V1
 textureName = none
-name = none
+name = V1
 totalHp = 100
-attack = 0
-defence = 0
+attack = 10
+defence = 10
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 10
+conversation = 10
+knowledge = 10
 ----------------------------------------------
 //charater[19] V2
 textureName = none
-name = none
+name = V2
 totalHp = 100
-attack = 0
-defence = 0
+attack = 10
+defence = 10
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 10
+conversation = 10
+knowledge = 10
 ----------------------------------------------
 //charater[20] V3
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
+name = V3
+totalHp = 100
+attack = 10
+defence = 10
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 10
+conversation = 10
+knowledge = 10
 ----------------------------------------------
 //charater[21] V4
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
+name = V4
+totalHp = 100
+attack = 10
+defence = 10
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 10
+conversation = 10
+knowledge = 10
 ----------------------------------------------
 //charater[22] V5
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
+name = V5
+totalHp = 100
+attack = 10
+defence = 10
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 10
+conversation = 10
+knowledge = 10
 ----------------------------------------------
 //charater[23] V6
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
+name = V6
+totalHp = 100
+attack = 10
+defence = 10
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 10
+conversation = 10
+knowledge = 10
 ----------------------------------------------
 //charater[24] V7
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
+name = V7
+totalHp = 100
+attack = 10
+defence = 10
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 10
+conversation = 10
+knowledge = 10
 ----------------------------------------------
 //charater[25] V8
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
+name = V8
+totalHp = 100
+attack = 10
+defence = 10
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 10
+conversation = 10
+knowledge = 10
 ----------------------------------------------
 //charater[26] V9
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
+name = V9
+totalHp = 100
+attack = 10
+defence = 10
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 10
+conversation = 10
+knowledge = 10
 ----------------------------------------------
 //charater[27] V10
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
+name = V10
+totalHp = 100
+attack = 10
+defence = 10
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 10
+conversation = 10
+knowledge = 10
 ----------------------------------------------
 //charater[28] V11
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
+name = V11
+totalHp = 100
+attack = 10
+defence = 10
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 10
+conversation = 10
+knowledge = 10
 ----------------------------------------------
 //charater[29] V12
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
+name = V12
+totalHp = 100
+attack = 10
+defence = 10
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 10
+conversation = 10
+knowledge = 10
 ----------------------------------------------
 //charater[30] V13
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
+name = V13
+totalHp = 100
+attack = 10
+defence = 10
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 10
+conversation = 10
+knowledge = 10
 ----------------------------------------------
 //charater[31] V14
 textureName = none
-name = none
-totalHp = 0
-attack = 0
-defence = 0
+name = V14
+totalHp = 100
+attack = 10
+defence = 10
 luck = 0
-observation = 0
-conversation = 0
-knowledge = 0
+observation = 10
+conversation = 10
+knowledge = 10
 ----------------------------------------------
