@@ -84,7 +84,7 @@ id = 10
 textureName = none
 name = ATK+
 type = passive
-description = ATK+. A normal increase attack damage passive. + 25 ATK
+description = ATK+. A normal increase attack damage passive. + 20 ATK
 sp = 0
 ----------------------------------------------
 //skill[11] pd
@@ -92,7 +92,7 @@ id = 11
 textureName = none
 name = DEF+
 type = passive
-description = DEF+. A normal increase attack damage passive. + 25 DEF
+description = DEF+. A normal increase attack damage passive. + 20 DEF
 sp = 0
 ----------------------------------------------
 //skill[12] ph
