@@ -27,7 +27,6 @@ public:
 	//Function
 	void Framerate(float dt);
 	void Day();
-	void MiniMap();
 };
 
 #endif

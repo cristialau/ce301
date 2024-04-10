@@ -65,6 +65,7 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 	showArrived = false;
 	travelingTime = 0;
 	passEvent = false;
+	passDay = false;
 	timer = 0;
 	roll = false;
 	result = 0;
@@ -79,7 +80,7 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 	talkCount = 0;
 
 	//End
-	goalGold = 20000;
+	goalGold = 25000;
 }
 
 Player::~Player()
@@ -688,9 +689,9 @@ void Player::Reward(int type)
 {
 	int count3 = 0;
 	switch (type) {
-	case 1: std::cout << "Get Reward from quest 1." << std::endl; cartInventoryWeight += 5; skillList.push_back(sk[6]); AddGold(1000); break;
-	case 2: std::cout << "Get Reward from quest 2." << std::endl; skillList.push_back(sk[4]); AddGold(500); break;
-	case 3: std::cout << "Get Reward from quest 3." << std::endl; skillList.push_back(sk[5]);	AddGold(750);
+	case 1: std::cout << "Get Reward from quest 1." << std::endl; cartInventoryWeight += 5; equipInventory.push_back(eq[1]); AddGold(1000); break;
+	case 2: std::cout << "Get Reward from quest 2." << std::endl; equipInventory.push_back(eq[2]); AddGold(500); break;
+	case 3: std::cout << "Get Reward from quest 3." << std::endl; equipInventory.push_back(eq[3]); AddGold(750);
 		while (count3 < 4) {
 			for (int i = 1; i < cartInventory.size(); i++) {
 				if (cartInventory[i].id == 27 && count3 < 4) {
@@ -704,19 +705,19 @@ void Player::Reward(int type)
 				break;
 		}
 		break;
-	case 4: std::cout << "Get Reward from quest 4." << std::endl; skillList.push_back(sk[3]); AddGold(500); break;
-	case 5: std::cout << "Get Reward from quest 5." << std::endl; skillList.push_back(sk[7]); AddGold(1000); break;
-	case 6: std::cout << "Get Reward from quest 6." << std::endl; skillList.push_back(sk[8]); AddGold(1000); break;
-	case 7: std::cout << "Get Reward from quest 7." << std::endl; cartInventoryWeight += 5; skillList.push_back(sk[9]); AddGold(-20000); break;
+	case 4: std::cout << "Get Reward from quest 4." << std::endl; equipInventory.push_back(eq[4]); AddGold(500); break;
+	case 5: std::cout << "Get Reward from quest 5." << std::endl; equipInventory.push_back(eq[5]); AddGold(1000); break;
+	case 6: std::cout << "Get Reward from quest 6." << std::endl; equipInventory.push_back(eq[6]); AddGold(1000); break;
+	case 7: std::cout << "Get Reward from quest 7." << std::endl; cartInventoryWeight += 5; equipInventory.push_back(eq[7]); AddGold(-20000); break;
 	case 8:	std::cout << "Recieve 100 gold." << std::endl; AddGold(100); break;
 	case 9:	std::cout << "Lost 100 gold." << std::endl; AddGold(-100); break;
-	case 10: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[1]); break;
-	case 11: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[2]); break;
-	case 12: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[3]); break;
-	case 13: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[4]); break;
-	case 14: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[5]); break;
-	case 15: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[6]); break;
-	case 16: std::cout << "Get Trade Reward." << std::endl; equipInventory.push_back(eq[7]); break;
+	case 10: std::cout << "Get Trade Reward." << std::endl; skillList.push_back(sk[6]); break;
+	case 11: std::cout << "Get Trade Reward." << std::endl; skillList.push_back(sk[4]); break;
+	case 12: std::cout << "Get Trade Reward." << std::endl; skillList.push_back(sk[5]); break;
+	case 13: std::cout << "Get Trade Reward." << std::endl; skillList.push_back(sk[3]); break;
+	case 14: std::cout << "Get Trade Reward." << std::endl; skillList.push_back(sk[7]); break;
+	case 15: std::cout << "Get Trade Reward." << std::endl; skillList.push_back(sk[8]); break;
+	case 16: std::cout << "Get Trade Reward." << std::endl; skillList.push_back(sk[9]); break;
 	case 17: std::cout << "Get Trade Reward." << std::endl; AddGold(250); break;
 	default: std::cout << type << " bug?" << std::endl; break;
 	}

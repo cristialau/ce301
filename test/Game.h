@@ -7,7 +7,7 @@
 #include "Menu.h"
 #include "Trade.h"
 #include "Battle.h"
-//#include "Interface.h"
+#include "Interface.h"
 
 #include <fstream>
 #include <sstream>
@@ -31,6 +31,8 @@ private:
 	sf::Time dtTimer;
 	float dt;
 	sf::View view;
+	float windowWidth;
+	float windowHeight;
 
 	//skill, equip, item, location, quest, npc
 	std::vector<Skill> skillList;
@@ -51,6 +53,8 @@ private:
 	Menu* menu;				//Menu
 	Trade* trade;			//Trade
 	Battle* battle;			//Battle
+
+	Interface* interface;
 
 	//variables
 	int mapNumber = 1;

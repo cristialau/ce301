@@ -101,6 +101,11 @@ private:
 	//End
 	int goalGold;
 
+	//sprites
+	std::string tTextureName;
+	sf::Texture tTexture;
+	sf::Sprite tSprite;
+
 public:
 	Player(Character& c1, Character& c2);
 	~Player();

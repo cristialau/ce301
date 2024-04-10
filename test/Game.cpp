@@ -37,12 +37,15 @@ void Game::InitWindow()
     }
     ifs.close();
 
-    this->window = new sf::RenderWindow(window_bounds, title);
+    this->window = new sf::RenderWindow(window_bounds, title, sf::Style::Close);
     this->window->setFramerateLimit(framerate_limit);
     this->window->setVerticalSyncEnabled(vertical_sync_enabled);
 
     view.setSize(window_bounds.width, window_bounds.height);
     view.setCenter(window->getSize().x / 2.f, window->getSize().y / 2);
+
+    this->windowWidth = window_bounds.width;
+    this->windowHeight = window_bounds.height;
 }
 
 void Game::InitGame()
@@ -62,7 +65,7 @@ void Game::InitGame()
 
     SceneList();
 
-    this->mainMenu = new MainMenu();
+    this->mainMenu = new MainMenu(windowWidth, windowHeight);
     this->player = new Player(characterList[1], characterList[2]);
     this->player->Initialize(itemList, equipmentList, skillList, questList[0]);
     this->menu = new Menu();
@@ -70,11 +73,14 @@ void Game::InitGame()
     this->trade->Initialize(itemList[0]);
     this->battle = new Battle();
 
+    this->interface = new Interface();
+
     gameState = "MainMenu";
 }
 
 void Game::LoadGame()
 {
+    this->mainMenu->Load();
     //Load player
     this->player->Load();
 
@@ -85,6 +91,8 @@ void Game::LoadGame()
                 npcList[i].Load(locationList[j]);
         }
     }
+
+    this->interface->Load();
 
     //------------------------------------------------------
     this->player->GetCartInventory().push_back(itemList[1]);
@@ -110,6 +118,7 @@ void Game::UpdateSFML()
 
 void Game::Update()
 {
+    this->interface->Update(dt, view);
     Status();
 
     if (gameState == "MainMenu") {
@@ -162,25 +171,26 @@ void Game::Draw()
     this->window->clear();
     this->window->setView(view);
     //XXX.Draw(*window, XXX, XXX);
-    /*
-    if (gameState == "MainMenu") {
-        mainMenu.Draw(*window);
+    if (gameState == "InGame") {
+        //map
+        map.Draw(*window, *player);
+        //npc
+        for (int i = 1; i < npcList.size(); i++) {
+            if (npcList[i].GetLocationID() == mapNumber)
+                npcList[i].Draw(*window);
+        }
+        //player
+        this->player->Draw(*window);
     }
-    */
-    map.Draw(*window, *player);
-
-    for (int i = 1; i < npcList.size(); i++) {
-        if(npcList[i].GetLocationID() == mapNumber)
-            npcList[i].Draw(*window);
-    }
-
-
-    this->player->Draw(*window);
 
     this->window->setView(window->getDefaultView());
 
-    //interface.Draw(*window);
+    this->interface->Draw(*window);
 
+    if (gameState == "MainMenu") {
+        this->mainMenu->Draw(*window);
+    }
+    
     this->window->display();
 }
 

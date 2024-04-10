@@ -28,7 +28,6 @@ void Interface::Update(float dt, sf::View &view)
 {
 	Framerate(dt);
 	Day();
-	MiniMap();
 }
 
 void Interface::Draw(sf::RenderWindow &window)
@@ -37,7 +36,7 @@ void Interface::Draw(sf::RenderWindow &window)
 }
 
 void Interface::Framerate(float dt) {
-	framerate.setPosition(20.f, 20.f);
+	framerate.setPosition(100.f, 500.f);
 
 	timer += dt;
 
@@ -49,9 +48,5 @@ void Interface::Framerate(float dt) {
 }
 
 void Interface::Day()
-{
-}
-
-void Interface::MiniMap()
 {
 }
