@@ -38,6 +38,7 @@ public:
 	~Map();
 
 	void Load(Location location);
+	void Update(Location location);
 	void Draw(sf::RenderWindow &window, Player player);
 };
 

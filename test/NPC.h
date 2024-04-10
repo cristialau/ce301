@@ -9,6 +9,9 @@
 class NPC
 {
 private:
+	std::string textureName;	//character texture name
+	sf::Texture texture;		//character texture
+	sf::Sprite sprite;			//character sprite
 	//Character 
 	Character& c;
 	int rls;			//relationship to player - 100 -> friendly | 0 -> enemy
@@ -47,6 +50,7 @@ private:
 
 public:
 	NPC(Character& character,
+		std::string textureName,
 		std::string job,
 		int gold,
 		int npcReward,

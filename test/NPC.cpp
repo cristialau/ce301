@@ -1,10 +1,11 @@
 #include "NPC.h"
 
-NPC::NPC(Character& character, std::string job, int gold, int npcReward, Quest& quest,
+NPC::NPC(Character& character, std::string textureName, std::string job, int gold, int npcReward, Quest& quest,
 	int positionX, int positionY, int locationID)
 	: c(character), quest(quest)
 {
 	//Character
+	this->textureName = textureName;
 	this->job = job;
 	this->gold = gold;
 	passTradeGame = false;
@@ -23,8 +24,8 @@ NPC::NPC(Character& character, std::string job, int gold, int npcReward, Quest& 
 	this->locationID = locationID;
 	tileSize = 16.f;
 	scale = 3.f;
-	tilePositionX = positionX * tileSize * scale;
-	tilePositionY = positionY * tileSize * scale;
+	tilePositionX = (positionX - 1) * tileSize * scale;
+	tilePositionY = (positionY - 1) * tileSize * scale;
 	
 	isSetUp = false;
 }
@@ -39,13 +40,19 @@ void NPC::Load(Location& location)
 	if(locationID == location.id)
 		location.playerMap[positionY][positionX] = npcNumber;
 
-
-	//c.GetSprite().setPosition(sf::Vector2f(tilePositionX, tilePositionY));
+	if (texture.loadFromFile(textureName)) {
+		std::cout << "Texture: " << textureName << " loaded" << std::endl;
+		sprite.setTexture(texture);
+		sprite.setPosition(sf::Vector2f(tilePositionX, tilePositionY));
+	}
+	else {
+		std::cout << "Texture: " << textureName << " failed to load" << std::endl;
+	}
 }
 
 void NPC::Draw(sf::RenderWindow &window)
 {
-	//window.draw(c.GetSprite());
+	window.draw(sprite);
 }
 
 //Getter Setter

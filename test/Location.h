@@ -29,6 +29,7 @@ struct Location
 	//map
 	const static int mapSize = 20;
 	std::vector<int> map[mapSize][mapSize];
+	//std::vector<std::vector<std::vector<int>>> map;
 	//player map
 	const static int playerMapSize = mapSize + 2;
 	int playerMap[playerMapSize][playerMapSize] =

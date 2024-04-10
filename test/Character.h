@@ -9,10 +9,6 @@
 class Character
 {
 private:
-	std::string textureName;	//character texture name
-	sf::Texture texture;		//character texture
-	sf::Sprite sprite;			//character sprite
-
 	std::string name;			//character name
 
 	//Battle attribute
@@ -40,7 +36,6 @@ private:
 
 public:
 	Character(
-		std::string textureName,
 		std::string name,
 		int totalHp,
 		int attack,
@@ -52,16 +47,8 @@ public:
 	~Character();
 
 	void Initialize();
-	void Load();
 
 	//getter setter
-	std::string GetTextureName();
-	void SetTextureName(std::string textureName);
-	sf::Texture GetTexture();
-	void SetTexture(sf::Texture texture);
-	sf::Sprite GetSprite();
-	void SetSprite(sf::Sprite sprite);
-
 	std::string GetName();
 	void SetName(std::string name);
 

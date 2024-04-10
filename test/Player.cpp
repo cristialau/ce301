@@ -35,13 +35,14 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 		for (int i = 0; i < playerMapSize; i++)
 			playerMap[j][i] = 0;
 	}
-	positionX = 0;
-	positionY = 0;
+	positionX = 9;
+	positionY = 9;
 	//sfml
+	textureName = "Textures/player.png";
 	tileSize = 16.f;
 	scale = 3.f;
-	tilePositionX = 0;
-	tilePositionY = 0;
+	tilePositionX = positionX * tileSize * scale;
+	tilePositionY = positionY * tileSize * scale;
 	viewX = 0;
 	viewY = 0;
 
@@ -112,7 +113,16 @@ void Player::Initialize(std::vector<Item> item, std::vector<Equipment> equipment
 
 void Player::Load()
 {
-	//c1.GetSprite().setPosition(sf::Vector2f(positionX * tileSize * scale, positionY * tileSize * scale));
+	if (texture.loadFromFile(textureName)) {
+		std::cout << "Player texture loaded" << std::endl;
+		sprite.setTexture(texture);
+		
+		sprite.setPosition(sf::Vector2f(tilePositionX, tilePositionY));
+		sprite.setScale(sf::Vector2f(scale, scale));
+	}
+	else {
+		std::cout << "Player texture failed to load" << std::endl;
+	}
 }
 
 void Player::SetUp(Location location)
@@ -142,10 +152,9 @@ void Player::SetUp(Location location)
 
 void Player::NormalState(sf::View& view, bool& isPressed)
 {
-	//viewX = c1.GetSprite().getPosition().x + (tileSize * scale / 2);
-	//viewY = c1.GetSprite().getPosition().y + (tileSize * scale / 2);
-	//sf::Vector2f center(viewX, viewY);
-	//view.setCenter(center);
+	//cam
+	sf::Vector2f center(sprite.getPosition().x + (tileSize * scale / 2), sprite.getPosition().y + (tileSize * scale / 2));
+	view.setCenter(center);
 	
 	if (day >= 30) {
 		SetPlayerState("EndGame");
@@ -168,25 +177,25 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
 			playerMap[positionY][positionX + 1] != 0) {
 			positionX++;
-			//c1.GetSprite().move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
+			sprite.move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
 			PrintMap();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
 			playerMap[positionY][positionX - 1] != 0) {
 			positionX--;
-			//c1.GetSprite().move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
+			sprite.move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
 			PrintMap();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
 			playerMap[positionY - 1][positionX] != 0) {
 			positionY--;
-			//c1.GetSprite().move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
+			sprite.move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
 			PrintMap();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
 			playerMap[positionY + 1][positionX] != 0) {
 			positionY++;
-			//c1.GetSprite().move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
+			sprite.move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
 			PrintMap();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
@@ -414,7 +423,7 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 				result = RandomEvent();
 			}
 
-			switch (3) {
+			switch (result) {
 			case 1: Reward(8); roll = false; passEvent = true; break;
 			case 2: Reward(9); roll = false; passEvent = true; break;
 			case 3:
@@ -474,7 +483,7 @@ void Player::EndGame()
 
 void Player::Draw(sf::RenderWindow& window)
 {
-	//window.draw(c1.GetSprite());
+	window.draw(sprite);
 }
 
 //getters setters

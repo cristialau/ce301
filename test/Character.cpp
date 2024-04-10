@@ -1,10 +1,8 @@
 #include "Character.h"
 
-Character::Character(std::string textureName, std::string name,
-	int hpMax, int attack, int defence,
+Character::Character(std::string name, int hpMax, int attack, int defence,
 	int luck, int observation, int conversation, int knowledge)
 {
-	this->textureName = textureName;
 	this->name = name;
 	this->hpMax = hpMax;
 	this->hp = hpMax;
@@ -26,48 +24,7 @@ void Character::Initialize()
 {
 }
 
-void Character::Load()
-{
-	if (texture.loadFromFile(textureName)) {
-		std::cout << "Texture: " << textureName << " loaded" << std::endl;
-		sprite.setTexture(texture);
-	}
-	else {
-		std::cout << "Texture: " << textureName << " failed to load" << std::endl;
-	}
-}
-
 //Getters Setters
-std::string Character::GetTextureName()
-{
-	return textureName;
-}
-
-void Character::SetTextureName(std::string textureName)
-{
-	this->textureName = textureName;
-}
-
-sf::Texture Character::GetTexture()
-{
-	return texture;
-}
-
-void Character::SetTexture(sf::Texture texture)
-{
-	this->texture = texture;
-}
-
-sf::Sprite Character::GetSprite()
-{
-	return sprite;
-}
-
-void Character::SetSprite(sf::Sprite sprite)
-{
-	this->sprite = sprite;
-}
-//---------------------------------------------
 std::string Character::GetName()
 {
 	return name;

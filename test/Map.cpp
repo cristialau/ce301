@@ -15,7 +15,7 @@ Map::Map()
 	toY = 0;
 
 	sightX = 10;
-	sightY = 9;
+	sightY = 7;
 }
 
 Map::~Map()
@@ -25,6 +25,15 @@ Map::~Map()
 
 void Map::Load(Location location)
 {
+	if (this->location.id != location.id) {
+		for (int y = 0; y < mapSize; y++) {
+			for (int x = 0; x < mapSize; x++) {
+				map[y][x].clear();
+				sprite[y][x].clear();
+			}
+		}
+	}
+
 	this->location = location;
 
 	textureName = location.mapTextureName;
@@ -48,7 +57,7 @@ void Map::Load(Location location)
 	else {
 		std::cout << "Tile texture failed to load " << location.name << std::endl;
 	}
-
+	
 	for (int z = 0; z < location.map[0][0].size(); z++) {
 		for (int y = 0; y < location.mapSize; y++) {
 			for (int x = 0; x < location.mapSize; x++)
@@ -70,11 +79,16 @@ void Map::Load(Location location)
 	}
 }
 
+void Map::Update(Location location)
+{
+
+}
+
 void Map::Draw(sf::RenderWindow &window, Player player)
 {
 	fromX = player.GetMapPositionX() - sightX;
-	fromY = player.GetMapPositionY() - sightX;
-	toX = player.GetMapPositionX() + sightY;
+	fromY = player.GetMapPositionY() - sightY;
+	toX = player.GetMapPositionX() + sightX;
 	toY = player.GetMapPositionY() + sightY;
 
 	if (fromX < 0)

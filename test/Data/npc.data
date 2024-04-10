@@ -1,5 +1,6 @@
 //NPC Data
 //npc[0]
+textureName = none
 job = none
 gold = 0
 npcReward = 0
@@ -8,6 +9,7 @@ positionY = 0
 locationID = 0
 ----------------------------------------------
 //npc[1] L1
+textureName = Textures/npc.png
 job = Lord
 gold = 1000
 npcReward = 10
@@ -16,6 +18,7 @@ positionY = 5
 locationID = 1
 ----------------------------------------------
 //npc[2] L2
+textureName = Textures/npc.png
 job = Lord
 gold = 1000
 npcReward = 11
@@ -24,6 +27,7 @@ positionY = 5
 locationID = 2
 ----------------------------------------------
 //npc[3] L3
+textureName = Textures/npc.png
 job = Lord
 gold = 1000
 npcReward = 12
@@ -32,6 +36,7 @@ positionY = 5
 locationID = 3
 ----------------------------------------------
 //npc[4] L4
+textureName = Textures/npc.png
 job = Lord
 gold = 1000
 npcReward = 13
@@ -40,6 +45,7 @@ positionY = 5
 locationID = 4
 ----------------------------------------------
 //npc[5] L5
+textureName = Textures/npc.png
 job = Lord
 gold = 1000
 npcReward = 14
@@ -48,6 +54,7 @@ positionY = 5
 locationID = 5
 ----------------------------------------------
 //npc[6] L6
+textureName = Textures/npc.png
 job = Lord
 gold = 1000
 npcReward = 15
@@ -56,6 +63,7 @@ positionY = 5
 locationID = 6
 ----------------------------------------------
 //npc[7] L7
+textureName = Textures/npc.png
 job = Lord
 gold = 1000
 npcReward = 16
@@ -64,6 +72,7 @@ positionY = 5
 locationID = 7
 ----------------------------------------------
 //npc[8] M1
+textureName = Textures/npc.png
 job = Merchant
 gold = 500
 npcReward = 10
@@ -72,6 +81,7 @@ positionY = 12
 locationID = 1
 ----------------------------------------------
 //npc[9] M2
+textureName = Textures/npc.png
 job = Merchant
 gold = 500
 npcReward = 11
@@ -80,6 +90,7 @@ positionY = 12
 locationID = 2
 ----------------------------------------------
 //npc[10] M3
+textureName = Textures/npc.png
 job = Merchant
 gold = 500
 npcReward = 12
@@ -88,6 +99,7 @@ positionY = 12
 locationID = 3
 ----------------------------------------------
 //npc[11] M4
+textureName = Textures/npc.png
 job = Merchant
 gold = 500
 npcReward = 13
@@ -96,6 +108,7 @@ positionY = 12
 locationID = 4
 ----------------------------------------------
 //npc[12] M5
+textureName = Textures/npc.png
 job = Merchant
 gold = 500
 npcReward = 14
@@ -104,6 +117,7 @@ positionY = 12
 locationID = 5
 ----------------------------------------------
 //npc[13] M6
+textureName = Textures/npc.png
 job = Merchant
 gold = 500
 npcReward = 15
@@ -112,6 +126,7 @@ positionY = 12
 locationID = 6
 ----------------------------------------------
 //npc[14] M7
+textureName = Textures/npc.png
 job = Merchant
 gold = 500
 npcReward = 16
@@ -120,6 +135,7 @@ positionY = 12
 locationID = 7
 ----------------------------------------------
 //npc[15] B
+textureName = Textures/npc.png
 job = Bandit
 gold = 500
 npcReward = 0
@@ -128,6 +144,7 @@ positionY = 0
 locationID = 0
 ----------------------------------------------
 //npc[16] V1
+textureName = Textures/npc.png
 job = Villager
 gold = 500
 npcReward = 0
@@ -136,6 +153,7 @@ positionY = 12
 locationID = 1
 ----------------------------------------------
 //npc[17] V2
+textureName = Textures/npc.png
 job = Villager
 gold = 500
 npcReward = 0
@@ -144,6 +162,7 @@ positionY = 12
 locationID = 1
 ----------------------------------------------
 //npc[18] V3
+textureName = Textures/npc.png
 job = Villager
 gold = 500
 npcReward = 0
@@ -152,6 +171,7 @@ positionY = 12
 locationID = 2
 ----------------------------------------------
 //npc[19] V4
+textureName = Textures/npc.png
 job = Villager
 gold = 500
 npcReward = 0
@@ -160,6 +180,7 @@ positionY = 12
 locationID = 2
 ----------------------------------------------
 //npc[20] V1
+textureName = Textures/npc.png
 job = Villager
 gold = 500
 npcReward = 0
@@ -168,6 +189,7 @@ positionY = 12
 locationID = 3
 ----------------------------------------------
 //npc[21] V2
+textureName = Textures/npc.png
 job = Villager
 gold = 500
 npcReward = 0
@@ -176,6 +198,7 @@ positionY = 12
 locationID = 3
 ----------------------------------------------
 //npc[22] V3
+textureName = Textures/npc.png
 job = Villager
 gold = 500
 npcReward = 0
@@ -184,6 +207,7 @@ positionY = 12
 locationID = 4
 ----------------------------------------------
 //npc[23] V4
+textureName = Textures/npc.png
 job = Villager
 gold = 500
 npcReward = 0
@@ -192,6 +216,7 @@ positionY = 12
 locationID = 4
 ----------------------------------------------
 //npc[24] V3
+textureName = Textures/npc.png
 job = Villager
 gold = 500
 npcReward = 0
@@ -200,6 +225,7 @@ positionY = 12
 locationID = 5
 ----------------------------------------------
 //npc[25] V4
+textureName = Textures/npc.png
 job = Villager
 gold = 500
 npcReward = 0
@@ -208,6 +234,7 @@ positionY = 12
 locationID = 5
 ----------------------------------------------
 //npc[26] V3
+textureName = Textures/npc.png
 job = Villager
 gold = 500
 npcReward = 0
@@ -216,6 +243,7 @@ positionY = 12
 locationID = 6
 ----------------------------------------------
 //npc[27] V4
+textureName = Textures/npc.png
 job = Villager
 gold = 500
 npcReward = 0
@@ -224,6 +252,7 @@ positionY = 12
 locationID = 6
 ----------------------------------------------
 //npc[28] V3
+textureName = Textures/npc.png
 job = Villager
 gold = 500
 npcReward = 0
@@ -232,6 +261,7 @@ positionY = 12
 locationID = 7
 ----------------------------------------------
 //npc[29] V4
+textureName = Textures/npc.png
 job = Villager
 gold = 500
 npcReward = 0

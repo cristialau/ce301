@@ -9,6 +9,7 @@ description = none
 time = 0
 playerPositionX = 0
 playerPostionY = 0
+mapTextureName = none
 ----------------------------------------------
 //location[1]
 id = 1
@@ -20,6 +21,7 @@ description = Star. Start from Star.. Can't think of a better name, lack of time
 time = 0
 playerPositionX = 10
 playerPositionY = 10
+mapTextureName = Textures/Pipoya RPG Tileset 16x16/Pipoya RPG Tileset 16x16/[Base]BaseChip_pipo.png
 ----------------------------------------------
 //location[2]
 id = 2
@@ -31,6 +33,7 @@ description = Resfeber. The closest town from Star.
 time = 1000
 playerPositionX = 10
 playerPositionY = 10
+mapTextureName = Textures/Pipoya RPG Tileset 16x16/Pipoya RPG Tileset 16x16/[Base]BaseChip_pipo.png
 ----------------------------------------------
 //location[3]
 id = 3
@@ -42,6 +45,7 @@ description = Komorebi. Meaning the sunlight which filtered through the leaves.
 time = 2000
 playerPositionX = 10
 playerPositionY = 10
+mapTextureName = none
 ----------------------------------------------
 //location[4]
 id = 4
@@ -53,6 +57,7 @@ description = On The Way. Middle of the map.
 time = 3000
 playerPositionX = 10
 playerPositionY = 10
+mapTextureName = none
 ----------------------------------------------
 //location[5]
 id = 5
@@ -64,6 +69,7 @@ description = Coddiwomple. No destination in this game, I don't know, I search f
 time = 5000
 playerPositionX = 10
 playerPositionY = 10
+mapTextureName = none
 ----------------------------------------------
 //location[6]
 id = 6
@@ -75,6 +81,7 @@ description = Mid Night. I usually work at midnight, it's my habit.
 time = 6000
 playerPositionX = 10
 playerPositionY = 10
+mapTextureName = none
 ----------------------------------------------
 //location[7]
 id = 7
@@ -86,4 +93,5 @@ description = Edge. Need 8 days to travel from Edge to Star.
 time = 8000
 playerPositionX = 10
 playerPositionY = 10
+mapTextureName = none
 ----------------------------------------------

@@ -51,6 +51,10 @@ private:
 	//Player Map position
 	int positionX;
 	int positionY;
+
+	std::string textureName;	//character texture name
+	sf::Texture texture;		//character texture
+	sf::Sprite sprite;			//character sprite
 	//Player sprite size
 	float tileSize;
 	float scale;

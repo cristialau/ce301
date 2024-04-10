@@ -10,6 +10,7 @@
 //#include "Interface.h"
 
 #include <fstream>
+#include <sstream>
 //#include "SFML/Graphics.hpp"
 //#include "SFML/System.hpp"
 //#include "SFML/Window.hpp"
@@ -42,7 +43,7 @@ private:
 
 	std::vector<NPC> enemyList;
 	
-	Map* map;				//Map
+	Map map = Map();				//Map
 	//map texture
 	//location[1].mapTextureName = "Textures/Pipoya RPG Tileset 16x16/Pipoya RPG Tileset 16x16/[Base]BaseChip_pipo.png";
 	MainMenu* mainMenu;		//MainMenu
@@ -62,6 +63,7 @@ private:
 	std::string temp;
 	bool changeState = false;
 	bool changePercent = false;
+	int mapNum = 0;
 	
 public:
 	Game();

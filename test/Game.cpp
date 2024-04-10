@@ -62,7 +62,6 @@ void Game::InitGame()
 
     SceneList();
 
-    this->map = new Map();
     this->mainMenu = new MainMenu();
     this->player = new Player(characterList[1], characterList[2]);
     this->player->Initialize(itemList, equipmentList, skillList, questList[0]);
@@ -76,7 +75,8 @@ void Game::InitGame()
 
 void Game::LoadGame()
 {
-    this->map->Load(locationList[mapNumber]);
+    //Load player
+    this->player->Load();
 
     //Load npcs
     for (int j = 1; j < locationList.size(); j++) {
@@ -167,6 +167,15 @@ void Game::Draw()
         mainMenu.Draw(*window);
     }
     */
+    map.Draw(*window, *player);
+
+    for (int i = 1; i < npcList.size(); i++) {
+        if(npcList[i].GetLocationID() == mapNumber)
+            npcList[i].Draw(*window);
+    }
+
+
+    this->player->Draw(*window);
 
     this->window->setView(window->getDefaultView());
 
@@ -241,6 +250,11 @@ void Game::Status()
 
     for (int i = 0; i < enemyList.size(); i++) {
         enemyList[i].Effect();
+    }
+
+    if (mapNumber != mapNum) {
+        mapNum = mapNumber;
+        map.Load(locationList[mapNum]);
     }
 }
 
@@ -620,9 +634,9 @@ NPC& Game::CheckNPC()
 void Game::CheckEnemy()
 {
     if (enemyList.empty()) {
-        NPC npc1(characterList[17], "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
-        NPC npc2(characterList[17], "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
-        NPC npc3(characterList[17], "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
+        NPC npc1(characterList[17], "none", "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
+        NPC npc2(characterList[17], "none", "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
+        NPC npc3(characterList[17], "none", "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
 
         int random = 0;
         npc1.GetC().SetSkill(1, skillList[RandomInt(15)]);
@@ -820,11 +834,9 @@ void Game::LocationList()
     if (ifLocation.is_open()) {
         Location location;
         std::string line;
-        int layers = 0;
 
         while (std::getline(ifLocation, line)) {
             
-
             if (line.find("id =") != std::string::npos) {
                 location.id = std::stoi(line.substr(line.find("=") + 2));
             }
@@ -852,12 +864,12 @@ void Game::LocationList()
             else if (line.find("playerPositionY =") != std::string::npos) {
                 location.playerPositionY = std::stoi(line.substr(line.find("=") + 2));
             }
+            else if (line.find("mapTextureName =") != std::string::npos) {
+                location.mapTextureName = line.substr(line.find("=") + 2);
+            }
             else if (line == "----------------------------------------------") {
                 locationList.push_back(location);
                 location = {};
-            }
-            else {
-                continue;
             }
         }
         
@@ -866,24 +878,134 @@ void Game::LocationList()
     else {
         std::cout << "Error: location.data?" << std::endl;
     }
-    /*
-    //7 locations in total
-    
-    else if (line.find("layers =") != std::string::npos) {
-        layers = std::stoi(line.substr(line.find("=") + 2));
 
-        for (int i = 0; i < layers; i++) {
-            int locationMap[location.mapSize][location.mapSize];
-            for (int x = 0; x < location.mapSize; x++) {
-                for (int y = 0; y < location.mapSize; y++) {
-                    ifLocation >> locationMap[x][y];
-                    location.map[x][y].push_back(locationMap[x][y]);
-                    std::cout << "bug? " << i << ", " << x << ", " << y << "   " << location.map[x][y][i] << std::endl;
-                }
-            }
+    //location 1 map
+    
+    int map1bg[20][20] =
+    { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
+    int map1dec[20][20] =
+    { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 882, 883, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1036, 1037, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 941, 0, 0, 0, 0, 0, 0, 941, 0, 1044, 1045, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 884, 885, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 877, 877, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 941, 0, 0, 0, 0, 0, 0, 941, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
+    int map1surface[20][20] =
+    { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 120, 122, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 909, 909, 909, 909, 909, 0, 0, 120, 122, 0, 0, 909, 909, 909, 909, 909, 0, 0},
+     { 0, 0, 917, 917, 917, 917, 917, 0, 0, 120, 122, 0, 0, 917, 917, 917, 917, 917, 0, 0},
+     { 0, 0, 933, 925, 925, 925, 933, 0, 0, 120, 122, 0, 0, 933, 925, 925, 925, 933, 0, 0},
+     { 0, 0, 941, 890, 891, 0, 658, 0, 235, 120, 122, 0, 0, 669, 1033, 1034, 1035, 941, 0, 0},
+     { 0, 0, 949, 898, 899, 874, 949, 0, 112, 124, 123, 114, 0, 949, 1041, 1042, 1043, 949, 0, 0},
+     { 113, 113, 113, 113, 113, 113, 113, 113, 124, 5, 5, 123, 113, 113, 113, 113, 113, 113, 113, 113},
+     { 129, 129, 129, 129, 129, 129, 129, 129, 116, 5, 5, 115, 129, 129, 129, 129, 129, 129, 129, 129},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 128, 116, 115, 130, 172, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 909, 909, 909, 909, 909, 0, 0, 120, 122, 0, 0, 909, 909, 909, 909, 909, 0, 0},
+     { 0, 0, 917, 917, 917, 917, 917, 0, 0, 120, 122, 0, 0, 917, 917, 917, 917, 917, 0, 0},
+     { 0, 0, 933, 925, 925, 925, 933, 0, 0, 120, 122, 172, 0, 933, 925, 925, 925, 933, 0, 0},
+     { 0, 0, 941, 892, 893, 0, 660, 0, 0, 120, 122, 0, 0, 666, 0, 877, 878, 941, 0, 0},
+     { 0, 0, 949, 900, 901, 875, 949, 0, 112, 124, 123, 114, 0, 949, 876, 877, 879, 949, 0, 0},
+     { 113, 113, 113, 113, 113, 113, 113, 113, 124, 5, 5, 123, 113, 113, 113, 113, 113, 113, 113, 113},
+     { 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
+    for (int y = 0; y < locationList[1].mapSize; ++y) {
+        for (int x = 0; x < locationList[1].mapSize; ++x) {
+            locationList[1].map[y][x].push_back(map1bg[y][x]);
+            locationList[1].map[y][x].push_back(map1dec[y][x]);
+            locationList[1].map[y][x].push_back(map1surface[y][x]);
         }
     }
-    */
+
+    //location 1 map
+
+    //location 2 map
+
+    int map2bg[20][20] =
+    { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 401, 401, 401, 401, 401, 401, 401, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 401, 401, 401, 401, 401, 401, 401, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 408, 409, 409, 410, 401, 408, 410, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
+    int map2dec[20][20] =
+    { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 120, 122, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 120, 122, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 120, 122, 0, 0},
+     { 0, 0, 0, 0, 568, 568, 568, 568, 568, 568, 568, 0, 0, 0, 0, 0, 120, 122, 0, 0},
+     { 0, 0, 0, 0, 576, 576, 576, 576, 576, 576, 576, 0, 0, 0, 0, 0, 120, 122, 0, 0},
+     { 0, 0, 0, 0, 584, 584, 584, 584, 584, 584, 584, 0, 0, 0, 8, 9, 120, 122, 0, 0},
+     { 8, 9, 0, 0, 400, 597, 401, 402, 391, 597, 402, 0, 0, 0, 16, 17, 120, 122, 0, 0},
+     { 16, 17, 0, 877, 408, 605, 409, 410, 399, 605, 410, 236, 0, 235, 0, 112, 124, 123, 114, 0},
+     { 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 124, 5, 5, 123, 113},
+     { 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 116, 5, 5, 115, 129},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 116, 115, 130, 0},
+     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 120, 122, 0, 0},
+     { 0, 0, 0, 0, 0, 0, 928, 929, 930, 0, 0, 0, 0, 0, 0, 0, 120, 122, 8, 9},
+     { 0, 0, 0, 8, 9, 0, 936, 937, 938, 0, 0, 0, 230, 231, 0, 0, 120, 122, 16, 17},
+     { 0, 0, 0, 16, 17, 0, 944, 945, 946, 0, 0, 0, 238, 239, 0, 112, 115, 130, 0, 0},
+     { 0, 0, 0, 0, 112, 113, 113, 113, 113, 113, 113, 113, 113, 113, 113, 115, 130, 0, 0, 0},
+     { 0, 112, 113, 148, 129, 129, 129, 129, 129, 129, 129, 129, 129, 116, 5, 122, 0, 0, 0, 0},
+     { 113, 124, 130, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 116, 122, 0, 0, 0, 0},
+     { 115, 130, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 123, 114, 0, 0, 0},
+     { 122, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 120, 123, 114, 0, 0} };
+    for (int y = 0; y < locationList[2].mapSize; ++y) {
+        for (int x = 0; x < locationList[2].mapSize; ++x) {
+            locationList[2].map[y][x].push_back(map2bg[y][x]);
+            locationList[2].map[y][x].push_back(map2dec[y][x]);
+        }
+    }
+
+    //location 2 map
 }
 
 void Game::CharacterList()
@@ -892,7 +1014,6 @@ void Game::CharacterList()
 
     if (ifCharacter.is_open()) {
         std::string line;
-        std::string textureName;
         std::string name;
         int totalHp = 0;
         int attack = 0;
@@ -903,10 +1024,7 @@ void Game::CharacterList()
         int knowledge = 0;
 
         while (std::getline(ifCharacter, line)) {
-            if (line.find("textureName =") != std::string::npos) {
-                textureName = line.substr(line.find("=") + 2);
-            }
-            else if (line.find("name =") != std::string::npos) {
+            if (line.find("name =") != std::string::npos) {
                 name = line.substr(line.find("=") + 2);
             }
             else if (line.find("totalHp =") != std::string::npos) {
@@ -931,7 +1049,7 @@ void Game::CharacterList()
                 knowledge = std::stoi(line.substr(line.find("=") + 2));
             }
             else if (line == "----------------------------------------------") {
-                Character c(textureName, name, totalHp, attack, defence, luck, observation, conversation, knowledge);
+                Character c(name, totalHp, attack, defence, luck, observation, conversation, knowledge);
                 characterList.push_back(c);
             }
         }
@@ -948,6 +1066,7 @@ void Game::NPCList()
 
     if (ifNPC.is_open()) {
         std::string line;
+        std::string textureName;
         std::string job;
         int gold = 0;
         int npcReward = 0;
@@ -958,7 +1077,10 @@ void Game::NPCList()
         int j = 0;
 
         while (std::getline(ifNPC, line)) {
-            if (line.find("job =") != std::string::npos) {
+            if (line.find("textureName =") != std::string::npos) {
+                textureName = line.substr(line.find("=") + 2);
+            }
+            else if (line.find("job =") != std::string::npos) {
                 job = line.substr(line.find("=") + 2);
             }
             else if (line.find("gold =") != std::string::npos) {
@@ -978,13 +1100,13 @@ void Game::NPCList()
             }
             else if (line == "----------------------------------------------") {
                 if (i == 0) {
-                    NPC npc(characterList[i], job, gold, npcReward, questList[j], positionX, positionY, locationID);
+                    NPC npc(characterList[i], textureName, job, gold, npcReward, questList[j], positionX, positionY, locationID);
                     npc.GetEquipInventory().push_back(equipmentList[0]);
                     npc.GetShop().push_back(itemList[0]);
                     npcList.push_back(npc);
                 }
                 else {
-                    NPC npc(characterList[i + 2], job, gold, npcReward, questList[j], positionX, positionY, locationID);
+                    NPC npc(characterList[i + 2], textureName, job, gold, npcReward, questList[j], positionX, positionY, locationID);
                     npc.GetEquipInventory().push_back(equipmentList[0]);
                     npc.GetShop().push_back(itemList[0]);
                     npcList.push_back(npc);
@@ -1000,14 +1122,6 @@ void Game::NPCList()
     else {
         std::cout << "Error: npc.data?" << std::endl;
     }
-
-    //if job = Merchant/Lord/Bandit -> trade
-    //if job = Lord -> quest
-    //if job = Bandit -> battle
-    //equipInventory.push_back("none");
-    //shop.push_back("none");
-    //skillList.push_back("none");
-    //c.SetSkill(2, "none");
 }
 
 void Game::SceneList()
