@@ -31,21 +31,21 @@ private:
 	float tileSize;
 	float scale;
 
+	float mMSpritePositionX;
+
 	std::string bgTextureName;
 	sf::Texture bgTexture;
 	sf::Sprite bgSprite;
 	
-	std::string sg1TextureName;
-	sf::Texture sg1Texture;
-	sf::Sprite sg1Sprite;
-
-	std::string sg2TextureName;
-	sf::Texture sg2Texture;
-	sf::Sprite sg2Sprite;
-
-	std::string selectedTextureName;
-	sf::Texture selectedTexture;
-	sf::Sprite selectedSprite;
+	std::string mms1TextureName;
+	sf::Texture mms1Texture;
+	sf::Sprite mms1Sprite;
+	std::string mms2TextureName;
+	sf::Texture mms2Texture;
+	sf::Sprite mms2Sprite;
+	std::string mmsTextureName;
+	sf::Texture mmsTexture;
+	sf::Sprite mmsSprite;
 
 public:
 	MainMenu(float height, float width);

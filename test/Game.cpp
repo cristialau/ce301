@@ -66,7 +66,7 @@ void Game::InitGame()
     SceneList();
 
     this->mainMenu = new MainMenu(windowWidth, windowHeight);
-    this->player = new Player(characterList[1], characterList[2]);
+    this->player = new Player(characterList[1], characterList[2], windowWidth, windowHeight);
     this->player->Initialize(itemList, equipmentList, skillList, questList[0]);
     this->menu = new Menu();
     this->trade = new Trade();
@@ -189,6 +189,12 @@ void Game::Draw()
 
     if (gameState == "MainMenu") {
         this->mainMenu->Draw(*window);
+    }
+    else if (gameState == "InGame") {
+        if (this->player->GetPlayerState() == "Talking" ||
+            this->player->GetPlayerState() == "Traveling") {
+            this->player->DrawInterface(*window);
+        }
     }
     
     this->window->display();
@@ -639,6 +645,7 @@ NPC& Game::CheckNPC()
             npcList[i].GetPositionY() == this->player->GetMapPositionY())
             return npcList[i];
     }
+    return npcList[1];
 }
 
 void Game::CheckEnemy()

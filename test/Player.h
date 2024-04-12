@@ -52,9 +52,9 @@ private:
 	int positionX;
 	int positionY;
 
-	std::string textureName;	//character texture name
-	sf::Texture texture;		//character texture
-	sf::Sprite sprite;			//character sprite
+	std::string pTextureName;	//character texture name
+	sf::Texture pTexture;		//character texture
+	sf::Sprite pSprite;			//character sprite
 	//Player sprite size
 	float tileSize;
 	float scale;
@@ -97,17 +97,50 @@ private:
 	int tempGold;
 	int tradeGameCount;
 	int talkCount;
+	bool showQuestAccept = false;
 
 	//End
 	int goalGold;
 
 	//sprites
-	std::string tTextureName;
-	sf::Texture tTexture;
-	sf::Sprite tSprite;
+	float width;
+	float height;
+
+	std::string tbgTextureName;
+	sf::Texture tbgTexture;
+	sf::Sprite tbgSprite;
+	std::string ts1TextureName;
+	sf::Texture ts1Texture;
+	sf::Sprite ts1Sprite;
+	std::string ts2TextureName;
+	sf::Texture ts2Texture;
+	sf::Sprite ts2Sprite;
+	std::string ts3TextureName;
+	sf::Texture ts3Texture;
+	sf::Sprite ts3Sprite;
+	std::string tsTextureName;
+	sf::Texture tsTexture;
+	sf::Sprite tsSprite;
+
+	std::string qs1TextureName;
+	sf::Texture qs1Texture;
+	sf::Sprite qs1Sprite;
+	std::string qs2TextureName;
+	sf::Texture qs2Texture;
+	sf::Sprite qs2Sprite;
+	std::string qsTextureName;
+	sf::Texture qsTexture;
+	sf::Sprite qsSprite;
+
+	std::string trbgTextureName;
+	sf::Texture trbgTexture;
+	sf::Sprite trbgSprite;
+	std::string trwbgTextureName;
+	sf::Texture trwbgTexture;
+	sf::Sprite trwbgSprite;
 
 public:
-	Player(Character& c1, Character& c2);
+	Player(Character& c1, Character& c2, float width, float height);
 	~Player();
 
 	void Initialize(std::vector<Item> item, std::vector<Equipment> equipment, std::vector<Skill> skill, Quest quest);
@@ -121,6 +154,7 @@ public:
 	void EndGame();
 	
 	void Draw(sf::RenderWindow& window);
+	void DrawInterface(sf::RenderWindow& window);
 
 	//getters setters
 	Character& GetC1();

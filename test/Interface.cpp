@@ -36,7 +36,7 @@ void Interface::Draw(sf::RenderWindow &window)
 }
 
 void Interface::Framerate(float dt) {
-	framerate.setPosition(100.f, 500.f);
+	framerate.setPosition(100.f, 100.f);
 
 	timer += dt;
 

@@ -21,10 +21,12 @@ MainMenu::MainMenu(float width, float height)
 	scale = 3.f;
 	this->width = width;
 	this->height = height;
+	mMSpritePositionX = (width - (tileSize * 7.f)) / 2.f;
+
 	bgTextureName = "Textures/test01.png";
-	sg1TextureName = "Textures/test02.png";
-	sg2TextureName = "Textures/test02.png";
-	selectedTextureName = "Textures/test03.png";
+	mms1TextureName = "Textures/test02.png";
+	mms2TextureName = "Textures/test02.png";
+	mmsTextureName = "Textures/test03.png";
 }
 
 MainMenu::~MainMenu()
@@ -42,43 +44,43 @@ void MainMenu::Load()
 		bgSprite.setTexture(bgTexture);
 
 		bgSprite.setPosition(sf::Vector2f(0.f, 0.f));
-		bgSprite.setScale(sf::Vector2f(50, 37.5));
+		bgSprite.setScale(sf::Vector2f(50.f, 37.5f));
 	}
 	else {
 		std::cout << "MainmenuBG texture failed to load" << std::endl;
 	}
 
-	if (sg1Texture.loadFromFile(sg1TextureName)) {
-		std::cout << "MainmenuSG1 texture loaded" << std::endl;
-		sg1Sprite.setTexture(sg1Texture);
+	if (mms1Texture.loadFromFile(mms1TextureName)) {
+		std::cout << "Mainmenumms1 texture loaded" << std::endl;
+		mms1Sprite.setTexture(mms1Texture);
 
-		sg1Sprite.setPosition(sf::Vector2f((width - (7 * tileSize)) / 2 , height * 5 / 8));
-		sg1Sprite.setScale(sf::Vector2f(7, 3));
+		mms1Sprite.setPosition(sf::Vector2f(mMSpritePositionX, height * 5.f / 8.f));
+		mms1Sprite.setScale(sf::Vector2f(7.f, 3.f));
 	}
 	else {
-		std::cout << "MainmenuSG1 texture failed to load" << std::endl;
+		std::cout << "Mainmenumms1 texture failed to load" << std::endl;
 	}
 
-	if (sg2Texture.loadFromFile(sg2TextureName)) {
-		std::cout << "MainmenuSG2 texture loaded" << std::endl;
-		sg2Sprite.setTexture(sg2Texture);
+	if (mms2Texture.loadFromFile(mms2TextureName)) {
+		std::cout << "Mainmenumms2 texture loaded" << std::endl;
+		mms2Sprite.setTexture(mms2Texture);
 
-		sg2Sprite.setPosition(sf::Vector2f((width - (7 * tileSize)) / 2, height * 23 / 32));
-		sg2Sprite.setScale(sf::Vector2f(7, 3));
-	}
-	else {
-		std::cout << "MainmenuSG2 texture failed to load" << std::endl;
-	}
-
-	if (selectedTexture.loadFromFile(selectedTextureName)) {
-		std::cout << "MainmenuQG texture loaded" << std::endl;
-		selectedSprite.setTexture(selectedTexture);
-
-		selectedSprite.setPosition(sf::Vector2f((width - (7 * tileSize)) / 2, height * 5 / 8));
-		selectedSprite.setScale(sf::Vector2f(7, 3));
+		mms2Sprite.setPosition(sf::Vector2f(mMSpritePositionX, height * 23.f / 32.f));
+		mms2Sprite.setScale(sf::Vector2f(7.f, 3.f));
 	}
 	else {
-		std::cout << "MainmenuQG texture failed to load" << std::endl;
+		std::cout << "Mainmenumms2 texture failed to load" << std::endl;
+	}
+
+	if (mmsTexture.loadFromFile(mmsTextureName)) {
+		std::cout << "Mainmenumms texture loaded" << std::endl;
+		mmsSprite.setTexture(mmsTexture);
+
+		mmsSprite.setPosition(sf::Vector2f(mMSpritePositionX, height * 5.f / 8.f));
+		mmsSprite.setScale(sf::Vector2f(7.f, 3.f));
+	}
+	else {
+		std::cout << "Mainmenumms texture failed to load" << std::endl;
 	}
 }
 
@@ -105,8 +107,6 @@ void MainMenu::ShowMain(std::string& gameState, bool& isPressed)
 		std::cout << "2. Load" << std::endl;
 		std::cout << "3. Option" << std::endl;
 		std::cout << "4. Quit" << std::endl;
-
-		selectedSprite.setPosition(sf::Vector2f((width - (7 * tileSize)) / 2, height * 5 / 8));
 	}
 
 	if (!isSelected) {
@@ -114,49 +114,32 @@ void MainMenu::ShowMain(std::string& gameState, bool& isPressed)
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				select++;
 
-				if (select > selectMax) {
+				if (select > selectMax)
 					select = 1;
-					selectedSprite.setPosition(sf::Vector2f((width - (7 * tileSize)) / 2, height * 5 / 8));
-				}
-				else {
-					selectedSprite.move(0.f, height * 3 / 32);
-				}	
-
-				std::cout << select << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				select--;
 
-				if (select < 1) {
+				if (select < 1)
 					select = selectMax;
-					selectedSprite.move(0.f, height * 3 / 32 * (selectMax - 1));
-				}
-				else {
-					selectedSprite.move(0.f, -height * 3 / 32);
-				}
-
-				std::cout << select << std::endl;
 			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 				isSelected = true;
-			}
+		}
+
+		switch (select) {
+		case 1: mmsSprite.setPosition(sf::Vector2f(mMSpritePositionX, height * 5.f / 8.f)); break;
+		case 2: mmsSprite.setPosition(sf::Vector2f(mMSpritePositionX, height * ((5.f / 8.f) + (3.f / 32.f)))); break;
+		case 3: mmsSprite.setPosition(sf::Vector2f(mMSpritePositionX, height * ((5.f / 8.f) + (3.f / 32.f) * 2.f))); break;
+		case 4: mmsSprite.setPosition(sf::Vector2f(mMSpritePositionX, height * ((5.f / 8.f) + (3.f / 32.f) * 3.f))); break;
 		}
 	}
 	else {
 		switch (select) {
-		case 1:
-			gameState = "InGame";
-			showMainMenu = false;
-			break;
-		case 2:
-			mainMenuState = "LoadGame";
-			break;
-		case 3:
-			mainMenuState = "Option";
-			break;
-		case 4:
-			gameState = "QuitGame";
-			break;
+		case 1:	gameState = "InGame"; showMainMenu = false;	break;
+		case 2:	mainMenuState = "LoadGame";	break;
+		case 3:	mainMenuState = "Option"; break;
+		case 4:	gameState = "QuitGame";	break;
 		}
 	}
 }
@@ -254,7 +237,7 @@ void MainMenu::ShowOptions(bool& isPressed)
 void MainMenu::Draw(sf::RenderWindow& window)
 {
 	window.draw(bgSprite);
-	window.draw(sg1Sprite);
-	window.draw(sg2Sprite);
-	window.draw(selectedSprite);
+	window.draw(mms1Sprite);
+	window.draw(mms2Sprite);
+	window.draw(mmsSprite);
 }

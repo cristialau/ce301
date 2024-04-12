@@ -1,7 +1,9 @@
 #include "Player.h"
 
-Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
+Player::Player(Character& c1, Character& c2, float width, float height) :c1(c1), c2(c2)
 {
+	this->width = width;
+	this->height = height;
 	//Character
 	isC1 = true;
 	isC2 = true;
@@ -38,7 +40,7 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 	positionX = 9;
 	positionY = 9;
 	//sfml
-	textureName = "Textures/player.png";
+	pTextureName = "Textures/player.png";
 	tileSize = 16.f;
 	scale = 3.f;
 	tilePositionX = positionX * tileSize * scale;
@@ -81,6 +83,21 @@ Player::Player(Character& c1, Character& c2) :c1(c1), c2(c2)
 
 	//End
 	goalGold = 25000;
+
+	//sprites
+	tbgTextureName = "Textures/test01.png";
+	
+	ts1TextureName = "Textures/test02.png";
+	ts2TextureName = "Textures/test03.png";
+	ts3TextureName = "Textures/test04.png";
+	tsTextureName = "Textures/test05.png";
+
+	qs1TextureName = "Textures/test02.png";
+	qs2TextureName = "Textures/test03.png";
+	qsTextureName = "Textures/test05.png";
+
+	trbgTextureName = "Textures/test01.png";
+	trwbgTextureName = "Textures/test02.png";
 }
 
 Player::~Player()
@@ -114,15 +131,118 @@ void Player::Initialize(std::vector<Item> item, std::vector<Equipment> equipment
 
 void Player::Load()
 {
-	if (texture.loadFromFile(textureName)) {
+	if (pTexture.loadFromFile(pTextureName)) {
 		std::cout << "Player texture loaded" << std::endl;
-		sprite.setTexture(texture);
+		pSprite.setTexture(pTexture);
 		
-		sprite.setPosition(sf::Vector2f(tilePositionX, tilePositionY));
-		sprite.setScale(sf::Vector2f(scale, scale));
+		pSprite.setPosition(sf::Vector2f(tilePositionX, tilePositionY));
+		pSprite.setScale(sf::Vector2f(scale, scale));
 	}
 	else {
 		std::cout << "Player texture failed to load" << std::endl;
+	}
+	//----------------------------------------------------------
+	if (tbgTexture.loadFromFile(tbgTextureName)) {
+		std::cout << "tbgTexture loaded" << std::endl;
+		tbgSprite.setTexture(tbgTexture);
+
+		tbgSprite.setPosition(sf::Vector2f((width - (tileSize * 15.f)) / 2.f, height - 100.f));
+		tbgSprite.setScale(sf::Vector2f(15.f, 6.25f));
+	}
+	else {
+		std::cout << "tbgTexture failed to load" << std::endl;
+	}
+	//----------------------------------------------------------
+	if (ts1Texture.loadFromFile(ts1TextureName)) {
+		std::cout << "ts1Texture loaded" << std::endl;
+		ts1Sprite.setTexture(ts1Texture);
+
+		ts1Sprite.setScale(sf::Vector2f(5.f, 2.f));
+	}
+	else {
+		std::cout << "ts1Texture failed to load" << std::endl;
+	}
+
+	if (ts2Texture.loadFromFile(ts2TextureName)) {
+		std::cout << "ts2Texture loaded" << std::endl;
+		ts2Sprite.setTexture(ts2Texture);
+
+		ts2Sprite.setScale(sf::Vector2f(5.f, 2.f));
+	}
+	else {
+		std::cout << "ts2Texture failed to load" << std::endl;
+	}
+
+	if (ts3Texture.loadFromFile(ts3TextureName)) {
+		std::cout << "ts3Texture loaded" << std::endl;
+		ts3Sprite.setTexture(ts3Texture);
+
+		ts3Sprite.setScale(sf::Vector2f(5.f, 2.f));
+	}
+	else {
+		std::cout << "ts3Texture failed to load" << std::endl;
+	}
+
+	if (tsTexture.loadFromFile(tsTextureName)) {
+		std::cout << "tsTexture loaded" << std::endl;
+		tsSprite.setTexture(tsTexture);
+
+		tsSprite.setScale(sf::Vector2f(5.f, 2.f));
+	}
+	else {
+		std::cout << "tsTexture failed to load" << std::endl;
+	}
+	//----------------------------------------------------------
+	if (qs1Texture.loadFromFile(qs1TextureName)) {
+		std::cout << "qs1Texture loaded" << std::endl;
+		qs1Sprite.setTexture(qs1Texture);
+
+		qs1Sprite.setScale(sf::Vector2f(5.f, 2.f));
+	}
+	else {
+		std::cout << "qs1Texture failed to load" << std::endl;
+	}
+
+	if (qs2Texture.loadFromFile(qs2TextureName)) {
+		std::cout << "qs2Texture loaded" << std::endl;
+		qs2Sprite.setTexture(qs2Texture);
+
+		qs2Sprite.setScale(sf::Vector2f(5.f, 2.f));
+	}
+	else {
+		std::cout << "qs2Texture failed to load" << std::endl;
+	}
+
+	if (qsTexture.loadFromFile(qsTextureName)) {
+		std::cout << "qsTexture loaded" << std::endl;
+		qsSprite.setTexture(qsTexture);
+
+		qsSprite.setScale(sf::Vector2f(5.f, 2.f));
+	}
+	else {
+		std::cout << "qsTexture failed to load" << std::endl;
+	}
+	//----------------------------------------------------------
+	if (trbgTexture.loadFromFile(trbgTextureName)) {
+		std::cout << "trbgTexture loaded" << std::endl;
+		trbgSprite.setTexture(trbgTexture);
+
+		trbgSprite.setPosition(sf::Vector2f(0.f, 0.f));
+		trbgSprite.setScale(sf::Vector2f(50.f, 37.5f));
+	}
+	else {
+		std::cout << "trbgTexture failed to load" << std::endl;
+	}
+
+	if (trwbgTexture.loadFromFile(trwbgTextureName)) {
+		std::cout << "trwbgTexture loaded" << std::endl;
+		trwbgSprite.setTexture(trwbgTexture);
+
+		trwbgSprite.setPosition(sf::Vector2f((width - (tileSize * 15.f)) / 2.f, height - 100.f));
+		trwbgSprite.setScale(sf::Vector2f(15.f, 6.25f));
+	}
+	else {
+		std::cout << "trwbgTexture failed to load" << std::endl;
 	}
 }
 
@@ -148,13 +268,14 @@ void Player::SetUp(Location location)
 
 		positionX = location.playerPositionX;
 		positionY = location.playerPositionY;
+		pSprite.setPosition(sf::Vector2f(tilePositionX, tilePositionY));
 	}
 }
 
 void Player::NormalState(sf::View& view, bool& isPressed)
 {
 	//cam
-	sf::Vector2f center(sprite.getPosition().x + (tileSize * scale / 2), sprite.getPosition().y + (tileSize * scale / 2));
+	sf::Vector2f center(pSprite.getPosition().x + (tileSize * scale / 2.f), pSprite.getPosition().y + (tileSize * scale / 2.f));
 	view.setCenter(center);
 	
 	if (day >= 30) {
@@ -178,25 +299,25 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
 			playerMap[positionY][positionX + 1] != 0) {
 			positionX++;
-			sprite.move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
+			pSprite.move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
 			PrintMap();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
 			playerMap[positionY][positionX - 1] != 0) {
 			positionX--;
-			sprite.move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
+			pSprite.move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
 			PrintMap();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
 			playerMap[positionY - 1][positionX] != 0) {
 			positionY--;
-			sprite.move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
+			pSprite.move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
 			PrintMap();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
 			playerMap[positionY + 1][positionX] != 0) {
 			positionY++;
-			sprite.move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
+			pSprite.move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
 			PrintMap();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
@@ -273,6 +394,23 @@ void Player::TalkState(NPC& npc, Location& location, std::string previousState, 
 					talkSelected = true;
 				}
 			}
+
+			switch (talkSelectMax) {
+			case 1: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); break;
+			case 2:
+				switch (talkSelect) {
+				case 1: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); break;
+				case 2: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); break;
+				}
+				break;
+			case 3:
+				switch (talkSelect) {
+				case 1: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize * 2.f)); break;
+				case 2: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); break;
+				case 3: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize * 2.f)); break;
+				}
+				break;
+			}
 		}
 		else {
 			switch (talkSelect) {
@@ -346,50 +484,74 @@ void Player::OpenQuest(NPC& npc, Location& location, bool& isPressed)
 				}
 			}
 		}
+
+		switch (questSelectMax) {
+		case 1: qsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); break;
+		case 2:
+			switch (questSelect) {
+			case 1: qsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); break;
+			case 2: qsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); break;
+			}
+			break;
+		}
 	}
 	else {
-		if (questSelect == 2) {
-			if (npc.GetNPCQuest().finished && !npc.GetNPCQuest().gotReward) {
-				npc.GetNPCQuest().gotReward = true;
-				for (int i = 1; i < questList.size(); i++) {
-					if (questList[i].id == npc.GetNPCQuest().id)
-						questList[i].gotReward = true;
-				}
-				if (npc.GetNPCQuest().id == 6) {
-					std::cout << ":)" << std::endl;
-				}
-				else {
-					std::cout << "You finished my quest." << std::endl;
-				}
-				
-				location.rls += 25;
-				Reward(npc.GetNPCQuest().reward);
-			}
-			else if (npc.GetNPCQuest().accepted) {
-				if (npc.GetNPCQuest().id == 6) {
-					std::cout << "....." << std::endl;
-				}
-				else {
-					std::cout << "You have not finished my quest." << std::endl;
-				}
-			}
-			else if (!npc.GetNPCQuest().accepted){
-				npc.GetNPCQuest().accepted = true;
-				AddQuest(npc.GetNPCQuest());
-				std::cout << "Player accepts quest successfully." << std::endl;
-			}
-			else {
-				if (npc.GetNPCQuest().id == 6) {
-					std::cout << "._." << std::endl;
-				}
-				else {
-					std::cout << "You recieved my reward." << std::endl;
-				}
-			}
-		}
+		switch (questSelect) {
+		case 1: showTalk = false; showQuest = false; break;
+		case 2:
+			if (!showQuestAccept) {
+				showQuestAccept = true;
+				if (npc.GetNPCQuest().finished && !npc.GetNPCQuest().gotReward) {
+					npc.GetNPCQuest().gotReward = true;
+					for (int i = 1; i < questList.size(); i++) {
+						if (questList[i].id == npc.GetNPCQuest().id)
+							questList[i].gotReward = true;
+					}
+					if (npc.GetNPCQuest().id == 6) {
+						std::cout << ":)" << std::endl;
+					}
+					else {
+						std::cout << "You finished my quest." << std::endl;
+					}
 
-		showTalk = false;
-		showQuest = false;
+					location.rls += 25;
+					Reward(npc.GetNPCQuest().reward);
+				}
+				else if (npc.GetNPCQuest().accepted) {
+					if (npc.GetNPCQuest().id == 6) {
+						std::cout << "....." << std::endl;
+					}
+					else {
+						std::cout << "You have not finished my quest." << std::endl;
+					}
+				}
+				else if (!npc.GetNPCQuest().accepted) {
+					npc.GetNPCQuest().accepted = true;
+					AddQuest(npc.GetNPCQuest());
+					std::cout << "Player accepts quest successfully." << std::endl;
+				}
+				else {
+					if (npc.GetNPCQuest().id == 6) {
+						std::cout << "._." << std::endl;
+					}
+					else {
+						std::cout << "You recieved my reward." << std::endl;
+					}
+				}
+			}
+
+			if (!isPressed) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					showTalk = false;
+					showQuest = false;
+					showQuestAccept = false;
+				}
+			}
+
+			qsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f));
+
+			break;
+		}
 	}
 }
 
@@ -484,7 +646,53 @@ void Player::EndGame()
 
 void Player::Draw(sf::RenderWindow& window)
 {
-	window.draw(sprite);
+	window.draw(pSprite);
+}
+
+void Player::DrawInterface(sf::RenderWindow& window)
+{
+	if (playerState == "Talking") {
+		window.draw(tbgSprite);
+
+		if (!talkSelected) {
+			switch (talkSelectMax) {
+			case 1: ts1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(ts1Sprite); break;
+			case 2:
+				ts1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); window.draw(ts1Sprite);
+				ts2Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); window.draw(ts2Sprite);
+				break;
+			case 3:
+				ts1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize * 2.f)); window.draw(ts1Sprite);
+				ts2Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(ts2Sprite);
+				ts3Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize * 2.f)); window.draw(ts3Sprite);
+				break;
+			default: break;
+			}
+			window.draw(tsSprite);
+		}
+		
+		if (!questSelected) {
+			switch (questSelectMax) {
+			case 1: qs1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(qs1Sprite); break;
+			case 2:
+				qs1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); window.draw(qs1Sprite);
+				qs2Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); window.draw(qs2Sprite);
+				break;
+			}
+			window.draw(qsSprite);
+		}
+
+		if (showQuestAccept) {
+			qs1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(qs1Sprite);
+			window.draw(qsSprite);
+		}
+	}
+	else if (playerState == "Traveling") {
+		if (showTravel) {
+			window.draw(trbgSprite);
+			window.draw(trwbgSprite);
+		}
+	}
 }
 
 //getters setters
@@ -689,7 +897,7 @@ void Player::Reward(int type)
 {
 	int count3 = 0;
 	switch (type) {
-	case 1: std::cout << "Get Reward from quest 1." << std::endl; cartInventoryWeight += 5; equipInventory.push_back(eq[1]); AddGold(1000); break;
+	case 1: std::cout << "Get Reward from quest 1." << std::endl; cartInventoryWeight += 4; equipInventory.push_back(eq[1]); AddGold(1000); break;
 	case 2: std::cout << "Get Reward from quest 2." << std::endl; equipInventory.push_back(eq[2]); AddGold(500); break;
 	case 3: std::cout << "Get Reward from quest 3." << std::endl; equipInventory.push_back(eq[3]); AddGold(750);
 		while (count3 < 4) {
@@ -708,9 +916,9 @@ void Player::Reward(int type)
 	case 4: std::cout << "Get Reward from quest 4." << std::endl; equipInventory.push_back(eq[4]); AddGold(500); break;
 	case 5: std::cout << "Get Reward from quest 5." << std::endl; equipInventory.push_back(eq[5]); AddGold(1000); break;
 	case 6: std::cout << "Get Reward from quest 6." << std::endl; equipInventory.push_back(eq[6]); AddGold(1000); break;
-	case 7: std::cout << "Get Reward from quest 7." << std::endl; cartInventoryWeight += 5; equipInventory.push_back(eq[7]); AddGold(-20000); break;
-	case 8:	std::cout << "Recieve 100 gold." << std::endl; AddGold(100); break;
-	case 9:	std::cout << "Lost 100 gold." << std::endl; AddGold(-100); break;
+	case 7: std::cout << "Get Reward from quest 7." << std::endl; cartInventoryWeight += 4; equipInventory.push_back(eq[7]); AddGold(-20000); break;
+	case 8:	std::cout << "Recieve gold." << std::endl; AddGold(50); break;
+	case 9:	std::cout << "Lost gold." << std::endl; AddGold(-50); if (gold < 0) gold = 0; break;
 	case 10: std::cout << "Get Trade Reward." << std::endl; skillList.push_back(sk[6]); break;
 	case 11: std::cout << "Get Trade Reward." << std::endl; skillList.push_back(sk[4]); break;
 	case 12: std::cout << "Get Trade Reward." << std::endl; skillList.push_back(sk[5]); break;
