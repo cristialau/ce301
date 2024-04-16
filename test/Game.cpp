@@ -69,9 +69,9 @@ void Game::InitGame()
     this->player = new Player(characterList[1], characterList[2], windowWidth, windowHeight);
     this->player->Initialize(itemList, equipmentList, skillList, questList[0]);
     this->menu = new Menu(windowWidth, windowHeight);
-    this->trade = new Trade();
+    this->trade = new Trade(windowWidth, windowHeight);
     this->trade->Initialize(itemList[0]);
-    this->battle = new Battle();
+    this->battle = new Battle(windowWidth, windowHeight);
 
     this->interface = new Interface();
 
@@ -92,8 +92,9 @@ void Game::LoadGame()
         }
     }
 
-    this->menu->Load();
-
+    this->menu->Load(locationList);
+    this->trade->Load();
+    this->battle->Load();
     this->interface->Load();
 
     //------------------------------------------------------
@@ -206,7 +207,8 @@ void Game::Draw()
     }
     else if (gameState == "InGame") {
         if (this->player->GetPlayerState() == "Talking" ||
-            this->player->GetPlayerState() == "Traveling") {
+            this->player->GetPlayerState() == "Traveling" ||
+            this->player->GetPlayerState() == "EndGame") {
             this->player->DrawInterface(*window);
         }
         else if (this->player->GetPlayerState() == "Menu") {
@@ -217,9 +219,6 @@ void Game::Draw()
         }
         else if (this->player->GetPlayerState() == "Battle") {
             this->battle->Draw(*window);
-        }
-        else if (this->player->GetPlayerState() == "EndGame") {
-
         }
     }
     

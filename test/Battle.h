@@ -74,8 +74,14 @@ private:
 
 	bool showEndBattle;
 
+	//sprites
+	float tileSize;
+	float scale;
+	float width;
+	float height;
+
 public:
-	Battle();
+	Battle(float width, float height);
 	~Battle();
 
 	void Initialize();

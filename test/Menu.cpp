@@ -115,7 +115,7 @@ Menu::~Menu()
 {
 }
 
-void Menu::Load()
+void Menu::Load(std::vector<Location> locationList)
 {
 	if (font.loadFromFile("Fonts/Times New Normal Regular.ttf")) {
 		std::cout << "Times New Normal Regular.ttf loaded" << std::endl;
@@ -291,6 +291,83 @@ void Menu::Load()
 	}
 	else {
 		std::cout << "wmbgTexture failed to load" << std::endl;
+	}
+
+	if (wm1Texture.loadFromFile(locationList[1].iconTextureName)) {
+		std::cout << "wm1Texture loaded" << std::endl;
+		wm1Sprite.setTexture(wm1Texture);
+
+		wm1Sprite.setPosition(sf::Vector2f(locationList[1].spritePositionX, locationList[1].spritePositionY));
+		wm1Sprite.setScale(sf::Vector2f(scale, scale));
+	}
+	else {
+		std::cout << "wm1Texture failed to load" << std::endl;
+	}
+
+	if (wm2Texture.loadFromFile(locationList[2].iconTextureName)) {
+		std::cout << "wm2Texture loaded" << std::endl;
+		wm2Sprite.setTexture(wm2Texture);
+
+		wm2Sprite.setPosition(sf::Vector2f(locationList[2].spritePositionX, locationList[2].spritePositionY));
+		wm2Sprite.setScale(sf::Vector2f(scale, scale));
+	}
+	else {
+		std::cout << "wm2Texture failed to load" << std::endl;
+	}
+
+	if (wm3Texture.loadFromFile(locationList[3].iconTextureName)) {
+		std::cout << "wm3Texture loaded" << std::endl;
+		wm3Sprite.setTexture(wm3Texture);
+
+		wm3Sprite.setPosition(sf::Vector2f(locationList[3].spritePositionX, locationList[3].spritePositionY));
+		wm3Sprite.setScale(sf::Vector2f(scale, scale));
+	}
+	else {
+		std::cout << "wm3Texture failed to load" << std::endl;
+	}
+
+	if (wm4Texture.loadFromFile(locationList[4].iconTextureName)) {
+		std::cout << "wm4Texture loaded" << std::endl;
+		wm4Sprite.setTexture(wm4Texture);
+
+		wm4Sprite.setPosition(sf::Vector2f(locationList[4].spritePositionX, locationList[4].spritePositionY));
+		wm4Sprite.setScale(sf::Vector2f(scale, scale));
+	}
+	else {
+		std::cout << "wm4Texture failed to load" << std::endl;
+	}
+
+	if (wm5Texture.loadFromFile(locationList[5].iconTextureName)) {
+		std::cout << "wm5Texture loaded" << std::endl;
+		wm5Sprite.setTexture(wm5Texture);
+
+		wm5Sprite.setPosition(sf::Vector2f(locationList[5].spritePositionX, locationList[5].spritePositionY));
+		wm5Sprite.setScale(sf::Vector2f(scale, scale));
+	}
+	else {
+		std::cout << "wm5Texture failed to load" << std::endl;
+	}
+
+	if (wm6Texture.loadFromFile(locationList[6].iconTextureName)) {
+		std::cout << "wm6Texture loaded" << std::endl;
+		wm6Sprite.setTexture(wm6Texture);
+
+		wm6Sprite.setPosition(sf::Vector2f(locationList[6].spritePositionX, locationList[6].spritePositionY));
+		wm6Sprite.setScale(sf::Vector2f(scale, scale));
+	}
+	else {
+		std::cout << "wm6Texture failed to load" << std::endl;
+	}
+
+	if (wm7Texture.loadFromFile(locationList[7].iconTextureName)) {
+		std::cout << "wm7Texture loaded" << std::endl;
+		wm7Sprite.setTexture(wm7Texture);
+
+		wm7Sprite.setPosition(sf::Vector2f(locationList[7].spritePositionX, locationList[7].spritePositionY));
+		wm7Sprite.setScale(sf::Vector2f(scale, scale));
+	}
+	else {
+		std::cout << "wm7Texture failed to load" << std::endl;
 	}
 	//----------------------------------------------------------
 	if (iebgTexture.loadFromFile(iebgTextureName)) {
@@ -703,7 +780,7 @@ void Menu::Draw(sf::RenderWindow& window)
 
 	switch (menuSelect) {
 	case 1: window.draw(cs1Sprite); window.draw(cs2Sprite); window.draw(c1info); window.draw(c2info); break;
-	case 2: window.draw(wmbgSprite); break;
+	case 2: window.draw(wmbgSprite); window.draw(wm1Sprite); window.draw(wm2Sprite); window.draw(wm3Sprite); window.draw(wm4Sprite); window.draw(wm5Sprite); window.draw(wm6Sprite); window.draw(wm7Sprite); break;
 	case 3: window.draw(iebgSprite); window.draw(skdSprite); window.draw(inventoryList); window.draw(detail); break;
 	case 4: window.draw(qbgSprite); window.draw(skdSprite); window.draw(questList); window.draw(detail); break;
 	case 5: window.draw(tbgSprite); break;

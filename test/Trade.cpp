@@ -1,7 +1,12 @@
 #include "Trade.h"
 
-Trade::Trade()
+Trade::Trade(float width, float height)
 {	
+	this->width = width;
+	this->height = height;
+	tileSize = 16.f;
+	scale = 3.f;
+
 	played = false;
 	StartTrading = false;
 	random = 0;
@@ -71,6 +76,13 @@ void Trade::Initialize(Item item)
 
 void Trade::Load()
 {
+	if (font.loadFromFile("Fonts/Times New Normal Regular.ttf")) {
+		std::cout << "Times New Normal Regular.ttf loaded" << std::endl;
+		
+	}
+	else {
+		std::cout << "Times New Normal Regular.ttf failed to load" << std::endl;
+	}
 }
 
 void Trade::Update(Player& player, NPC& npc, std::string previousState, Location& location, bool& isPressed)

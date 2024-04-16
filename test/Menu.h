@@ -150,6 +150,21 @@ private:
 	sf::Texture wmbgTexture;
 	sf::Sprite wmbgSprite;
 
+	sf::Texture wm1Texture;
+	sf::Sprite wm1Sprite;
+	sf::Texture wm2Texture;
+	sf::Sprite wm2Sprite;
+	sf::Texture wm3Texture;
+	sf::Sprite wm3Sprite;
+	sf::Texture wm4Texture;
+	sf::Sprite wm4Sprite;
+	sf::Texture wm5Texture;
+	sf::Sprite wm5Sprite;
+	sf::Texture wm6Texture;
+	sf::Sprite wm6Sprite;
+	sf::Texture wm7Texture;
+	sf::Sprite wm7Sprite;
+
 	std::string iebgTextureName;
 	sf::Texture iebgTexture;
 	sf::Sprite iebgSprite;
@@ -174,7 +189,7 @@ public:
 	Menu(float width, float height);
 	~Menu();
 
-	void Load();
+	void Load(std::vector<Location> locationList);
 	void Update(Player& player, std::string& gameState, std::vector<Location> locationList, int& mapNumber, bool& isPressed);
 	void Draw(sf::RenderWindow& window);
 

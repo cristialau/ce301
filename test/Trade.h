@@ -62,8 +62,16 @@ private:
 	Item item;
 	bool setUp;
 
+	//sprites
+	float tileSize;
+	float scale;
+	float width;
+	float height;
+
+	sf::Font font;
+
 public:
-	Trade();
+	Trade(float width, float height);
 	~Trade();
 
 	void Initialize(Item item);

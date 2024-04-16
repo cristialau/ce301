@@ -10,8 +10,6 @@ struct Location
 	int id = 0;
 	//icon texture
 	std::string iconTextureName;
-	sf::Texture iconTexture;
-	sf::Sprite icon;
 	//icon position on map
 	int spritePositionX = 0;
 	int spritePositionY = 0;

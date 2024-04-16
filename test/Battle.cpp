@@ -1,7 +1,12 @@
 #include "Battle.h"
 
-Battle::Battle()
+Battle::Battle(float width, float height)
 {
+	this->width = width;
+	this->height = height;
+	tileSize = 16.f;
+	scale = 3.f;
+
 	startBattle = false;
 	roundStart = false;
 	playerTurn = true;
