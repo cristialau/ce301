@@ -61,6 +61,8 @@ private:
 	//quest detail
 	bool showQuestDetail;
 
+	bool changeEquip;
+
 	int temp1;
 	int temp2;
 	int temp3;

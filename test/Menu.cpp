@@ -57,6 +57,8 @@ Menu::Menu(float width, float height)
 	//quest detail
 	showQuestDetail = false;
 
+	changeEquip = false;
+
 	temp1 = 0;
 	temp2 = 0;
 	temp3 = 0;
@@ -1019,75 +1021,85 @@ void Menu::OpenSkill(Player& player, bool& isPressed)
 
 void Menu::SkillEquip(Player& player, bool& isPressed)
 {
-	if (!player.GetSkill()[skillSelect].isEquip) {
-		if (characterActive) {
-			if (player.GetC1().GetSkill(characterSelect).id != player.GetSkill()[0].id) {
-				for (int i = 1; i < player.GetSkill().size(); i++) {
-					if (player.GetC1().GetSkill(characterSelect).id == player.GetSkill()[i].id &&
-						player.GetSkill()[i].isEquip) {
-						player.GetSkill()[i].isEquip = false;
-						break;
+	if (!changeEquip) {
+		changeEquip = true;
+
+		if (!player.GetSkill()[skillSelect].isEquip) {
+			if (characterActive) {
+				if (player.GetC1().GetSkill(characterSelect).id != player.GetSkill()[0].id) {
+					for (int i = 1; i < player.GetSkill().size(); i++) {
+						if (player.GetC1().GetSkill(characterSelect).id == player.GetSkill()[i].id &&
+							player.GetSkill()[i].isEquip) {
+							player.GetSkill()[i].isEquip = false;
+							break;
+						}
 					}
 				}
-			}
 
-			player.GetC1().SetSkill(characterSelect, player.GetSkill()[skillSelect]);
-			std::cout << "C1 skill: " << player.GetSkill()[skillSelect].name << " is equiped." << std::endl;
-			player.GetSkill()[skillSelect].isEquip = true;
-		}
-		else {
-			if (player.GetC2().GetSkill(characterSelect).id != player.GetSkill()[0].id) {
-				for (int i = 1; i < player.GetSkill().size(); i++) {
-					if (player.GetC2().GetSkill(characterSelect).id == player.GetSkill()[i].id &&
-						player.GetSkill()[i].isEquip) {
-						player.GetSkill()[i].isEquip = false;
-						break;
-					}
-				}
-			}
-
-			player.GetC2().SetSkill(characterSelect, player.GetSkill()[skillSelect]);
-			std::cout << "C2 skill: " << player.GetSkill()[skillSelect].name << " is equiped." << std::endl;
-			player.GetSkill()[skillSelect].isEquip = true;
-		}
-	}
-	else {
-		if (characterActive) {
-			if (player.GetC1().GetSkill(characterSelect).id != player.GetSkill()[skillSelect].id) {
-				std::cout << "This skill is equiped in other slot." << std::endl;
+				player.GetC1().SetSkill(characterSelect, player.GetSkill()[skillSelect]);
+				ask.setString("C1 skill: " + player.GetSkill()[skillSelect].name + " is equiped.");
+				player.GetSkill()[skillSelect].isEquip = true;
 			}
 			else {
-				for (int i = 1; i < player.GetSkill().size(); i++) {
-					if (player.GetC1().GetSkill(characterSelect).id == player.GetSkill()[i].id &&
-						player.GetSkill()[i].isEquip) {
-						player.GetSkill()[i].isEquip = false;
-						break;
+				if (player.GetC2().GetSkill(characterSelect).id != player.GetSkill()[0].id) {
+					for (int i = 1; i < player.GetSkill().size(); i++) {
+						if (player.GetC2().GetSkill(characterSelect).id == player.GetSkill()[i].id &&
+							player.GetSkill()[i].isEquip) {
+							player.GetSkill()[i].isEquip = false;
+							break;
+						}
 					}
 				}
-				std::cout << "C1 skill: " << player.GetC1().GetSkill(characterSelect).name << " is off." << std::endl;
-				player.GetC1().SetSkill(characterSelect, player.GetSkill()[0]);
+
+				player.GetC2().SetSkill(characterSelect, player.GetSkill()[skillSelect]);
+				ask.setString("C2 skill: " + player.GetSkill()[skillSelect].name + " is equiped.");
+				player.GetSkill()[skillSelect].isEquip = true;
 			}
 		}
 		else {
-			if (player.GetC2().GetSkill(characterSelect).id != player.GetSkill()[skillSelect].id) {
-				std::cout << "This skill is equiped in other slot." << std::endl;
+			if (characterActive) {
+				if (player.GetC1().GetSkill(characterSelect).id != player.GetSkill()[skillSelect].id) {
+					ask.setString("This skill is equiped in other slot.");
+				}
+				else {
+					for (int i = 1; i < player.GetSkill().size(); i++) {
+						if (player.GetC1().GetSkill(characterSelect).id == player.GetSkill()[i].id &&
+							player.GetSkill()[i].isEquip) {
+							player.GetSkill()[i].isEquip = false;
+							break;
+						}
+					}
+					ask.setString("C1 skill: " + player.GetC1().GetSkill(characterSelect).name + " is off.");
+					player.GetC1().SetSkill(characterSelect, player.GetSkill()[0]);
+				}
 			}
 			else {
-				for (int i = 1; i < player.GetSkill().size(); i++) {
-					if (player.GetC2().GetSkill(characterSelect).id == player.GetSkill()[i].id &&
-						player.GetSkill()[i].isEquip) {
-						player.GetSkill()[i].isEquip = false;
-						break;
-					}
+				if (player.GetC2().GetSkill(characterSelect).id != player.GetSkill()[skillSelect].id) {
+					ask.setString("This skill is equiped in other slot.");
 				}
-				std::cout << "C2 skill: " << player.GetC2().GetSkill(characterSelect).name << " is off." << std::endl;
-				player.GetC2().SetSkill(characterSelect, player.GetSkill()[0]);
+				else {
+					for (int i = 1; i < player.GetSkill().size(); i++) {
+						if (player.GetC2().GetSkill(characterSelect).id == player.GetSkill()[i].id &&
+							player.GetSkill()[i].isEquip) {
+							player.GetSkill()[i].isEquip = false;
+							break;
+						}
+					}
+					ask.setString("C2 skill: " + player.GetC2().GetSkill(characterSelect).name + " is off.");
+					player.GetC2().SetSkill(characterSelect, player.GetSkill()[0]);
+				}
 			}
 		}
 	}
-
-	showSkill = false;
-	showSkillDetail = false;
+	
+	if (!isPressed) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
+			sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+			showSkill = false;
+			showSkillDetail = false;
+			changeEquip = false;
+		}
+	}
 }
 
 void Menu::OpenEquip(Player& player, bool& isPressed)
@@ -1183,78 +1195,89 @@ void Menu::OpenEquip(Player& player, bool& isPressed)
 
 void Menu::EquipEquip(Player& player, bool& isPressed)
 {
-	characterSelect -= 2;
+	if (!changeEquip) {
+		changeEquip = true;
+	
+		characterSelect -= 2;
 
-	if (!player.GetEquipInventory()[equipSelect].isEquip) {
-		if (characterActive) {
-			if (player.GetC1().GetEquip(characterSelect).id != player.GetEquipInventory()[0].id) {
-				for (int i = 1; i < player.GetEquipInventory().size(); i++) {
-					if (player.GetC1().GetEquip(characterSelect).id == player.GetEquipInventory()[i].id &&
-						player.GetEquipInventory()[i].isEquip) {
-						player.GetEquipInventory()[i].isEquip = false;
-						break;
+		if (!player.GetEquipInventory()[equipSelect].isEquip) {
+			if (characterActive) {
+				if (player.GetC1().GetEquip(characterSelect).id != player.GetEquipInventory()[0].id) {
+					for (int i = 1; i < player.GetEquipInventory().size(); i++) {
+						if (player.GetC1().GetEquip(characterSelect).id == player.GetEquipInventory()[i].id &&
+							player.GetEquipInventory()[i].isEquip) {
+							player.GetEquipInventory()[i].isEquip = false;
+							break;
+						}
 					}
 				}
-			}
 
-			player.GetC1().SetEquip(characterSelect, player.GetEquipInventory()[equipSelect]);
-			std::cout << "C1 equipment: " << player.GetEquipInventory()[equipSelect].name << " is equiped." << std::endl;
-			player.GetEquipInventory()[equipSelect].isEquip = true;
-		}
-		else {
-			if (player.GetC2().GetEquip(characterSelect).id != player.GetEquipInventory()[0].id) {
-				for (int i = 1; i < player.GetEquipInventory().size(); i++) {
-					if (player.GetC2().GetEquip(characterSelect).id == player.GetEquipInventory()[i].id &&
-						player.GetEquipInventory()[i].isEquip) {
-						player.GetEquipInventory()[i].isEquip = false;
-						break;
-					}
-				}
-			}
-
-			player.GetC2().SetEquip(characterSelect, player.GetEquipInventory()[equipSelect]);
-			std::cout << "C2 equipment: " << player.GetEquipInventory()[equipSelect].name << " is equiped." << std::endl;
-			player.GetEquipInventory()[equipSelect].isEquip = true;
-		}
-	}
-	else {
-		if (characterActive) {
-			if (player.GetC1().GetEquip(characterSelect).id != player.GetEquipInventory()[equipSelect].id) {
-				std::cout << "This equipment is equiped in other slot." << std::endl;
+				player.GetC1().SetEquip(characterSelect, player.GetEquipInventory()[equipSelect]);
+				std::cout << "C1 equipment: " << player.GetEquipInventory()[equipSelect].name << " is equiped." << std::endl;
+				player.GetEquipInventory()[equipSelect].isEquip = true;
 			}
 			else {
-				for (int i = 1; i < player.GetEquipInventory().size(); i++) {
-					if (player.GetC1().GetEquip(characterSelect).id == player.GetEquipInventory()[i].id &&
-						player.GetEquipInventory()[i].isEquip) {
-						player.GetEquipInventory()[i].isEquip = false;
-						break;
+				if (player.GetC2().GetEquip(characterSelect).id != player.GetEquipInventory()[0].id) {
+					for (int i = 1; i < player.GetEquipInventory().size(); i++) {
+						if (player.GetC2().GetEquip(characterSelect).id == player.GetEquipInventory()[i].id &&
+							player.GetEquipInventory()[i].isEquip) {
+							player.GetEquipInventory()[i].isEquip = false;
+							break;
+						}
 					}
 				}
-				std::cout << "C1 equipment: " << player.GetC1().GetEquip(characterSelect).name << " is off." << std::endl;
-				player.GetC1().SetEquip(characterSelect, player.GetEquipInventory()[0]);
+
+				player.GetC2().SetEquip(characterSelect, player.GetEquipInventory()[equipSelect]);
+				std::cout << "C2 equipment: " << player.GetEquipInventory()[equipSelect].name << " is equiped." << std::endl;
+				player.GetEquipInventory()[equipSelect].isEquip = true;
 			}
 		}
 		else {
-			if (player.GetC2().GetEquip(characterSelect).id != player.GetEquipInventory()[equipSelect].id) {
-				std::cout << "This equipment is equiped in other slot." << std::endl;
+			if (characterActive) {
+				if (player.GetC1().GetEquip(characterSelect).id != player.GetEquipInventory()[equipSelect].id) {
+					std::cout << "This equipment is equiped in other slot." << std::endl;
+				}
+				else {
+					for (int i = 1; i < player.GetEquipInventory().size(); i++) {
+						if (player.GetC1().GetEquip(characterSelect).id == player.GetEquipInventory()[i].id &&
+							player.GetEquipInventory()[i].isEquip) {
+							player.GetEquipInventory()[i].isEquip = false;
+							break;
+						}
+					}
+					std::cout << "C1 equipment: " << player.GetC1().GetEquip(characterSelect).name << " is off." << std::endl;
+					player.GetC1().SetEquip(characterSelect, player.GetEquipInventory()[0]);
+				}
 			}
 			else {
-				for (int i = 1; i < player.GetEquipInventory().size(); i++) {
-					if (player.GetC2().GetEquip(characterSelect).id == player.GetEquipInventory()[i].id &&
-						player.GetEquipInventory()[i].isEquip) {
-						player.GetEquipInventory()[i].isEquip = false;
-						break;
-					}
+				if (player.GetC2().GetEquip(characterSelect).id != player.GetEquipInventory()[equipSelect].id) {
+					std::cout << "This equipment is equiped in other slot." << std::endl;
 				}
-				std::cout << "C2 equipment: " << player.GetC2().GetEquip(characterSelect).name << " is off." << std::endl;
-				player.GetC2().SetEquip(characterSelect, player.GetEquipInventory()[0]);
+				else {
+					for (int i = 1; i < player.GetEquipInventory().size(); i++) {
+						if (player.GetC2().GetEquip(characterSelect).id == player.GetEquipInventory()[i].id &&
+							player.GetEquipInventory()[i].isEquip) {
+							player.GetEquipInventory()[i].isEquip = false;
+							break;
+						}
+					}
+					std::cout << "C2 equipment: " << player.GetC2().GetEquip(characterSelect).name << " is off." << std::endl;
+					player.GetC2().SetEquip(characterSelect, player.GetEquipInventory()[0]);
+				}
 			}
 		}
 	}
-
-	showEquip = false;
-	showEquipDetail = false;
-	characterSelect += 2;
+	
+	if (!isPressed) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
+			sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+			showEquip = false;
+			showEquipDetail = false;
+			characterSelect += 2;
+			changeEquip = false;
+		}
+	}
+	
 }
 
 void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int& mapNumber, bool& isPressed)
