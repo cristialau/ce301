@@ -71,7 +71,7 @@ public:
 	void Update(Player& player, NPC& npc, std::string previousState, Location& location, bool& isPressed);
 	void StartTrade(Player& player, NPC& npc, std::string previousState, Location& location, bool& isPressed);
 	void StartShop(Player& player, NPC& npc, Location& lcoation, bool& isPressed);
-	void Draw();
+	void Draw(sf::RenderWindow& window);
 
 	//Trade games
 	void SetUpGamePanel(NPC npc, std::string previousState);

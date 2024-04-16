@@ -384,7 +384,7 @@ void Battle::EndBattle(Player& player, std::vector<NPC>& enemy, bool& isPressed)
 	}
 }
 
-void Battle::Draw()
+void Battle::Draw(sf::RenderWindow& window)
 {
 }
 //--------------------------------------------------

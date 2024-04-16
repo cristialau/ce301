@@ -16,16 +16,15 @@ private:
 	bool showMainMenu;
 	int selectMax;
 	bool isSelected;
-	//show load game
-	bool showLoadGame;
-	int loadMax;
-	bool loadSelected;
-	//show options
-	bool showOption;
-	int optionMax;
-	bool optionSelected;
 
 	//sprites
+	sf::Font font;
+
+	sf::Text title;
+	sf::Text quit;
+
+	float mMTextPositionX;
+
 	float width;
 	float height;
 	float tileSize;
@@ -46,6 +45,17 @@ private:
 	std::string mmsTextureName;
 	sf::Texture mmsTexture;
 	sf::Sprite mmsSprite;
+
+	/*
+	//show load game
+	bool showLoadGame;
+	int loadMax;
+	bool loadSelected;
+	//show options
+	bool showOption;
+	int optionMax;
+	bool optionSelected;
+	*/
 
 public:
 	MainMenu(float height, float width);

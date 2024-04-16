@@ -106,6 +106,10 @@ private:
 	float width;
 	float height;
 
+	std::string tsTextureName;
+	sf::Texture tsTexture;
+	sf::Sprite tsSprite;
+
 	std::string tbgTextureName;
 	sf::Texture tbgTexture;
 	sf::Sprite tbgSprite;
@@ -118,9 +122,6 @@ private:
 	std::string ts3TextureName;
 	sf::Texture ts3Texture;
 	sf::Sprite ts3Sprite;
-	std::string tsTextureName;
-	sf::Texture tsTexture;
-	sf::Sprite tsSprite;
 
 	std::string qs1TextureName;
 	sf::Texture qs1Texture;
@@ -128,9 +129,6 @@ private:
 	std::string qs2TextureName;
 	sf::Texture qs2Texture;
 	sf::Sprite qs2Sprite;
-	std::string qsTextureName;
-	sf::Texture qsTexture;
-	sf::Sprite qsSprite;
 
 	std::string trbgTextureName;
 	sf::Texture trbgTexture;

@@ -422,8 +422,14 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 	}
 }
 
-void Trade::Draw()
+void Trade::Draw(sf::RenderWindow& window)
 {
+	if (!played) {
+
+	}
+	else {
+
+	}
 }
 
 //Functions
@@ -936,6 +942,7 @@ bool Trade::CheckWeight(Player& player)
 void Trade::SetUp(Player& player, NPC& npc, Location location)
 {
 	setUp = true;
+	played = true;
 
 	playerTrolley.clear();
 	npcTrolley.clear();

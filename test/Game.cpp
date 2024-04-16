@@ -68,7 +68,7 @@ void Game::InitGame()
     this->mainMenu = new MainMenu(windowWidth, windowHeight);
     this->player = new Player(characterList[1], characterList[2], windowWidth, windowHeight);
     this->player->Initialize(itemList, equipmentList, skillList, questList[0]);
-    this->menu = new Menu();
+    this->menu = new Menu(windowWidth, windowHeight);
     this->trade = new Trade();
     this->trade->Initialize(itemList[0]);
     this->battle = new Battle();
@@ -92,9 +92,23 @@ void Game::LoadGame()
         }
     }
 
+    this->menu->Load();
+
     this->interface->Load();
 
     //------------------------------------------------------
+    this->player->GetCartInventory().push_back(itemList[1]);
+    this->player->GetCartInventory().push_back(itemList[2]);
+    this->player->GetCartInventory().push_back(itemList[3]);
+    this->player->GetCartInventory().push_back(itemList[1]);
+    this->player->GetCartInventory().push_back(itemList[2]);
+    this->player->GetCartInventory().push_back(itemList[3]);
+    this->player->GetCartInventory().push_back(itemList[1]);
+    this->player->GetCartInventory().push_back(itemList[2]);
+    this->player->GetCartInventory().push_back(itemList[3]);
+    this->player->GetCartInventory().push_back(itemList[1]);
+    this->player->GetCartInventory().push_back(itemList[2]);
+    this->player->GetCartInventory().push_back(itemList[3]);
     this->player->GetCartInventory().push_back(itemList[1]);
     this->player->GetCartInventory().push_back(itemList[2]);
     this->player->GetCartInventory().push_back(itemList[3]);
@@ -194,6 +208,18 @@ void Game::Draw()
         if (this->player->GetPlayerState() == "Talking" ||
             this->player->GetPlayerState() == "Traveling") {
             this->player->DrawInterface(*window);
+        }
+        else if (this->player->GetPlayerState() == "Menu") {
+            this->menu->Draw(*window);
+        }
+        else if (this->player->GetPlayerState() == "Trading") {
+            this->trade->Draw(*window);
+        }
+        else if (this->player->GetPlayerState() == "Battle") {
+            this->battle->Draw(*window);
+        }
+        else if (this->player->GetPlayerState() == "EndGame") {
+
         }
     }
     

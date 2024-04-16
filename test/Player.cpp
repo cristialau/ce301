@@ -94,7 +94,6 @@ Player::Player(Character& c1, Character& c2, float width, float height) :c1(c1),
 
 	qs1TextureName = "Textures/test02.png";
 	qs2TextureName = "Textures/test03.png";
-	qsTextureName = "Textures/test05.png";
 
 	trbgTextureName = "Textures/test01.png";
 	trwbgTextureName = "Textures/test02.png";
@@ -152,6 +151,17 @@ void Player::Load()
 	else {
 		std::cout << "tbgTexture failed to load" << std::endl;
 	}
+
+	if (tsTexture.loadFromFile(tsTextureName)) {
+		std::cout << "tsTexture loaded" << std::endl;
+		tsSprite.setTexture(tsTexture);
+
+		tsSprite.setPosition(sf::Vector2f(0.f, 0.f));
+		tsSprite.setScale(sf::Vector2f(5.f, 2.f));
+	}
+	else {
+		std::cout << "tsTexture failed to load" << std::endl;
+	}
 	//----------------------------------------------------------
 	if (ts1Texture.loadFromFile(ts1TextureName)) {
 		std::cout << "ts1Texture loaded" << std::endl;
@@ -182,16 +192,6 @@ void Player::Load()
 	else {
 		std::cout << "ts3Texture failed to load" << std::endl;
 	}
-
-	if (tsTexture.loadFromFile(tsTextureName)) {
-		std::cout << "tsTexture loaded" << std::endl;
-		tsSprite.setTexture(tsTexture);
-
-		tsSprite.setScale(sf::Vector2f(5.f, 2.f));
-	}
-	else {
-		std::cout << "tsTexture failed to load" << std::endl;
-	}
 	//----------------------------------------------------------
 	if (qs1Texture.loadFromFile(qs1TextureName)) {
 		std::cout << "qs1Texture loaded" << std::endl;
@@ -211,16 +211,6 @@ void Player::Load()
 	}
 	else {
 		std::cout << "qs2Texture failed to load" << std::endl;
-	}
-
-	if (qsTexture.loadFromFile(qsTextureName)) {
-		std::cout << "qsTexture loaded" << std::endl;
-		qsSprite.setTexture(qsTexture);
-
-		qsSprite.setScale(sf::Vector2f(5.f, 2.f));
-	}
-	else {
-		std::cout << "qsTexture failed to load" << std::endl;
 	}
 	//----------------------------------------------------------
 	if (trbgTexture.loadFromFile(trbgTextureName)) {
@@ -486,11 +476,11 @@ void Player::OpenQuest(NPC& npc, Location& location, bool& isPressed)
 		}
 
 		switch (questSelectMax) {
-		case 1: qsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); break;
+		case 1: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); break;
 		case 2:
 			switch (questSelect) {
-			case 1: qsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); break;
-			case 2: qsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); break;
+			case 1: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); break;
+			case 2: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); break;
 			}
 			break;
 		}
@@ -548,7 +538,7 @@ void Player::OpenQuest(NPC& npc, Location& location, bool& isPressed)
 				}
 			}
 
-			qsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f));
+			tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f));
 
 			break;
 		}
@@ -668,7 +658,6 @@ void Player::DrawInterface(sf::RenderWindow& window)
 				break;
 			default: break;
 			}
-			window.draw(tsSprite);
 		}
 		
 		if (!questSelected) {
@@ -679,13 +668,13 @@ void Player::DrawInterface(sf::RenderWindow& window)
 				qs2Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); window.draw(qs2Sprite);
 				break;
 			}
-			window.draw(qsSprite);
 		}
 
 		if (showQuestAccept) {
 			qs1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(qs1Sprite);
-			window.draw(qsSprite);
 		}
+
+		window.draw(tsSprite);
 	}
 	else if (playerState == "Traveling") {
 		if (showTravel) {

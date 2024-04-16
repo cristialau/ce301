@@ -82,7 +82,7 @@ public:
 	void Load();
 	void Update(Player& player, std::vector<NPC>& enemy, std::string previousState, bool& isPressed);
 	void EndBattle(Player& player, std::vector<NPC>& enemy, bool& isPressed);
-	void Draw();
+	void Draw(sf::RenderWindow& window);
 	
 	//Functions
 	void SetUp(Player player, std::vector<NPC> enemy, std::string previousState);

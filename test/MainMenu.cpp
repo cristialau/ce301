@@ -6,8 +6,22 @@ MainMenu::MainMenu(float width, float height)
 	select = 1;
 	//main
 	showMainMenu = false;
-	selectMax = 4;
+	selectMax = 2;
 	isSelected = false;
+
+	tileSize = 16.f;
+	scale = 3.f;
+	this->width = width;
+	this->height = height;
+	mMSpritePositionX = (width - (tileSize * 7.f)) / 2.f;
+	mMTextPositionX = (width - (tileSize * 3.5f)) / 2.f;
+
+	bgTextureName = "Textures/test01.png";
+	mms1TextureName = "Textures/test02.png";
+	mms2TextureName = "Textures/test02.png";
+	mmsTextureName = "Textures/test03.png";
+
+	/*
 	//load
 	showLoadGame = false;
 	loadMax = 3;
@@ -16,17 +30,7 @@ MainMenu::MainMenu(float width, float height)
 	showOption = false;
 	optionMax = 0;
 	optionSelected = false;
-
-	tileSize = 16.f;
-	scale = 3.f;
-	this->width = width;
-	this->height = height;
-	mMSpritePositionX = (width - (tileSize * 7.f)) / 2.f;
-
-	bgTextureName = "Textures/test01.png";
-	mms1TextureName = "Textures/test02.png";
-	mms2TextureName = "Textures/test02.png";
-	mmsTextureName = "Textures/test03.png";
+	*/
 }
 
 MainMenu::~MainMenu()
@@ -39,6 +43,17 @@ void MainMenu::Initialize()
 
 void MainMenu::Load()
 {
+	if (font.loadFromFile("Fonts/Times New Normal Regular.ttf")) {
+		std::cout << "Times New Normal Regular.ttf loaded" << std::endl;
+		title.setFont(font);
+		title.setCharacterSize(24);
+		quit.setFont(font);
+		quit.setCharacterSize(24);
+	}
+	else {
+		std::cout << "Times New Normal Regular.ttf failed to load" << std::endl;
+	}
+
 	if (bgTexture.loadFromFile(bgTextureName)) {
 		std::cout << "MainmenuBG texture loaded" << std::endl;
 		bgSprite.setTexture(bgTexture);
@@ -56,6 +71,7 @@ void MainMenu::Load()
 
 		mms1Sprite.setPosition(sf::Vector2f(mMSpritePositionX, height * 5.f / 8.f));
 		mms1Sprite.setScale(sf::Vector2f(7.f, 3.f));
+		title.setPosition(sf::Vector2f(mMTextPositionX, height * 41.f / 64.f));
 	}
 	else {
 		std::cout << "Mainmenumms1 texture failed to load" << std::endl;
@@ -67,6 +83,7 @@ void MainMenu::Load()
 
 		mms2Sprite.setPosition(sf::Vector2f(mMSpritePositionX, height * 23.f / 32.f));
 		mms2Sprite.setScale(sf::Vector2f(7.f, 3.f));
+		quit.setPosition(sf::Vector2f(mMTextPositionX, height * 47.f / 64.f));
 	}
 	else {
 		std::cout << "Mainmenumms2 texture failed to load" << std::endl;
@@ -89,10 +106,12 @@ void MainMenu::Update(std::string& gameState, bool& isPressed)
 	//MainMenu, LoadGame, Option
 	if (mainMenuState == "MainMenu")
 		ShowMain(gameState, isPressed);
+	/*
 	else if (mainMenuState == "LoadGame")
 		ShowLoad(isPressed);
 	else if (mainMenuState == "Option")
 		ShowOptions(isPressed);
+	*/
 }
 
 void MainMenu::ShowMain(std::string& gameState, bool& isPressed)
@@ -102,11 +121,8 @@ void MainMenu::ShowMain(std::string& gameState, bool& isPressed)
 		isSelected = false;
 		select = 1;
 
-		//std::cout << title << std::endl;
-		std::cout << "1. Start" << std::endl;
-		std::cout << "2. Load" << std::endl;
-		std::cout << "3. Option" << std::endl;
-		std::cout << "4. Quit" << std::endl;
+		title.setString("Start");
+		quit.setString("Quit");
 	}
 
 	if (!isSelected) {
@@ -130,20 +146,30 @@ void MainMenu::ShowMain(std::string& gameState, bool& isPressed)
 		switch (select) {
 		case 1: mmsSprite.setPosition(sf::Vector2f(mMSpritePositionX, height * 5.f / 8.f)); break;
 		case 2: mmsSprite.setPosition(sf::Vector2f(mMSpritePositionX, height * ((5.f / 8.f) + (3.f / 32.f)))); break;
-		case 3: mmsSprite.setPosition(sf::Vector2f(mMSpritePositionX, height * ((5.f / 8.f) + (3.f / 32.f) * 2.f))); break;
-		case 4: mmsSprite.setPosition(sf::Vector2f(mMSpritePositionX, height * ((5.f / 8.f) + (3.f / 32.f) * 3.f))); break;
 		}
 	}
 	else {
 		switch (select) {
 		case 1:	gameState = "InGame"; showMainMenu = false;	break;
-		case 2:	mainMenuState = "LoadGame";	break;
-		case 3:	mainMenuState = "Option"; break;
-		case 4:	gameState = "QuitGame";	break;
+		case 2:	gameState = "QuitGame";	break;
 		}
 	}
 }
 
+void MainMenu::Draw(sf::RenderWindow& window)
+{
+	window.draw(bgSprite);
+
+	window.draw(mms1Sprite);
+	window.draw(title);
+
+	window.draw(mms2Sprite);
+	window.draw(quit);
+
+	window.draw(mmsSprite);
+}
+
+/*
 void MainMenu::ShowLoad(bool& isPressed)
 {
 	if (!showLoadGame) {
@@ -233,11 +259,4 @@ void MainMenu::ShowOptions(bool& isPressed)
 		//load options
 	}
 }
-
-void MainMenu::Draw(sf::RenderWindow& window)
-{
-	window.draw(bgSprite);
-	window.draw(mms1Sprite);
-	window.draw(mms2Sprite);
-	window.draw(mmsSprite);
-}
+*/

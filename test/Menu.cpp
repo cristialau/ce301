@@ -1,12 +1,12 @@
 #include "Menu.h"
 
-Menu::Menu()
+Menu::Menu(float width, float height)
 {
 	characterActive = true;
 	//menu
 	showMenu = false;
 	menuSelect = 1;
-	menuSelectMax = 6;
+	menuSelectMax = 5;
 	menuSelected = false;
 	//character
 	showCharacter = false;
@@ -23,7 +23,7 @@ Menu::Menu()
 	skillDetailSelected = false;
 	//equipment
 	showEquip = false;
-	equipSelect = 0;
+	equipSelect = 1;
 	equipSelectMax = 0;
 	equipSelected = false;
 	//equipment detail
@@ -40,7 +40,7 @@ Menu::Menu()
 	travelingTime = 0;
 	//inventory
 	showInventory = false;
-	inventorySelect = 0;
+	inventorySelect = 1;
 	inventorySelectMax = 0;
 	inventorySelected = false;
 	inventoryWeight = 0;
@@ -51,20 +51,280 @@ Menu::Menu()
 	sellSelected = false;
 	//quest
 	showQuest = false;
-	questSelect = 0;
+	questSelect = 1;
 	questSelectMax = 0;
-	questSelected = false;
+	//questSelected = false;
 	//quest detail
 	showQuestDetail = false;
+
+	temp1 = 0;
+	temp2 = 0;
+	temp3 = 0;
+	temp4 = 0;
+	//temp5 = 0;
+	temp6 = 0;
+	temp7 = 0;
+	temp8 = 0;
+
+	//sprites
+	tileSize = 16.f;
+	scale = 3.f;
+	this->width = width;
+	this->height = height;
+
+	mbgTextureName = "Textures/test01.png";
+	msTextureName = "Textures/test08.png";
+
+	ms1TextureName = "Textures/test02.png";
+	ms2TextureName = "Textures/test03.png";
+	ms3TextureName = "Textures/test04.png";
+	ms4TextureName = "Textures/test05.png";
+	ms5TextureName = "Textures/test06.png";
+
+	spriteDis1 = 70.f;
+	
+	cs1TextureName = "Textures/test02.png";
+	cs2TextureName = "Textures/test03.png";
+
+	spriteDis2 = 26.f;
+
+	spriteDis3 = 32.f;
+
+	sk1TextureName = "Textures/test04.png";
+	skdTextureName = "Textures/test05.png";
+	skddTextureName = "Textures/test06.png";
+
+	wmbgTextureName = "Textures/test07.png";
+
+	iebgTextureName = "Textures/test02.png";
+
+	qbgTextureName = "Textures/test03.png";
+
+	tbgTextureName = "Textures/test04.png";
+
+	/*
 	//Options
 	showOption = false;
 	optionSelect = 1;
 	optionSelectMax = 5;
 	optionSelected = false;
+	*/
 }
 
 Menu::~Menu()
 {
+}
+
+void Menu::Load()
+{
+	if (font.loadFromFile("Fonts/Times New Normal Regular.ttf")) {
+		std::cout << "Times New Normal Regular.ttf loaded" << std::endl;
+		
+		info.setFont(font);
+		c1info.setFont(font);
+		c2info.setFont(font);
+		detail.setFont(font);
+		ask.setFont(font);
+		skillList.setFont(font);
+		equipList.setFont(font);
+		inventoryList.setFont(font);
+		questList.setFont(font);
+
+		info.setCharacterSize(24);
+		c1info.setCharacterSize(24);
+		c2info.setCharacterSize(24);
+		detail.setCharacterSize(24);
+		ask.setCharacterSize(24);
+		skillList.setCharacterSize(29.5);
+		equipList.setCharacterSize(29.5);
+		inventoryList.setCharacterSize(29.5);
+		questList.setCharacterSize(29.5);
+
+		c1info.setPosition(sf::Vector2f(150.f, 200.f));
+		c2info.setPosition(sf::Vector2f(470.f, 200.f));
+		detail.setPosition(sf::Vector2f(450.f, 185.f));
+		ask.setPosition(sf::Vector2f((width - 20.f * tileSize) / 2.f + 30.f, (height - 15.f * tileSize) / 2.f + 30.f));
+		skillList.setPosition(sf::Vector2f(200.f, 121.f));
+		equipList.setPosition(sf::Vector2f(200.f, 121.f));
+		inventoryList.setPosition(sf::Vector2f(200.f, 121.f));
+		questList.setPosition(sf::Vector2f(200.f, 121.f));
+	}
+	else {
+		std::cout << "Times New Normal Regular.ttf failed to load" << std::endl;
+	}
+	//----------------------------------------------------------
+	if (mbgTexture.loadFromFile(mbgTextureName)) {
+		std::cout << "mbgTexture loaded" << std::endl;
+		mbgSprite.setTexture(mbgTexture);
+
+		mbgSprite.setPosition(sf::Vector2f(0.f, 0.f));
+		mbgSprite.setScale(sf::Vector2f(50.f, 37.5f));
+	}
+	else {
+		std::cout << "mbgTexture failed to load" << std::endl;
+	}
+
+	if (msTexture.loadFromFile(msTextureName)) {
+		std::cout << "msTexture loaded" << std::endl;
+		msSprite.setTexture(msTexture);
+	}
+	else {
+		std::cout << "msTexture failed to load" << std::endl;
+	}
+	//----------------------------------------------------------
+	if (ms1Texture.loadFromFile(ms1TextureName)) {
+		std::cout << "ms1Texture loaded" << std::endl;
+		ms1Sprite.setTexture(ms1Texture);
+
+		ms1Sprite.setPosition(sf::Vector2f(30.f, 450.f - spriteDis1 * 4));
+		ms1Sprite.setScale(sf::Vector2f(4.f, 4.f));
+	}
+	else {
+		std::cout << "ms1Texture failed to load" << std::endl;
+	}
+
+	if (ms2Texture.loadFromFile(ms2TextureName)) {
+		std::cout << "ms2Texture loaded" << std::endl;
+		ms2Sprite.setTexture(ms2Texture);
+
+		ms2Sprite.setPosition(sf::Vector2f(30.f, 450.f - spriteDis1 * 3));
+		ms2Sprite.setScale(sf::Vector2f(4.f, 4.f));
+	}
+	else {
+		std::cout << "ms2Texture failed to load" << std::endl;
+	}
+
+	if (ms3Texture.loadFromFile(ms3TextureName)) {
+		std::cout << "ms3Texture loaded" << std::endl;
+		ms3Sprite.setTexture(ms3Texture);
+
+		ms3Sprite.setPosition(sf::Vector2f(30.f, 450.f - spriteDis1 * 2));
+		ms3Sprite.setScale(sf::Vector2f(4.f, 4.f));
+	}
+	else {
+		std::cout << "ms3Texture failed to load" << std::endl;
+	}
+
+	if (ms4Texture.loadFromFile(ms4TextureName)) {
+		std::cout << "ms4Texture loaded" << std::endl;
+		ms4Sprite.setTexture(ms4Texture);
+
+		ms4Sprite.setPosition(sf::Vector2f(30.f, 450.f - spriteDis1 * 1));
+		ms4Sprite.setScale(sf::Vector2f(4.f, 4.f));
+	}
+	else {
+		std::cout << "ms4Texture failed to load" << std::endl;
+	}
+
+	if (ms5Texture.loadFromFile(ms5TextureName)) {
+		std::cout << "ms5Texture loaded" << std::endl;
+		ms5Sprite.setTexture(ms5Texture);
+
+		ms5Sprite.setPosition(sf::Vector2f(30.f, 450.f - spriteDis1 * 0));
+		ms5Sprite.setScale(sf::Vector2f(4.f, 4.f));
+	}
+	else {
+		std::cout << "ms5Texture failed to load" << std::endl;
+	}
+	//----------------------------------------------------------
+	if (cs1Texture.loadFromFile(cs1TextureName)) {
+		std::cout << "cs1Texture loaded" << std::endl;
+		cs1Sprite.setTexture(cs1Texture);
+
+		cs1Sprite.setPosition(sf::Vector2f(125.f, 50.f));
+		cs1Sprite.setScale(sf::Vector2f(20.f, 32.f));
+	}
+	else {
+		std::cout << "cs1Texture failed to load" << std::endl;
+	}
+
+	if (cs2Texture.loadFromFile(cs2TextureName)) {
+		std::cout << "cs2Texture loaded" << std::endl;
+		cs2Sprite.setTexture(cs2Texture);
+
+		cs2Sprite.setPosition(sf::Vector2f(445.f, 50.f));
+		cs2Sprite.setScale(sf::Vector2f(20.f, 32.f));
+	}
+	else {
+		std::cout << "cs2Texture failed to load" << std::endl;
+	}
+	//----------------------------------------------------------
+	if (sk1Texture.loadFromFile(sk1TextureName)) {
+		std::cout << "sk1Texture loaded" << std::endl;
+		sk1Sprite.setTexture(sk1Texture);
+
+		sk1Sprite.setPosition(sf::Vector2f(125.f, 50.f));
+		sk1Sprite.setScale(sf::Vector2f(40.f, 32.f));
+	}
+	else {
+		std::cout << "sk1Texture failed to load" << std::endl;
+	}
+
+	if (skdTexture.loadFromFile(skdTextureName)) {
+		std::cout << "skdTexture loaded" << std::endl;
+		skdSprite.setTexture(skdTexture);
+
+		skdSprite.setPosition(sf::Vector2f(400.f, 100.f));
+		skdSprite.setScale(sf::Vector2f(20.f, 28.f));
+	}
+	else {
+		std::cout << "skdTexture failed to load" << std::endl;
+	}
+
+	if (skddTexture.loadFromFile(skddTextureName)) {
+		std::cout << "skddTexture loaded" << std::endl;
+		skddSprite.setTexture(skddTexture);
+
+		skddSprite.setPosition(sf::Vector2f((width - 20.f * tileSize) / 2.f, (height - 15.f * tileSize) / 2.f));
+		skddSprite.setScale(sf::Vector2f(20.f, 15.f));
+	}
+	else {
+		std::cout << "skddTexture failed to load" << std::endl;
+	}
+	//----------------------------------------------------------
+	if (wmbgTexture.loadFromFile(wmbgTextureName)) {
+		std::cout << "wmbgTexture loaded" << std::endl;
+		wmbgSprite.setTexture(wmbgTexture);
+
+		wmbgSprite.setPosition(sf::Vector2f(125.f, 50.f));
+		wmbgSprite.setScale(sf::Vector2f(40.f, 32.f));
+	}
+	else {
+		std::cout << "wmbgTexture failed to load" << std::endl;
+	}
+	//----------------------------------------------------------
+	if (iebgTexture.loadFromFile(iebgTextureName)) {
+		std::cout << "iebgTexture loaded" << std::endl;
+		iebgSprite.setTexture(iebgTexture);
+
+		iebgSprite.setPosition(sf::Vector2f(125.f, 50.f));
+		iebgSprite.setScale(sf::Vector2f(40.f, 32.f));
+	}
+	else {
+		std::cout << "iebgTexture failed to load" << std::endl;
+	}
+	//----------------------------------------------------------
+	if (qbgTexture.loadFromFile(qbgTextureName)) {
+		std::cout << "qbgTexture loaded" << std::endl;
+		qbgSprite.setTexture(qbgTexture);
+
+		qbgSprite.setPosition(sf::Vector2f(125.f, 50.f));
+		qbgSprite.setScale(sf::Vector2f(40.f, 32.f));
+	}
+	else {
+		std::cout << "qbgTexture failed to load" << std::endl;
+	}
+	//----------------------------------------------------------
+	if (tbgTexture.loadFromFile(tbgTextureName)) {
+		std::cout << "tbgTexture loaded" << std::endl;
+		tbgSprite.setTexture(tbgTexture);
+
+		tbgSprite.setPosition(sf::Vector2f(125.f, 50.f));
+		tbgSprite.setScale(sf::Vector2f(40.f, 32.f));
+	}
+	else {
+		std::cout << "tbgTexture failed to load" << std::endl;
+	}
 }
 
 void Menu::Update(Player& player, std::string& gameState, std::vector<Location> locationList, int& mapNumber, bool& isPressed)
@@ -72,12 +332,11 @@ void Menu::Update(Player& player, std::string& gameState, std::vector<Location> 
 	if (!showMenu) {
 		showMenu = true;
 		menuSelected = false;
-		menuSelect = 1;
 
-		std::cout << player.GetPlayerState() << std::endl;
-		std::cout << "Day " << player.GetDay() << std::endl;
-		std::cout << "Gold " << player.GetGold() << std::endl;
-		std::cout << "Please select: 1. Character 2. WorldMap 3. Inventory 4. Quest 5. Setting 6. Title" << std::endl;
+		info.setString("Day " + std::to_string(player.GetDay()) + "\n"
+			+ "Gold " + "\n" + "   " + std::to_string(player.GetGold()) + "\n");
+
+		info.setPosition(sf::Vector2f(30.f, 80.f));
 	}
 
 	if (!menuSelected) {
@@ -87,16 +346,12 @@ void Menu::Update(Player& player, std::string& gameState, std::vector<Location> 
 
 				if (menuSelect > menuSelectMax)
 					menuSelect = 1;
-
-				std::cout << menuSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				menuSelect--;
 
 				if (menuSelect < 1)
 					menuSelect = menuSelectMax;
-
-				std::cout << menuSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				menuSelected = true;
@@ -105,6 +360,16 @@ void Menu::Update(Player& player, std::string& gameState, std::vector<Location> 
 				player.SetPlayerState("Normal");
 				showMenu = false;
 			}
+		}
+
+		detail.setString("");
+
+		switch (menuSelect) {
+		case 1: msSprite.setPosition(sf::Vector2f(30.f, 450.f - spriteDis1 * 4)); break;
+		case 2: msSprite.setPosition(sf::Vector2f(30.f, 450.f - spriteDis1 * 3)); break;
+		case 3: msSprite.setPosition(sf::Vector2f(30.f, 450.f - spriteDis1 * 2)); break;
+		case 4: msSprite.setPosition(sf::Vector2f(30.f, 450.f - spriteDis1 * 1)); break;
+		case 5: msSprite.setPosition(sf::Vector2f(30.f, 450.f - spriteDis1 * 0)); break;
 		}
 	}
 	else {
@@ -122,18 +387,390 @@ void Menu::Update(Player& player, std::string& gameState, std::vector<Location> 
 			OpenQuest(player, isPressed);
 			break;
 		case 5:
-			OpenSetting(isPressed);
-			break;
-		case 6:
 			player.SetPlayerState("Normal");
 			gameState = "MainMenu";
 			showMenu = false;
+			break;
 		}
 	}
+
+	//text
+	//Character
+	c1info.setString(player.GetC1().GetName() + "\n"
+		+ "HP: " + "\t" + "\t" + "\t" + "\t" + std::to_string(player.GetC1().GetHp()) + " / " + std::to_string(player.GetC1().GetHpMax()) + "\n"
+		+ "Attack: " + "\t" + "\t" + "\t" + std::to_string(player.GetC1().GetAttack() + player.GetC1().GetAttackEx()) + "\n"
+		+ "Defence: " + "\t" + "\t" + std::to_string(player.GetC1().GetDefence() + player.GetC1().GetDefenceEx()) + "\n"
+		+ "OSV: " + "\t" + "\t" + "\t" + "\t" + std::to_string(player.GetC1().GetObservation()) + "\n"
+		+ "CVS: " + "\t" + "\t" + "\t" + "\t" + std::to_string(player.GetC1().GetConversation()) + "\n"
+		+ "KLG: " + "\t" + "\t" + "\t" + "\t" + std::to_string(player.GetC1().GetKnowledge()) + "\n"
+		+ "LUCK:" + "\t" + "\t" + "\t" + "  " + std::to_string(player.GetC1().GetLuck()) + "\n"
+		+ "Skill 1" + "\t" + "\t" + "\t" + "\t" + player.GetC1().GetSkill(1).name + "\n"
+		+ "Skill 2" + "\t" + "\t" + "\t" + "\t" + player.GetC1().GetSkill(2).name + "\n"
+		+ "Equipment 1" + "\t" + player.GetC1().GetEquip(1).name + "\n"
+		+ "Equipment 2" + "\t" + player.GetC1().GetEquip(2).name + "\n"
+		+ "Equipment 3" + "\t" + player.GetC1().GetEquip(3).name);
+
+	c2info.setString(player.GetC2().GetName() + "\n"
+		+ "HP: " + "\t" + "\t" + "\t" + "\t" + std::to_string(player.GetC2().GetHp()) + " / " + std::to_string(player.GetC2().GetHpMax()) + "\n"
+		+ "Attack: " + "\t" + "\t" + "\t" + std::to_string(player.GetC2().GetAttack() + player.GetC2().GetAttackEx()) + "\n"
+		+ "Defence: " + "\t" + "\t" + std::to_string(player.GetC2().GetDefence() + player.GetC2().GetDefenceEx()) + "\n"
+		+ "OSV: " + "\t" + "\t" + "\t" + "\t" + std::to_string(player.GetC2().GetObservation()) + "\n"
+		+ "CVS: " + "\t" + "\t" + "\t" + "\t" + std::to_string(player.GetC2().GetConversation()) + "\n"
+		+ "KLG: " + "\t" + "\t" + "\t" + "\t" + std::to_string(player.GetC2().GetKnowledge()) + "\n"
+		+ "LUCK:" + "\t" + "\t" + "\t" + "  " + std::to_string(player.GetC2().GetLuck()) + "\n"
+		+ "Skill 1" + "\t" + "\t" + "\t" + "\t" + player.GetC2().GetSkill(1).name + "\n"
+		+ "Skill 2" + "\t" + "\t" + "\t" + "\t" + player.GetC2().GetSkill(2).name + "\n"
+		+ "Equipment 1" + "\t" + player.GetC2().GetEquip(1).name + "\n"
+		+ "Equipment 2" + "\t" + player.GetC2().GetEquip(2).name + "\n"
+		+ "Equipment 3" + "\t" + player.GetC2().GetEquip(3).name);
+	//Character -> skill
+	auto compareFunc1 = [](const Skill& obj1, const Skill& obj2) {
+		return obj1.id < obj2.id;
+		};
+	std::sort(player.GetSkill().begin(), player.GetSkill().end(), compareFunc1);
+
+	//temp1 = skillSelect / 12;
+	temp2 = skillSelect % 12;
+
+	skillListstr.clear();
+
+	if (skillSelect <= 12 * 1) {
+		if (player.GetSkill().size() < 1 + 12 * 1) {
+			for (int i = 1 + 12 * 0; i < player.GetSkill().size(); i++) {
+				skillListstr += player.GetSkill()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
+				skillListstr += player.GetSkill()[i].name + "\n";
+			}
+		}
+	}
+	else if (skillSelect <= 12 * 2) {
+		if (player.GetSkill().size() < 1 + 12 * 2) {
+			for (int i = 1 + 12 * 1; i < player.GetSkill().size(); i++) {
+				skillListstr += player.GetSkill()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
+				skillListstr += player.GetSkill()[i].name + "\n";
+			}
+		}
+	}
+	else if (skillSelect <= 12 * 3) {
+		if (player.GetSkill().size() < 1 + 12 * 3) {
+			for (int i = 1 + 12 * 2; i < player.GetSkill().size(); i++) {
+				skillListstr += player.GetSkill()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
+				skillListstr += player.GetSkill()[i].name + "\n";
+			}
+		}
+	}
+
+	skillList.setString(skillListstr);
+	//Character -> equip
+	auto compareFunc2 = [](const Equipment& obj1, const Equipment& obj2) {
+		return obj1.id < obj2.id;
+		};
+	std::sort(player.GetEquipInventory().begin(), player.GetEquipInventory().end(), compareFunc2);
+
+	//temp3 = equipSelect / 12;
+	temp4 = equipSelect % 12;
+
+	equipListstr.clear();
+
+	if (equipSelect <= 12 * 1) {
+		if (player.GetEquipInventory().size() < 1 + 12 * 1) {
+			for (int i = 1 + 12 * 0; i < player.GetEquipInventory().size(); i++) {
+				equipListstr += player.GetEquipInventory()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
+				equipListstr += player.GetEquipInventory()[i].name + "\n";
+			}
+		}
+	}
+	else if (equipSelect <= 12 * 2) {
+		if (player.GetEquipInventory().size() < 1 + 12 * 2) {
+			for (int i = 1 + 12 * 1; i < player.GetEquipInventory().size(); i++) {
+				equipListstr += player.GetEquipInventory()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
+				equipListstr += player.GetEquipInventory()[i].name + "\n";
+			}
+		}
+	}
+	else if (equipSelect <= 12 * 3) {
+		if (player.GetEquipInventory().size() < 1 + 12 * 3) {
+			for (int i = 1 + 12 * 2; i < player.GetEquipInventory().size(); i++) {
+				equipListstr += player.GetEquipInventory()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
+				equipListstr += player.GetEquipInventory()[i].name + "\n";
+			}
+		}
+	}
+
+	equipList.setString(equipListstr);
+	//inventory
+	//temp5 = inventorySelect / 12;
+	temp6 = inventorySelect % 12;
+
+	if (player.InDebt()) {
+		for (int i = 1; i < player.GetCartInventory().size(); i++) {
+			player.GetCartInventory()[i].penalty = 0.9f;
+		}
+		for (int i = 1; i < player.GetEquipInventory().size(); i++) {
+			player.GetEquipInventory()[i].penalty = 0.85f;
+		}
+	}
+	else {
+		for (int i = 1; i < player.GetCartInventory().size(); i++) {
+			player.GetCartInventory()[i].penalty = 1.f;
+		}
+		for (int i = 1; i < player.GetEquipInventory().size(); i++) {
+			player.GetEquipInventory()[i].penalty = 1.f;
+		}
+	}
+	//inventory -> item
+	
+	inventoryListstr.clear();
+
+	if (inventoryActive) {
+		auto compareFunc3 = [](const Item& obj1, const Item& obj2) {
+			return obj1.id < obj2.id;
+			};
+		std::sort(player.GetCartInventory().begin(), player.GetCartInventory().end(), compareFunc3);
+
+		int weight = 0;
+		for (int i = 1; i < player.GetCartInventory().size(); i++) {
+			weight += player.GetCartInventory()[i].weight;
+		}
+
+		if (inventorySelect <= 12 * 1) {
+			if (player.GetCartInventory().size() < 1 + 12 * 1) {
+				for (int i = 1 + 12 * 0; i < player.GetCartInventory().size(); i++) {
+					inventoryListstr += player.GetCartInventory()[i].name + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
+					inventoryListstr += player.GetCartInventory()[i].name + "\n";
+				}
+			}
+		}
+		else if (inventorySelect <= 12 * 2) {
+			if (player.GetCartInventory().size() < 1 + 12 * 2) {
+				for (int i = 1 + 12 * 1; i < player.GetCartInventory().size(); i++) {
+					inventoryListstr += player.GetCartInventory()[i].name + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
+					inventoryListstr += player.GetCartInventory()[i].name + "\n";
+				}
+			}
+		}
+		else if (inventorySelect <= 12 * 3) {
+			if (player.GetCartInventory().size() < 1 + 12 * 3) {
+				for (int i = 1 + 12 * 2; i < player.GetCartInventory().size(); i++) {
+					inventoryListstr += player.GetCartInventory()[i].name + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
+					inventoryListstr += player.GetCartInventory()[i].name + "\n";
+				}
+			}
+		}
+
+		inventoryListstr += "Weight: " + std::to_string(weight) + " / " + std::to_string(player.GetCartInventoryWeight());
+	}
+	else {
+		std::sort(player.GetEquipInventory().begin(), player.GetEquipInventory().end(), compareFunc2);
+
+		if (inventorySelect <= 12 * 1) {
+			if (player.GetEquipInventory().size() < 1 + 12 * 1) {
+				for (int i = 1 + 12 * 0; i < player.GetEquipInventory().size(); i++) {
+					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
+					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
+				}
+			}
+		}
+		else if (inventorySelect <= 12 * 2) {
+			if (player.GetEquipInventory().size() < 1 + 12 * 2) {
+				for (int i = 1 + 12 * 1; i < player.GetEquipInventory().size(); i++) {
+					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
+					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
+				}
+			}
+		}
+		else if (inventorySelect <= 12 * 3) {
+			if (player.GetEquipInventory().size() < 1 + 12 * 3) {
+				for (int i = 1 + 12 * 2; i < player.GetEquipInventory().size(); i++) {
+					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
+					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
+				}
+			}
+		}
+	}
+
+	inventoryList.setString(inventoryListstr);
+	//quest
+	temp8 = questSelect % 12;
+
+	auto compareFunc4 = [](const Quest& obj1, const Quest& obj2) {
+		return obj1.id < obj2.id;
+		};
+	std::sort(player.GetQuest().begin(), player.GetQuest().end(), compareFunc4);
+
+	questListstr.clear();
+
+	if (questSelect <= 12 * 1) {
+		if (player.GetQuest().size() < 1 + 12 * 1) {
+			for (int i = 1 + 12 * 0; i < player.GetQuest().size(); i++) {
+				questListstr += player.GetQuest()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
+				questListstr += player.GetQuest()[i].name + "\n";
+			}
+		}
+	}
+	else if (questSelect <= 12 * 2) {
+		if (player.GetQuest().size() < 1 + 12 * 2) {
+			for (int i = 1 + 12 * 1; i < player.GetQuest().size(); i++) {
+				questListstr += player.GetQuest()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
+				questListstr += player.GetQuest()[i].name + "\n";
+			}
+		}
+	}
+	else if (questSelect <= 12 * 3) {
+		if (player.GetQuest().size() < 1 + 12 * 3) {
+			for (int i = 1 + 12 * 2; i < player.GetQuest().size(); i++) {
+				questListstr += player.GetQuest()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
+				questListstr += player.GetQuest()[i].name + "\n";
+			}
+		}
+	}
+
+	questList.setString(questListstr);
 }
 
-void Menu::Draw()
+void Menu::Draw(sf::RenderWindow& window)
 {
+	if (showMenu) {
+		window.draw(mbgSprite);
+		window.draw(ms1Sprite);
+		window.draw(ms2Sprite);
+		window.draw(ms3Sprite);
+		window.draw(ms4Sprite);
+		window.draw(ms5Sprite);
+		msSprite.setScale(sf::Vector2f(4.f, 4.f));
+
+		window.draw(info);
+	}
+
+	switch (menuSelect) {
+	case 1: window.draw(cs1Sprite); window.draw(cs2Sprite); window.draw(c1info); window.draw(c2info); break;
+	case 2: window.draw(wmbgSprite); break;
+	case 3: window.draw(iebgSprite); window.draw(skdSprite); window.draw(inventoryList); window.draw(detail); break;
+	case 4: window.draw(qbgSprite); window.draw(skdSprite); window.draw(questList); window.draw(detail); break;
+	case 5: window.draw(tbgSprite); break;
+	}
+	//---------------------------------------------
+	if (showCharacter) {
+		msSprite.setScale(sf::Vector2f(6.f, 1.5f));
+	}
+	//---------------------------------------------
+	if (showSkill) {
+		window.draw(sk1Sprite);
+		window.draw(skdSprite);
+		window.draw(skillList);
+		window.draw(detail);
+		msSprite.setScale(sf::Vector2f(15.f, 2.f));
+	}
+
+	if (showSkillDetail) {
+		window.draw(skddSprite);
+		window.draw(ask);
+		msSprite.setScale(sf::Vector2f(20.f, 15.f));
+	}
+	//---------------------------------------------
+	if (showEquip) {
+		window.draw(sk1Sprite);
+		window.draw(skdSprite);
+		window.draw(equipList);
+		window.draw(detail);
+		msSprite.setScale(sf::Vector2f(15.f, 2.f));
+	}
+
+	if (showEquipDetail) {
+		window.draw(skddSprite);
+		window.draw(ask);
+		msSprite.setScale(sf::Vector2f(20.f, 15.f));
+	}
+	//---------------------------------------------
+	if (showLocation) {
+		msSprite.setScale(sf::Vector2f(scale, scale));
+	}
+
+	if (showSelectedLocation) {
+		window.draw(skddSprite);
+		window.draw(ask);
+		msSprite.setScale(sf::Vector2f(20.f, 15.f));
+	}
+	//---------------------------------------------
+	if (showInventory) {
+		msSprite.setScale(sf::Vector2f(15.f, 2.f));
+	}
+
+	if (showItem || showSell) {
+		window.draw(skddSprite);
+		window.draw(ask);
+		msSprite.setScale(sf::Vector2f(20.f, 15.f));
+	}
+	//---------------------------------------------
+	if (showQuest) {
+		msSprite.setScale(sf::Vector2f(15.f, 2.f));
+	}
+
+	if (showQuestDetail) {
+		window.draw(skddSprite);
+		msSprite.setScale(sf::Vector2f(20.f, 15.f));
+	}
+	//---------------------------------------------
+	window.draw(msSprite);
 }
 
 //Getter Setter
@@ -153,46 +790,6 @@ void Menu::OpenCharacter(Player& player, bool& isPressed)
 		characterActive = true;
 
 		std::cout << "Character List" << std::endl;
-		//c1
-		std::cout << "Character 1" << std::endl;
-
-		std::cout << "Character Name: " << player.GetC1().GetName() << std::endl;
-
-		std::cout << "HP: " << player.GetC1().GetHp() << " / " << player.GetC1().GetHpMax() << std::endl;
-		std::cout << "Attack: " << player.GetC1().GetAttack() + player.GetC1().GetAttackEx() << std::endl;
-		std::cout << "Defence: " << player.GetC1().GetDefence() + player.GetC1().GetDefenceEx() << std::endl;
-
-		std::cout << "OSV: " << player.GetC1().GetObservation() << std::endl;
-		std::cout << "CVS: " << player.GetC1().GetConversation() << std::endl;
-		std::cout << "KLG: " << player.GetC1().GetKnowledge() << std::endl;
-		std::cout << "LUCK:" << player.GetC1().GetLuck() << std::endl;
-
-		std::cout << "Skill 1: " << player.GetC1().GetSkill(1).name << std::endl;
-		std::cout << "Skill 2: " << player.GetC1().GetSkill(2).name << std::endl;
-		std::cout << "Equipment 1: " << player.GetC1().GetEquip(1).name << std::endl;
-		std::cout << "Equipment 2: " << player.GetC1().GetEquip(2).name << std::endl;
-		std::cout << "Equipment 3: " << player.GetC1().GetEquip(3).name << std::endl;
-		//c1
-		//c2
-		std::cout << "Character 2" << std::endl;
-
-		std::cout << "Character Name: " << player.GetC2().GetName() << std::endl;
-
-		//std::cout << "HP: " << player.GetC2().GetHp() << " / " << player.GetC2().GetHpMax() << std::endl;
-		std::cout << "Attack: " << player.GetC2().GetAttack() + player.GetC2().GetAttackEx() << std::endl;
-		std::cout << "Defence: " << player.GetC2().GetDefence() + player.GetC2().GetDefenceEx() << std::endl;
-
-		std::cout << "OSV: " << player.GetC2().GetObservation() << std::endl;
-		std::cout << "CVS: " << player.GetC2().GetConversation() << std::endl;
-		std::cout << "KLG: " << player.GetC2().GetKnowledge() << std::endl;
-		std::cout << "LUCK:" << player.GetC2().GetLuck() << std::endl;
-
-		std::cout << "Skill 1: " << player.GetC2().GetSkill(1).name << std::endl;
-		std::cout << "Skill 2: " << player.GetC2().GetSkill(2).name << std::endl;
-		std::cout << "Equipment 1: " << player.GetC2().GetEquip(1).name << std::endl;
-		std::cout << "Equipment 2: " << player.GetC2().GetEquip(2).name << std::endl;
-		std::cout << "Equipment 3: " << player.GetC2().GetEquip(3).name << std::endl;
-		//c2
 	}
 
 	if (!characterSelected) {
@@ -202,30 +799,18 @@ void Menu::OpenCharacter(Player& player, bool& isPressed)
 
 				if (characterSelect > characterSelectMax)
 					characterSelect = 1;
-
-				std::cout << characterSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				characterSelect--;
 
 				if (characterSelect < 1)
 					characterSelect = characterSelectMax;
-
-				std::cout << characterSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 				characterActive = !characterActive;
-				if(characterActive)
-					std::cout << "Character 1" << std::endl;
-				else
-					std::cout << "Character 2" << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 				characterActive = !characterActive;
-				if (characterActive)
-					std::cout << "Character 1" << std::endl;
-				else
-					std::cout << "Character 2" << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				characterSelected = true;
@@ -233,6 +818,25 @@ void Menu::OpenCharacter(Player& player, bool& isPressed)
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 				showMenu = false;
 				showCharacter = false;
+			}
+		}
+
+		if (characterActive) {
+			switch (characterSelect) {
+			case 1: msSprite.setPosition(sf::Vector2f(290.f, 518.f - spriteDis2 * 4)); break;
+			case 2: msSprite.setPosition(sf::Vector2f(290.f, 518.f - spriteDis2 * 3)); break;
+			case 3: msSprite.setPosition(sf::Vector2f(290.f, 518.f - spriteDis2 * 2)); break;
+			case 4: msSprite.setPosition(sf::Vector2f(290.f, 518.f - spriteDis2 * 1)); break;
+			case 5: msSprite.setPosition(sf::Vector2f(290.f, 518.f - spriteDis2 * 0)); break;
+			}
+		}
+		else {
+			switch (characterSelect) {
+			case 1: msSprite.setPosition(sf::Vector2f(610.f, 518.f - spriteDis2 * 4)); break;
+			case 2: msSprite.setPosition(sf::Vector2f(610.f, 518.f - spriteDis2 * 3)); break;
+			case 3: msSprite.setPosition(sf::Vector2f(610.f, 518.f - spriteDis2 * 2)); break;
+			case 4: msSprite.setPosition(sf::Vector2f(610.f, 518.f - spriteDis2 * 1)); break;
+			case 5: msSprite.setPosition(sf::Vector2f(610.f, 518.f - spriteDis2 * 0)); break;
 			}
 		}
 	}
@@ -249,20 +853,7 @@ void Menu::OpenSkill(Player& player, bool& isPressed)
 	if (!showSkill) {
 		showSkill = true;
 		skillSelected = false;
-		skillSelect = 1;
 		skillSelectMax = (int)player.GetSkill().size() - 1;
-
-		auto compareFunc = [](const Skill& obj1, const Skill& obj2) {
-			return obj1.id < obj2.id;
-			};
-		std::sort(player.GetSkill().begin(), player.GetSkill().end(), compareFunc);
-
-		std::cout << "Skill" << std::endl;
-		for (int i = 1; i < player.GetSkill().size(); i++) {
-			std::cout << player.GetSkill()[i].name << " " <<
-				"  [Equiped: " << player.GetSkill()[i].isEquip << "]" << std::endl;
-		}
-		std::cout << "Please select a skill" << std::endl;
 	}
 
 	if (!skillSelected) {
@@ -272,16 +863,12 @@ void Menu::OpenSkill(Player& player, bool& isPressed)
 
 				if (skillSelect > skillSelectMax)
 					skillSelect = 1;
-
-				std::cout << skillSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				skillSelect--;
 
 				if (skillSelect < 1)
 					skillSelect = skillSelectMax;
-
-				std::cout << skillSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				if (skillSelectMax > 0)
@@ -292,16 +879,46 @@ void Menu::OpenSkill(Player& player, bool& isPressed)
 				showSkill = false;
 			}
 		}
+
+		if (skillSelectMax > 0) {
+			newLine = player.GetSkill()[skillSelect].description;
+			for (int i = 1; i < newLine.length() / 18; i++) {
+				newLine.insert(18 * i, "\n");
+			}
+
+			detail.setString("Skill: " + player.GetSkill()[skillSelect].name + "\n"
+				+ "Type: " + player.GetSkill()[skillSelect].type + "\n" + "\n"
+				+ "Description:" + "\n"
+				+ newLine);
+
+			switch (temp2) {
+			case 1: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 13)); break;
+			case 2: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 12)); break;
+			case 3: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 11)); break;
+			case 4: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 10)); break;
+			case 5: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 9)); break;
+			case 6: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 8)); break;
+			case 7: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 7)); break;
+			case 8: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 6)); break;
+			case 9: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 5)); break;
+			case 10: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 4)); break;
+			case 11: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 3)); break;
+			case 0: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 2)); break;
+			}
+		}
+		else {
+			msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 13));
+		}
 	}
 	else {
 		if (!showSkillDetail) {
 			showSkillDetail = true;
 			skillDetailSelected = false;
 
-			std::cout << "Skill: " << player.GetSkill()[skillSelect].name
-				<< "  [Equiped: " << player.GetSkill()[skillSelect].isEquip << "]" << std::endl;
-			std::cout << "Type: " << player.GetSkill()[skillSelect].type << std::endl;
-			std::cout << "Description: " << player.GetSkill()[skillSelect].description << std::endl;
+			ask.setString("Skill: " + player.GetSkill()[skillSelect].name + "\n"
+				+ "Equiped " + "\n"
+				+ "Type: " + player.GetSkill()[skillSelect].type + "\n" + "\n"
+				+ "\t" + "\t" + "\t" + "Equip?");
 		}
 
 		if (!skillDetailSelected) {
@@ -314,6 +931,8 @@ void Menu::OpenSkill(Player& player, bool& isPressed)
 					showSkillDetail = false;
 				}
 			}
+
+			msSprite.setPosition(sf::Vector2f((width - 20.f * tileSize) / 2.f, (height - 15.f * tileSize) / 2.f));
 		}
 		else {
 			SkillEquip(player, isPressed);
@@ -399,20 +1018,7 @@ void Menu::OpenEquip(Player& player, bool& isPressed)
 	if (!showEquip) {
 		showEquip = true;
 		equipSelected = false;
-		equipSelect = 1;
 		equipSelectMax = (int)player.GetEquipInventory().size() - 1;
-		 
-		auto compareFunc = [](const Equipment& obj1, const Equipment& obj2) {
-			return obj1.id < obj2.id;
-			};
-		std::sort(player.GetEquipInventory().begin(), player.GetEquipInventory().end(), compareFunc);
-
-		std::cout << "Equipment" << std::endl;
-		for (int i = 1; i < player.GetEquipInventory().size(); i++) {
-			std::cout << player.GetEquipInventory()[i].name 
-				<<  "  [Equiped: " << player.GetEquipInventory()[i].isEquip << "]" << std::endl;
-		}
-		std::cout << "Please select an equipment" << std::endl;
 	}
 
 	if (!equipSelected) {
@@ -422,16 +1028,12 @@ void Menu::OpenEquip(Player& player, bool& isPressed)
 
 				if (equipSelect > equipSelectMax)
 					equipSelect = 1;
-
-				std::cout << equipSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				equipSelect--;
 
 				if (equipSelect < 1)
 					equipSelect = equipSelectMax;
-
-				std::cout << equipSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				if(equipSelectMax > 0)
@@ -442,15 +1044,45 @@ void Menu::OpenEquip(Player& player, bool& isPressed)
 				showEquip = false;
 			}
 		}
+
+		if (equipSelectMax > 0) {
+			newLine = player.GetEquipInventory()[equipSelect].description;
+			for (int i = 1; i < newLine.length() / 18; i++) {
+				newLine.insert(18 * i, "\n");
+			}
+
+			detail.setString("Equipment: " + player.GetEquipInventory()[equipSelect].name + "\n"
+				+ "Price: " + std::to_string(player.GetEquipInventory()[equipSelect].price) + "\n" + "\n"
+				+ "Description:" + "\n"
+				+ newLine);
+
+			switch (temp4) {
+			case 1: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 13)); break;
+			case 2: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 12)); break;
+			case 3: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 11)); break;
+			case 4: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 10)); break;
+			case 5: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 9)); break;
+			case 6: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 8)); break;
+			case 7: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 7)); break;
+			case 8: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 6)); break;
+			case 9: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 5)); break;
+			case 10: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 4)); break;
+			case 11: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 3)); break;
+			case 0: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 2)); break;
+			}
+		}
+		else {
+			msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 13));
+		}
 	}
 	else {
 		if (!showEquipDetail) {
 			showEquipDetail = true;
 			equipDetailSelected = false;
 
-			std::cout << "Equipment: " << player.GetEquipInventory()[equipSelect].name
-				<< "  [Equiped: " << player.GetEquipInventory()[equipSelect].isEquip << "]" << std::endl;
-			std::cout << "Description: " << player.GetEquipInventory()[equipSelect].description << std::endl;
+			ask.setString("Equipment: " + player.GetSkill()[skillSelect].name + "\n"
+				+ "Equiped " + "\n" + "\n"
+				+ "\t" + "\t" + "\t" + "Equip?");
 		}
 
 		if (!equipDetailSelected) {
@@ -463,6 +1095,8 @@ void Menu::OpenEquip(Player& player, bool& isPressed)
 					showEquipDetail = false;
 				}
 			}
+
+			msSprite.setPosition(sf::Vector2f((width - 20.f * tileSize) / 2.f, (height - 15.f * tileSize) / 2.f));
 		}
 		else {
 			EquipEquip(player, isPressed);
@@ -551,14 +1185,7 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 	if (!showLocation) {
 		showLocation = true;
 		locationSelected = false;
-		locationSelect = 1;
 		locationSelectMax = (int)locationList.size() - 1;
-
-		std::cout << "Select location" << std::endl;
-
-		for (int i = 1; i < locationList.size(); i++) {
-			std::cout << i << ": " << locationList[i].name << std::endl;
-		}
 	}
 
 	if (!locationSelected) {
@@ -568,22 +1195,15 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 
 				if (locationSelect > locationSelectMax)
 					locationSelect = 1;
-
-				std::cout << locationSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				locationSelect--;
 
 				if (locationSelect < 1)
 					locationSelect = locationSelectMax;
-
-				std::cout << locationSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				if (CheckWeight(player)) {
-					std::cout << "Your inventory is full, you cannot travel now." << std::endl;
-				}
-				else if (locationSelectMax > 0)
+				if (locationSelectMax > 0)
 					locationSelected = true;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
@@ -591,33 +1211,46 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 				showLocation = false;
 			}
 		}
+
+		msSprite.setPosition(sf::Vector2f(locationList[locationSelect].spritePositionX, locationList[locationSelect].spritePositionY));
 	}
 	else {
 		if (!showSelectedLocation) {
 			showSelectedLocation = true;
 
-			int percent = 0;
-			percent = locationList[locationSelect].percent * 100 - 100;
-			std::cout << "Location: " << locationList[locationSelect].name 
-				<< "  Status: " << percent << std::endl;
-			std::cout << locationList[locationSelect].description << std::endl;
-			//
-
-			if (player.GetCurrentLocationID() == locationList[locationSelect].id) {
-				sameLocation = true;
-				std::cout << "You are here" << std::endl;
+			if (CheckWeight(player)) {
+				ask.setString("Your inventory is full, you cannot travel now.");
 			}
 			else {
-				sameLocation = false;
-				travelingTime = player.GetLocationTime() - locationList[locationSelect].time;
-				std::cout << "Estimate travel time: " << abs(travelingTime) / 1000 << " Day." << std::endl;
-				std::cout << "You need " << abs(travelingTime) / 100 << " Gold for travel." << std::endl;
-				std::cout << "Start your travel?" << std::endl;
+				int percent = 0;
+				percent = locationList[locationSelect].percent * 100 - 100;
+
+				newLine.clear();
+				newLine = locationList[locationSelect].description;
+				for (int i = 0; i < (newLine.length() / 20); ++i) {
+					newLine.insert(20 * i, "\n");
+				}
+
+				if (player.GetCurrentLocationID() == locationList[locationSelect].id) {
+					sameLocation = true;
+					ask.setString(locationList[locationSelect].name + "\tStatus: " + std::to_string(percent) + "%\n"
+						+ newLine + "\n"
+						+ "You are here");
+				}
+				else {
+					sameLocation = false;
+					travelingTime = player.GetLocationTime() - locationList[locationSelect].time;
+					ask.setString(locationList[locationSelect].name + "\t\tStatus: " + std::to_string(percent) + "%\n"
+						+ newLine + "\n"
+						+ std::to_string(abs(travelingTime) / 1000) + " Day(s) to travel" + "\n"
+						+ "Fee: " + std::to_string(abs(travelingTime) / 100) + "\n"
+						+ "Start your travel?");
+				}
 			}
 		}
 
 		if (!isPressed) {
-			if (!sameLocation) {
+			if (!CheckWeight(player) && !sameLocation) {
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 					player.SetPlayerState("Traveling");
 					player.AddGold(-(abs(travelingTime) / 100));
@@ -633,6 +1266,8 @@ void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int&
 				showSelectedLocation = false;
 			}
 		}
+
+		msSprite.setPosition(sf::Vector2f((width - 20.f * tileSize) / 2.f, (height - 15.f * tileSize) / 2.f));
 	}
 }
 
@@ -643,68 +1278,24 @@ void Menu::OpenInventory(Player& player, Location location, bool& isPressed)
 		inventorySelected = false;
 		inventorySelect = 1;
 
-		if (player.InDebt()) {
-			for (int i = 1; i < player.GetCartInventory().size(); i++) {
-				player.GetCartInventory()[i].penalty = 0.9;
-			}
-			for (int i = 1; i < player.GetEquipInventory().size(); i++) {
-				player.GetEquipInventory()[i].penalty = 0.85;
-			}
-		}
-		else {
-			for (int i = 1; i < player.GetCartInventory().size(); i++) {
-				player.GetCartInventory()[i].penalty = 1;
-			}
-			for (int i = 1; i < player.GetEquipInventory().size(); i++) {
-				player.GetEquipInventory()[i].penalty = 1;
-			}
-		}
-
 		if (inventoryActive) {
 			inventorySelectMax = (int)player.GetCartInventory().size() - 1;
-
-			auto compareFunc = [](const Item& obj1, const Item& obj2) {
-				return obj1.id < obj2.id;
-				};
-			std::sort(player.GetCartInventory().begin(), player.GetCartInventory().end(), compareFunc);
-			
-			int weight = 0;
-			for (int i = 1; i < player.GetCartInventory().size(); i++) {
-				weight += player.GetCartInventory()[i].weight;
-			}
-			std::cout << "Inventory" << std::endl;
-			std::cout << "Weight " << weight << " / " << player.GetCartInventoryWeight() << std::endl;
-
-			
 
 			for (int i = 1; i < player.GetCartInventory().size(); i++) {
 				player.GetCartInventory()[i].percent = location.percent;
 				player.GetCartInventory()[i].price = (int)(player.GetCartInventory()[i].gold *
 					player.GetCartInventory()[i].percent * player.GetCartInventory()[i].penalty)
 					+ player.GetCartInventory()[i].bonus;
-				std::cout << player.GetCartInventory()[i].name
-					<< " " << player.GetCartInventory()[i].price 
-					<< " " << player.GetCartInventory()[i].percent << std::endl;
 			}
 		}
 		else {
 			inventorySelectMax = (int)player.GetEquipInventory().size() - 1;
-
-			auto compareFunc = [](const Equipment& obj1, const Equipment& obj2) {
-				return obj1.id < obj2.id;
-				};
-			std::sort(player.GetEquipInventory().begin(), player.GetEquipInventory().end(), compareFunc);
-
-			std::cout << "Equipment" << std::endl;
 
 			for (int i = 1; i < player.GetEquipInventory().size(); i++) {
 				player.GetEquipInventory()[i].percent = location.percent;
 				player.GetEquipInventory()[i].price = (int)(player.GetEquipInventory()[i].gold *
 					player.GetEquipInventory()[i].percent * player.GetEquipInventory()[i].penalty)
 					+ player.GetEquipInventory()[i].bonus;
-				std::cout << player.GetEquipInventory()[i].name 
-					<< "  [Equiped: " << player.GetEquipInventory()[i].isEquip << "]"
-					<< " " << player.GetEquipInventory()[i].price << std::endl;
 			}
 		}
 	}
@@ -716,16 +1307,12 @@ void Menu::OpenInventory(Player& player, Location location, bool& isPressed)
 
 				if (inventorySelect > inventorySelectMax)
 					inventorySelect = 1;
-
-				std::cout << inventorySelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				inventorySelect--;
 
 				if (inventorySelect < 1)
 					inventorySelect = inventorySelectMax;
-
-				std::cout << inventorySelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 				inventoryActive = !inventoryActive;
@@ -736,7 +1323,7 @@ void Menu::OpenInventory(Player& player, Location location, bool& isPressed)
 				showInventory = false;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				if(inventorySelectMax > 0)
+				if(inventorySelectMax > 0 && !inventoryActive)
 					inventorySelected = true;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
@@ -744,76 +1331,101 @@ void Menu::OpenInventory(Player& player, Location location, bool& isPressed)
 				showInventory = false;
 			}
 		}
-	}
-	else {
-		if (inventoryActive) {
-			if (!showItem) {
-				showItem = true;
 
-				std::cout << "Item: " << player.GetCartInventory()[inventorySelect].name << std::endl;
-				std::cout << "Type: " << player.GetCartInventory()[inventorySelect].type << std::endl;
-				std::cout << "Price: " << player.GetCartInventory()[inventorySelect].price
-					<< "  Durability: " << player.GetCartInventory()[inventorySelect].durability
-					<< "  Weight: " << player.GetCartInventory()[inventorySelect].weight << std::endl;
-				std::cout << "Description: " << player.GetCartInventory()[inventorySelect].description << std::endl;
+		if (inventorySelectMax > 0) {
+			if (inventoryActive) {
+				newLine = player.GetCartInventory()[inventorySelect].description;
+				for (int i = 1; i < newLine.length() / 18; i++) {
+					newLine.insert(18 * i, "\n");
+				}
+
+				detail.setString("Item:\t" + player.GetCartInventory()[inventorySelect].name + "\n"
+					+ "Type:\t" + player.GetCartInventory()[inventorySelect].type + "\n"
+					+ "Durability:\t" + std::to_string(player.GetCartInventory()[inventorySelect].durability) + "%" + "\n"
+					+ "Price:\t" + std::to_string(player.GetCartInventory()[inventorySelect].price) + "\n"
+					+ "Description:" + "\n"
+					+ newLine);
+			}
+			else {
+				newLine = player.GetEquipInventory()[inventorySelect].description;
+				for (int i = 1; i < newLine.length() / 18; i++) {
+					newLine.insert(18 * i, "\n");
+				}
+
+				detail.setString("Equipment: " + player.GetEquipInventory()[inventorySelect].name + "\n"
+					+ "Price: " + std::to_string(player.GetEquipInventory()[inventorySelect].price) + "\n" +
+					+"Description:" + "\n"
+					+ newLine);
 			}
 
+			switch (temp6) {
+			case 1: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 13)); break;
+			case 2: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 12)); break;
+			case 3: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 11)); break;
+			case 4: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 10)); break;
+			case 5: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 9)); break;
+			case 6: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 8)); break;
+			case 7: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 7)); break;
+			case 8: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 6)); break;
+			case 9: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 5)); break;
+			case 10: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 4)); break;
+			case 11: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 3)); break;
+			case 0: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 2)); break;
+			}
+		}
+		else {
+			msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 13));
+		}
+	}
+	else {
+		if (!showItem) {
+			showItem = true;
+			sellSelected = false;
+
+			ask.setString("Equipment:\t" + player.GetEquipInventory()[inventorySelect].name + "\n"
+					+ "Price:\t" + std::to_string(player.GetEquipInventory()[inventorySelect].price) + "\n" + "\n"
+					+ "\t\t\t\tSell?");
+		}
+
+		if (!sellSelected) {
 			if (!isPressed) {
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
-					sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					sellSelected = true;
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 					showInventory = false;
 					showItem = false;
 				}
 			}
+
+			msSprite.setPosition(sf::Vector2f((width - 20.f * tileSize) / 2.f, (height - 15.f * tileSize) / 2.f));
 		}
 		else {
-			if (!showItem) {
-				showItem = true;
-				sellSelected = false;
+			if (!showSell) {
+				showSell = true;
 
-				std::cout << "Equipment: " << player.GetEquipInventory()[inventorySelect].name 
-					<< "  [Equiped: " << player.GetEquipInventory()[inventorySelect].isEquip << "]" << std::endl;
-				std::cout << "Price: " << player.GetEquipInventory()[inventorySelect].price << std::endl;
-				std::cout << "Description: " << player.GetEquipInventory()[inventorySelect].description << std::endl;
-				std::cout << std::endl;
-				std::cout << "Sell?" << std::endl;
+				if (player.GetEquipInventory()[inventorySelect].isEquip)
+					ask.setString("You are currently wearing it,\n you cannot sell it");
+				else
+					ask.setString("You want to sell\n this equipment?");
 			}
 
-			if (!sellSelected) {
-				if (!isPressed) {
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-						sellSelected = true;
-					}
-					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-						showInventory = false;
-						showItem = false;
-					}
+			if (!isPressed) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
+					!player.GetEquipInventory()[inventorySelect].isEquip) {
+					player.AddGold(player.GetEquipInventory()[inventorySelect].price);
+					player.GetEquipInventory().erase(player.GetEquipInventory().begin() + inventorySelect);
+					showInventory = false;
+					showItem = false;
+					showSell = false;
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+					showItem = false;
+					showSell = false;
 				}
 			}
-			else {
-				if (!showSell) {
-					showSell = true;
 
-					if (player.GetEquipInventory()[inventorySelect].isEquip)
-						std::cout << "You are currently wearing it, you cannot sell it" << std::endl;
-					else
-						std::cout << "You want to sell this equipment?" << std::endl;
-				}
-				
-				if (!isPressed) {
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
-						!player.GetEquipInventory()[inventorySelect].isEquip) {
-						player.AddGold(player.GetEquipInventory()[inventorySelect].price);
-						player.GetEquipInventory().erase(player.GetEquipInventory().begin() + inventorySelect);
-						showInventory = false;
-						showSell = false;
-					}
-					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-						showInventory = false;
-						showSell = false;
-					}
-				}
-			}
+			msSprite.setPosition(sf::Vector2f((width - 20.f * tileSize) / 2.f, (height - 15.f * tileSize) / 2.f));
 		}
 	}
 }
@@ -824,78 +1436,68 @@ void Menu::OpenQuest(Player& player, bool& isPressed)
 		showQuest = true;
 		questSelect = 1;
 		questSelectMax = (int)player.GetQuest().size() - 1;
-		
-		auto compareFunc = [](const Quest& obj1, const Quest& obj2) {
-			return obj1.id < obj2.id;
-			};
-		std::sort(player.GetQuest().begin(), player.GetQuest().end(), compareFunc);
-
-		std::cout << "Quests" << std::endl;
-		
-		int finished = 0;
-		for (int i = 1; i < player.GetQuest().size(); i++) {
-			std::cout << player.GetQuest()[i].name << " " 
-				<< "  [Finished: " << player.GetQuest()[i].finished << "]"
-				<< "  [Got Reward: " << player.GetQuest()[i].gotReward << "]" << std::endl;
-		}
 	}
 	
-	if (!questSelected) {
-		if (!isPressed) {
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-				questSelect++;
+	if (!isPressed) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			questSelect++;
 
-				if (questSelect > questSelectMax)
-					questSelect = 1;
+			if (questSelect > questSelectMax)
+				questSelect = 1;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			questSelect--;
 
-				std::cout << questSelect << std::endl;
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-				questSelect--;
+			if (questSelect < 1)
+				questSelect = questSelectMax;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+			showMenu = false;
+			showQuest = false;
+		}
+	}
 
-				if (questSelect < 1)
-					questSelect = questSelectMax;
+	if (questSelectMax > 0) {
+		newLine = player.GetQuest()[questSelect].description;
+		for (int i = 1; i < newLine.length() / 18; i++) {
+			newLine.insert(18 * i, "\n");
+		}
 
-				std::cout << questSelect << std::endl;
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-				if (questSelectMax > 0)
-					questSelected = true;
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-				showMenu = false;
-				showQuest = false;
-			}
+		detail.setString("Quest:\t" + player.GetQuest()[questSelect].name + "\n"
+			+ "Owner Name:\t" + player.GetQuest()[questSelect].ownerName + "\n"
+			+ "Finished:\t" + std::to_string(player.GetQuest()[questSelect].finished) + "\n"
+			+ "GotReward:\t" + std::to_string(player.GetQuest()[questSelect].gotReward) + "\n" + "\n"
+			+ "Description:" + "\n"
+			+ newLine);
+
+		switch (temp8) {
+		case 1: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 13)); break;
+		case 2: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 12)); break;
+		case 3: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 11)); break;
+		case 4: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 10)); break;
+		case 5: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 9)); break;
+		case 6: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 8)); break;
+		case 7: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 7)); break;
+		case 8: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 6)); break;
+		case 9: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 5)); break;
+		case 10: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 4)); break;
+		case 11: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 3)); break;
+		case 0: msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 2)); break;
 		}
 	}
 	else {
-		if (!showQuestDetail) {
-			showQuestDetail = true;
-
-			std::cout << "Quest: " << player.GetQuest()[questSelect].name << std::endl;
-			std::cout << "Owner: " << player.GetQuest()[questSelect].ownerName << std::endl;
-			std::cout << "Finished " << player.GetQuest()[questSelect].finished << std::endl;
-			std::cout << "Reward " << player.GetQuest()[questSelect].gotReward << std::endl;
-			std::cout << "Description: " << player.GetQuest()[questSelect].description << std::endl;
-		}
-
-		if (isPressed) {
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
-				sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-				showQuest = false;
-				showQuestDetail = false;
-			}
-		}
+		msSprite.setPosition(sf::Vector2f(135.f, 540.f - spriteDis3 * 13));
 	}
 }
 
+/*
 void Menu::OpenSetting(bool& isPressed)
 {
 	if (!showOption) {
 		showOption = true;
 		optionSelect = 1;
 		optionSelected = false;
-		
+
 		std::cout << "Option" << std::endl;
 	}
 
@@ -928,8 +1530,15 @@ void Menu::OpenSetting(bool& isPressed)
 	}
 	else {
 		//options
+
+		if (!isPressed) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				showOption = false;
+			}
+		}
 	}
 }
+*/
 
 bool Menu::CheckWeight(Player& player)
 {
