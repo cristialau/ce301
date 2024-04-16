@@ -70,6 +70,28 @@ private:
 
 	sf::Font font;
 
+	std::vector<sf::Text> vElements;
+	sf::Text info;
+	sf::Text result;
+
+	std::string tbgTextureName;
+	sf::Texture tbgTexture;
+	sf::Sprite tbgSprite;
+
+	std::string tsTextureName;
+	sf::Texture tsTexture;
+	sf::Sprite tsSprite;
+
+	std::string gp1TextureName;
+	sf::Texture gp1Texture;
+	sf::Sprite gp1Sprite;
+	std::string gp2TextureName;
+	sf::Texture gp2Texture;
+	sf::Sprite gp2Sprite;
+	std::string gp3TextureName;
+	sf::Texture gp3Texture;
+	sf::Sprite gp3Sprite;
+
 public:
 	Trade(float width, float height);
 	~Trade();
@@ -82,18 +104,18 @@ public:
 	void Draw(sf::RenderWindow& window);
 
 	//Trade games
-	void SetUpGamePanel(NPC npc, std::string previousState);
+	void SetUpGamePanel(Player player, NPC npc, std::string previousState);
 	bool HaveLuck();
 	void ChangeElement(int selected1, int selected2, int &move);
-	void CalculateScore();
+	void CalculateScore(Player player);
 	void CheckI();
 	void CheckJ();
 	void CheckDiag();
 	void CheckDiagX();
 	void AddMultiplier(int temp, char element);
 
-	void PrintPanel(NPC npc);
-	bool CheckWeight(Player& player);
+	void PrintPanel(Player player, NPC npc);
+	//bool CheckWeight(Player& player);
 	void SetUp(Player& player,NPC& npc, Location location);
 };
 

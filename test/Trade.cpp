@@ -18,8 +18,8 @@ Trade::Trade(float width, float height)
 	conversation = 'c';
 	knowledge = 'k';
 	//player selects
-	y = 2;
-	x = 2;
+	y = 3;
+	x = 3;
 	//Scores and Multipliers
 	o = 0;
 	observationScore = 0;
@@ -63,6 +63,13 @@ Trade::Trade(float width, float height)
 	price = 0;
 
 	setUp = false;
+
+	//sprites
+	tbgTextureName = "Textures/test01.png";
+	tsTextureName = "Textures/player.png";
+	gp1TextureName = "Textures/test02.png";
+	gp2TextureName = "Textures/test03.png";
+	gp3TextureName = "Textures/test04.png";
 }
 
 Trade::~Trade()
@@ -79,10 +86,74 @@ void Trade::Load()
 	if (font.loadFromFile("Fonts/Times New Normal Regular.ttf")) {
 		std::cout << "Times New Normal Regular.ttf loaded" << std::endl;
 		
+		info.setFont(font);
+		result.setFont(font);
+
+		info.setCharacterSize(30);
+		result.setCharacterSize(26);
+
+		info.setPosition(sf::Vector2f(590.f, 90.f));
+		result.setPosition(sf::Vector2f(570.f, 480.f));
 	}
 	else {
 		std::cout << "Times New Normal Regular.ttf failed to load" << std::endl;
 	}
+	//-----------------------------------------------------------
+	if (tbgTexture.loadFromFile(tbgTextureName)) {
+		std::cout << "tbgTexture loaded" << std::endl;
+		tbgSprite.setTexture(tbgTexture);
+
+		tbgSprite.setPosition(sf::Vector2f(0.f, 0.f));
+		tbgSprite.setScale(50.f, 37.5f);
+	}
+	else {
+		std::cout << "tbgTexture failed to load" << std::endl;
+	}
+
+	if (tsTexture.loadFromFile(tsTextureName)) {
+		std::cout << "tsTexture loaded" << std::endl;
+		tsSprite.setTexture(tsTexture);
+
+		tsSprite.setPosition(sf::Vector2f(0.f, 0.f));
+		tsSprite.setScale(5.75f, 5.75f);
+	}
+	else {
+		std::cout << "tsTexture failed to load" << std::endl;
+	}
+	//-----------------------------------------------------------
+	if (gp1Texture.loadFromFile(gp1TextureName)) {
+		std::cout << "gp1Texture loaded" << std::endl;
+		gp1Sprite.setTexture(gp1Texture);
+
+		gp1Sprite.setPosition(sf::Vector2f(50.f, 50.f));
+		gp1Sprite.setScale(31.25f, 31.25f);
+	}
+	else {
+		std::cout << "gp1Texture failed to load" << std::endl;
+	}
+
+	if (gp2Texture.loadFromFile(gp2TextureName)) {
+		std::cout << "gp2Texture loaded" << std::endl;
+		gp2Sprite.setTexture(gp2Texture);
+
+		gp2Sprite.setPosition(sf::Vector2f(550.f, 50.f));
+		gp2Sprite.setScale(12.5f, 31.25f);
+	}
+	else {
+		std::cout << "gp2Texture failed to load" << std::endl;
+	}
+
+	if (gp3Texture.loadFromFile(gp3TextureName)) {
+		std::cout << "gp3Texture loaded" << std::endl;
+		gp3Sprite.setTexture(gp3Texture);
+
+		gp3Sprite.setPosition(sf::Vector2f(70.f, 70.f));
+		gp3Sprite.setScale(28.75f, 28.75f);
+	}
+	else {
+		std::cout << "gp3Texture failed to load" << std::endl;
+	}
+	//-----------------------------------------------------------
 }
 
 void Trade::Update(Player& player, NPC& npc, std::string previousState, Location& location, bool& isPressed)
@@ -99,7 +170,7 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, Loca
 {
 	if (!played) {
 		if (!StartTrading)
-			SetUpGamePanel(npc, previousState);
+			SetUpGamePanel(player, npc, previousState);
 
 		if (move > 0) {
 			if (!isPressed) {
@@ -107,31 +178,39 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, Loca
 					playerGamepanel[y + 1][x] != 0) {
 					y++;
 
-					PrintPanel(npc);
+					tsSprite.move(0.f, 92.f);
+
+					PrintPanel(player, npc);
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
 					playerGamepanel[y - 1][x] != 0) {
 					y--;
 
-					PrintPanel(npc);
+					tsSprite.move(0.f, -92.f);
+
+					PrintPanel(player, npc);
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
 					playerGamepanel[y][x - 1] != 0) {
 					x--;
 
-					PrintPanel(npc);
+					tsSprite.move(-92.f, 0.f);
+
+					PrintPanel(player, npc);
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
 					playerGamepanel[y][x + 1] != 0) {
 					x++;
 
-					PrintPanel(npc);
+					tsSprite.move(92.f, 0.f);
+
+					PrintPanel(player, npc);
 				}
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 					ChangeElement(y - 1, x - 1, move);
 
-					PrintPanel(npc);
+					PrintPanel(player, npc);
 				}
 			}
 		}
@@ -139,13 +218,7 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, Loca
 			if (!showResult) {
 				showResult = true;
 
-				CalculateScore();
-				observationScore += (int) ((player.GetC1().GetObservation() + player.GetC2().GetObservation()) / 2)
-					+ player.GetC1().GetLuck() + player.GetC2().GetLuck();
-				conversationScore += (int) ((player.GetC1().GetConversation() + player.GetC2().GetConversation()) / 2)
-					+ player.GetC1().GetLuck() + player.GetC2().GetLuck();
-				knowledgeScore += (int) ((player.GetC1().GetKnowledge() + player.GetC2().GetKnowledge()) / 2)
-					+ player.GetC1().GetLuck() + player.GetC2().GetLuck();
+				CalculateScore(player);
 
 				if (observationScore > npc.GetC().GetObservation() * 2 &&
 					conversationScore > npc.GetC().GetConversation() * 2 &&
@@ -153,14 +226,11 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, Loca
 					player.Reward(npc.GetNPCReward());
 					npc.SetPassTradeGame(true);
 					player.AddTradeGameWin(1);
+					result.setString("You win");
 				}
-
-				std::cout << "NPC OSV: " << npc.GetC().GetObservation() * 2
-					<< "  Player score: " << observationScore << std::endl;
-				std::cout << "NPC CVS: " << npc.GetC().GetConversation() * 2
-					<< "  Player score: " << conversationScore << std::endl;
-				std::cout << "NPC KLG: " << npc.GetC().GetKnowledge() * 2
-					<< "  Player score: " << knowledgeScore << std::endl;
+				else {
+					result.setString("Try it next time");
+				}
 			}
 
 			if (!isPressed) {
@@ -187,8 +257,6 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 		showShop = true;
 		shopSelected = false;
 		shopSelect = 1;
-
-		int check = 0;
 
 		std::cout << "Trade" << std::endl;
 		std::cout << "Press Esc to leave" << std::endl;
@@ -378,11 +446,7 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 		if (!confirm) {
 			if (!isPressed) {
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-					if (CheckWeight(player)) {
-						std::cout << "Inventory Weight is overflow." << std::endl;
-					}
-					else
-						confirm = true;
+					confirm = true;
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 					showShop = false;
@@ -436,16 +500,32 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 
 void Trade::Draw(sf::RenderWindow& window)
 {
-	if (!played) {
+	window.draw(tbgSprite);
 
+	if (!played) {
+		window.draw(gp1Sprite);
+		window.draw(gp2Sprite);
+		window.draw(gp3Sprite);
+
+		window.draw(info);
+		
+		if (move <= 0) {
+			window.draw(result);
+		}
+
+		for (int i = 0; i < vElements.size(); i++) {
+			window.draw(vElements[i]);
+		}
 	}
 	else {
 
 	}
+
+	window.draw(tsSprite);
 }
 
 //Functions
-void Trade::SetUpGamePanel(NPC npc, std::string previousState)
+void Trade::SetUpGamePanel(Player player, NPC npc, std::string previousState)
 {
 	this->previousState = previousState;
 	StartTrading = true;
@@ -456,8 +536,8 @@ void Trade::SetUpGamePanel(NPC npc, std::string previousState)
 	conversation = 'c';
 	knowledge = 'k';
 	//player selects
-	y = 2;
-	x = 2;
+	y = 3;
+	x = 3;
 	//Scores and Multipliers
 	o = 0;
 	observationScore = 0;
@@ -494,12 +574,31 @@ void Trade::SetUpGamePanel(NPC npc, std::string previousState)
 			else
 				random = distr1(eng);
 
+			sf::Text ele;
+			ele.setFont(font);
+			ele.setCharacterSize(50);
+
 			switch (random) {
-			case 1:	gamepanel[i][j] = observation; break;
-			case 2: gamepanel[i][j] = conversation; break;
-			case 3: gamepanel[i][j] = knowledge; break;
-			case 4: gamepanel[i][j] = luck; break;
+			case 1:	gamepanel[i][j] = observation; ele.setString(observation); ele.setFillColor(sf::Color::Blue); break;
+			case 2: gamepanel[i][j] = conversation; ele.setString(conversation); ele.setFillColor(sf::Color::Red); break;
+			case 3: gamepanel[i][j] = knowledge; ele.setString(knowledge); ele.setFillColor(sf::Color::Green); break;
+			case 4: gamepanel[i][j] = luck; ele.setString(luck); ele.setFillColor(sf::Color::Yellow); break;
 			}
+
+			vElements.push_back(ele);
+		}
+	}
+
+	int k = 0;
+	int j = 0;
+
+	for (int i = 0; i < vElements.size(); i++) {
+		vElements[i].setPosition(sf::Vector2f(102.5f + k * 92, 82.5f + j * 92));
+
+		k++;
+		if (k > 4) {
+			j++;
+			k = 0;
 		}
 	}
 
@@ -512,7 +611,9 @@ void Trade::SetUpGamePanel(NPC npc, std::string previousState)
 		}
 	}
 
-	PrintPanel(npc);
+	tsSprite.setPosition(sf::Vector2f(70.f + 2 * 92, 70.f + 2 * 92));
+
+	PrintPanel(player, npc);
 }
 
 bool Trade::HaveLuck()
@@ -528,25 +629,47 @@ bool Trade::HaveLuck()
 
 void Trade::ChangeElement(int y, int x, int &move)
 {
-	if (gamepanel[y][x] == observation)
+	if (gamepanel[y][x] == observation) {
 		gamepanel[y][x] = conversation;
-	else if (gamepanel[y][x] == conversation)
-		gamepanel[y][x] = knowledge;
-	else if (gamepanel[y][x] == knowledge) {
-		if (HaveLuck())
-			gamepanel[y][x] = observation;
-		else
-			gamepanel[y][x] = luck;
+		vElements[y * 5 + x].setString(conversation);
+		vElements[y * 5 + x].setFillColor(sf::Color::Red);
 	}
-	else if (gamepanel[y][x] == luck)
+	else if (gamepanel[y][x] == conversation) {
+		gamepanel[y][x] = knowledge;
+		vElements[y * 5 + x].setString(knowledge);
+		vElements[y * 5 + x].setFillColor(sf::Color::Green);
+	}
+	else if (gamepanel[y][x] == knowledge) {
+		if (HaveLuck()) {
+			gamepanel[y][x] = observation;
+			vElements[y * 5 + x].setString(observation);
+			vElements[y * 5 + x].setFillColor(sf::Color::Blue);
+		}
+		else {
+			gamepanel[y][x] = luck;
+			vElements[y * 5 + x].setString(luck);
+			vElements[y * 5 + x].setFillColor(sf::Color::Yellow);
+		}
+	}
+	else if (gamepanel[y][x] == luck) {
 		gamepanel[y][x] = observation;
+		vElements[y * 5 + x].setString(observation);
+		vElements[y * 5 + x].setFillColor(sf::Color::Blue);
+	}
 
 	move--;
 	std::cout << "Move: " << move << std::endl;
 }
 
-void Trade::CalculateScore()
+void Trade::CalculateScore(Player player)
 {
+	o = 0;
+	c = 0;
+	k = 0;
+	observationMultiplier = 1;
+	conversationMultiplier = 1;
+	knowledgeMultiplier = 1;
+
 	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < 5; i++) {
 			if (gamepanel[i][j] == observation)
@@ -567,9 +690,12 @@ void Trade::CalculateScore()
 	conversationScore = c * conversationMultiplier;
 	knowledgeScore = k * knowledgeMultiplier;
 
-	std::cout << "Observation: " << observationScore << std::endl;
-	std::cout << "Conversation: " << conversationScore << std::endl;
-	std::cout << "Knowledge: " << knowledgeScore << std::endl;
+	observationScore += (int)((player.GetC1().GetObservation() + player.GetC2().GetObservation()) / 2)
+		+ player.GetC1().GetLuck() + player.GetC2().GetLuck();
+	conversationScore += (int)((player.GetC1().GetConversation() + player.GetC2().GetConversation()) / 2)
+		+ player.GetC1().GetLuck() + player.GetC2().GetLuck();
+	knowledgeScore += (int)((player.GetC1().GetKnowledge() + player.GetC2().GetKnowledge()) / 2)
+		+ player.GetC1().GetLuck() + player.GetC2().GetLuck();
 }
 
 void Trade::CheckI()
@@ -923,12 +1049,19 @@ void Trade::AddMultiplier(int temp, char element)
 	}
 }
 
-void Trade::PrintPanel(NPC npc)
+void Trade::PrintPanel(Player player, NPC npc)
 {
-	std::cout << "NPC: " << npc.GetC().GetName() << std::endl;
-	std::cout << "O: " << npc.GetC().GetObservation()  * 2
-		<< "C: " << npc.GetC().GetConversation() * 2
-		<< "K: " << npc.GetC().GetKnowledge() * 2 << std::endl;
+	CalculateScore(player);
+
+	info.setString("Moves: " + std::to_string(move) + "\n" + "\n"
+				+ "NPC\t" + npc.GetC().GetName() + "\n"
+				+ "OSV:\t" + std::to_string(npc.GetC().GetObservation() * 2) + "\n"
+				+ "CVS:\t" + std::to_string(npc.GetC().GetConversation() * 2) + "\n"
+				+ "KLG:\t" + std::to_string(npc.GetC().GetKnowledge() * 2) + "\n" + "\n"
+				+ "Player" + "\n"
+				+ "OSV:\t" + std::to_string(observationScore) + "\n"
+				+ "CVS:\t" + std::to_string(conversationScore) + "\n"
+				+ "KLG:\t" + std::to_string(knowledgeScore) + "\n");
 
 	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < 5; i++)
@@ -938,6 +1071,7 @@ void Trade::PrintPanel(NPC npc)
 	std::cout << "Gamepanel: " << x - 1 << " " << y - 1 << std::endl;
 }
 
+/*
 bool Trade::CheckWeight(Player& player)
 {
 	int weight = 0;
@@ -950,6 +1084,7 @@ bool Trade::CheckWeight(Player& player)
 
 	return weight > player.GetCartInventoryWeight();
 }
+*/
 
 void Trade::SetUp(Player& player, NPC& npc, Location location)
 {
