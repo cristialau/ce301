@@ -48,9 +48,6 @@ Player::Player(Character& c1, Character& c2, float width, float height) :c1(c1),
 	viewX = 0;
 	viewY = 0;
 
-	//Normal
-	showNormal = false;
-
 	//Talk
 	showTalk = false;
 	talkSelect = 0;
@@ -130,6 +127,31 @@ void Player::Initialize(std::vector<Item> item, std::vector<Equipment> equipment
 
 void Player::Load()
 {
+	if (font.loadFromFile("Fonts/Times New Normal Regular.ttf")) {
+		std::cout << "Times New Normal Regular.ttf loaded" << std::endl;
+
+		cancel.setFont(font);
+		trade.setFont(font);
+		quest.setFont(font);
+		finish.setFont(font);
+		dia.setFont(font);
+
+		cancel.setCharacterSize(24);
+		trade.setCharacterSize(24);
+		quest.setCharacterSize(24);
+		finish.setCharacterSize(24);
+		dia.setCharacterSize(20);
+
+		dia.setPosition(sf::Vector2f((width - (tileSize * 12.f)) / 2.f, height - 95.f));
+
+		cancel.setString("Cancel");
+		trade.setString("Trade");
+		quest.setString("Quest");
+	}
+	else {
+		std::cout << "Times New Normal Regular.ttf failed to load" << std::endl;
+	}
+	//----------------------------------------------------------
 	if (pTexture.loadFromFile(pTextureName)) {
 		std::cout << "Player texture loaded" << std::endl;
 		pSprite.setTexture(pTexture);
@@ -272,52 +294,33 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 		SetPlayerState("EndGame");
 	}
 
-	if (!showNormal) {
-		showNormal = true;
-
-		playerState = "Normal";
-		std::cout << "Location: " << locationName << std::endl;
-		for (int i = 0; i < playerMapSize; ++i) {
-			for (int j = 0; j < playerMapSize; ++j)
-				std::cout << playerMap[i][j] << " ";
-			std::cout << std::endl;
-		}
-		std::cout << "position: " << positionX << " " << positionY << std::endl;
-	}
-
 	if (!isPressed) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
 			playerMap[positionY][positionX + 1] != 0) {
 			positionX++;
 			pSprite.move(sf::Vector2f(1.f, 0.f) * tileSize * scale);
-			PrintMap();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
 			playerMap[positionY][positionX - 1] != 0) {
 			positionX--;
 			pSprite.move(sf::Vector2f(-1.f, 0.f) * tileSize * scale);
-			PrintMap();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
 			playerMap[positionY - 1][positionX] != 0) {
 			positionY--;
 			pSprite.move(sf::Vector2f(0.f, -1.f) * tileSize * scale);
-			PrintMap();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
 			playerMap[positionY + 1][positionX] != 0) {
 			positionY++;
 			pSprite.move(sf::Vector2f(0.f, 1.f) * tileSize * scale);
-			PrintMap();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) &&
 			(playerMap[positionY][positionX] == npcNumber)) {
 			playerState = "Talking";
-			showNormal = false;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 			playerState = "Menu";
-			showNormal = false;
 		}
 	}
 }
@@ -333,32 +336,18 @@ void Player::TalkState(NPC& npc, Location& location, std::string previousState, 
 			talkSelect = 1;
 			talkSelected = false;
 
-			std::cout << "Talking" << std::endl;
-			std::cout << npc.GetC().GetName() << std::endl;
-			//npc scripts
-			std::cout << npc.GetDialogue() << std::endl;
+			dia.setString(npc.GetC().GetName() + "\n"
+						+ npc.GetDialogue());
 
 			//Merchant, villager
 			if (npc.GetJob() == "Villager") {
 				talkSelectMax = 1;
-				std::cout << "Cancel" << std::endl;
 			}
 			else if (npc.GetJob() == "Merchant") {
 				talkSelectMax = 2;
-				std::cout << "Cancel" << std::endl;
-				std::cout << "Trade" << std::endl;
-			}
-			else if (npc.GetJob() == "Bandit") {
-				talkSelectMax = 3;
-				std::cout << "Cancel" << std::endl;
-				std::cout << "Trade" << std::endl;
-				std::cout << "Battle" << std::endl;
 			}
 			else if (npc.GetJob() == "Lord") {
 				talkSelectMax = 3;
-				std::cout << "Cancel" << std::endl;
-				std::cout << "Trade" << std::endl;
-				std::cout << "Quest" << std::endl;
 			}
 		}
 
@@ -369,16 +358,12 @@ void Player::TalkState(NPC& npc, Location& location, std::string previousState, 
 
 					if (talkSelect > talkSelectMax)
 						talkSelect = 1;
-
-					std::cout << talkSelect << std::endl;
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 					talkSelect--;
 
 					if (talkSelect < 1)
 						talkSelect = talkSelectMax;
-
-					std::cout << talkSelect << std::endl;
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 					talkSelected = true;
@@ -406,15 +391,7 @@ void Player::TalkState(NPC& npc, Location& location, std::string previousState, 
 			switch (talkSelect) {
 			case 1:	SetPlayerState("Normal"); showTalk = false; break;
 			case 2:	SetPlayerState("Trading"); showTalk = false; break;
-			case 3:	
-				if (npc.GetJob() == "Lord") {
-					OpenQuest(npc, location, isPressed);
-				}
-				else if (npc.GetJob() == "Bandit") {
-					SetPlayerState("Battle");
-					showTalk = false;
-				}
-				break;
+			case 3:	OpenQuest(npc, location, isPressed); break;
 			}
 		}
 	}
@@ -427,24 +404,30 @@ void Player::OpenQuest(NPC& npc, Location& location, bool& isPressed)
 		questSelected = false;
 		questSelect = 1;
 
-		std::cout << "Quest: " << npc.GetNPCQuest().name << std::endl;
-		std::cout << "Description: " << npc.GetNPCQuest().description << std::endl;
+		std::string newLine;
+		newLine = npc.GetNPCQuest().description;
+		for (int i = 1; i < newLine.length() / 18; i++) {
+			newLine.insert(i * 18, "\n");
+		}
+
+		dia.setString(npc.GetNPCQuest().name + "\n"
+					+ newLine);
 
 		if (npc.GetNPCQuest().gotReward) {
 			if (npc.GetNPCQuest().id == 6) {
-				std::cout << ":)" << std::endl;
+				dia.setString(":)");
 			}
 			else {
-				std::cout << "You finished my quest" << std::endl;
+				dia.setString("You finished my quest");
 			}
 			questSelectMax = 1;
 		}
 		else if (npc.GetNPCQuest().finished || npc.GetNPCQuest().accepted) {
-			std::cout << "1. Cancel 2. Finish" << std::endl;
+			finish.setString("Finish");
 			questSelectMax = 2;
 		}
 		else if (!npc.GetNPCQuest().accepted) {
-			std::cout << "1. Cancel 2. Accept" << std::endl;
+			finish.setString("Accept");
 			questSelectMax = 2;
 		}
 	}
@@ -456,16 +439,12 @@ void Player::OpenQuest(NPC& npc, Location& location, bool& isPressed)
 
 				if (questSelect > questSelectMax)
 					questSelect = 1;
-
-				std::cout << questSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				questSelect--;
 
 				if (questSelect < 1)
 					questSelect = questSelectMax;
-
-				std::cout << questSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				questSelected = true;
@@ -491,6 +470,7 @@ void Player::OpenQuest(NPC& npc, Location& location, bool& isPressed)
 		case 2:
 			if (!showQuestAccept) {
 				showQuestAccept = true;
+
 				if (npc.GetNPCQuest().finished && !npc.GetNPCQuest().gotReward) {
 					npc.GetNPCQuest().gotReward = true;
 					for (int i = 1; i < questList.size(); i++) {
@@ -498,10 +478,10 @@ void Player::OpenQuest(NPC& npc, Location& location, bool& isPressed)
 							questList[i].gotReward = true;
 					}
 					if (npc.GetNPCQuest().id == 6) {
-						std::cout << ":)" << std::endl;
+						dia.setString(":)");
 					}
 					else {
-						std::cout << "You finished my quest." << std::endl;
+						dia.setString("You finished my quest.");
 					}
 
 					location.rls += 25;
@@ -509,23 +489,28 @@ void Player::OpenQuest(NPC& npc, Location& location, bool& isPressed)
 				}
 				else if (npc.GetNPCQuest().accepted) {
 					if (npc.GetNPCQuest().id == 6) {
-						std::cout << "....." << std::endl;
+						dia.setString(".....");
 					}
 					else {
-						std::cout << "You have not finished my quest." << std::endl;
+						dia.setString("You have not finished my quest.");
 					}
 				}
 				else if (!npc.GetNPCQuest().accepted) {
 					npc.GetNPCQuest().accepted = true;
 					AddQuest(npc.GetNPCQuest());
-					std::cout << "Player accepts quest successfully." << std::endl;
+					if (npc.GetNPCQuest().id == 6) {
+						dia.setString(".....");
+					}
+					else {
+						dia.setString("Player accepts quest successfully.");
+					}
 				}
 				else {
 					if (npc.GetNPCQuest().id == 6) {
-						std::cout << "._." << std::endl;
+						dia.setString("._.");
 					}
 					else {
-						std::cout << "You recieved my reward." << std::endl;
+						dia.setString("You recieved my reward.");
 					}
 				}
 			}
@@ -557,9 +542,8 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 	if (!showTravel) {
 		showTravel = true;
 
-		std::cout << "Traveling" << std::endl;
-		std::cout << "Day: " << day << std::endl;
-		std::cout << "TravelingTime: " << this->travelingTime << std::endl;
+		dia.setString("Traveling\nDay " 
+					+ std::to_string(day));
 	}
 
 	if (this->travelingTime > 0) {
@@ -582,12 +566,13 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 			case 3:
 				if (!showWarning) {
 					showWarning = true;
-					std::cout << "encounter bandit" << std::endl;
+					dia.setString("encounter bandit");
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 					SetPlayerState("Battle");
 					roll = false;
 					showWarning = false;
+					showTravel = false;
 					passEvent = true;
 				}
 				break;
@@ -601,13 +586,12 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 				passDay = false;
 				timer = 0;
 			}
-			std::cout << "Traveling Time: " << this->travelingTime << std::endl;
 		}
 	}
 	else {
 		if (!showArrived) {
 			showArrived = true;
-			std::cout << "Arrived" << std::endl;
+			dia.setString("Arrived");
 		}
 
 		if (!isPressed) {
@@ -643,35 +627,49 @@ void Player::DrawInterface(sf::RenderWindow& window)
 {
 	if (playerState == "Talking") {
 		window.draw(tbgSprite);
+		window.draw(dia);
 
 		if (!talkSelected) {
 			switch (talkSelectMax) {
-			case 1: ts1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(ts1Sprite); break;
+			case 1: 
+				ts1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(ts1Sprite);
+				cancel.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f));	window.draw(cancel);
+				break;
 			case 2:
 				ts1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); window.draw(ts1Sprite);
 				ts2Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); window.draw(ts2Sprite);
+				trade.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); window.draw(trade);
+				cancel.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); window.draw(cancel);
 				break;
 			case 3:
 				ts1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize * 2.f)); window.draw(ts1Sprite);
 				ts2Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(ts2Sprite);
 				ts3Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize * 2.f)); window.draw(ts3Sprite);
+				quest.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize * 2.f)); window.draw(quest);
+				trade.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(trade);
+				cancel.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize * 2.f)); window.draw(cancel);
 				break;
-			default: break;
 			}
 		}
 		
 		if (!questSelected) {
 			switch (questSelectMax) {
-			case 1: qs1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(qs1Sprite); break;
+			case 1:
+				qs1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(qs1Sprite);
+				cancel.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(cancel);
+				break;
 			case 2:
 				qs1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); window.draw(qs1Sprite);
 				qs2Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); window.draw(qs2Sprite);
+				finish.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); window.draw(finish);
+				cancel.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); window.draw(cancel);
 				break;
 			}
 		}
 
 		if (showQuestAccept) {
 			qs1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(qs1Sprite);
+			cancel.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(cancel);
 		}
 
 		window.draw(tsSprite);
@@ -680,6 +678,7 @@ void Player::DrawInterface(sf::RenderWindow& window)
 		if (showTravel) {
 			window.draw(trbgSprite);
 			window.draw(trwbgSprite);
+			window.draw(dia);
 		}
 	}
 }
@@ -1247,15 +1246,4 @@ void Player::QuestCondition(std::vector<NPC>& npcList)
 			}
 		}
 	}
-}
-//--------------------------------------------------
-void Player::PrintMap()
-{
-	std::cout << "Location: " << locationName << std::endl;
-	for (int i = 0; i < playerMapSize; ++i) {
-		for (int j = 0; j < playerMapSize; ++j)
-			std::cout << playerMap[i][j] << " ";
-		std::cout << std::endl;
-	}
-	std::cout << "position: " << positionX << " " << positionY << std::endl;
 }

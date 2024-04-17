@@ -867,8 +867,6 @@ void Menu::OpenCharacter(Player& player, bool& isPressed)
 		characterSelected = false;
 		characterSelect = 1;
 		characterActive = true;
-
-		std::cout << "Character List" << std::endl;
 	}
 
 	if (!characterSelected) {
@@ -1213,7 +1211,7 @@ void Menu::EquipEquip(Player& player, bool& isPressed)
 				}
 
 				player.GetC1().SetEquip(characterSelect, player.GetEquipInventory()[equipSelect]);
-				std::cout << "C1 equipment: " << player.GetEquipInventory()[equipSelect].name << " is equiped." << std::endl;
+				ask.setString("C1 equipment: " + player.GetEquipInventory()[equipSelect].name + " is equiped.");
 				player.GetEquipInventory()[equipSelect].isEquip = true;
 			}
 			else {
@@ -1228,14 +1226,14 @@ void Menu::EquipEquip(Player& player, bool& isPressed)
 				}
 
 				player.GetC2().SetEquip(characterSelect, player.GetEquipInventory()[equipSelect]);
-				std::cout << "C2 equipment: " << player.GetEquipInventory()[equipSelect].name << " is equiped." << std::endl;
+				ask.setString("C2 equipment: " + player.GetEquipInventory()[equipSelect].name + " is equiped.");
 				player.GetEquipInventory()[equipSelect].isEquip = true;
 			}
 		}
 		else {
 			if (characterActive) {
 				if (player.GetC1().GetEquip(characterSelect).id != player.GetEquipInventory()[equipSelect].id) {
-					std::cout << "This equipment is equiped in other slot." << std::endl;
+					ask.setString("This equipment is equiped in other slot.");
 				}
 				else {
 					for (int i = 1; i < player.GetEquipInventory().size(); i++) {
@@ -1245,13 +1243,13 @@ void Menu::EquipEquip(Player& player, bool& isPressed)
 							break;
 						}
 					}
-					std::cout << "C1 equipment: " << player.GetC1().GetEquip(characterSelect).name << " is off." << std::endl;
+					ask.setString("C1 equipment: " + player.GetC1().GetEquip(characterSelect).name + " is off.");
 					player.GetC1().SetEquip(characterSelect, player.GetEquipInventory()[0]);
 				}
 			}
 			else {
 				if (player.GetC2().GetEquip(characterSelect).id != player.GetEquipInventory()[equipSelect].id) {
-					std::cout << "This equipment is equiped in other slot." << std::endl;
+					ask.setString("This equipment is equiped in other slot.");
 				}
 				else {
 					for (int i = 1; i < player.GetEquipInventory().size(); i++) {
@@ -1261,7 +1259,7 @@ void Menu::EquipEquip(Player& player, bool& isPressed)
 							break;
 						}
 					}
-					std::cout << "C2 equipment: " << player.GetC2().GetEquip(characterSelect).name << " is off." << std::endl;
+					ask.setString("C2 equipment: " + player.GetC2().GetEquip(characterSelect).name + " is off.");
 					player.GetC2().SetEquip(characterSelect, player.GetEquipInventory()[0]);
 				}
 			}

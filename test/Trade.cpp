@@ -63,6 +63,7 @@ Trade::Trade(float width, float height)
 	price = 0;
 
 	setUp = false;
+	temp2 = 0;
 
 	//sprites
 	tbgTextureName = "Textures/test01.png";
@@ -70,6 +71,11 @@ Trade::Trade(float width, float height)
 	gp1TextureName = "Textures/test02.png";
 	gp2TextureName = "Textures/test03.png";
 	gp3TextureName = "Textures/test04.png";
+
+	tpTextureName = "Textures/test05.png";
+	tshTextureName = "Textures/test06.png";
+	conTextureName = "Textures/test07.png";
+	chTextureName = "Textures/test08.png";
 }
 
 Trade::~Trade()
@@ -88,12 +94,37 @@ void Trade::Load()
 		
 		info.setFont(font);
 		result.setFont(font);
+		shopTitle.setFont(font);
+		shopCat.setFont(font);
+		inventoryName.setFont(font);
+		inventoryType.setFont(font);
+		inventoryPrice.setFont(font);
+		inventoryDua.setFont(font);
+		shopCon.setFont(font);
+		check.setFont(font);
 
 		info.setCharacterSize(30);
 		result.setCharacterSize(26);
+		shopTitle.setCharacterSize(40);
+		shopCat.setCharacterSize(29.5);
+		inventoryName.setCharacterSize(29.5);
+		inventoryType.setCharacterSize(29.5);
+		inventoryPrice.setCharacterSize(29.5);
+		inventoryDua.setCharacterSize(29.5);
+		shopCon.setCharacterSize(29.5);
+		check.setCharacterSize(29.5);
 
 		info.setPosition(sf::Vector2f(590.f, 90.f));
 		result.setPosition(sf::Vector2f(570.f, 480.f));
+		shopTitle.setPosition(sf::Vector2f(width / 2.f - 100.f, 50.f));
+		shopCat.setPosition(sf::Vector2f(80.f, 105.f));
+		inventoryName.setPosition(sf::Vector2f(80.f, 135.f));
+		inventoryType.setPosition(sf::Vector2f(80.f + 200.f, 135.f));
+		inventoryPrice.setPosition(sf::Vector2f(80.f + 350.f, 135.f));
+		inventoryDua.setPosition(sf::Vector2f(80.f + 500.f, 135.f));
+		shopCon.setPosition(sf::Vector2f((width - 72.f) / 2.f, 540.f));
+
+		shopCon.setString("Trade");
 	}
 	else {
 		std::cout << "Times New Normal Regular.ttf failed to load" << std::endl;
@@ -114,7 +145,6 @@ void Trade::Load()
 		std::cout << "tsTexture loaded" << std::endl;
 		tsSprite.setTexture(tsTexture);
 
-		tsSprite.setPosition(sf::Vector2f(0.f, 0.f));
 		tsSprite.setScale(5.75f, 5.75f);
 	}
 	else {
@@ -154,6 +184,46 @@ void Trade::Load()
 		std::cout << "gp3Texture failed to load" << std::endl;
 	}
 	//-----------------------------------------------------------
+	if (tpTexture.loadFromFile(tpTextureName)) {
+		std::cout << "tpTexture loaded" << std::endl;
+		tpSprite.setTexture(tpTexture);
+
+		tpSprite.setPosition(sf::Vector2f(50.f, 50.f));
+		tpSprite.setScale(43.75f, 31.25f);
+	}
+	else {
+		std::cout << "tpTexture failed to load" << std::endl;
+	}
+	//-----------------------------------------------------------
+	if (tshTexture.loadFromFile(tshTextureName)) {
+		std::cout << "tshTexture loaded" << std::endl;
+		tshSprite.setTexture(tshTexture);
+
+		tshSprite.setPosition(sf::Vector2f(70.f, 100.f));
+		tshSprite.setScale(41.25f, 26.875f);
+	}
+	else {
+		std::cout << "tshTexture failed to load" << std::endl;
+	}
+	//-----------------------------------------------------------
+	if (conTexture.loadFromFile(conTextureName)) {
+		std::cout << "conTexture loaded" << std::endl;
+		conSprite.setTexture(conTexture);
+
+		conSprite.setPosition(sf::Vector2f((width - 112.f) / 2.f, 540.f));
+		conSprite.setScale(7.f, scale);
+	}
+	else {
+		std::cout << "conTexture failed to load" << std::endl;
+	}
+	//-----------------------------------------------------------
+	if (chTexture.loadFromFile(chTextureName)) {
+		std::cout << "chTexture loaded" << std::endl;
+		chSprite.setTexture(chTexture);
+	}
+	else {
+		std::cout << "chTexture failed to load" << std::endl;
+	}
 }
 
 void Trade::Update(Player& player, NPC& npc, std::string previousState, Location& location, bool& isPressed)
@@ -258,75 +328,30 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 		shopSelected = false;
 		shopSelect = 1;
 
-		std::cout << "Trade" << std::endl;
-		std::cout << "Press Esc to leave" << std::endl;
-
 		switch (inventoryNumber) {
 		case 1:
-			std::sort(player.GetCartInventory().begin(),
-				player.GetCartInventory().end(),
-				[](Item& a, Item& b) { return a.id < b.id; });
-
-			std::cout << "Player Cart Inventory" << std::endl;
-			for (int i = 1; i < player.GetCartInventory().size(); i++) {
-				std::cout << "Item: " << player.GetCartInventory()[i].name
-						<< "  Type: " << player.GetCartInventory()[i].type
-						<< "  Price: " << player.GetCartInventory()[i].price
-						<< "  Durability: " << player.GetCartInventory()[i].durability
-						<< "  Weight: " << player.GetCartInventory()[i].weight << std::endl;
-			}
+			shopTitle.setString("Player Cart");
 
 			shopSelectMax = (int)player.GetCartInventory().size();
 			break;
 		case 2:
-			std::sort(playerTrolley.begin(),
-				playerTrolley.end(),
-				[](Item& a, Item& b) { return a.id < b.id; });
-
-			std::cout << "Player Trolley" << std::endl;
-			for (int pt = 1; pt < playerTrolley.size(); pt++) {
-				std::cout << "Item: " << playerTrolley[pt].name
-					<< "  Type: " << playerTrolley[pt].type
-					<< "  Price: " << playerTrolley[pt].price
-					<< "  Durability: " << playerTrolley[pt].durability
-					<< "  Weight: " << playerTrolley[pt].weight << std::endl;
-			}
-
+			shopTitle.setString("Player Trolley");
+			
 			shopSelectMax = (int)playerTrolley.size();
 			break;
 		case 3:
-			std::sort(npcTrolley.begin(),
-				npcTrolley.end(),
-				[](Item& a, Item& b) { return a.id < b.id; });
-
-			std::cout << "NPC Trolley" << std::endl;
-			for (int nt = 1; nt < npcTrolley.size(); nt++) {
-				std::cout << "Item: " << npcTrolley[nt].name
-					<< "  Type: " << npcTrolley[nt].type
-					<< "  Price: " << npcTrolley[nt].price
-					<< "  Durability: " << npcTrolley[nt].durability
-					<< "  Weight: " << npcTrolley[nt].weight << std::endl;
-			}
+			shopTitle.setString("NPC Trolley");
 
 			shopSelectMax = (int)npcTrolley.size();
 			break;
 		case 4:
-			std::sort(npc.GetShop().begin(),
-				npc.GetShop().end(),
-				[](Item& a, Item& b) { return a.id < b.id; });
-
-			std::cout << "Merchant " << npc.GetC().GetName() << std::endl;
-			for (int i = 1; i < npc.GetShop().size(); i++) {
-				std::cout << "Item: " << npc.GetShop()[i].name
-					<< "  Type: " << npc.GetShop()[i].type
-					<< "  Price: " << npc.GetShop()[i].price
-					<< "  Durability: " << npc.GetShop()[i].durability
-					<< "  Weight: " << npc.GetShop()[i].weight << std::endl;
-			}
+			shopTitle.setString("Merchant " + npc.GetC().GetName());
 
 			shopSelectMax = (int)npc.GetShop().size();
 			break;
 		}
+
+		shopCat.setString("Item name\t\t Type\t\t Price\t\t Duability");
 	}
 
 	if (!shopSelected) {
@@ -336,16 +361,12 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 
 				if (shopSelect > shopSelectMax)
 					shopSelect = 1;
-
-				std::cout << shopSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				shopSelect--;
 
 				if (shopSelect < 1)
 					shopSelect = shopSelectMax;
-
-				std::cout << shopSelect << std::endl;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 				inventoryNumber--;
@@ -394,10 +415,7 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 					showShop = false;
 				}
 				else {
-					if (playerTrolley.size() > 1 || npcTrolley.size() > 1)
-						shopSelected = true;
-					else
-						std::cout << "There is nothing in trolley." << std::endl;
+					shopSelected = true;
 				}
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
@@ -416,86 +434,372 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 				played = false;
 			}
 		}
+
+		if (shopSelect < shopSelectMax) {
+			switch (temp2) {
+			case 1: tsSprite.setPosition(sf::Vector2f(80.f, 490.f - 32.f * 11)); break;
+			case 2: tsSprite.setPosition(sf::Vector2f(80.f, 490.f - 32.f * 10)); break;
+			case 3: tsSprite.setPosition(sf::Vector2f(80.f, 490.f - 32.f * 9)); break;
+			case 4: tsSprite.setPosition(sf::Vector2f(80.f, 490.f - 32.f * 8)); break;
+			case 5: tsSprite.setPosition(sf::Vector2f(80.f, 490.f - 32.f * 7)); break;
+			case 6: tsSprite.setPosition(sf::Vector2f(80.f, 490.f - 32.f * 6)); break;
+			case 7: tsSprite.setPosition(sf::Vector2f(80.f, 490.f - 32.f * 5)); break;
+			case 8: tsSprite.setPosition(sf::Vector2f(80.f, 490.f - 32.f * 4)); break;
+			case 9: tsSprite.setPosition(sf::Vector2f(80.f, 490.f - 32.f * 3)); break;
+			case 10: tsSprite.setPosition(sf::Vector2f(80.f, 490.f - 32.f * 2)); break;
+			case 11: tsSprite.setPosition(sf::Vector2f(80.f, 490.f - 32.f * 1)); break;
+			case 0: tsSprite.setPosition(sf::Vector2f(80.f, 490.f - 32.f * 0)); break;
+			}
+		}
+		else {
+			tsSprite.setPosition(sf::Vector2f((width - 112.f) / 2.f, 540.f));
+		}
 	}
 	else {
-		if (!showTradingBox) {
-			showTradingBox = true;
-			price = 0;
+		if (playerTrolley.size() > 1 || npcTrolley.size() > 1) {
+			if (!showTradingBox) {
+				showTradingBox = true;
+				confirm = false;
+				price = 0;
 
-			std::cout << "Trading Box" << std::endl;
-			
-			std::cout << "Player Trolley" << std::endl;
-			for (int i = 1; i < playerTrolley.size(); i++) {
-				std::cout << playerTrolley[i].name << " "
-					<< playerTrolley[i].price << " "
-					<< playerTrolley[i].durability << std::endl;
-				price += playerTrolley[i].price;
-			}
-			std::cout << "NPC Trolley" << std::endl;
-			for (int i = 1; i < npcTrolley.size(); i++) {
-				std::cout << npcTrolley[i].name << " "
-					<< npcTrolley[i].price << " "
-					<< npcTrolley[i].durability << std::endl;
-				price -= npcTrolley[i].price;
-			}
-
-			std::cout << "Profit: " << price << std::endl;
-			//Trade List
-		}
-
-		if (!confirm) {
-			if (!isPressed) {
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-					confirm = true;
+				for (int i = 1; i < playerTrolley.size(); i++) {
+					price += playerTrolley[i].price;
 				}
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-					showShop = false;
-					showTradingBox = false;
+
+				for (int i = 1; i < npcTrolley.size(); i++) {
+					price -= npcTrolley[i].price;
+				}
+
+				check.setString("Profit:\t" + std::to_string(price) + "\n");
+			}
+
+			if (!confirm) {
+				if (!isPressed) {
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+						confirm = true;
+					}
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+						showShop = false;
+						showTradingBox = false;
+					}
+				}
+			}
+			else {
+				if (!showConfirm) {
+					showConfirm = true;
+
+					location.rls += 25;
+
+					for (int i = 1; i < npcTrolley.size(); i++) {
+						player.GetCartInventory().push_back(npcTrolley[i]);
+					}
+
+					for (int i = 1; i < playerTrolley.size(); i++) {
+						npc.GetShop().push_back(playerTrolley[i]);
+					}
+
+					player.AddGold(price);
+
+					if (price > 0) {
+						check.setString("You gain:\t" + std::to_string(price));
+					}
+					else if (price < 0) {
+						check.setString("You lost:\t" + std::to_string(price));
+					}
+					else {
+						check.setString("Fair trade");
+					}
+				}
+
+				if (!isPressed) {
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
+						sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+						player.SetPlayerState(previousState);
+						showShop = false;
+						showTradingBox = false;
+						showConfirm = false;
+						setUp = false;
+						played = false;
+					}
 				}
 			}
 		}
 		else {
-			if (!showConfirm) {
-				showConfirm = true;
-
-				location.rls += 25;
-
-				for (int i = 1; i < npcTrolley.size(); i++) {
-					player.GetCartInventory().push_back(npcTrolley[i]);
-				}
-
-				for (int i = 1; i < playerTrolley.size(); i++) {
-					npc.GetShop().push_back(playerTrolley[i]);
-				}
+			if (!showTradingBox) {
+				showTradingBox = true;
 				
-				player.AddGold(price);
-
-				if (price > 0) {
-					std::cout << "You gain: " << price << std::endl;
-				}
-				else if (price < 0) {
-					std::cout << "You lost: " << abs(price) << std::endl;
-				}
-				else {
-					std::cout << "Fair trade" << std::endl;
-				}
-
-				std::cout << "Confirmed" << std::endl;
+				check.setString("There is nothing\n in trolley.");
 			}
-
+			
 			if (!isPressed) {
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
 					sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-					player.SetPlayerState(previousState);
 					showShop = false;
 					showTradingBox = false;
-					showConfirm = false;
-					setUp = false;
-					played = false;
 				}
 			}
 		}
 	}
+
+	//inventory player
+	temp2 = shopSelect % 12;
+
+	inventoryNamestr.clear();
+	inventoryTypestr.clear();
+	inventoryPricestr.clear();
+	inventoryDuastr.clear();
+
+	switch (inventoryNumber) {
+	case 1:
+		std::sort(player.GetCartInventory().begin(),
+			player.GetCartInventory().end(),
+			[](Item& a, Item& b) { return a.id < b.id; });
+
+		if (shopSelect <= 12 * 1) {
+			if (player.GetCartInventory().size() < 1 + 12 * 1) {
+				for (int i = 1 + 12 * 0; i < player.GetCartInventory().size(); i++) {
+					inventoryNamestr += player.GetCartInventory()[i].name + "\n";
+					inventoryTypestr += player.GetCartInventory()[i].type + "\n";
+					inventoryPricestr += std::to_string(player.GetCartInventory()[i].price) + "\n";
+					inventoryDuastr += std::to_string(player.GetCartInventory()[i].durability) + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
+					inventoryNamestr += player.GetCartInventory()[i].name + "\n";
+					inventoryTypestr += player.GetCartInventory()[i].type + "\n";
+					inventoryPricestr += std::to_string(player.GetCartInventory()[i].price) + "\n";
+					inventoryDuastr += std::to_string(player.GetCartInventory()[i].durability) + "\n";
+				}
+			}
+		}
+		else if (shopSelect <= 12 * 2) {
+			if (player.GetCartInventory().size() < 1 + 12 * 2) {
+				for (int i = 1 + 12 * 1; i < player.GetCartInventory().size(); i++) {
+					inventoryNamestr += player.GetCartInventory()[i].name + "\n";
+					inventoryTypestr += player.GetCartInventory()[i].type + "\n";
+					inventoryPricestr += std::to_string(player.GetCartInventory()[i].price) + "\n";
+					inventoryDuastr += std::to_string(player.GetCartInventory()[i].durability) + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
+					inventoryNamestr += player.GetCartInventory()[i].name + "\n";
+					inventoryTypestr += player.GetCartInventory()[i].type + "\n";
+					inventoryPricestr += std::to_string(player.GetCartInventory()[i].price) + "\n";
+					inventoryDuastr += std::to_string(player.GetCartInventory()[i].durability) + "\n";
+				}
+			}
+		}
+		else if (shopSelect <= 12 * 3) {
+			if (player.GetCartInventory().size() < 1 + 12 * 3) {
+				for (int i = 1 + 12 * 2; i < player.GetCartInventory().size(); i++) {
+					inventoryNamestr += player.GetCartInventory()[i].name + "\n";
+					inventoryTypestr += player.GetCartInventory()[i].type + "\n";
+					inventoryPricestr += std::to_string(player.GetCartInventory()[i].price) + "\n";
+					inventoryDuastr += std::to_string(player.GetCartInventory()[i].durability) + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
+					inventoryNamestr += player.GetCartInventory()[i].name + "\n";
+					inventoryTypestr += player.GetCartInventory()[i].type + "\n";
+					inventoryPricestr += std::to_string(player.GetCartInventory()[i].price) + "\n";
+					inventoryDuastr += std::to_string(player.GetCartInventory()[i].durability) + "\n";
+				}
+			}
+		}
+
+		break;
+	case 2:
+		std::sort(playerTrolley.begin(),
+			playerTrolley.end(),
+			[](Item& a, Item& b) { return a.id < b.id; });
+
+		if (shopSelect <= 12 * 1) {
+			if (playerTrolley.size() < 1 + 12 * 1) {
+				for (int i = 1 + 12 * 0; i < playerTrolley.size(); i++) {
+					inventoryNamestr += playerTrolley[i].name + "\n";
+					inventoryTypestr += playerTrolley[i].type + "\n";
+					inventoryPricestr += std::to_string(playerTrolley[i].price) + "\n";
+					inventoryDuastr += std::to_string(playerTrolley[i].durability) + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
+					inventoryNamestr += playerTrolley[i].name + "\n";
+					inventoryTypestr += playerTrolley[i].type + "\n";
+					inventoryPricestr += std::to_string(playerTrolley[i].price) + "\n";
+					inventoryDuastr += std::to_string(playerTrolley[i].durability) + "\n";
+				}
+			}
+		}
+		else if (shopSelect <= 12 * 2) {
+			if (playerTrolley.size() < 1 + 12 * 2) {
+				for (int i = 1 + 12 * 1; i < playerTrolley.size(); i++) {
+					inventoryNamestr += playerTrolley[i].name + "\n";
+					inventoryTypestr += playerTrolley[i].type + "\n";
+					inventoryPricestr += std::to_string(playerTrolley[i].price) + "\n";
+					inventoryDuastr += std::to_string(playerTrolley[i].durability) + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
+					inventoryNamestr += playerTrolley[i].name + "\n";
+					inventoryTypestr += playerTrolley[i].type + "\n";
+					inventoryPricestr += std::to_string(playerTrolley[i].price) + "\n";
+					inventoryDuastr += std::to_string(playerTrolley[i].durability) + "\n";
+				}
+			}
+		}
+		else if (shopSelect <= 12 * 3) {
+			if (playerTrolley.size() < 1 + 12 * 3) {
+				for (int i = 1 + 12 * 2; i < playerTrolley.size(); i++) {
+					inventoryNamestr += playerTrolley[i].name + "\n";
+					inventoryTypestr += playerTrolley[i].type + "\n";
+					inventoryPricestr += std::to_string(playerTrolley[i].price) + "\n";
+					inventoryDuastr += std::to_string(playerTrolley[i].durability) + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
+					inventoryNamestr += playerTrolley[i].name + "\n";
+					inventoryTypestr += playerTrolley[i].type + "\n";
+					inventoryPricestr += std::to_string(playerTrolley[i].price) + "\n";
+					inventoryDuastr += std::to_string(playerTrolley[i].durability) + "\n";
+				}
+			}
+		}
+
+		break;
+	case 3:
+		std::sort(npcTrolley.begin(),
+			npcTrolley.end(),
+			[](Item& a, Item& b) { return a.id < b.id; });
+
+		if (shopSelect <= 12 * 1) {
+			if (npcTrolley.size() < 1 + 12 * 1) {
+				for (int i = 1 + 12 * 0; i < npcTrolley.size(); i++) {
+					inventoryNamestr += npcTrolley[i].name + "\n";
+					inventoryTypestr += npcTrolley[i].type + "\n";
+					inventoryPricestr += std::to_string(npcTrolley[i].price) + "\n";
+					inventoryDuastr += std::to_string(npcTrolley[i].durability) + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
+					inventoryNamestr += npcTrolley[i].name + "\n";
+					inventoryTypestr += npcTrolley[i].type + "\n";
+					inventoryPricestr += std::to_string(npcTrolley[i].price) + "\n";
+					inventoryDuastr += std::to_string(npcTrolley[i].durability) + "\n";
+				}
+			}
+		}
+		else if (shopSelect <= 12 * 2) {
+			if (npcTrolley.size() < 1 + 12 * 2) {
+				for (int i = 1 + 12 * 1; i < npcTrolley.size(); i++) {
+					inventoryNamestr += npcTrolley[i].name + "\n";
+					inventoryTypestr += npcTrolley[i].type + "\n";
+					inventoryPricestr += std::to_string(npcTrolley[i].price) + "\n";
+					inventoryDuastr += std::to_string(npcTrolley[i].durability) + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
+					inventoryNamestr += npcTrolley[i].name + "\n";
+					inventoryTypestr += npcTrolley[i].type + "\n";
+					inventoryPricestr += std::to_string(npcTrolley[i].price) + "\n";
+					inventoryDuastr += std::to_string(npcTrolley[i].durability) + "\n";
+				}
+			}
+		}
+		else if (shopSelect <= 12 * 3) {
+			if (npcTrolley.size() < 1 + 12 * 3) {
+				for (int i = 1 + 12 * 2; i < npcTrolley.size(); i++) {
+					inventoryNamestr += npcTrolley[i].name + "\n";
+					inventoryTypestr += npcTrolley[i].type + "\n";
+					inventoryPricestr += std::to_string(npcTrolley[i].price) + "\n";
+					inventoryDuastr += std::to_string(npcTrolley[i].durability) + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
+					inventoryNamestr += npcTrolley[i].name + "\n";
+					inventoryTypestr += npcTrolley[i].type + "\n";
+					inventoryPricestr += std::to_string(npcTrolley[i].price) + "\n";
+					inventoryDuastr += std::to_string(npcTrolley[i].durability) + "\n";
+				}
+			}
+		}
+		
+		break;
+	case 4:
+		std::sort(npc.GetShop().begin(),
+			npc.GetShop().end(),
+			[](Item& a, Item& b) { return a.id < b.id; });
+
+		if (shopSelect <= 12 * 1) {
+			if (npc.GetShop().size() < 1 + 12 * 1) {
+				for (int i = 1 + 12 * 0; i < npc.GetShop().size(); i++) {
+					inventoryNamestr += npc.GetShop()[i].name + "\n";
+					inventoryTypestr += npc.GetShop()[i].type + "\n";
+					inventoryPricestr += std::to_string(npc.GetShop()[i].price) + "\n";
+					inventoryDuastr += std::to_string(npc.GetShop()[i].durability) + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
+					inventoryNamestr += npc.GetShop()[i].name + "\n";
+					inventoryTypestr += npc.GetShop()[i].type + "\n";
+					inventoryPricestr += std::to_string(npc.GetShop()[i].price) + "\n";
+					inventoryDuastr += std::to_string(npc.GetShop()[i].durability) + "\n";
+				}
+			}
+		}
+		else if (shopSelect <= 12 * 2) {
+			if (npc.GetShop().size() < 1 + 12 * 2) {
+				for (int i = 1 + 12 * 1; i < npc.GetShop().size(); i++) {
+					inventoryNamestr += npc.GetShop()[i].name + "\n";
+					inventoryTypestr += npc.GetShop()[i].type + "\n";
+					inventoryPricestr += std::to_string(npc.GetShop()[i].price) + "\n";
+					inventoryDuastr += std::to_string(npc.GetShop()[i].durability) + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
+					inventoryNamestr += npc.GetShop()[i].name + "\n";
+					inventoryTypestr += npc.GetShop()[i].type + "\n";
+					inventoryPricestr += std::to_string(npc.GetShop()[i].price) + "\n";
+					inventoryDuastr += std::to_string(npc.GetShop()[i].durability) + "\n";
+				}
+			}
+		}
+		else if (shopSelect <= 12 * 3) {
+			if (npc.GetShop().size() < 1 + 12 * 3) {
+				for (int i = 1 + 12 * 2; i < npc.GetShop().size(); i++) {
+					inventoryNamestr += npc.GetShop()[i].name + "\n";
+					inventoryTypestr += npc.GetShop()[i].type + "\n";
+					inventoryPricestr += std::to_string(npc.GetShop()[i].price) + "\n";
+					inventoryDuastr += std::to_string(npc.GetShop()[i].durability) + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
+					inventoryNamestr += npc.GetShop()[i].name + "\n";
+					inventoryTypestr += npc.GetShop()[i].type + "\n";
+					inventoryPricestr += std::to_string(npc.GetShop()[i].price) + "\n";
+					inventoryDuastr += std::to_string(npc.GetShop()[i].durability) + "\n";
+				}
+			}
+		}
+
+		break;
+	}
+
+	inventoryName.setString(inventoryNamestr);
+	inventoryType.setString(inventoryTypestr);
+	inventoryPrice.setString(inventoryPricestr);
+	inventoryDua.setString(inventoryDuastr);
 }
 
 void Trade::Draw(sf::RenderWindow& window)
@@ -518,7 +822,49 @@ void Trade::Draw(sf::RenderWindow& window)
 		}
 	}
 	else {
+		if (showShop) {
+			window.draw(tpSprite);
+			window.draw(tshSprite);
+			
+			window.draw(shopTitle);
+			window.draw(shopCat);
+			window.draw(inventoryName);
+			window.draw(inventoryType);
+			window.draw(inventoryPrice);
+			window.draw(inventoryDua);
 
+			window.draw(conSprite);
+			window.draw(shopCon);
+		}
+
+		if (!shopSelected) {
+			tsSprite.setScale(40.f, 2.f);
+			if (shopSelect == shopSelectMax) {
+				tsSprite.setScale(7.f, scale);
+			}
+		}
+
+		if (showTradingBox || showConfirm) {
+			if (playerTrolley.size() > 1 || npcTrolley.size() > 1) {
+				chSprite.setPosition(sf::Vector2f(width / 2.f - 200.f, height / 2.f - 100.f));
+				chSprite.setScale(25.f, 10.f);
+				check.setPosition(sf::Vector2f(width / 2.f - 100.f, height / 2.f - 60.f));
+
+				tsSprite.setPosition(sf::Vector2f(width / 2.f - 200.f, height / 2.f - 100.f));
+				tsSprite.setScale(25.f, 10.f);
+			}
+			else {
+				chSprite.setPosition(sf::Vector2f(width / 2.f - 120.f, height / 2.f - 80.f));
+				chSprite.setScale(15.f, 10.f);
+				check.setPosition(sf::Vector2f(width / 2.f - 100.f, height / 2.f - 60.f));
+
+				tsSprite.setPosition(sf::Vector2f(width / 2.f - 120.f, height / 2.f - 80.f));
+				tsSprite.setScale(15.f, 10.f);
+			}
+
+			window.draw(chSprite);
+			window.draw(check);
+		}
 	}
 
 	window.draw(tsSprite);
@@ -658,7 +1004,6 @@ void Trade::ChangeElement(int y, int x, int &move)
 	}
 
 	move--;
-	std::cout << "Move: " << move << std::endl;
 }
 
 void Trade::CalculateScore(Player player)
@@ -1062,13 +1407,6 @@ void Trade::PrintPanel(Player player, NPC npc)
 				+ "OSV:\t" + std::to_string(observationScore) + "\n"
 				+ "CVS:\t" + std::to_string(conversationScore) + "\n"
 				+ "KLG:\t" + std::to_string(knowledgeScore) + "\n");
-
-	for (int j = 0; j < 5; j++) {
-		for (int i = 0; i < 5; i++)
-			std::cout << gamepanel[j][i] << " ";
-		std::cout << std::endl;
-	}
-	std::cout << "Gamepanel: " << x - 1 << " " << y - 1 << std::endl;
 }
 
 /*

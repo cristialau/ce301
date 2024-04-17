@@ -65,9 +65,6 @@ private:
 	float viewX;
 	float viewY;
 
-	//Normal
-	bool showNormal;
-
 	//Talk
 	bool showTalk;
 	int talkSelect;
@@ -105,6 +102,13 @@ private:
 	//sprites
 	float width;
 	float height;
+
+	sf::Font font;
+	sf::Text cancel;
+	sf::Text trade;
+	sf::Text quest;
+	sf::Text finish;
+	sf::Text dia;
 
 	std::string tsTextureName;
 	sf::Texture tsTexture;
@@ -200,8 +204,6 @@ public:
 	void Reward(int type); // start from 1
 	void Effect();			// equip effects
 	void QuestCondition(std::vector<NPC>& npcList);
-
-	void PrintMap();
 };
 
 #endif

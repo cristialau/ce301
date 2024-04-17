@@ -62,6 +62,8 @@ private:
 	Item item;
 	bool setUp;
 
+	int temp2;
+
 	//sprites
 	float tileSize;
 	float scale;
@@ -73,6 +75,22 @@ private:
 	std::vector<sf::Text> vElements;
 	sf::Text info;
 	sf::Text result;
+
+	sf::Text shopTitle;
+	sf::Text shopCat;
+	sf::Text inventoryName;
+	std::string inventoryNamestr;
+	sf::Text inventoryType;
+	std::string inventoryTypestr;
+	sf::Text inventoryPrice;
+	std::string inventoryPricestr;
+	sf::Text inventoryDua;
+	std::string inventoryDuastr;
+
+	sf::Text shopCon;
+
+	sf::Text check;
+	std::string checkstr;
 
 	std::string tbgTextureName;
 	sf::Texture tbgTexture;
@@ -91,6 +109,22 @@ private:
 	std::string gp3TextureName;
 	sf::Texture gp3Texture;
 	sf::Sprite gp3Sprite;
+
+	std::string tpTextureName;
+	sf::Texture tpTexture;
+	sf::Sprite tpSprite;
+
+	std::string tshTextureName;
+	sf::Texture tshTexture;
+	sf::Sprite tshSprite;
+
+	std::string conTextureName;
+	sf::Texture conTexture;
+	sf::Sprite conSprite;
+
+	std::string chTextureName;
+	sf::Texture chTexture;
+	sf::Sprite chSprite;
 
 public:
 	Trade(float width, float height);
