@@ -7,8 +7,6 @@
 #include "Menu.h"
 #include "Trade.h"
 #include "Battle.h"
-#include "Interface.h"
-
 #include <fstream>
 #include <sstream>
 //#include "SFML/Graphics.hpp"
@@ -53,8 +51,6 @@ private:
 	Menu* menu;				//Menu
 	Trade* trade;			//Trade
 	Battle* battle;			//Battle
-
-	Interface* interface;
 
 	//variables
 	int mapNumber = 1;

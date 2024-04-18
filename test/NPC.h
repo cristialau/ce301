@@ -86,6 +86,7 @@ public:
 
 	std::string GetDialogue();
 	void SetDialogue(std::string dialogue);
+	std::string GetTextureName();
 	int GetPositionX();
 	int GetPositionY();
 

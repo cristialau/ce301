@@ -73,8 +73,6 @@ void Game::InitGame()
     this->trade->Initialize(itemList[0]);
     this->battle = new Battle(windowWidth, windowHeight);
 
-    this->interface = new Interface();
-
     gameState = "MainMenu";
 }
 
@@ -95,7 +93,6 @@ void Game::LoadGame()
     this->menu->Load(locationList);
     this->trade->Load();
     this->battle->Load();
-    this->interface->Load();
 
     //------------------------------------------------------
     this->player->GetCartInventory().push_back(itemList[1]);
@@ -104,20 +101,9 @@ void Game::LoadGame()
     this->player->GetCartInventory().push_back(itemList[1]);
     this->player->GetCartInventory().push_back(itemList[2]);
     this->player->GetCartInventory().push_back(itemList[3]);
-    this->player->GetCartInventory().push_back(itemList[1]);
-    this->player->GetCartInventory().push_back(itemList[2]);
-    this->player->GetCartInventory().push_back(itemList[3]);
-    this->player->GetCartInventory().push_back(itemList[1]);
-    this->player->GetCartInventory().push_back(itemList[2]);
-    this->player->GetCartInventory().push_back(itemList[3]);
-    this->player->GetCartInventory().push_back(itemList[1]);
-    this->player->GetCartInventory().push_back(itemList[2]);
-    this->player->GetCartInventory().push_back(itemList[3]);
     
     this->player->GetEquipInventory().push_back(equipmentList[1]);
-    //player.GetEquipInventory().push_back(equipmentList[1]);
     this->player->GetEquipInventory().push_back(equipmentList[2]);
-    //player.GetEquipInventory().push_back(equipmentList[2]);
 }
 
 void Game::UpdateSFML()
@@ -133,7 +119,6 @@ void Game::UpdateSFML()
 
 void Game::Update()
 {
-    this->interface->Update(dt, view);
     Status();
 
     if (gameState == "MainMenu") {
@@ -199,8 +184,6 @@ void Game::Draw()
     }
 
     this->window->setView(window->getDefaultView());
-
-    this->interface->Draw(*window);
 
     if (gameState == "MainMenu") {
         this->mainMenu->Draw(*window);
@@ -676,9 +659,9 @@ NPC& Game::CheckNPC()
 void Game::CheckEnemy()
 {
     if (enemyList.empty()) {
-        NPC npc1(characterList[17], "none", "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
-        NPC npc2(characterList[17], "none", "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
-        NPC npc3(characterList[17], "none", "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
+        NPC npc1(characterList[17], "Textures/npc.png", "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
+        NPC npc2(characterList[17], "Textures/npc.png", "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
+        NPC npc3(characterList[17], "Textures/npc.png", "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
 
         int random = 0;
         npc1.GetC().SetSkill(1, skillList[RandomInt(15)]);

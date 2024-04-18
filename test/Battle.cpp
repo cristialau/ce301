@@ -68,6 +68,24 @@ Battle::Battle(float width, float height)
 	playerSelected = false;
 
 	showEndBattle = false;
+
+	//sprite
+	bsTextureName = "Textures/player.png";
+	bbgTextureName = "Textures/test01.png";
+	rbgTextureName = "Textures/test02.png";
+	lbgTextureName = "Textures/test03.png";
+	ebbgTextureName = "Textures/test04.png";
+
+	s1TextureName = "Textures/test05.png";
+	s2TextureName = "Textures/test06.png";
+	s3TextureName = "Textures/test07.png";
+	s4TextureName = "Textures/test08.png";
+	s5TextureName = "Textures/test09.png";
+
+	phpbgTextureName = "Textures/test05.png";
+	ehpbgTextureName = "Textures/test05.png";
+
+	hpTextureName = "Textures/test06.png";
 }
 
 Battle::~Battle()
@@ -80,63 +98,238 @@ void Battle::Initialize()
 
 void Battle::Load()
 {
+	if (font.loadFromFile("Fonts/Times New Normal Regular.ttf")) {
+		std::cout << "Times New Normal Regular.ttf loaded" << std::endl;
+
+		roundtxt.setFont(font);
+		log.setFont(font);
+		endbattle.setFont(font);
+		s1.setFont(font);
+		s2.setFont(font);
+		s3.setFont(font);
+		s4.setFont(font);
+		s5.setFont(font);
+		pinfo.setFont(font);
+		einfo.setFont(font);
+		
+		roundtxt.setCharacterSize(29.5);
+		log.setCharacterSize(28);
+		endbattle.setCharacterSize(29.5);
+		s1.setCharacterSize(28);
+		s2.setCharacterSize(28);
+		s3.setCharacterSize(28);
+		s4.setCharacterSize(28);
+		s5.setCharacterSize(28);
+		pinfo.setCharacterSize(20);
+		einfo.setCharacterSize(20);
+
+		roundtxt.setPosition(sf::Vector2f((width - 7.f * tileSize) / 2.f + 5.f, 10.f));
+		log.setPosition(sf::Vector2f(60.f, 440.f));
+		endbattle.setPosition(sf::Vector2f((width - 16.f * tileSize) / 2.f + 20.f, (height - 16.f * tileSize) / 2.f + 20.f));
+		s1.setPosition(sf::Vector2f(418.f, 557.f - 48.f));
+		s2.setPosition(sf::Vector2f(546.f, 557.f - 48.f));
+		s3.setPosition(sf::Vector2f(674.f, 557.f - 48.f));
+		s4.setPosition(sf::Vector2f(482.f, 557.f));
+		s5.setPosition(sf::Vector2f(610.f, 557.f));
+		pinfo.setPosition(sf::Vector2f(5.f, 5.f));
+		einfo.setPosition(sf::Vector2f(485.f, 5.f));
+	}
+	else {
+		std::cout << "Times New Normal Regular.ttf failed to load" << std::endl;
+	}
+	//----------------------------------------------
+	if (bsTexture.loadFromFile(bsTextureName)) {
+		std::cout << "bsTexture texture loaded" << std::endl;
+		bsSprite.setTexture(bsTexture);
+	}
+	else {
+		std::cout << "bsTexture texture failed to load" << std::endl;
+	}
+
+	if (bbgTexture.loadFromFile(bbgTextureName)) {
+		std::cout << "bbgTexture texture loaded" << std::endl;
+		bbgSprite.setTexture(bbgTexture);
+
+		bbgSprite.setPosition(sf::Vector2f(0.f, 0.f));
+		bbgSprite.setScale(sf::Vector2f(50.f, 37.5f));
+	}
+	else {
+		std::cout << "bbgTexture texture failed to load" << std::endl;
+	}
+
+	if (rbgTexture.loadFromFile(rbgTextureName)) {
+		std::cout << "rbgTexture texture loaded" << std::endl;
+		rbgSprite.setTexture(rbgTexture);
+
+		rbgSprite.setPosition(sf::Vector2f((width - 7.f * tileSize) / 2.f, 0.f));
+		rbgSprite.setScale(sf::Vector2f(7.f, 3.f));
+	}
+	else {
+		std::cout << "rbgTexture texture failed to load" << std::endl;
+	}
+
+	if (lbgTexture.loadFromFile(lbgTextureName)) {
+		std::cout << "lbgTexture texture loaded" << std::endl;
+		lbgSprite.setTexture(lbgTexture);
+
+		lbgSprite.setPosition(sf::Vector2f(50.f, 450.f));
+		lbgSprite.setScale(sf::Vector2f(20.f, 10.625f));
+	}
+	else {
+		std::cout << "lbgTexture texture failed to load" << std::endl;
+	}
+
+	if (ebbgTexture.loadFromFile(ebbgTextureName)) {
+		std::cout << "ebbgTexture texture loaded" << std::endl;
+		ebbgSprite.setTexture(ebbgTexture);
+
+		ebbgSprite.setPosition(sf::Vector2f((width - 16.f * tileSize) / 2.f, (height - 16.f * tileSize) / 2.f));
+		ebbgSprite.setScale(sf::Vector2f(16.f, 16.f));
+	}
+	else {
+		std::cout << "ebbgTexture texture failed to load" << std::endl;
+	}
+	//----------------------------------------------
+	if (s1Texture.loadFromFile(s1TextureName)) {
+		std::cout << "s1Texture texture loaded" << std::endl;
+		s1Sprite.setTexture(s1Texture);
+
+		s1Sprite.setPosition(sf::Vector2f(408.f, 552.f - 48.f));
+		s1Sprite.setScale(sf::Vector2f(8.f, 3.f));
+	}
+	else {
+		std::cout << "s1Texture texture failed to load" << std::endl;
+	}
+
+	if (s2Texture.loadFromFile(s2TextureName)) {
+		std::cout << "s2Texture texture loaded" << std::endl;
+		s2Sprite.setTexture(s2Texture);
+
+		s2Sprite.setPosition(sf::Vector2f(536.f, 552.f - 48.f));
+		s2Sprite.setScale(sf::Vector2f(8.f, 3.f));
+	}
+	else {
+		std::cout << "s2Texture texture failed to load" << std::endl;
+	}
+
+	if (s3Texture.loadFromFile(s3TextureName)) {
+		std::cout << "s3Texture texture loaded" << std::endl;
+		s3Sprite.setTexture(s3Texture);
+
+		s3Sprite.setPosition(sf::Vector2f(664.f, 552.f - 48.f));
+		s3Sprite.setScale(sf::Vector2f(8.f, 3.f));
+	}
+	else {
+		std::cout << "s3Texture texture failed to load" << std::endl;
+	}
+
+	if (s4Texture.loadFromFile(s4TextureName)) {
+		std::cout << "s4Texture texture loaded" << std::endl;
+		s4Sprite.setTexture(s4Texture);
+
+		s4Sprite.setPosition(sf::Vector2f(472.f, 552.f));
+		s4Sprite.setScale(sf::Vector2f(8.f, 3.f));
+	}
+	else {
+		std::cout << "s4Texture texture failed to load" << std::endl;
+	}
+
+	if (s5Texture.loadFromFile(s5TextureName)) {
+		std::cout << "s5Texture texture loaded" << std::endl;
+		s5Sprite.setTexture(s5Texture);
+
+		s5Sprite.setPosition(sf::Vector2f(600.f, 552.f));
+		s5Sprite.setScale(sf::Vector2f(8.f, 3.f));
+	}
+	else {
+		std::cout << "s5Texture texture failed to load" << std::endl;
+	}
+	//----------------------------------------------
+	if (phpbgTexture.loadFromFile(phpbgTextureName)) {
+		std::cout << "phpbgTexture texture loaded" << std::endl;
+		phpbgSprite.setTexture(phpbgTexture);
+
+		phpbgSprite.setPosition(sf::Vector2f(0.f, 0.f));
+		phpbgSprite.setScale(sf::Vector2f(20.f, 6.f));
+	}
+	else {
+		std::cout << "phpbgTexture texture failed to load" << std::endl;
+	}
+
+	if (ehpbgTexture.loadFromFile(ehpbgTextureName)) {
+		std::cout << "ehpbgTexture texture loaded" << std::endl;
+		ehpbgSprite.setTexture(ehpbgTexture);
+
+		ehpbgSprite.setPosition(sf::Vector2f(480.f, 0.f));
+		ehpbgSprite.setScale(sf::Vector2f(20.f, 6.f));
+	}
+	else {
+		std::cout << "ehpbgTexture texture failed to load" << std::endl;
+	}
+	//hpbar
+	if (hpTexture.loadFromFile(hpTextureName)) {
+		std::cout << "hpTexture texture loaded" << std::endl;
+		hpSprite.setTexture(hpTexture);
+
+		hpSprite.setScale(sf::Vector2f(1.f, 1.5f));
+	}
+	else {
+		std::cout << "hpTexture texture failed to load" << std::endl;
+	}
+
+	for (int i = 0; i < 100; i++) {
+		hpSprite.setPosition(sf::Vector2f(10.f + 2.f * i, 55.f));
+		phpbar.push_back(hpSprite);
+	}
+
+	for (int i = 0; i < 100; i++) {
+		hpSprite.setPosition(sf::Vector2f(490.f + 2.f * i, 55.f));
+		ehpbar.push_back(hpSprite);
+	}
 }
 
 void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previousState, bool& isPressed)
 {
-	//refresh status
-	Effect();
-
-	roundtemp = round;
 	//Setup
 	if (!startBattle)
 		SetUp(player, enemy, previousState);
 
+	//refresh status
+	Effect();
+
+	roundtemp = round;
+
+	pinfo.setString("Player team\tHP: " + std::to_string(playerTeamHP) + " / " + std::to_string(playerTeamHPMax) + "\n"
+					+ "Player Status: " + playerStatus + "\t SP: " + std::to_string(playerTeamSP) + " / " + std::to_string(playerTeamSPMax));
+	einfo.setString("Enemy team\t" + std::to_string(enemyTeamHP) + " / " + std::to_string(enemyTeamHPMax) + "\n"
+		+ "Enemy Status: " + enemyStatus);
+
 	//if Player or enemy hp = 0
-	if (playerTeamHP <= 0 || enemyTeamHP <= 0)
+	if (playerTeamHP <= 0 || enemyTeamHP <= 0) {
 		EndBattle(player, enemy, isPressed);
+	}
 	else {
 		if (!roundStart) {
 			roundStart = true;
 			playerTurn = true;
 			playerSelected = false;
 			round++;
-			std::cout << "Round: " << round << std::endl;
+			roundtxt.setString("Round: " + std::to_string(round));
 			//sp recover
 			if (round > 1)
 				AddSp(2);
-			//Status
-			std::cout << "Player team HP: " << playerTeamHP << "/" << playerTeamHPMax
-				<< "  Player team SP: " << playerTeamSP << "/" << playerTeamSPMax << std::endl;
-			std::cout << "OSV: " << playerOSV << "  CVS: " << playerCVS << "  KLG: " << playerKLG << std::endl;
-			std::cout << "Player Status: " << playerStatus << std::endl;
-			std::cout << "Enemy team HP: " << enemyTeamHP << "/" << enemyTeamHPMax << std::endl;
-			std::cout << "OSV: " << enemyOSV << "  CVS: " << enemyCVS << "  KLG: " << enemyKLG << std::endl;
-			std::cout << "Enemy Status: " << enemyStatus << std::endl;
 
 			if (haveC1 && haveC2) {
-				std::cout << "Player options: " << "1. Basic Attack"
-					<< " 2. " << player.GetC1().GetSkill(1).name
-					<< " 3. " << player.GetC1().GetSkill(2).name
-					<< " 4. " << player.GetC2().GetSkill(1).name
-					<< " 5. " << player.GetC2().GetSkill(2).name << std::endl;
 				selectMax = 5;
 			}
 			else if (haveC1) {
-				std::cout << "Player options: " << "1. Basic Attack"
-					<< " 2. " << player.GetC1().GetSkill(1).name
-					<< " 3. " << player.GetC1().GetSkill(2).name << std::endl;
 				selectMax = 3;
 			}
 			else if (haveC2) {
-				std::cout << "Player options: " << "1. Basic Attack"
-					<< " 2. " << player.GetC2().GetSkill(1).name
-					<< " 3. " << player.GetC2().GetSkill(2).name << std::endl;
 				selectMax = 3;
 			}
 
 			select = 1;
-			std::cout << select << std::endl;
 		}
 
 		//Player move first
@@ -148,16 +341,12 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 
 						if (select > selectMax)
 							select = 1;
-
-						std::cout << select << std::endl;
 					}
 					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 						select--;
 
 						if (select < 1)
 							select = selectMax;
-
-						std::cout << select << std::endl;
 					}
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 						playerSelected = true;
@@ -167,81 +356,123 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 			else {
 				if ((haveC1 && haveC2) || (haveC1 && !haveC2)) {
 					switch (select) {
-					case 1:	Attack(playerAttackDmg); std::cout << "player Attack." << std::endl; playerTurn = false; break;
+					case 1:	Attack(playerAttackDmg); logstr[5] = "Player Attack"; playerTurn = false; break;
 					case 2:
-						if (playerTeamSP < player.GetC1().GetSkill(1).sp)
-							std::cout << "Not enough sp." << std::endl;
+						if (playerTeamSP < player.GetC1().GetSkill(1).sp) {
+							logstr[5] = "Not enough sp";
+						}
 						else if (player.GetC1().GetSkill(1).type != "passive") {
 							SkillEffect(player.GetC1().GetSkill(1));
+							logstr[5] = "Player use " + player.GetC1().GetSkill(1).name;
 							playerTurn = false;
 						}
-						else
-							std::cout << "This skill is a passsive." << std::endl;
+						else {
+							logstr[5] = "This skill is a passsive";
+						}
 						break;
 					case 3:
-						if (playerTeamSP < player.GetC1().GetSkill(2).sp)
-							std::cout << "Not enough sp." << std::endl;
+						if (playerTeamSP < player.GetC1().GetSkill(2).sp) {
+							logstr[5] = "Not enough sp";
+						}
 						else if (player.GetC1().GetSkill(2).type != "passive") {
 							SkillEffect(player.GetC1().GetSkill(2));
+							logstr[5] = "Player use " + player.GetC1().GetSkill(2).name;
 							playerTurn = false;
 						}
-						else
-							std::cout << "This skill is a passsive." << std::endl;
+						else {
+							logstr[5] = "This skill is a passsive";
+						}
 						break;
 					case 4:
-						if (playerTeamSP < player.GetC2().GetSkill(1).sp)
-							std::cout << "Not enough sp." << std::endl;
+						if (playerTeamSP < player.GetC2().GetSkill(1).sp) {
+							logstr[5] = "Not enough sp";
+						}
 						else if (player.GetC2().GetSkill(1).type != "passive") {
 							SkillEffect(player.GetC2().GetSkill(1));
+							logstr[5] = "Player use " + player.GetC2().GetSkill(1).name;
 							playerTurn = false;
 						}
-						else
-							std::cout << "This skill is a passsive." << std::endl;
+						else {
+							logstr[5] = "This skill is a passsive";
+						}
 						break;
 					case 5:
-						if (playerTeamSP < player.GetC2().GetSkill(2).sp)
-							std::cout << "Not enough sp." << std::endl;
+						if (playerTeamSP < player.GetC2().GetSkill(2).sp) {
+							logstr[5] = "Not enough sp";
+						}
 						else if (player.GetC2().GetSkill(2).type != "passive") {
 							SkillEffect(player.GetC2().GetSkill(2));
+							logstr[5] = "Player use " + player.GetC2().GetSkill(2).name;
 							playerTurn = false;
 						}
-						else
-							std::cout << "This skill is a passsive." << std::endl;
+						else {
+							logstr[5] = "This skill is a passsive";
+						}
 						break;
-					default: std::cout << select << "?" << std::endl; break;
+					default: logstr[5] = "bug?"; break;
 					}
 				}
 				else {
 					switch (select) {
-					case 1: Attack(playerAttackDmg); std::cout << "player Attack." << std::endl; playerTurn = false; break;
+					case 1: Attack(playerAttackDmg); logstr[5] = "Player Attack"; playerTurn = false; break;
 					case 2:
-						if (playerTeamSP < player.GetC2().GetSkill(1).sp)
-							std::cout << "Not enough sp." << std::endl;
+						if (playerTeamSP < player.GetC2().GetSkill(1).sp) {
+							logstr[5] = "Not enough sp";
+						}
 						else if (player.GetC2().GetSkill(1).type != "passive") {
 							SkillEffect(player.GetC2().GetSkill(1));
+							logstr[5] = "Player use " + player.GetC2().GetSkill(1).name;
 							playerTurn = false;
 						}
-						else
-							std::cout << "This skill is a passsive." << std::endl;
+						else {
+							logstr[5] = "This skill is a passsive";
+						}
 						break;
 					case 3:
-						if (playerTeamSP < player.GetC2().GetSkill(2).sp)
-							std::cout << "Not enough sp." << std::endl;
+						if (playerTeamSP < player.GetC2().GetSkill(2).sp) {
+							logstr[5] = "Not enough sp";
+						}
 						else if (player.GetC2().GetSkill(2).type != "passive") {
 							SkillEffect(player.GetC2().GetSkill(2));
+							logstr[5] = "Player use " + player.GetC2().GetSkill(2).name;
 							playerTurn = false;
 						}
-						else
-							std::cout << "This skill is a passsive." << std::endl;
+						else {
+							logstr[5] = "This skill is a passsive";
+						}
 						break;
-					default: std::cout << select << "?" << std::endl; break;
+					default: logstr[5] = "bug?"; break;
 					}
 				}
+			}
+
+			switch (select) {
+			case 1: bsSprite.setPosition(sf::Vector2f(408.f, 552.f - 48.f)); break;
+			case 2: bsSprite.setPosition(sf::Vector2f(536.f, 552.f - 48.f)); break;
+			case 3: bsSprite.setPosition(sf::Vector2f(664.f, 552.f - 48.f)); break;
+			case 4: bsSprite.setPosition(sf::Vector2f(472.f, 552.f)); break;
+			case 5: bsSprite.setPosition(sf::Vector2f(600.f, 552.f)); break;
 			}
 		}
 		else {
 			//Enemy Turn
-			std::cout << "Enemy turn" << std::endl;
+			logstr[5] = "Enemy turn";
+
+			//Log
+			if (tempstr != logstr[5]) {
+				logstr[0] = logstr[1];
+				logstr[1] = logstr[2];
+				logstr[2] = logstr[3];
+				logstr[3] = logstr[4];
+				logstr[4] = logstr[5];
+				tempstr = logstr[5];
+
+				log.setString(logstr[0] + "\n"
+					+ logstr[1] + "\n"
+					+ logstr[2] + "\n"
+					+ logstr[3] + "\n"
+					+ logstr[4] + "\n");
+			}
 
 			switch (enemyNumber) {
 			case 1:
@@ -250,21 +481,22 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 
 					if(enemy[0].GetC().GetSkill(1).type == "heal" && (enemyTeamHP < (enemyTeamHPMax / 2))) {
 						SkillEffect(enemy[0].GetC().GetSkill(1));
+						logstr[5] = "Enemy use " + enemy[0].GetC().GetSkill(1).name;
 					}
 					else if ((enemy[0].GetC().GetSkill(1).type == "buff" && enemyStatus == "normal") ||
 						(enemy[0].GetC().GetSkill(1).type == "damage")) {
 						SkillEffect(enemy[0].GetC().GetSkill(1));
+						logstr[5] = "Enemy use " + enemy[0].GetC().GetSkill(1).name;
 					}
 					else {
 						Attack(enemyAttackDmg);
+						logstr[5] = "Enemy attack";
 					}
-
-					std::cout << "Enemy use skill 1" << std::endl;
 				}
 				else {
 					useEnemyAttack = true;
 					Attack(enemyAttackDmg);
-					std::cout << "Enemy attack" << std::endl;
+					logstr[5] = "Enemy attack";
 				}
 
 				break;
@@ -277,24 +509,26 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 
 					if (enemy[0].GetC().GetSkill(1).type == "heal" && (enemyTeamHP < (enemyTeamHPMax / 2.5))) {
 						SkillEffect(enemy[0].GetC().GetSkill(1));
+						logstr[5] = "Enemy use " + enemy[0].GetC().GetSkill(1).name;
 					}
 					else if (enemy[1].GetC().GetSkill(1).type == "heal" && (enemyTeamHP < (enemyTeamHPMax / 2.5))) {
 						SkillEffect(enemy[1].GetC().GetSkill(1));
+						logstr[5] = "Enemy use " + enemy[1].GetC().GetSkill(1).name;
 					}
 					else if ((enemy[random].GetC().GetSkill(1).type == "buff" && enemyStatus == "normal") ||
 						(enemy[random].GetC().GetSkill(1).type == "damage")) {
 						SkillEffect(enemy[random].GetC().GetSkill(1));
+						logstr[5] = "Enemy use " + enemy[random].GetC().GetSkill(1).name;
 					}
 					else {
 						Attack(enemyAttackDmg);
+						logstr[5] = "Enemy attack";
 					}
-
-					std::cout << "Enemy use skill 1" << std::endl;
 				}
 				else {
 					useEnemyAttack = true;
 					Attack(enemyAttackDmg);
-					std::cout << "Enemy attack" << std::endl;
+					logstr[5] = "Enemy attack";
 				}
 
 				break;
@@ -307,27 +541,30 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 
 					if (enemy[0].GetC().GetSkill(1).type == "heal" && (enemyTeamHP < (enemyTeamHPMax / 3))) {
 						SkillEffect(enemy[0].GetC().GetSkill(1));
+						logstr[5] = "Enemy use " + enemy[0].GetC().GetSkill(1).name;
 					}
 					else if (enemy[1].GetC().GetSkill(1).type == "heal" && (enemyTeamHP < (enemyTeamHPMax / 3))) {
 						SkillEffect(enemy[1].GetC().GetSkill(1));
+						logstr[5] = "Enemy use " + enemy[1].GetC().GetSkill(1).name;
 					}
 					else if(enemy[2].GetC().GetSkill(1).type == "heal" && (enemyTeamHP < (enemyTeamHPMax / 3))) {
 						SkillEffect(enemy[2].GetC().GetSkill(1));
+						logstr[5] = "Enemy use " + enemy[2].GetC().GetSkill(1).name;
 					}
 					else if ((enemy[random].GetC().GetSkill(1).type == "buff" && enemyStatus == "normal") ||
 						(enemy[random].GetC().GetSkill(1).type == "damage")) {
 						SkillEffect(enemy[random].GetC().GetSkill(1));
+						logstr[5] = "Enemy use " + enemy[random].GetC().GetSkill(1).name;
 					}
 					else {
 						Attack(enemyAttackDmg);
+						logstr[5] = "Enemy attack";
 					}
-
-					std::cout << "Enemy use skill 1" << std::endl;
 				}
 				else {
 					useEnemyAttack = true;
 					Attack(enemyAttackDmg);
-					std::cout << "Enemy attack" << std::endl;
+					logstr[5] = "Enemy attack";
 				}
 
 				break;
@@ -335,6 +572,22 @@ void Battle::Update(Player& player, std::vector<NPC>& enemy, std::string previou
 
 			roundStart = false;
 		}
+	}
+
+	//Log
+	if (tempstr != logstr[5]) {
+		logstr[0] = logstr[1];
+		logstr[1] = logstr[2];
+		logstr[2] = logstr[3];
+		logstr[3] = logstr[4];
+		logstr[4] = logstr[5];
+		tempstr = logstr[5];
+
+		log.setString(logstr[0] + "\n"
+					+ logstr[1] + "\n"
+					+ logstr[2] + "\n"
+					+ logstr[3] + "\n"
+					+ logstr[4] + "\n");
 	}
 }
 
@@ -344,36 +597,34 @@ void Battle::EndBattle(Player& player, std::vector<NPC>& enemy, bool& isPressed)
 		showEndBattle = true;
 
 		if (playerTeamHP <= 0) {
-			std::cout << "You Lose" << std::endl;
-			player.AddGold((int)(-player.GetGold() * 0.2));
-			std::cout << "You Lost: " << (int)(player.GetGold() * 0.2) << std::endl;
-
-			player.GetC1().SetHp((int)((playerTeamHP) * 0.75));
+			player.AddGold((int)(-player.GetGold() * 0.1));
+			endbattle.setString("You Lose\nYou Lost: " + std::to_string((int)(player.GetGold() * 0.1)) + " Gold\n");
 		}
 		else if (enemyTeamHP <= 0) {
-			std::cout << "You Win" << std::endl;
-			std::cout << "You Gain: " << std::endl;
+			std::string str1;
+			std::string str2;
+			str1 = "You Win\nYou Gain:\n";
+
+			int gold = 0;
 
 			for (int i = 0; i < enemy.size(); i++) {
+				
+
 				if (enemy[i].GetEquipInventory().size() > 1) {
 					for (int j = 1; j < enemy[i].GetEquipInventory().size(); j++) {
 						if (enemy[i].GetEquipInventory()[j].isEquip) {
 							enemy[i].GetEquipInventory()[j].isEquip = false;
 						}
 						player.GetEquipInventory().push_back(enemy[i].GetEquipInventory()[j]);
-						std::cout << enemy[i].GetEquipInventory()[j].name << std::endl;
-					}
-				}
-				if (enemy[i].GetShop().size() > 1) {
-					for (int j = 1; j < enemy[i].GetShop().size(); j++) {
-						player.GetCartInventory().push_back(enemy[i].GetShop()[j]);
-						std::cout << enemy[i].GetShop()[j].name << std::endl;
+						str2 += enemy[i].GetEquipInventory()[j].name + "\n";
 					}
 				}
 
 				player.AddGold(enemy[i].GetGold());
-				std::cout << enemy[i].GetGold() << " Gold" << std::endl;
+				gold += enemy[i].GetGold();
 			}
+
+			endbattle.setString(str1 + str2 + std::to_string(gold) + " Gold\n");
 		}
 	}
 
@@ -391,13 +642,64 @@ void Battle::EndBattle(Player& player, std::vector<NPC>& enemy, bool& isPressed)
 
 void Battle::Draw(sf::RenderWindow& window)
 {
+	window.draw(bbgSprite);
+
+	window.draw(phpbgSprite);
+	window.draw(pinfo);
+	window.draw(ehpbgSprite);
+	window.draw(einfo);
+	
+	if (playerTeamHP > 0) {
+		for (int i = 0; i < (int)((playerTeamHP * 100 / playerTeamHPMax)); i++) {
+			window.draw(phpbar[i]);
+		}
+	}
+	
+	if (enemyTeamHP > 0) {
+		for (int i = 0; i < (int)((enemyTeamHP * 100 / enemyTeamHPMax)); i++) {
+			window.draw(ehpbar[i]);
+		}
+	}
+
+	window.draw(e1Sprite);
+	window.draw(e2Sprite);
+	window.draw(e3Sprite);
+
+	window.draw(rbgSprite);
+	window.draw(roundtxt);
+
+	window.draw(s1Sprite);
+	window.draw(s1);
+	window.draw(s2Sprite);
+	window.draw(s2);
+	window.draw(s3Sprite);
+	window.draw(s3);
+	window.draw(s4Sprite);
+	window.draw(s4);
+	window.draw(s5Sprite);
+	window.draw(s5);
+
+	window.draw(lbgSprite);
+	window.draw(log);
+
+	if (showEndBattle) {
+		window.draw(ebbgSprite);
+		window.draw(endbattle);
+		bsSprite.setPosition(sf::Vector2f((width - 16.f * tileSize) / 2.f, (height - 16.f * tileSize) / 2.f));
+		bsSprite.setScale(sf::Vector2f(16.f, 16.f));
+	}
+	else {
+		bsSprite.setScale(sf::Vector2f(8.f, 3.f));
+	}
+
+	window.draw(bsSprite);
 }
 //--------------------------------------------------
 void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousState)
 {
 	startBattle = true;
 	this->previousState = previousState;
-
+	
 	roundStart = false;
 	playerTurn = true;
 	random = 0;
@@ -412,7 +714,7 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousSt
 
 	if (haveC1 && haveC2) {
 		playerTeamHPMax = player.GetC1().GetHpMax();
-		playerTeamHP = player.GetC1().GetHp();
+		playerTeamHP = player.GetC1().GetHpMax();
 		playerAttackDmg = player.GetC1().GetAttack()
 			+ player.GetC1().GetAttackEx()
 			+ player.GetC2().GetAttack()
@@ -430,7 +732,7 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousSt
 	}
 	else if (haveC1) {
 		playerTeamHPMax = player.GetC1().GetHpMax();
-		playerTeamHP = player.GetC1().GetHp();
+		playerTeamHP = player.GetC1().GetHpMax();
 		playerAttackDmg = (player.GetC1().GetAttack()
 			+ player.GetC1().GetAttackEx());
 		playerDefence = player.GetC1().GetDefence()
@@ -441,7 +743,7 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousSt
 	}
 	else if (haveC2) {
 		playerTeamHPMax = player.GetC2().GetHpMax();
-		playerTeamHP = player.GetC2().GetHp();
+		playerTeamHP = player.GetC2().GetHpMax();
 		playerAttackDmg = (player.GetC2().GetAttack()
 			+ player.GetC2().GetAttackEx());
 		playerDefence = player.GetC2().GetDefence()
@@ -465,6 +767,12 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousSt
 	ptemp4 = 0;
 	ptemp5 = 0;
 
+	s1.setString("Attack");
+	s2.setString(player.GetC1().GetSkill(1).name);
+	s3.setString(player.GetC1().GetSkill(2).name);
+	s4.setString(player.GetC2().GetSkill(1).name);
+	s5.setString(player.GetC2().GetSkill(2).name);
+
 	enemyNumber = (int)enemy.size();
 
 	enemyStatus = "normal";
@@ -472,7 +780,7 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousSt
 	switch (enemyNumber) {
 	case 1:
 		enemyTeamHPMax = enemy[0].GetC().GetHpMax();
-		enemyTeamHP = enemy[0].GetC().GetHp();
+		enemyTeamHP = enemy[0].GetC().GetHpMax();
 		enemyAttackDmg = enemy[0].GetC().GetAttack();
 		enemyDefence = enemy[0].GetC().GetDefence();
 		enemyOSV = enemy[0].GetC().GetObservation();
@@ -481,7 +789,7 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousSt
 		break;
 	case 2:	
 		enemyTeamHPMax = enemy[0].GetC().GetHpMax() + enemy[1].GetC().GetHpMax();
-		enemyTeamHP = enemy[0].GetC().GetHp() + enemy[1].GetC().GetHp();
+		enemyTeamHP = enemy[0].GetC().GetHpMax() + enemy[1].GetC().GetHpMax();
 		enemyAttackDmg = (int)((enemy[0].GetC().GetAttack() + enemy[0].GetC().GetAttackEx() +
 			enemy[1].GetC().GetAttack() + enemy[1].GetC().GetAttackEx()) * 0.75);
 		enemyDefence = (int)((enemy[0].GetC().GetDefence() + enemy[0].GetC().GetDefenceEx() +
@@ -492,7 +800,7 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousSt
 		break;
 	case 3:	
 		enemyTeamHPMax = enemy[0].GetC().GetHpMax() + enemy[1].GetC().GetHpMax() + enemy[2].GetC().GetHpMax();
-		enemyTeamHP = enemy[0].GetC().GetHp() + enemy[1].GetC().GetHp() + enemy[2].GetC().GetHp();
+		enemyTeamHP = enemy[0].GetC().GetHpMax() + enemy[1].GetC().GetHpMax() + enemy[2].GetC().GetHpMax();
 		enemyAttackDmg = (int)((enemy[0].GetC().GetAttack() + enemy[0].GetC().GetAttackEx() +
 			enemy[1].GetC().GetAttack() + enemy[1].GetC().GetAttackEx() +
 			enemy[2].GetC().GetAttack() + enemy[2].GetC().GetAttackEx()) * 0.58);
@@ -522,6 +830,61 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousSt
 
 	useEnemyAttack = false;
 	
+	//------------------------------------------
+	//sprites
+	e1TextureName = "";
+	e2TextureName = "";
+	e3TextureName = "";
+
+	switch (enemyNumber) {
+	case 1:	e1TextureName = enemy[0].GetTextureName(); break;
+	case 2: e1TextureName = enemy[0].GetTextureName(); e2TextureName = enemy[1].GetTextureName(); break;
+	case 3: e1TextureName = enemy[0].GetTextureName(); e2TextureName = enemy[1].GetTextureName(); e3TextureName = enemy[2].GetTextureName(); break;
+	}
+
+	if (e1Texture.loadFromFile(e1TextureName)) {
+		std::cout << "e1Texture texture loaded" << std::endl;
+		e1Sprite.setTexture(e1Texture);
+
+		e1Sprite.setPosition(sf::Vector2f(width / 2.f - 4 * tileSize, height / 2.f - 50.f));
+		e1Sprite.setScale(sf::Vector2f(8.f, 8.f));
+	}
+	else {
+		std::cout << "e1Texture texture failed to load" << std::endl;
+	}
+
+	if (e2Texture.loadFromFile(e2TextureName)) {
+		std::cout << "e2Texture texture loaded" << std::endl;
+		e2Sprite.setTexture(e2Texture);
+
+		e2Sprite.setPosition(sf::Vector2f(width / 2.f - 4 * tileSize - 200.f, height / 2.f - 100.f));
+		e2Sprite.setScale(sf::Vector2f(8.f, 8.f));
+	}
+	else {
+		std::cout << "e2Texture texture failed to load" << std::endl;
+	}
+
+	if (e3Texture.loadFromFile(e3TextureName)) {
+		std::cout << "e3Texture texture loaded" << std::endl;
+		e3Sprite.setTexture(e3Texture);
+
+		e3Sprite.setPosition(sf::Vector2f(width / 2.f - 4 * tileSize + 200.f, height / 2.f - 100.f));
+		e3Sprite.setScale(sf::Vector2f(8.f, 8.f));
+	}
+	else {
+		std::cout << "e3Texture texture failed to load" << std::endl;
+	}
+	//log
+	logstr.clear();
+
+	for (int i = 0; i < 6; i++) {
+		std::string logstr1 = "";
+		logstr.push_back(logstr1);
+	}
+
+	logstr[5] = "Start Battle";
+	//------------------------------------------
+
 	select = 1;
 }
 
@@ -573,7 +936,7 @@ void Battle::SkillEffect(Skill skill)
 		case 7: Attack(playerAttackDmg + (playerOSV + playerCVS + playerKLG) * 1.5); playerTeamSP -= 3; break;
 		case 8: playerTeamHP += (playerOSV + playerCVS + playerKLG) * 2; if (playerTeamHP > playerTeamHPMax) playerTeamHP = playerTeamHPMax; playerTeamSP -= 6; break;
 		case 9: Attack(playerAttackDmg + (playerOSV + playerCVS + playerKLG) * 2.5); playerTeamSP -= 4; break;
-		default: Attack(playerAttackDmg); break;
+		default: Attack(playerAttackDmg); logstr[5] = "No skill, attack anyway"; break;
 		}
 	}
 	else {
@@ -587,8 +950,24 @@ void Battle::SkillEffect(Skill skill)
 		case 7: Attack(enemyAttackDmg + (enemyOSV + enemyCVS + enemyKLG) * 1.5); break;
 		case 8: enemyTeamHP += (enemyOSV + enemyCVS + enemyKLG) * 2; if (enemyTeamHP > enemyTeamHPMax) enemyTeamHP = enemyTeamHPMax; break;
 		case 9: Attack(enemyAttackDmg + (enemyOSV + enemyCVS + enemyKLG) * 2.5); break;
-		default: Attack(enemyAttackDmg); break;
+		default: Attack(enemyAttackDmg); logstr[5] = "No skill, attack anyway"; break;
 		}
+	}
+
+	//Log
+	if (tempstr != logstr[5]) {
+		logstr[0] = logstr[1];
+		logstr[1] = logstr[2];
+		logstr[2] = logstr[3];
+		logstr[3] = logstr[4];
+		logstr[4] = logstr[5];
+		tempstr = logstr[5];
+
+		log.setString(logstr[0] + "\n"
+			+ logstr[1] + "\n"
+			+ logstr[2] + "\n"
+			+ logstr[3] + "\n"
+			+ logstr[4] + "\n");
 	}
 }
 

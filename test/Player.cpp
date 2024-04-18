@@ -560,7 +560,7 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 				result = RandomEvent();
 			}
 
-			switch (result) {
+			switch (3) {
 			case 1: Reward(8); roll = false; passEvent = true; break;
 			case 2: Reward(9); roll = false; passEvent = true; break;
 			case 3:

@@ -42,7 +42,9 @@ void NPC::Load(Location& location)
 
 	if (texture.loadFromFile(textureName)) {
 		std::cout << "Texture: " << textureName << " loaded" << std::endl;
+
 		sprite.setTexture(texture);
+		sprite.setScale(sf::Vector2f(scale, scale));
 		sprite.setPosition(sf::Vector2f(tilePositionX, tilePositionY));
 	}
 	else {
@@ -161,6 +163,11 @@ std::string NPC::GetDialogue()
 void NPC::SetDialogue(std::string dialogue)
 {
 	this->dialogue = dialogue;
+}
+
+std::string NPC::GetTextureName()
+{
+	return textureName;
 }
 
 int NPC::GetPositionX()
