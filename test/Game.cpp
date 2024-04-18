@@ -148,7 +148,7 @@ void Game::Update()
             this->player->TalkState(CheckNPC(), locationList[mapNumber], previousState, isPressed);
         }
         else if (this->player->GetPlayerState() == "EndGame") {
-            this->player->EndGame();
+            this->player->EndGame(gameState, isPressed);
         }
     }
     

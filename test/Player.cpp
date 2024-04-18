@@ -79,7 +79,7 @@ Player::Player(Character& c1, Character& c2, float width, float height) :c1(c1),
 	talkCount = 0;
 
 	//End
-	goalGold = 25000;
+	goalGold = 10000;
 
 	//sprites
 	tbgTextureName = "Textures/test01.png";
@@ -94,6 +94,10 @@ Player::Player(Character& c1, Character& c2, float width, float height) :c1(c1),
 
 	trbgTextureName = "Textures/test01.png";
 	trwbgTextureName = "Textures/test02.png";
+
+	end1TextureName = "Textures/test02.png";
+	end2TextureName = "Textures/test02.png";
+	end3TextureName = "Textures/test02.png";
 }
 
 Player::~Player()
@@ -256,6 +260,39 @@ void Player::Load()
 	else {
 		std::cout << "trwbgTexture failed to load" << std::endl;
 	}
+	//----------------------------------------------------------
+	if (end1Texture.loadFromFile(end1TextureName)) {
+		std::cout << "end1Texture loaded" << std::endl;
+		end1Sprite.setTexture(end1Texture);
+
+		end1Sprite.setPosition(sf::Vector2f(0.f, 0.f));
+		end1Sprite.setScale(sf::Vector2f(50.f, 37.5f));
+	}
+	else {
+		std::cout << "end1Texture failed to load" << std::endl;
+	}
+
+	if (end2Texture.loadFromFile(end2TextureName)) {
+		std::cout << "end2Texture loaded" << std::endl;
+		end2Sprite.setTexture(end2Texture);
+
+		end2Sprite.setPosition(sf::Vector2f(0.f, 0.f));
+		end2Sprite.setScale(sf::Vector2f(50.f, 37.5f));
+	}
+	else {
+		std::cout << "end2Texture failed to load" << std::endl;
+	}
+
+	if (end3Texture.loadFromFile(end3TextureName)) {
+		std::cout << "end3Texture loaded" << std::endl;
+		end3Sprite.setTexture(end3Texture);
+
+		end3Sprite.setPosition(sf::Vector2f(0.f, 0.f));
+		end3Sprite.setScale(sf::Vector2f(50.f, 37.5f));
+	}
+	else {
+		std::cout << "end3Texture failed to load" << std::endl;
+	}
 }
 
 void Player::SetUp(Location location)
@@ -290,7 +327,7 @@ void Player::NormalState(sf::View& view, bool& isPressed)
 	sf::Vector2f center(pSprite.getPosition().x + (tileSize * scale / 2.f), pSprite.getPosition().y + (tileSize * scale / 2.f));
 	view.setCenter(center);
 	
-	if (day >= 30) {
+	if (day >= 30 || gold >= goalGold) {
 		SetPlayerState("EndGame");
 	}
 
@@ -605,16 +642,14 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 	}
 }
 
-void Player::EndGame()
+void Player::EndGame(std::string& gameState, bool& isPressed)
 {
-	if (gold >= goalGold) {
-		std::cout << "You get a Happy Ending!" << std::endl;
-	}
-	else if (gold < goalGold && gold > 0) {
-		std::cout << "You get a Normal Ending!" << std::endl;
-	}
-	else {
-		std::cout << "You get a Bad Ending!" << std::endl;
+	if (isPressed) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) ||
+			sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+			SetPlayerState("Normal");
+			gameState = "MainMenu";
+		}
 	}
 }
 
@@ -679,6 +714,17 @@ void Player::DrawInterface(sf::RenderWindow& window)
 			window.draw(trbgSprite);
 			window.draw(trwbgSprite);
 			window.draw(dia);
+		}
+	}
+	else if (playerState == "EndGame") {
+		if (gold >= goalGold) {
+			window.draw(end1Sprite);
+		}
+		else if (gold < goalGold && gold > 0) {
+			window.draw(end2Sprite);
+		}
+		else {
+			window.draw(end3Sprite);
 		}
 	}
 }
@@ -904,7 +950,7 @@ void Player::Reward(int type)
 	case 4: std::cout << "Get Reward from quest 4." << std::endl; equipInventory.push_back(eq[4]); AddGold(500); break;
 	case 5: std::cout << "Get Reward from quest 5." << std::endl; equipInventory.push_back(eq[5]); AddGold(1000); break;
 	case 6: std::cout << "Get Reward from quest 6." << std::endl; equipInventory.push_back(eq[6]); AddGold(1000); break;
-	case 7: std::cout << "Get Reward from quest 7." << std::endl; cartInventoryWeight += 4; equipInventory.push_back(eq[7]); AddGold(-20000); break;
+	case 7: std::cout << "Get Reward from quest 7." << std::endl; cartInventoryWeight += 4; equipInventory.push_back(eq[7]); AddGold(-5000); break;
 	case 8:	std::cout << "Recieve gold." << std::endl; AddGold(50); break;
 	case 9:	std::cout << "Lost gold." << std::endl; AddGold(-50); if (gold < 0) gold = 0; break;
 	case 10: std::cout << "Get Trade Reward." << std::endl; skillList.push_back(sk[6]); break;

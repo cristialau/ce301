@@ -60,6 +60,6 @@ id = 7
 textureName = none
 name = Greedy
 ownerName = L7
-description = Give me money. 20000 gold is enough.
+description = Give me money. 5000 gold is enough.
 reward = 7
 ----------------------------------------------

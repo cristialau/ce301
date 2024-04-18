@@ -141,6 +141,16 @@ private:
 	sf::Texture trwbgTexture;
 	sf::Sprite trwbgSprite;
 
+	std::string end1TextureName;
+	sf::Texture end1Texture;
+	sf::Sprite end1Sprite;
+	std::string end2TextureName;
+	sf::Texture end2Texture;
+	sf::Sprite end2Sprite;
+	std::string end3TextureName;
+	sf::Texture end3Texture;
+	sf::Sprite end3Sprite;
+
 public:
 	Player(Character& c1, Character& c2, float width, float height);
 	~Player();
@@ -153,7 +163,7 @@ public:
 	void OpenQuest(NPC& npc, Location& location, bool& isPressed);
 	void TravelState(int travelingTime, float dt, bool& isPressed);
 	
-	void EndGame();
+	void EndGame(std::string& gameState, bool& isPressed);
 	
 	void Draw(sf::RenderWindow& window);
 	void DrawInterface(sf::RenderWindow& window);
