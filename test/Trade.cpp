@@ -66,16 +66,14 @@ Trade::Trade(float width, float height)
 	temp2 = 0;
 
 	//sprites
-	tbgTextureName = "Textures/test01.png";
-	tsTextureName = "Textures/player.png";
-	gp1TextureName = "Textures/test02.png";
-	gp2TextureName = "Textures/test03.png";
-	gp3TextureName = "Textures/test04.png";
-
-	tpTextureName = "Textures/test05.png";
-	tshTextureName = "Textures/test06.png";
-	conTextureName = "Textures/test07.png";
-	chTextureName = "Textures/test08.png";
+	tbgTextureName = "Textures/trade/tradebg.png";
+	tsTextureName = "Textures/player3.png";
+	gp1TextureName = "Textures/trade/gp1.png";
+	gp2TextureName = "Textures/trade/gp2.png";
+	gp3TextureName = "Textures/trade/gp3.png";
+	tpTextureName = "Textures/trade/tp.png";
+	conTextureName = "Textures/trade/con.png";
+	chTextureName = "Textures/trade/ch.png";
 }
 
 Trade::~Trade()
@@ -118,11 +116,11 @@ void Trade::Load()
 		result.setPosition(sf::Vector2f(570.f, 480.f));
 		shopTitle.setPosition(sf::Vector2f(width / 2.f - 100.f, 50.f));
 		shopCat.setPosition(sf::Vector2f(80.f, 105.f));
-		inventoryName.setPosition(sf::Vector2f(80.f, 135.f));
+		inventoryName.setPosition(sf::Vector2f(90.f, 135.f));
 		inventoryType.setPosition(sf::Vector2f(80.f + 200.f, 135.f));
 		inventoryPrice.setPosition(sf::Vector2f(80.f + 350.f, 135.f));
 		inventoryDua.setPosition(sf::Vector2f(80.f + 500.f, 135.f));
-		shopCon.setPosition(sf::Vector2f((width - 72.f) / 2.f, 540.f));
+		shopCon.setPosition(sf::Vector2f((width - 72.f) / 2.f, 545.f));
 
 		shopCon.setString("Trade");
 	}
@@ -135,7 +133,7 @@ void Trade::Load()
 		tbgSprite.setTexture(tbgTexture);
 
 		tbgSprite.setPosition(sf::Vector2f(0.f, 0.f));
-		tbgSprite.setScale(50.f, 37.5f);
+		tbgSprite.setScale(1.f, 1.f);
 	}
 	else {
 		std::cout << "tbgTexture failed to load" << std::endl;
@@ -144,8 +142,6 @@ void Trade::Load()
 	if (tsTexture.loadFromFile(tsTextureName)) {
 		std::cout << "tsTexture loaded" << std::endl;
 		tsSprite.setTexture(tsTexture);
-
-		tsSprite.setScale(5.75f, 5.75f);
 	}
 	else {
 		std::cout << "tsTexture failed to load" << std::endl;
@@ -156,7 +152,7 @@ void Trade::Load()
 		gp1Sprite.setTexture(gp1Texture);
 
 		gp1Sprite.setPosition(sf::Vector2f(50.f, 50.f));
-		gp1Sprite.setScale(31.25f, 31.25f);
+		gp1Sprite.setScale(1.f, 1.f);
 	}
 	else {
 		std::cout << "gp1Texture failed to load" << std::endl;
@@ -167,7 +163,7 @@ void Trade::Load()
 		gp2Sprite.setTexture(gp2Texture);
 
 		gp2Sprite.setPosition(sf::Vector2f(550.f, 50.f));
-		gp2Sprite.setScale(12.5f, 31.25f);
+		gp2Sprite.setScale(1.f, 1.f);
 	}
 	else {
 		std::cout << "gp2Texture failed to load" << std::endl;
@@ -178,7 +174,7 @@ void Trade::Load()
 		gp3Sprite.setTexture(gp3Texture);
 
 		gp3Sprite.setPosition(sf::Vector2f(70.f, 70.f));
-		gp3Sprite.setScale(28.75f, 28.75f);
+		gp3Sprite.setScale(1.f, 1.f);
 	}
 	else {
 		std::cout << "gp3Texture failed to load" << std::endl;
@@ -189,21 +185,10 @@ void Trade::Load()
 		tpSprite.setTexture(tpTexture);
 
 		tpSprite.setPosition(sf::Vector2f(50.f, 50.f));
-		tpSprite.setScale(43.75f, 31.25f);
+		tpSprite.setScale(1.f, 1.f);
 	}
 	else {
 		std::cout << "tpTexture failed to load" << std::endl;
-	}
-	//-----------------------------------------------------------
-	if (tshTexture.loadFromFile(tshTextureName)) {
-		std::cout << "tshTexture loaded" << std::endl;
-		tshSprite.setTexture(tshTexture);
-
-		tshSprite.setPosition(sf::Vector2f(70.f, 100.f));
-		tshSprite.setScale(41.25f, 26.875f);
-	}
-	else {
-		std::cout << "tshTexture failed to load" << std::endl;
 	}
 	//-----------------------------------------------------------
 	if (conTexture.loadFromFile(conTextureName)) {
@@ -211,7 +196,7 @@ void Trade::Load()
 		conSprite.setTexture(conTexture);
 
 		conSprite.setPosition(sf::Vector2f((width - 112.f) / 2.f, 540.f));
-		conSprite.setScale(7.f, scale);
+		conSprite.setScale(1.f, 1.f);
 	}
 	else {
 		std::cout << "conTexture failed to load" << std::endl;
@@ -335,17 +320,17 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 			shopSelectMax = (int)player.GetCartInventory().size();
 			break;
 		case 2:
-			shopTitle.setString("Player Trolley");
+			shopTitle.setString("Player Sell");
 			
 			shopSelectMax = (int)playerTrolley.size();
 			break;
 		case 3:
-			shopTitle.setString("NPC Trolley");
+			shopTitle.setString("NPC Sell");
 
 			shopSelectMax = (int)npcTrolley.size();
 			break;
 		case 4:
-			shopTitle.setString("Merchant " + npc.GetC().GetName());
+			shopTitle.setString("Merchant " + npc.GetC().GetName() + " Shop");
 
 			shopSelectMax = (int)npc.GetShop().size();
 			break;
@@ -470,7 +455,7 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 					price -= npcTrolley[i].price;
 				}
 
-				check.setString("Profit:\t" + std::to_string(price) + "\n");
+				check.setString("\nProfit:\t" + std::to_string(price) + "\n");
 			}
 
 			if (!confirm) {
@@ -501,13 +486,13 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 					player.AddGold(price);
 
 					if (price > 0) {
-						check.setString("You gain:\t" + std::to_string(price));
+						check.setString("\nYou gain:\t" + std::to_string(price));
 					}
 					else if (price < 0) {
-						check.setString("You lost:\t" + std::to_string(price));
+						check.setString("\nYou lost:\t" + std::to_string(price));
 					}
 					else {
-						check.setString("Fair trade");
+						check.setString("\nFair trade");
 					}
 				}
 
@@ -528,7 +513,7 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 			if (!showTradingBox) {
 				showTradingBox = true;
 				
-				check.setString("There is nothing\n in trolley.");
+				check.setString("\nThere is nothing\n in trolley.");
 			}
 			
 			if (!isPressed) {
@@ -820,11 +805,12 @@ void Trade::Draw(sf::RenderWindow& window)
 		for (int i = 0; i < vElements.size(); i++) {
 			window.draw(vElements[i]);
 		}
+
+		tsSprite.setScale(5.75f, 5.75f);
 	}
 	else {
 		if (showShop) {
 			window.draw(tpSprite);
-			window.draw(tshSprite);
 			
 			window.draw(shopTitle);
 			window.draw(shopCat);
@@ -838,7 +824,7 @@ void Trade::Draw(sf::RenderWindow& window)
 		}
 
 		if (!shopSelected) {
-			tsSprite.setScale(40.f, 2.f);
+			tsSprite.setScale(10.f, 2.f);
 			if (shopSelect == shopSelectMax) {
 				tsSprite.setScale(7.f, scale);
 			}
@@ -847,7 +833,7 @@ void Trade::Draw(sf::RenderWindow& window)
 		if (showTradingBox || showConfirm) {
 			if (playerTrolley.size() > 1 || npcTrolley.size() > 1) {
 				chSprite.setPosition(sf::Vector2f(width / 2.f - 200.f, height / 2.f - 100.f));
-				chSprite.setScale(25.f, 10.f);
+				chSprite.setScale(1.f, 1.f);
 				check.setPosition(sf::Vector2f(width / 2.f - 100.f, height / 2.f - 60.f));
 
 				tsSprite.setPosition(sf::Vector2f(width / 2.f - 200.f, height / 2.f - 100.f));
@@ -855,7 +841,7 @@ void Trade::Draw(sf::RenderWindow& window)
 			}
 			else {
 				chSprite.setPosition(sf::Vector2f(width / 2.f - 120.f, height / 2.f - 80.f));
-				chSprite.setScale(15.f, 10.f);
+				chSprite.setScale(0.6f, 1.f);
 				check.setPosition(sf::Vector2f(width / 2.f - 100.f, height / 2.f - 60.f));
 
 				tsSprite.setPosition(sf::Vector2f(width / 2.f - 120.f, height / 2.f - 80.f));

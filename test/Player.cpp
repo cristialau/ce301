@@ -82,22 +82,25 @@ Player::Player(Character& c1, Character& c2, float width, float height) :c1(c1),
 	goalGold = 10000;
 
 	//sprites
-	tbgTextureName = "Textures/test01.png";
+	tsTextureName = "Textures/player2.png";
+
+	tbgTextureName = "Textures/talk/tbg.png";
+	tbgwidth = 240.f;
+	tbgheight = 100.f;
+	tbgscale = 1.5f;
 	
-	ts1TextureName = "Textures/test02.png";
-	ts2TextureName = "Textures/test03.png";
-	ts3TextureName = "Textures/test04.png";
-	tsTextureName = "Textures/test05.png";
+	ts1TextureName = "Textures/talk/button.png";
+	ts2TextureName = "Textures/talk/button.png";
+	ts3TextureName = "Textures/talk/button.png";
+	tswidth = 16.f;
+	tsheight = 16.f;
+	tsscale = 3.f;
 
-	qs1TextureName = "Textures/test02.png";
-	qs2TextureName = "Textures/test03.png";
+	trbgTextureName = "Textures/travel/trbg.png";
 
-	trbgTextureName = "Textures/test01.png";
-	trwbgTextureName = "Textures/test02.png";
-
-	end1TextureName = "Textures/test02.png";
-	end2TextureName = "Textures/test02.png";
-	end3TextureName = "Textures/test02.png";
+	end1TextureName = "Textures/end/end1.png";
+	end2TextureName = "Textures/end/end2.png";
+	end3TextureName = "Textures/end/end3.png";
 }
 
 Player::~Player()
@@ -146,7 +149,7 @@ void Player::Load()
 		finish.setCharacterSize(24);
 		dia.setCharacterSize(20);
 
-		dia.setPosition(sf::Vector2f((width - (tileSize * 12.f)) / 2.f, height - 95.f));
+		dia.setPosition(sf::Vector2f((width - tbgwidth * tbgscale) / 2.f + 20.f, height - tbgheight * tbgscale + 15.f));
 
 		cancel.setString("Cancel");
 		trade.setString("Trade");
@@ -171,8 +174,8 @@ void Player::Load()
 		std::cout << "tbgTexture loaded" << std::endl;
 		tbgSprite.setTexture(tbgTexture);
 
-		tbgSprite.setPosition(sf::Vector2f((width - (tileSize * 15.f)) / 2.f, height - 100.f));
-		tbgSprite.setScale(sf::Vector2f(15.f, 6.25f));
+		tbgSprite.setPosition(sf::Vector2f((width - tbgwidth * tbgscale) / 2.f, height - tbgheight * tbgscale));
+		tbgSprite.setScale(sf::Vector2f(tbgscale, tbgscale));
 	}
 	else {
 		std::cout << "tbgTexture failed to load" << std::endl;
@@ -182,8 +185,7 @@ void Player::Load()
 		std::cout << "tsTexture loaded" << std::endl;
 		tsSprite.setTexture(tsTexture);
 
-		tsSprite.setPosition(sf::Vector2f(0.f, 0.f));
-		tsSprite.setScale(sf::Vector2f(5.f, 2.f));
+		tsSprite.setScale(sf::Vector2f(tsscale * 2.f, tsscale));
 	}
 	else {
 		std::cout << "tsTexture failed to load" << std::endl;
@@ -193,7 +195,7 @@ void Player::Load()
 		std::cout << "ts1Texture loaded" << std::endl;
 		ts1Sprite.setTexture(ts1Texture);
 
-		ts1Sprite.setScale(sf::Vector2f(5.f, 2.f));
+		ts1Sprite.setScale(sf::Vector2f(tsscale * 2.f, tsscale));
 	}
 	else {
 		std::cout << "ts1Texture failed to load" << std::endl;
@@ -203,7 +205,7 @@ void Player::Load()
 		std::cout << "ts2Texture loaded" << std::endl;
 		ts2Sprite.setTexture(ts2Texture);
 
-		ts2Sprite.setScale(sf::Vector2f(5.f, 2.f));
+		ts2Sprite.setScale(sf::Vector2f(tsscale * 2.f, tsscale));
 	}
 	else {
 		std::cout << "ts2Texture failed to load" << std::endl;
@@ -213,30 +215,10 @@ void Player::Load()
 		std::cout << "ts3Texture loaded" << std::endl;
 		ts3Sprite.setTexture(ts3Texture);
 
-		ts3Sprite.setScale(sf::Vector2f(5.f, 2.f));
+		ts3Sprite.setScale(sf::Vector2f(tsscale * 2.f, tsscale));
 	}
 	else {
 		std::cout << "ts3Texture failed to load" << std::endl;
-	}
-	//----------------------------------------------------------
-	if (qs1Texture.loadFromFile(qs1TextureName)) {
-		std::cout << "qs1Texture loaded" << std::endl;
-		qs1Sprite.setTexture(qs1Texture);
-
-		qs1Sprite.setScale(sf::Vector2f(5.f, 2.f));
-	}
-	else {
-		std::cout << "qs1Texture failed to load" << std::endl;
-	}
-
-	if (qs2Texture.loadFromFile(qs2TextureName)) {
-		std::cout << "qs2Texture loaded" << std::endl;
-		qs2Sprite.setTexture(qs2Texture);
-
-		qs2Sprite.setScale(sf::Vector2f(5.f, 2.f));
-	}
-	else {
-		std::cout << "qs2Texture failed to load" << std::endl;
 	}
 	//----------------------------------------------------------
 	if (trbgTexture.loadFromFile(trbgTextureName)) {
@@ -244,21 +226,10 @@ void Player::Load()
 		trbgSprite.setTexture(trbgTexture);
 
 		trbgSprite.setPosition(sf::Vector2f(0.f, 0.f));
-		trbgSprite.setScale(sf::Vector2f(50.f, 37.5f));
+		trbgSprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "trbgTexture failed to load" << std::endl;
-	}
-
-	if (trwbgTexture.loadFromFile(trwbgTextureName)) {
-		std::cout << "trwbgTexture loaded" << std::endl;
-		trwbgSprite.setTexture(trwbgTexture);
-
-		trwbgSprite.setPosition(sf::Vector2f((width - (tileSize * 15.f)) / 2.f, height - 100.f));
-		trwbgSprite.setScale(sf::Vector2f(15.f, 6.25f));
-	}
-	else {
-		std::cout << "trwbgTexture failed to load" << std::endl;
 	}
 	//----------------------------------------------------------
 	if (end1Texture.loadFromFile(end1TextureName)) {
@@ -266,7 +237,7 @@ void Player::Load()
 		end1Sprite.setTexture(end1Texture);
 
 		end1Sprite.setPosition(sf::Vector2f(0.f, 0.f));
-		end1Sprite.setScale(sf::Vector2f(50.f, 37.5f));
+		end1Sprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "end1Texture failed to load" << std::endl;
@@ -277,7 +248,7 @@ void Player::Load()
 		end2Sprite.setTexture(end2Texture);
 
 		end2Sprite.setPosition(sf::Vector2f(0.f, 0.f));
-		end2Sprite.setScale(sf::Vector2f(50.f, 37.5f));
+		end2Sprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "end2Texture failed to load" << std::endl;
@@ -288,7 +259,7 @@ void Player::Load()
 		end3Sprite.setTexture(end3Texture);
 
 		end3Sprite.setPosition(sf::Vector2f(0.f, 0.f));
-		end3Sprite.setScale(sf::Vector2f(50.f, 37.5f));
+		end3Sprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "end3Texture failed to load" << std::endl;
@@ -406,23 +377,6 @@ void Player::TalkState(NPC& npc, Location& location, std::string previousState, 
 					talkSelected = true;
 				}
 			}
-
-			switch (talkSelectMax) {
-			case 1: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); break;
-			case 2:
-				switch (talkSelect) {
-				case 1: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); break;
-				case 2: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); break;
-				}
-				break;
-			case 3:
-				switch (talkSelect) {
-				case 1: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize * 2.f)); break;
-				case 2: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); break;
-				case 3: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize * 2.f)); break;
-				}
-				break;
-			}
 		}
 		else {
 			switch (talkSelect) {
@@ -490,16 +444,6 @@ void Player::OpenQuest(NPC& npc, Location& location, bool& isPressed)
 				}
 			}
 		}
-
-		switch (questSelectMax) {
-		case 1: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); break;
-		case 2:
-			switch (questSelect) {
-			case 1: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); break;
-			case 2: tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); break;
-			}
-			break;
-		}
 	}
 	else {
 		switch (questSelect) {
@@ -560,8 +504,6 @@ void Player::OpenQuest(NPC& npc, Location& location, bool& isPressed)
 				}
 			}
 
-			tsSprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f));
-
 			break;
 		}
 	}
@@ -579,8 +521,8 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 	if (!showTravel) {
 		showTravel = true;
 
-		dia.setString("Traveling\nDay " 
-					+ std::to_string(day));
+		dia.setString("Traveling\nDay "
+			+ std::to_string(day));
 	}
 
 	if (this->travelingTime > 0) {
@@ -667,22 +609,37 @@ void Player::DrawInterface(sf::RenderWindow& window)
 		if (!talkSelected) {
 			switch (talkSelectMax) {
 			case 1: 
-				ts1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(ts1Sprite);
-				cancel.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f));	window.draw(cancel);
+				ts1Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f))); window.draw(ts1Sprite);
+				cancel.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f + 20.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f) + 7.f)); window.draw(cancel);
+				
+				tsSprite.setPosition(ts1Sprite.getPosition());
 				break;
 			case 2:
-				ts1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); window.draw(ts1Sprite);
-				ts2Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); window.draw(ts2Sprite);
-				trade.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); window.draw(trade);
-				cancel.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); window.draw(cancel);
+				ts1Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale) / 2.f + tsheight * tsscale))); window.draw(ts1Sprite);
+				cancel.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f + 20.f, height - ((tbgheight * tbgscale) / 2.f + tsheight * tsscale) + 7.f)); window.draw(cancel);
+				ts2Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale) / 2.f))); window.draw(ts2Sprite);
+				trade.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f + 20.f, height - ((tbgheight * tbgscale) / 2.f) + 7.f)); window.draw(trade);
+				
+				switch (talkSelect) {
+				case 1: tsSprite.setPosition(ts1Sprite.getPosition()); break;
+				case 2: tsSprite.setPosition(ts2Sprite.getPosition()); break;
+				}
+
 				break;
 			case 3:
-				ts1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize * 2.f)); window.draw(ts1Sprite);
-				ts2Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(ts2Sprite);
-				ts3Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize * 2.f)); window.draw(ts3Sprite);
-				quest.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize * 2.f)); window.draw(quest);
-				trade.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(trade);
-				cancel.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize * 2.f)); window.draw(cancel);
+				ts1Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f) - (tsheight * tsscale))); window.draw(ts1Sprite);
+				cancel.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f + 20.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f) - (tsheight * tsscale) + 7.f)); window.draw(cancel);
+				ts2Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f))); window.draw(ts2Sprite);
+				trade.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f + 20.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f) + 7.f)); window.draw(trade);
+				ts3Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f) + (tsheight * tsscale))); window.draw(ts3Sprite);
+				quest.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f + 20.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f) + (tsheight * tsscale) + 7.f)); window.draw(quest);
+				
+				switch (talkSelect) {
+				case 1: tsSprite.setPosition(ts1Sprite.getPosition()); break;
+				case 2: tsSprite.setPosition(ts2Sprite.getPosition()); break;
+				case 3: tsSprite.setPosition(ts3Sprite.getPosition()); break;
+				}
+
 				break;
 			}
 		}
@@ -690,31 +647,41 @@ void Player::DrawInterface(sf::RenderWindow& window)
 		if (!questSelected) {
 			switch (questSelectMax) {
 			case 1:
-				qs1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(qs1Sprite);
-				cancel.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(cancel);
+				ts1Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f))); window.draw(ts1Sprite);
+				cancel.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f))); window.draw(cancel);
+				
+				tsSprite.setPosition(ts1Sprite.getPosition());
 				break;
 			case 2:
-				qs1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); window.draw(qs1Sprite);
-				qs2Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); window.draw(qs2Sprite);
-				finish.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f + tileSize)); window.draw(finish);
-				cancel.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f - tileSize)); window.draw(cancel);
+				ts1Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale) / 2.f))); window.draw(ts1Sprite);
+				cancel.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale) / 2.f))); window.draw(cancel);
+				ts2Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale) / 2.f + tsheight * tsscale))); window.draw(ts2Sprite);
+				finish.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale) / 2.f + tsheight * tsscale))); window.draw(finish);
+				
+				switch (questSelect) {
+				case 1: tsSprite.setPosition(ts1Sprite.getPosition()); break;
+				case 2: tsSprite.setPosition(ts2Sprite.getPosition()); break;
+				}
+
 				break;
 			}
 		}
 
 		if (showQuestAccept) {
-			qs1Sprite.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(qs1Sprite);
-			cancel.setPosition(sf::Vector2f((width + (tileSize * 15.f)) / 2.f, height - 65.f)); window.draw(cancel);
+			ts1Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f))); window.draw(ts1Sprite);
+			cancel.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f))); window.draw(cancel);
+
+			tsSprite.setPosition(ts1Sprite.getPosition());
 		}
 
 		window.draw(tsSprite);
 	}
 	else if (playerState == "Traveling") {
-		if (showTravel) {
-			window.draw(trbgSprite);
-			window.draw(trwbgSprite);
-			window.draw(dia);
-		}
+		window.draw(trbgSprite);
+		window.draw(tbgSprite);
+
+		dia.setPosition(sf::Vector2f(width / 2.f - 40.f, height - 100.f));
+		window.draw(dia);
 	}
 	else if (playerState == "EndGame") {
 		if (gold >= goalGold) {

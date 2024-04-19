@@ -25,7 +25,6 @@ private:
 	//Equipment/Shop
 	std::vector<Equipment> equipInventory;
 	std::vector<Item> shop;
-	int shopWeight;
 	std::vector<Skill> skillList;
 
 	std::string dialogue;
@@ -57,7 +56,8 @@ public:
 		Quest& quest,
 		int positionX,
 		int positionY,
-		int locationID);
+		int locationID,
+		std::string dialogue);
 	~NPC();
 	
 	void Load(Location& location);
@@ -80,8 +80,6 @@ public:
 
 	std::vector<Equipment>& GetEquipInventory();
 	std::vector<Item>& GetShop();
-	int GetShopWeight();
-	void SetShopWeight(int shopWeight);
 	std::vector<Skill>& GetSkill();
 
 	std::string GetDialogue();

@@ -99,8 +99,6 @@ public:
 	void LocationList();
 	void CharacterList();
 	void NPCList();
-
-	void SceneList();
 };
 
 #endif

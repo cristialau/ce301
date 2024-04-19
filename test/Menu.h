@@ -100,6 +100,11 @@ private:
 	float scale;
 	float width;
 	float height;
+	float spriteDis1;
+	float spriteDis2;
+	float spriteDis3;
+
+	float msscale;
 
 	std::string mbgTextureName;
 	sf::Texture mbgTexture;
@@ -125,8 +130,6 @@ private:
 	sf::Texture ms5Texture;
 	sf::Sprite ms5Sprite;
 
-	float spriteDis1;
-
 	std::string cs1TextureName;
 	sf::Texture cs1Texture;
 	sf::Sprite cs1Sprite;
@@ -134,19 +137,16 @@ private:
 	sf::Texture cs2Texture;
 	sf::Sprite cs2Sprite;
 
-	float spriteDis2;
-
-	float spriteDis3;
-
-	std::string sk1TextureName;
-	sf::Texture sk1Texture;
-	sf::Sprite sk1Sprite;
 	std::string skdTextureName;
 	sf::Texture skdTexture;
 	sf::Sprite skdSprite;
 	std::string skddTextureName;
 	sf::Texture skddTexture;
 	sf::Sprite skddSprite;
+
+	std::string skbgTextureName;
+	sf::Texture skbgTexture;
+	sf::Sprite skbgSprite;
 
 	std::string wmbgTextureName;
 	sf::Texture wmbgTexture;
@@ -166,14 +166,6 @@ private:
 	sf::Sprite wm6Sprite;
 	sf::Texture wm7Texture;
 	sf::Sprite wm7Sprite;
-
-	std::string iebgTextureName;
-	sf::Texture iebgTexture;
-	sf::Sprite iebgSprite;
-
-	std::string qbgTextureName;
-	sf::Texture qbgTexture;
-	sf::Sprite qbgSprite;
 
 	std::string tbgTextureName;
 	sf::Texture tbgTexture;
@@ -211,6 +203,12 @@ public:
 	//void OpenSetting(bool& isPressed);
 
 	bool CheckWeight(Player& player);
+
+	std::string Printinfo(Character character);
+	void SortSkill(Player player);
+	void SortEquip(Player player);
+	void SortItem(Player player);
+	void SortQuest(Player player);
 };
 
 #endif

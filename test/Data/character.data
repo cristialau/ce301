@@ -10,7 +10,7 @@ conversation = 0
 knowledge = 0
 ----------------------------------------------
 //charater[1] player1
-name = p1
+name = main
 totalHp = 200
 attack = 50
 defence = 50
@@ -20,7 +20,7 @@ conversation = 5
 knowledge = 5
 ----------------------------------------------
 //charater[2] player2
-name = p2
+name = sup
 totalHp = 10
 attack = 25
 defence = 30
@@ -169,151 +169,151 @@ observation = 20
 conversation = 20
 knowledge = 20
 ----------------------------------------------
-//charater[17] B
+//charater[17] L1V1
+name = L1V1
+totalHp = 100
+attack = 10
+defence = 10
+luck = 0
+observation = 10
+conversation = 10
+knowledge = 10
+----------------------------------------------
+//charater[18] L1V2
+name = L1V2
+totalHp = 100
+attack = 10
+defence = 10
+luck = 0
+observation = 10
+conversation = 10
+knowledge = 10
+----------------------------------------------
+//charater[19] L2V1
+name = L2V1
+totalHp = 100
+attack = 10
+defence = 10
+luck = 0
+observation = 10
+conversation = 10
+knowledge = 10
+----------------------------------------------
+//charater[20] L2V2
+name = L2V2
+totalHp = 100
+attack = 10
+defence = 10
+luck = 0
+observation = 10
+conversation = 10
+knowledge = 10
+----------------------------------------------
+//charater[21] L3V1
+name = L3V1
+totalHp = 100
+attack = 10
+defence = 10
+luck = 0
+observation = 10
+conversation = 10
+knowledge = 10
+----------------------------------------------
+//charater[22] L3V2
+name = L3V2
+totalHp = 100
+attack = 10
+defence = 10
+luck = 0
+observation = 10
+conversation = 10
+knowledge = 10
+----------------------------------------------
+//charater[23] L4V1
+name = L4V1
+totalHp = 100
+attack = 10
+defence = 10
+luck = 0
+observation = 10
+conversation = 10
+knowledge = 10
+----------------------------------------------
+//charater[24] L4V2
+name = L4V2
+totalHp = 100
+attack = 10
+defence = 10
+luck = 0
+observation = 10
+conversation = 10
+knowledge = 10
+----------------------------------------------
+//charater[25] L5V1
+name = L5V1
+totalHp = 100
+attack = 10
+defence = 10
+luck = 0
+observation = 10
+conversation = 10
+knowledge = 10
+----------------------------------------------
+//charater[26] L5V2
+name = L5V2
+totalHp = 100
+attack = 10
+defence = 10
+luck = 0
+observation = 10
+conversation = 10
+knowledge = 10
+----------------------------------------------
+//charater[27] L6V1
+name = L6V1
+totalHp = 100
+attack = 10
+defence = 10
+luck = 0
+observation = 10
+conversation = 10
+knowledge = 10
+----------------------------------------------
+//charater[28] L6V2
+name = L6V2
+totalHp = 100
+attack = 10
+defence = 10
+luck = 0
+observation = 10
+conversation = 10
+knowledge = 10
+----------------------------------------------
+//charater[29] L7V1
+name = L7V1
+totalHp = 100
+attack = 10
+defence = 10
+luck = 0
+observation = 10
+conversation = 10
+knowledge = 10
+----------------------------------------------
+//charater[30] L7V2
+name = L7V2
+totalHp = 100
+attack = 10
+defence = 10
+luck = 0
+observation = 10
+conversation = 10
+knowledge = 10
+----------------------------------------------
+//charater[31] B
 name = bandits
 totalHp = 100
 attack = 25
 defence = 15
-luck = 0
-observation = 10
-conversation = 10
-knowledge = 10
-----------------------------------------------
-//charater[18] V1
-name = V1
-totalHp = 100
-attack = 10
-defence = 10
-luck = 0
-observation = 10
-conversation = 10
-knowledge = 10
-----------------------------------------------
-//charater[19] V2
-name = V2
-totalHp = 100
-attack = 10
-defence = 10
-luck = 0
-observation = 10
-conversation = 10
-knowledge = 10
-----------------------------------------------
-//charater[20] V3
-name = V3
-totalHp = 100
-attack = 10
-defence = 10
-luck = 0
-observation = 10
-conversation = 10
-knowledge = 10
-----------------------------------------------
-//charater[21] V4
-name = V4
-totalHp = 100
-attack = 10
-defence = 10
-luck = 0
-observation = 10
-conversation = 10
-knowledge = 10
-----------------------------------------------
-//charater[22] V5
-name = V5
-totalHp = 100
-attack = 10
-defence = 10
-luck = 0
-observation = 10
-conversation = 10
-knowledge = 10
-----------------------------------------------
-//charater[23] V6
-name = V6
-totalHp = 100
-attack = 10
-defence = 10
-luck = 0
-observation = 10
-conversation = 10
-knowledge = 10
-----------------------------------------------
-//charater[24] V7
-name = V7
-totalHp = 100
-attack = 10
-defence = 10
-luck = 0
-observation = 10
-conversation = 10
-knowledge = 10
-----------------------------------------------
-//charater[25] V8
-name = V8
-totalHp = 100
-attack = 10
-defence = 10
-luck = 0
-observation = 10
-conversation = 10
-knowledge = 10
-----------------------------------------------
-//charater[26] V9
-name = V9
-totalHp = 100
-attack = 10
-defence = 10
-luck = 0
-observation = 10
-conversation = 10
-knowledge = 10
-----------------------------------------------
-//charater[27] V10
-name = V10
-totalHp = 100
-attack = 10
-defence = 10
-luck = 0
-observation = 10
-conversation = 10
-knowledge = 10
-----------------------------------------------
-//charater[28] V11
-name = V11
-totalHp = 100
-attack = 10
-defence = 10
-luck = 0
-observation = 10
-conversation = 10
-knowledge = 10
-----------------------------------------------
-//charater[29] V12
-name = V12
-totalHp = 100
-attack = 10
-defence = 10
-luck = 0
-observation = 10
-conversation = 10
-knowledge = 10
-----------------------------------------------
-//charater[30] V13
-name = V13
-totalHp = 100
-attack = 10
-defence = 10
-luck = 0
-observation = 10
-conversation = 10
-knowledge = 10
-----------------------------------------------
-//charater[31] V14
-name = V14
-totalHp = 100
-attack = 10
-defence = 10
 luck = 0
 observation = 10
 conversation = 10

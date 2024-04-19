@@ -16,10 +16,10 @@ MainMenu::MainMenu(float width, float height)
 	mMSpritePositionX = (width - (tileSize * 7.f)) / 2.f;
 	mMTextPositionX = (width - (tileSize * 3.5f)) / 2.f;
 
-	bgTextureName = "Textures/test01.png";
-	mms1TextureName = "Textures/test02.png";
-	mms2TextureName = "Textures/test02.png";
-	mmsTextureName = "Textures/test03.png";
+	bgTextureName = "Textures/mainmenu/bg.png";
+	mms1TextureName = "Textures/mainmenu/button.png";
+	mms2TextureName = "Textures/mainmenu/button.png";
+	mmsTextureName = "Textures/player2.png";
 
 	/*
 	//load
@@ -59,7 +59,7 @@ void MainMenu::Load()
 		bgSprite.setTexture(bgTexture);
 
 		bgSprite.setPosition(sf::Vector2f(0.f, 0.f));
-		bgSprite.setScale(sf::Vector2f(50.f, 37.5f));
+		bgSprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "MainmenuBG texture failed to load" << std::endl;

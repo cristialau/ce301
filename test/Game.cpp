@@ -63,8 +63,6 @@ void Game::InitGame()
     CharacterList();
     NPCList();
 
-    SceneList();
-
     this->mainMenu = new MainMenu(windowWidth, windowHeight);
     this->player = new Player(characterList[1], characterList[2], windowWidth, windowHeight);
     this->player->Initialize(itemList, equipmentList, skillList, questList[0]);
@@ -233,18 +231,32 @@ void Game::Status()
     //in debt
     if (this->player->InDebt()) {
         for (int i = 1; i < itemList.size(); i++) {
-            itemList[i].penalty = 0.9;
+            itemList[i].penalty = 0.9f;
         }
         for (int i = 1; i < equipmentList.size(); i++) {
-            equipmentList[i].penalty = 0.85;
+            equipmentList[i].penalty = 0.85f;
+        }
+
+        for (int i = 1; i < this->player->GetCartInventory().size(); i++) {
+            this->player->GetCartInventory()[i].penalty = 0.9f;
+        }
+        for (int i = 1; i < this->player->GetEquipInventory().size(); i++) {
+            this->player->GetEquipInventory()[i].penalty = 0.85f;
         }
     }
     else {
         for (int i = 1; i < itemList.size(); i++) {
-            itemList[i].penalty = 1;
+            itemList[i].penalty = 1.f;
         }
         for (int i = 1; i < equipmentList.size(); i++) {
-            equipmentList[i].penalty = 1;
+            equipmentList[i].penalty = 1.f;
+        }
+
+        for (int i = 1; i < this->player->GetCartInventory().size(); i++) {
+            this->player->GetCartInventory()[i].penalty = 1.f;
+        }
+        for (int i = 1; i < this->player->GetEquipInventory().size(); i++) {
+            this->player->GetEquipInventory()[i].penalty = 1.f;
         }
     }
     //3 days change once
@@ -659,9 +671,9 @@ NPC& Game::CheckNPC()
 void Game::CheckEnemy()
 {
     if (enemyList.empty()) {
-        NPC npc1(characterList[17], "Textures/npc.png", "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
-        NPC npc2(characterList[17], "Textures/npc.png", "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
-        NPC npc3(characterList[17], "Textures/npc.png", "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0);
+        NPC npc1(characterList[31], "Textures/npcs/b.png", "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0, "none");
+        NPC npc2(characterList[31], "Textures/npcs/b.png", "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0, "none");
+        NPC npc3(characterList[31], "Textures/npcs/b.png", "Bandit", RandomInt(100), 0, questList[0], 0, 0, 0, "none");
 
         int random = 0;
         npc1.GetC().SetSkill(1, skillList[RandomInt(15)]);
@@ -1100,6 +1112,7 @@ void Game::NPCList()
         int locationID = 0;
         int i = 0;
         int j = 0;
+        std::string dialogue;
 
         while (std::getline(ifNPC, line)) {
             if (line.find("textureName =") != std::string::npos) {
@@ -1123,15 +1136,18 @@ void Game::NPCList()
             else if (line.find("locationID =") != std::string::npos) {
                 locationID = std::stoi(line.substr(line.find("=") + 2));
             }
+            if (line.find("dialogue =") != std::string::npos) {
+                dialogue = line.substr(line.find("=") + 2);
+            }
             else if (line == "----------------------------------------------") {
                 if (i == 0) {
-                    NPC npc(characterList[i], textureName, job, gold, npcReward, questList[j], positionX, positionY, locationID);
+                    NPC npc(characterList[i], textureName, job, gold, npcReward, questList[j], positionX, positionY, locationID, dialogue);
                     npc.GetEquipInventory().push_back(equipmentList[0]);
                     npc.GetShop().push_back(itemList[0]);
                     npcList.push_back(npc);
                 }
                 else {
-                    NPC npc(characterList[i + 2], textureName, job, gold, npcReward, questList[j], positionX, positionY, locationID);
+                    NPC npc(characterList[i + 2], textureName, job, gold, npcReward, questList[j], positionX, positionY, locationID, dialogue);
                     npc.GetEquipInventory().push_back(equipmentList[0]);
                     npc.GetShop().push_back(itemList[0]);
                     npcList.push_back(npc);
@@ -1147,8 +1163,4 @@ void Game::NPCList()
     else {
         std::cout << "Error: npc.data?" << std::endl;
     }
-}
-
-void Game::SceneList()
-{
 }

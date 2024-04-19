@@ -1,7 +1,7 @@
 #include "NPC.h"
 
 NPC::NPC(Character& character, std::string textureName, std::string job, int gold, int npcReward, Quest& quest,
-	int positionX, int positionY, int locationID)
+	int positionX, int positionY, int locationID, std::string dialogue)
 	: c(character), quest(quest)
 {
 	//Character
@@ -10,7 +10,6 @@ NPC::NPC(Character& character, std::string textureName, std::string job, int gol
 	this->gold = gold;
 	passTradeGame = false;
 	this->npcReward = npcReward;
-	shopWeight = 100;
 
 	s1previousID = 0;
 	e1previousID = 0;
@@ -26,7 +25,8 @@ NPC::NPC(Character& character, std::string textureName, std::string job, int gol
 	scale = 3.f;
 	tilePositionX = (positionX - 1) * tileSize * scale;
 	tilePositionY = (positionY - 1) * tileSize * scale;
-	
+	this->dialogue = dialogue;
+
 	isSetUp = false;
 }
 
@@ -136,18 +136,6 @@ std::vector<Equipment>& NPC::GetEquipInventory()
 std::vector<Item>& NPC::GetShop()
 {
 	return shop;
-}
-
-int NPC::GetShopWeight()
-{
-	return shopWeight;
-}
-
-void NPC::SetShopWeight(int shopWeight)
-{
-	this->shopWeight = shopWeight;
-	if (this->shopWeight < 0)
-		this->shopWeight = 0;
 }
 
 std::vector<Skill>& NPC::GetSkill()

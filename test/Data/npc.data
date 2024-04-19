@@ -7,265 +7,295 @@ npcReward = 0
 positionX = 0
 positionY = 0
 locationID = 0
+dialogue = none
 ----------------------------------------------
 //npc[1] L1
-textureName = Textures/npc.png
+textureName = Textures/npcs/l1.png
 job = Lord
 gold = 1000
 npcReward = 10
 positionX = 5
 positionY = 5
 locationID = 1
+dialogue = none
 ----------------------------------------------
 //npc[2] L2
-textureName = Textures/npc.png
+textureName = Textures/npcs/l2.png
 job = Lord
 gold = 1000
 npcReward = 11
 positionX = 5
 positionY = 5
 locationID = 2
+dialogue = none
 ----------------------------------------------
 //npc[3] L3
-textureName = Textures/npc.png
+textureName = Textures/npcs/l3.png
 job = Lord
 gold = 1000
 npcReward = 12
 positionX = 5
 positionY = 5
 locationID = 3
+dialogue = none
 ----------------------------------------------
 //npc[4] L4
-textureName = Textures/npc.png
+textureName = Textures/npcs/l4.png
 job = Lord
 gold = 1000
 npcReward = 13
 positionX = 5
 positionY = 5
 locationID = 4
+dialogue = none
 ----------------------------------------------
 //npc[5] L5
-textureName = Textures/npc.png
+textureName = Textures/npcs/l5.png
 job = Lord
 gold = 1000
 npcReward = 14
 positionX = 5
 positionY = 5
 locationID = 5
+dialogue = none
 ----------------------------------------------
 //npc[6] L6
-textureName = Textures/npc.png
+textureName = Textures/npcs/l6.png
 job = Lord
 gold = 1000
 npcReward = 15
 positionX = 5
 positionY = 5
 locationID = 6
+dialogue = none
 ----------------------------------------------
 //npc[7] L7
-textureName = Textures/npc.png
+textureName = Textures/npcs/l7.png
 job = Lord
 gold = 1000
 npcReward = 16
 positionX = 5
 positionY = 5
 locationID = 7
+dialogue = none
 ----------------------------------------------
 //npc[8] M1
-textureName = Textures/npc.png
+textureName = Textures/npcs/m1.png
 job = Merchant
 gold = 500
 npcReward = 10
 positionX = 12
 positionY = 12
 locationID = 1
+dialogue = none
 ----------------------------------------------
 //npc[9] M2
-textureName = Textures/npc.png
+textureName = Textures/npcs/m2.png
 job = Merchant
 gold = 500
 npcReward = 11
 positionX = 12
 positionY = 12
 locationID = 2
+dialogue = none
 ----------------------------------------------
 //npc[10] M3
-textureName = Textures/npc.png
+textureName = Textures/npcs/m3.png
 job = Merchant
 gold = 500
 npcReward = 12
 positionX = 12
 positionY = 12
 locationID = 3
+dialogue = none
 ----------------------------------------------
 //npc[11] M4
-textureName = Textures/npc.png
+textureName = Textures/npcs/m4.png
 job = Merchant
 gold = 500
 npcReward = 13
 positionX = 12
 positionY = 12
 locationID = 4
+dialogue = none
 ----------------------------------------------
 //npc[12] M5
-textureName = Textures/npc.png
+textureName = Textures/npcs/m5.png
 job = Merchant
 gold = 500
 npcReward = 14
 positionX = 12
 positionY = 12
 locationID = 5
+dialogue = none
 ----------------------------------------------
 //npc[13] M6
-textureName = Textures/npc.png
+textureName = Textures/npcs/m6.png
 job = Merchant
 gold = 500
 npcReward = 15
 positionX = 12
 positionY = 12
 locationID = 6
+dialogue = none
 ----------------------------------------------
 //npc[14] M7
-textureName = Textures/npc.png
+textureName = Textures/npcs/m7.png
 job = Merchant
 gold = 500
 npcReward = 16
 positionX = 12
 positionY = 12
 locationID = 7
+dialogue = none
 ----------------------------------------------
-//npc[15] B
-textureName = Textures/npc.png
-job = Bandit
+//npc[15] L1V1
+textureName = Textures/npcs/v1.png
+job = Villager
 gold = 500
+npcReward = 0
+positionX = 8
+positionY = 12
+locationID = 1
+dialogue = none
+----------------------------------------------
+//npc[16] L1V2
+textureName = Textures/npcs/v2.png
+job = Villager
+gold = 500
+npcReward = 0
+positionX = 6
+positionY = 12
+locationID = 1
+dialogue = none
+----------------------------------------------
+//npc[17] L2V1
+textureName = Textures/npcs/v1.png
+job = Villager
+gold = 500
+npcReward = 0
+positionX = 8
+positionY = 12
+locationID = 2
+dialogue = none
+----------------------------------------------
+//npc[18] L2V2
+textureName = Textures/npcs/v2.png
+job = Villager
+gold = 500
+npcReward = 0
+positionX = 6
+positionY = 12
+locationID = 2
+dialogue = none
+----------------------------------------------
+//npc[19] L3V1
+textureName = Textures/npcs/v1.png
+job = Villager
+gold = 500
+npcReward = 0
+positionX = 8
+positionY = 12
+locationID = 3
+dialogue = none
+----------------------------------------------
+//npc[20] L3V2
+textureName = Textures/npcs/v2.png
+job = Villager
+gold = 500
+npcReward = 0
+positionX = 6
+positionY = 12
+locationID = 3
+dialogue = none
+----------------------------------------------
+//npc[21] L4V1
+textureName = Textures/npcs/v1.png
+job = Villager
+gold = 500
+npcReward = 0
+positionX = 8
+positionY = 12
+locationID = 4
+dialogue = none
+----------------------------------------------
+//npc[22] L4V2
+textureName = Textures/npcs/v2.png
+job = Villager
+gold = 500
+npcReward = 0
+positionX = 6
+positionY = 12
+locationID = 4
+dialogue = none
+----------------------------------------------
+//npc[23] L5V1
+textureName = Textures/npcs/v1.png
+job = Villager
+gold = 500
+npcReward = 0
+positionX = 8
+positionY = 12
+locationID = 5
+dialogue = none
+----------------------------------------------
+//npc[24] L5V2
+textureName = Textures/npcs/v2.png
+job = Villager
+gold = 500
+npcReward = 0
+positionX = 6
+positionY = 12
+locationID = 5
+dialogue = none
+----------------------------------------------
+//npc[25] L6V1
+textureName = Textures/npcs/v1.png
+job = Villager
+gold = 500
+npcReward = 0
+positionX = 8
+positionY = 12
+locationID = 6
+dialogue = none
+----------------------------------------------
+//npc[26] L6V2
+textureName = Textures/npcs/v2.png
+job = Villager
+gold = 500
+npcReward = 0
+positionX = 6
+positionY = 12
+locationID = 6
+dialogue = none
+----------------------------------------------
+//npc[27] L7V1
+textureName = Textures/npcs/v1.png
+job = Villager
+gold = 500
+npcReward = 0
+positionX = 8
+positionY = 12
+locationID = 7
+dialogue = none
+----------------------------------------------
+//npc[28] L7V2
+textureName = Textures/npcs/v2.png
+job = Villager
+gold = 500
+npcReward = 0
+positionX = 6
+positionY = 12
+locationID = 7
+dialogue = none
+----------------------------------------------
+//npc[29] B
+textureName = Textures/npcs/b.png
+job = Bandit
+gold = 100
 npcReward = 0
 positionX = 0
 positionY = 0
 locationID = 0
-----------------------------------------------
-//npc[16] V1
-textureName = Textures/npc.png
-job = Villager
-gold = 500
-npcReward = 0
-positionX = 8
-positionY = 12
-locationID = 1
-----------------------------------------------
-//npc[17] V2
-textureName = Textures/npc.png
-job = Villager
-gold = 500
-npcReward = 0
-positionX = 6
-positionY = 12
-locationID = 1
-----------------------------------------------
-//npc[18] V3
-textureName = Textures/npc.png
-job = Villager
-gold = 500
-npcReward = 0
-positionX = 8
-positionY = 12
-locationID = 2
-----------------------------------------------
-//npc[19] V4
-textureName = Textures/npc.png
-job = Villager
-gold = 500
-npcReward = 0
-positionX = 6
-positionY = 12
-locationID = 2
-----------------------------------------------
-//npc[20] V1
-textureName = Textures/npc.png
-job = Villager
-gold = 500
-npcReward = 0
-positionX = 8
-positionY = 12
-locationID = 3
-----------------------------------------------
-//npc[21] V2
-textureName = Textures/npc.png
-job = Villager
-gold = 500
-npcReward = 0
-positionX = 6
-positionY = 12
-locationID = 3
-----------------------------------------------
-//npc[22] V3
-textureName = Textures/npc.png
-job = Villager
-gold = 500
-npcReward = 0
-positionX = 8
-positionY = 12
-locationID = 4
-----------------------------------------------
-//npc[23] V4
-textureName = Textures/npc.png
-job = Villager
-gold = 500
-npcReward = 0
-positionX = 6
-positionY = 12
-locationID = 4
-----------------------------------------------
-//npc[24] V3
-textureName = Textures/npc.png
-job = Villager
-gold = 500
-npcReward = 0
-positionX = 8
-positionY = 12
-locationID = 5
-----------------------------------------------
-//npc[25] V4
-textureName = Textures/npc.png
-job = Villager
-gold = 500
-npcReward = 0
-positionX = 6
-positionY = 12
-locationID = 5
-----------------------------------------------
-//npc[26] V3
-textureName = Textures/npc.png
-job = Villager
-gold = 500
-npcReward = 0
-positionX = 8
-positionY = 12
-locationID = 6
-----------------------------------------------
-//npc[27] V4
-textureName = Textures/npc.png
-job = Villager
-gold = 500
-npcReward = 0
-positionX = 6
-positionY = 12
-locationID = 6
-----------------------------------------------
-//npc[28] V3
-textureName = Textures/npc.png
-job = Villager
-gold = 500
-npcReward = 0
-positionX = 8
-positionY = 12
-locationID = 7
-----------------------------------------------
-//npc[29] V4
-textureName = Textures/npc.png
-job = Villager
-gold = 500
-npcReward = 0
-positionX = 6
-positionY = 12
-locationID = 7
+dialogue = none
 ----------------------------------------------

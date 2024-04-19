@@ -70,22 +70,22 @@ Battle::Battle(float width, float height)
 	showEndBattle = false;
 
 	//sprite
-	bsTextureName = "Textures/player.png";
-	bbgTextureName = "Textures/test01.png";
-	rbgTextureName = "Textures/test02.png";
-	lbgTextureName = "Textures/test03.png";
-	ebbgTextureName = "Textures/test04.png";
+	bsTextureName = "Textures/player2.png";
+	bbgTextureName = "Textures/battle/bbg.png";
+	rbgTextureName = "Textures/battle/rbg.png";
+	lbgTextureName = "Textures/battle/lbg.png";
+	ebbgTextureName = "Textures/battle/ebbg.png";
 
-	s1TextureName = "Textures/test05.png";
-	s2TextureName = "Textures/test06.png";
-	s3TextureName = "Textures/test07.png";
-	s4TextureName = "Textures/test08.png";
-	s5TextureName = "Textures/test09.png";
+	s1TextureName = "Textures/battle/s.png";
+	s2TextureName = "Textures/battle/s.png";
+	s3TextureName = "Textures/battle/s.png";
+	s4TextureName = "Textures/battle/s.png";
+	s5TextureName = "Textures/battle/s.png";
 
-	phpbgTextureName = "Textures/test05.png";
-	ehpbgTextureName = "Textures/test05.png";
+	phpbgTextureName = "Textures/battle/hpbg.png";
+	ehpbgTextureName = "Textures/battle/hpbg.png";
 
-	hpTextureName = "Textures/test06.png";
+	hpTextureName = "Textures/battle/hp.png";
 }
 
 Battle::~Battle()
@@ -151,7 +151,7 @@ void Battle::Load()
 		bbgSprite.setTexture(bbgTexture);
 
 		bbgSprite.setPosition(sf::Vector2f(0.f, 0.f));
-		bbgSprite.setScale(sf::Vector2f(50.f, 37.5f));
+		bbgSprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "bbgTexture texture failed to load" << std::endl;
@@ -278,12 +278,12 @@ void Battle::Load()
 	}
 
 	for (int i = 0; i < 100; i++) {
-		hpSprite.setPosition(sf::Vector2f(10.f + 2.f * i, 55.f));
+		hpSprite.setPosition(sf::Vector2f(50.f + 2.f * i, 55.f));
 		phpbar.push_back(hpSprite);
 	}
 
 	for (int i = 0; i < 100; i++) {
-		hpSprite.setPosition(sf::Vector2f(490.f + 2.f * i, 55.f));
+		hpSprite.setPosition(sf::Vector2f(750.f - 2.f * i, 55.f));
 		ehpbar.push_back(hpSprite);
 	}
 }

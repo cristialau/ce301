@@ -114,10 +114,6 @@ private:
 	sf::Texture tpTexture;
 	sf::Sprite tpSprite;
 
-	std::string tshTextureName;
-	sf::Texture tshTexture;
-	sf::Sprite tshSprite;
-
 	std::string conTextureName;
 	sf::Texture conTexture;
 	sf::Sprite conSprite;
