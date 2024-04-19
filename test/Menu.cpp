@@ -541,7 +541,7 @@ void Menu::Draw(sf::RenderWindow& window)
 	if (showSkillDetail) {
 		window.draw(skddSprite);
 		window.draw(ask);
-		msSprite.setScale(sf::Vector2f(20.f, 15.f));
+		msSprite.setScale(sf::Vector2f(0.f, 0.f));
 	}
 	//---------------------------------------------
 	if (showEquip) {
@@ -555,7 +555,7 @@ void Menu::Draw(sf::RenderWindow& window)
 	if (showEquipDetail) {
 		window.draw(skddSprite);
 		window.draw(ask);
-		msSprite.setScale(sf::Vector2f(20.f, 15.f));
+		msSprite.setScale(sf::Vector2f(0.f, 0.f));
 	}
 	//---------------------------------------------
 	if (showLocation) {
@@ -565,7 +565,7 @@ void Menu::Draw(sf::RenderWindow& window)
 	if (showSelectedLocation) {
 		window.draw(skddSprite);
 		window.draw(ask);
-		msSprite.setScale(sf::Vector2f(20.f, 15.f));
+		msSprite.setScale(sf::Vector2f(0.f, 0.f));
 	}
 	//---------------------------------------------
 	if (showInventory) {
@@ -575,7 +575,7 @@ void Menu::Draw(sf::RenderWindow& window)
 	if (showItem || showSell) {
 		window.draw(skddSprite);
 		window.draw(ask);
-		msSprite.setScale(sf::Vector2f(20.f, 15.f));
+		msSprite.setScale(sf::Vector2f(0.f, 0.f));
 	}
 	//---------------------------------------------
 	if (showQuest) {
@@ -584,7 +584,7 @@ void Menu::Draw(sf::RenderWindow& window)
 
 	if (showQuestDetail) {
 		window.draw(skddSprite);
-		msSprite.setScale(sf::Vector2f(20.f, 15.f));
+		msSprite.setScale(sf::Vector2f(0.f, 0.f));
 	}
 	//---------------------------------------------
 	window.draw(msSprite);

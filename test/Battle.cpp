@@ -162,7 +162,7 @@ void Battle::Load()
 		rbgSprite.setTexture(rbgTexture);
 
 		rbgSprite.setPosition(sf::Vector2f((width - 7.f * tileSize) / 2.f, 0.f));
-		rbgSprite.setScale(sf::Vector2f(7.f, 3.f));
+		rbgSprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "rbgTexture texture failed to load" << std::endl;
@@ -173,7 +173,7 @@ void Battle::Load()
 		lbgSprite.setTexture(lbgTexture);
 
 		lbgSprite.setPosition(sf::Vector2f(50.f, 450.f));
-		lbgSprite.setScale(sf::Vector2f(20.f, 10.625f));
+		lbgSprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "lbgTexture texture failed to load" << std::endl;
@@ -184,7 +184,7 @@ void Battle::Load()
 		ebbgSprite.setTexture(ebbgTexture);
 
 		ebbgSprite.setPosition(sf::Vector2f((width - 16.f * tileSize) / 2.f, (height - 16.f * tileSize) / 2.f));
-		ebbgSprite.setScale(sf::Vector2f(16.f, 16.f));
+		ebbgSprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "ebbgTexture texture failed to load" << std::endl;
@@ -195,7 +195,7 @@ void Battle::Load()
 		s1Sprite.setTexture(s1Texture);
 
 		s1Sprite.setPosition(sf::Vector2f(408.f, 552.f - 48.f));
-		s1Sprite.setScale(sf::Vector2f(8.f, 3.f));
+		s1Sprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "s1Texture texture failed to load" << std::endl;
@@ -206,7 +206,7 @@ void Battle::Load()
 		s2Sprite.setTexture(s2Texture);
 
 		s2Sprite.setPosition(sf::Vector2f(536.f, 552.f - 48.f));
-		s2Sprite.setScale(sf::Vector2f(8.f, 3.f));
+		s2Sprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "s2Texture texture failed to load" << std::endl;
@@ -217,7 +217,7 @@ void Battle::Load()
 		s3Sprite.setTexture(s3Texture);
 
 		s3Sprite.setPosition(sf::Vector2f(664.f, 552.f - 48.f));
-		s3Sprite.setScale(sf::Vector2f(8.f, 3.f));
+		s3Sprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "s3Texture texture failed to load" << std::endl;
@@ -228,7 +228,7 @@ void Battle::Load()
 		s4Sprite.setTexture(s4Texture);
 
 		s4Sprite.setPosition(sf::Vector2f(472.f, 552.f));
-		s4Sprite.setScale(sf::Vector2f(8.f, 3.f));
+		s4Sprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "s4Texture texture failed to load" << std::endl;
@@ -239,7 +239,7 @@ void Battle::Load()
 		s5Sprite.setTexture(s5Texture);
 
 		s5Sprite.setPosition(sf::Vector2f(600.f, 552.f));
-		s5Sprite.setScale(sf::Vector2f(8.f, 3.f));
+		s5Sprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "s5Texture texture failed to load" << std::endl;
@@ -250,7 +250,7 @@ void Battle::Load()
 		phpbgSprite.setTexture(phpbgTexture);
 
 		phpbgSprite.setPosition(sf::Vector2f(0.f, 0.f));
-		phpbgSprite.setScale(sf::Vector2f(20.f, 6.f));
+		phpbgSprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "phpbgTexture texture failed to load" << std::endl;
@@ -261,7 +261,7 @@ void Battle::Load()
 		ehpbgSprite.setTexture(ehpbgTexture);
 
 		ehpbgSprite.setPosition(sf::Vector2f(480.f, 0.f));
-		ehpbgSprite.setScale(sf::Vector2f(20.f, 6.f));
+		ehpbgSprite.setScale(sf::Vector2f(1.f, 1.f));
 	}
 	else {
 		std::cout << "ehpbgTexture texture failed to load" << std::endl;
@@ -682,6 +682,8 @@ void Battle::Draw(sf::RenderWindow& window)
 	window.draw(lbgSprite);
 	window.draw(log);
 
+	window.draw(bsSprite);
+
 	if (showEndBattle) {
 		window.draw(ebbgSprite);
 		window.draw(endbattle);
@@ -691,8 +693,6 @@ void Battle::Draw(sf::RenderWindow& window)
 	else {
 		bsSprite.setScale(sf::Vector2f(8.f, 3.f));
 	}
-
-	window.draw(bsSprite);
 }
 //--------------------------------------------------
 void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousState)
