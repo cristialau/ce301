@@ -57,15 +57,12 @@ Menu::Menu(float width, float height)
 	//quest detail
 	showQuestDetail = false;
 
+	changeSkill = false;
 	changeEquip = false;
 
-	temp1 = 0;
 	temp2 = 0;
-	temp3 = 0;
 	temp4 = 0;
-	//temp5 = 0;
 	temp6 = 0;
-	temp7 = 0;
 	temp8 = 0;
 
 	//sprites
@@ -460,7 +457,42 @@ void Menu::Update(Player& player, std::string& gameState, std::vector<Location> 
 
 	skillListstr.clear();
 	
-	SortSkill(player);
+	if (skillSelect <= 12 * 1) {
+		if (player.GetSkill().size() < 1 + 12 * 1) {
+			for (int i = 1 + 12 * 0; i < player.GetSkill().size(); i++) {
+				skillListstr += player.GetSkill()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
+				skillListstr += player.GetSkill()[i].name + "\n";
+			}
+		}
+	}
+	else if (skillSelect <= 12 * 2) {
+		if (player.GetSkill().size() < 1 + 12 * 2) {
+			for (int i = 1 + 12 * 1; i < player.GetSkill().size(); i++) {
+				skillListstr += player.GetSkill()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
+				skillListstr += player.GetSkill()[i].name + "\n";
+			}
+		}
+	}
+	else if (skillSelect <= 12 * 3) {
+		if (player.GetSkill().size() < 1 + 12 * 3) {
+			for (int i = 1 + 12 * 2; i < player.GetSkill().size(); i++) {
+				skillListstr += player.GetSkill()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
+				skillListstr += player.GetSkill()[i].name + "\n";
+			}
+		}
+	}
 
 	skillList.setString(skillListstr);
 	//Character -> equip
@@ -473,20 +505,139 @@ void Menu::Update(Player& player, std::string& gameState, std::vector<Location> 
 
 	equipListstr.clear();
 
-	SortEquip(player);
+	if (equipSelect <= 12 * 1) {
+		if (player.GetEquipInventory().size() < 1 + 12 * 1) {
+			for (int i = 1 + 12 * 0; i < player.GetEquipInventory().size(); i++) {
+				equipListstr += player.GetEquipInventory()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
+				equipListstr += player.GetEquipInventory()[i].name + "\n";
+			}
+		}
+	}
+	else if (equipSelect <= 12 * 2) {
+		if (player.GetEquipInventory().size() < 1 + 12 * 2) {
+			for (int i = 1 + 12 * 1; i < player.GetEquipInventory().size(); i++) {
+				equipListstr += player.GetEquipInventory()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
+				equipListstr += player.GetEquipInventory()[i].name + "\n";
+			}
+		}
+	}
+	else if (equipSelect <= 12 * 3) {
+		if (player.GetEquipInventory().size() < 1 + 12 * 3) {
+			for (int i = 1 + 12 * 2; i < player.GetEquipInventory().size(); i++) {
+				equipListstr += player.GetEquipInventory()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
+				equipListstr += player.GetEquipInventory()[i].name + "\n";
+			}
+		}
+	}
 	
 	equipList.setString(equipListstr);
 	//inventory
-	auto compareFunc3 = [](const Item& obj1, const Item& obj2) {
-		return obj1.id < obj2.id;
-		};
-	std::sort(player.GetCartInventory().begin(), player.GetCartInventory().end(), compareFunc3);
-	
 	temp6 = inventorySelect % 12;
 
 	inventoryListstr.clear();
 
-	SortItem(player);
+	if (inventoryActive) {
+		auto compareFunc3 = [](const Item& obj1, const Item& obj2) {
+			return obj1.id < obj2.id;
+			};
+		std::sort(player.GetCartInventory().begin(), player.GetCartInventory().end(), compareFunc3);
+
+		int weight = 0;
+		for (int i = 1; i < player.GetCartInventory().size(); i++) {
+			weight += player.GetCartInventory()[i].weight;
+		}
+
+		if (inventorySelect <= 12 * 1) {
+			if (player.GetCartInventory().size() < 1 + 12 * 1) {
+				for (int i = 1 + 12 * 0; i < player.GetCartInventory().size(); i++) {
+					inventoryListstr += player.GetCartInventory()[i].name + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
+					inventoryListstr += player.GetCartInventory()[i].name + "\n";
+				}
+			}
+		}
+		else if (inventorySelect <= 12 * 2) {
+			if (player.GetCartInventory().size() < 1 + 12 * 2) {
+				for (int i = 1 + 12 * 1; i < player.GetCartInventory().size(); i++) {
+					inventoryListstr += player.GetCartInventory()[i].name + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
+					inventoryListstr += player.GetCartInventory()[i].name + "\n";
+				}
+			}
+		}
+		else if (inventorySelect <= 12 * 3) {
+			if (player.GetCartInventory().size() < 1 + 12 * 3) {
+				for (int i = 1 + 12 * 2; i < player.GetCartInventory().size(); i++) {
+					inventoryListstr += player.GetCartInventory()[i].name + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
+					inventoryListstr += player.GetCartInventory()[i].name + "\n";
+				}
+			}
+		}
+
+		inventoryListstr += "Weight: " + std::to_string(weight) + " / " + std::to_string(player.GetCartInventoryWeight());
+	}
+	else {
+		std::sort(player.GetEquipInventory().begin(), player.GetEquipInventory().end(), compareFunc2);
+
+		if (inventorySelect <= 12 * 1) {
+			if (player.GetEquipInventory().size() < 1 + 12 * 1) {
+				for (int i = 1 + 12 * 0; i < player.GetEquipInventory().size(); i++) {
+					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
+					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
+				}
+			}
+		}
+		else if (inventorySelect <= 12 * 2) {
+			if (player.GetEquipInventory().size() < 1 + 12 * 2) {
+				for (int i = 1 + 12 * 1; i < player.GetEquipInventory().size(); i++) {
+					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
+					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
+				}
+			}
+		}
+		else if (inventorySelect <= 12 * 3) {
+			if (player.GetEquipInventory().size() < 1 + 12 * 3) {
+				for (int i = 1 + 12 * 2; i < player.GetEquipInventory().size(); i++) {
+					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
+				}
+			}
+			else {
+				for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
+					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
+				}
+			}
+		}
+	}
 
 	inventoryList.setString(inventoryListstr);
 	//quest
@@ -499,7 +650,42 @@ void Menu::Update(Player& player, std::string& gameState, std::vector<Location> 
 
 	questListstr.clear();
 
-	SortQuest(player);
+	if (questSelect <= 12 * 1) {
+		if (player.GetQuest().size() < 1 + 12 * 1) {
+			for (int i = 1 + 12 * 0; i < player.GetQuest().size(); i++) {
+				questListstr += player.GetQuest()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
+				questListstr += player.GetQuest()[i].name + "\n";
+			}
+		}
+	}
+	else if (questSelect <= 12 * 2) {
+		if (player.GetQuest().size() < 1 + 12 * 2) {
+			for (int i = 1 + 12 * 1; i < player.GetQuest().size(); i++) {
+				questListstr += player.GetQuest()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
+				questListstr += player.GetQuest()[i].name + "\n";
+			}
+		}
+	}
+	else if (questSelect <= 12 * 3) {
+		if (player.GetQuest().size() < 1 + 12 * 3) {
+			for (int i = 1 + 12 * 2; i < player.GetQuest().size(); i++) {
+				questListstr += player.GetQuest()[i].name + "\n";
+			}
+		}
+		else {
+			for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
+				questListstr += player.GetQuest()[i].name + "\n";
+			}
+		}
+	}
 
 	questList.setString(questListstr);
 }
@@ -538,12 +724,6 @@ void Menu::Draw(sf::RenderWindow& window)
 		msSprite.setScale(sf::Vector2f(15.f, 2.f));
 	}
 
-	if (showSkillDetail) {
-		window.draw(skddSprite);
-		window.draw(ask);
-		msSprite.setScale(sf::Vector2f(0.f, 0.f));
-	}
-	//---------------------------------------------
 	if (showEquip) {
 		window.draw(skbgSprite);
 		window.draw(skdSprite);
@@ -552,7 +732,7 @@ void Menu::Draw(sf::RenderWindow& window)
 		msSprite.setScale(sf::Vector2f(15.f, 2.f));
 	}
 
-	if (showEquipDetail) {
+	if (showSkillDetail || showEquipDetail) {
 		window.draw(skddSprite);
 		window.draw(ask);
 		msSprite.setScale(sf::Vector2f(0.f, 0.f));
@@ -757,8 +937,8 @@ void Menu::OpenSkill(Player& player, bool& isPressed)
 
 void Menu::SkillEquip(Player& player, bool& isPressed)
 {
-	if (!changeEquip) {
-		changeEquip = true;
+	if (!changeSkill) {
+		changeSkill = true;
 
 		if (!player.GetSkill()[skillSelect].isEquip) {
 			if (characterActive) {
@@ -833,7 +1013,7 @@ void Menu::SkillEquip(Player& player, bool& isPressed)
 			sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 			showSkill = false;
 			showSkillDetail = false;
-			changeEquip = false;
+			changeSkill = false;
 		}
 	}
 }
@@ -1002,6 +1182,8 @@ void Menu::EquipEquip(Player& player, bool& isPressed)
 				}
 			}
 		}
+
+		characterSelect += 2;
 	}
 	
 	if (!isPressed) {
@@ -1009,11 +1191,9 @@ void Menu::EquipEquip(Player& player, bool& isPressed)
 			sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 			showEquip = false;
 			showEquipDetail = false;
-			characterSelect += 2;
 			changeEquip = false;
 		}
 	}
-	
 }
 
 void Menu::OpenWorldMap(Player& player, std::vector<Location> locationList, int& mapNumber, bool& isPressed)
@@ -1152,10 +1332,12 @@ void Menu::OpenInventory(Player& player, Location location, bool& isPressed)
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 				inventoryActive = !inventoryActive;
+				inventorySelect = 1;
 				showInventory = false;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 				inventoryActive = !inventoryActive;
+				inventorySelect = 1;
 				showInventory = false;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
@@ -1188,7 +1370,7 @@ void Menu::OpenInventory(Player& player, Location location, bool& isPressed)
 					newLine.insert(18 * i, "\n");
 				}
 
-				detail.setString("Equipment: " + player.GetEquipInventory()[inventorySelect].name + "\n"
+				detail.setString("Equipment:\t" + player.GetEquipInventory()[inventorySelect].name + "\n"
 					+ "Price: " + std::to_string(player.GetEquipInventory()[inventorySelect].price) + "\n" +
 					+ "Description:\n"
 					+ newLine);
@@ -1404,211 +1586,4 @@ std::string Menu::Printinfo(Character character)
 		+ "Equipment 3" + "\t" + character.GetEquip(3).name;
 
 	return str;
-}
-
-void Menu::SortSkill(Player player)
-{
-	if (skillSelect <= 12 * 1) {
-		if (player.GetSkill().size() < 1 + 12 * 1) {
-			for (int i = 1 + 12 * 0; i < player.GetSkill().size(); i++) {
-				skillListstr += player.GetSkill()[i].name + "\n";
-			}
-		}
-		else {
-			for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
-				skillListstr += player.GetSkill()[i].name + "\n";
-			}
-		}
-	}
-	else if (skillSelect <= 12 * 2) {
-		if (player.GetSkill().size() < 1 + 12 * 2) {
-			for (int i = 1 + 12 * 1; i < player.GetSkill().size(); i++) {
-				skillListstr += player.GetSkill()[i].name + "\n";
-			}
-		}
-		else {
-			for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
-				skillListstr += player.GetSkill()[i].name + "\n";
-			}
-		}
-	}
-	else if (skillSelect <= 12 * 3) {
-		if (player.GetSkill().size() < 1 + 12 * 3) {
-			for (int i = 1 + 12 * 2; i < player.GetSkill().size(); i++) {
-				skillListstr += player.GetSkill()[i].name + "\n";
-			}
-		}
-		else {
-			for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
-				skillListstr += player.GetSkill()[i].name + "\n";
-			}
-		}
-	}
-}
-
-void Menu::SortEquip(Player player)
-{
-	if (equipSelect <= 12 * 1) {
-		if (player.GetEquipInventory().size() < 1 + 12 * 1) {
-			for (int i = 1 + 12 * 0; i < player.GetEquipInventory().size(); i++) {
-				equipListstr += player.GetEquipInventory()[i].name + "\n";
-			}
-		}
-		else {
-			for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
-				equipListstr += player.GetEquipInventory()[i].name + "\n";
-			}
-		}
-	}
-	else if (equipSelect <= 12 * 2) {
-		if (player.GetEquipInventory().size() < 1 + 12 * 2) {
-			for (int i = 1 + 12 * 1; i < player.GetEquipInventory().size(); i++) {
-				equipListstr += player.GetEquipInventory()[i].name + "\n";
-			}
-		}
-		else {
-			for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
-				equipListstr += player.GetEquipInventory()[i].name + "\n";
-			}
-		}
-	}
-	else if (equipSelect <= 12 * 3) {
-		if (player.GetEquipInventory().size() < 1 + 12 * 3) {
-			for (int i = 1 + 12 * 2; i < player.GetEquipInventory().size(); i++) {
-				equipListstr += player.GetEquipInventory()[i].name + "\n";
-			}
-		}
-		else {
-			for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
-				equipListstr += player.GetEquipInventory()[i].name + "\n";
-			}
-		}
-	}
-}
-
-void Menu::SortItem(Player player)
-{
-	if (inventoryActive) {
-		int weight = 0;
-		for (int i = 1; i < player.GetCartInventory().size(); i++) {
-			weight += player.GetCartInventory()[i].weight;
-		}
-
-		if (inventorySelect <= 12 * 1) {
-			if (player.GetCartInventory().size() < 1 + 12 * 1) {
-				for (int i = 1 + 12 * 0; i < player.GetCartInventory().size(); i++) {
-					inventoryListstr += player.GetCartInventory()[i].name + "\n";
-				}
-			}
-			else {
-				for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
-					inventoryListstr += player.GetCartInventory()[i].name + "\n";
-				}
-			}
-		}
-		else if (inventorySelect <= 12 * 2) {
-			if (player.GetCartInventory().size() < 1 + 12 * 2) {
-				for (int i = 1 + 12 * 1; i < player.GetCartInventory().size(); i++) {
-					inventoryListstr += player.GetCartInventory()[i].name + "\n";
-				}
-			}
-			else {
-				for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
-					inventoryListstr += player.GetCartInventory()[i].name + "\n";
-				}
-			}
-		}
-		else if (inventorySelect <= 12 * 3) {
-			if (player.GetCartInventory().size() < 1 + 12 * 3) {
-				for (int i = 1 + 12 * 2; i < player.GetCartInventory().size(); i++) {
-					inventoryListstr += player.GetCartInventory()[i].name + "\n";
-				}
-			}
-			else {
-				for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
-					inventoryListstr += player.GetCartInventory()[i].name + "\n";
-				}
-			}
-		}
-
-		inventoryListstr += "Weight: " + std::to_string(weight) + " / " + std::to_string(player.GetCartInventoryWeight());
-	}
-	else {
-		if (inventorySelect <= 12 * 1) {
-			if (player.GetEquipInventory().size() < 1 + 12 * 1) {
-				for (int i = 1 + 12 * 0; i < player.GetEquipInventory().size(); i++) {
-					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
-				}
-			}
-			else {
-				for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
-					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
-				}
-			}
-		}
-		else if (inventorySelect <= 12 * 2) {
-			if (player.GetEquipInventory().size() < 1 + 12 * 2) {
-				for (int i = 1 + 12 * 1; i < player.GetEquipInventory().size(); i++) {
-					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
-				}
-			}
-			else {
-				for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
-					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
-				}
-			}
-		}
-		else if (inventorySelect <= 12 * 3) {
-			if (player.GetEquipInventory().size() < 1 + 12 * 3) {
-				for (int i = 1 + 12 * 2; i < player.GetEquipInventory().size(); i++) {
-					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
-				}
-			}
-			else {
-				for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
-					inventoryListstr += player.GetEquipInventory()[i].name + "\n";
-				}
-			}
-		}
-	}
-}
-
-void Menu::SortQuest(Player player)
-{
-	if (questSelect <= 12 * 1) {
-		if (player.GetQuest().size() < 1 + 12 * 1) {
-			for (int i = 1 + 12 * 0; i < player.GetQuest().size(); i++) {
-				questListstr += player.GetQuest()[i].name + "\n";
-			}
-		}
-		else {
-			for (int i = 1 + 12 * 0; i < 1 + 12 * 1; i++) {
-				questListstr += player.GetQuest()[i].name + "\n";
-			}
-		}
-	}
-	else if (questSelect <= 12 * 2) {
-		if (player.GetQuest().size() < 1 + 12 * 2) {
-			for (int i = 1 + 12 * 1; i < player.GetQuest().size(); i++) {
-				questListstr += player.GetQuest()[i].name + "\n";
-			}
-		}
-		else {
-			for (int i = 1 + 12 * 1; i < 1 + 12 * 2; i++) {
-				questListstr += player.GetQuest()[i].name + "\n";
-			}
-		}
-	}
-	else if (questSelect <= 12 * 3) {
-		if (player.GetQuest().size() < 1 + 12 * 3) {
-			for (int i = 1 + 12 * 2; i < player.GetQuest().size(); i++) {
-				questListstr += player.GetQuest()[i].name + "\n";
-			}
-		}
-		else {
-			for (int i = 1 + 12 * 2; i < 1 + 12 * 3; i++) {
-				questListstr += player.GetQuest()[i].name + "\n";
-			}
-		}
-	}
 }

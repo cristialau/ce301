@@ -61,15 +61,12 @@ private:
 	//quest detail
 	bool showQuestDetail;
 
+	bool changeSkill;
 	bool changeEquip;
 
-	int temp1;
 	int temp2;
-	int temp3;
 	int temp4;
-	//int temp5;
 	int temp6;
-	int temp7;
 	int temp8;
 
 	std::string newLine;
@@ -205,10 +202,6 @@ public:
 	bool CheckWeight(Player& player);
 
 	std::string Printinfo(Character character);
-	void SortSkill(Player player);
-	void SortEquip(Player player);
-	void SortItem(Player player);
-	void SortQuest(Player player);
 };
 
 #endif
