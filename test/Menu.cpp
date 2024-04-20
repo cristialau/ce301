@@ -143,6 +143,8 @@ void Menu::Load(std::vector<Location> locationList)
 		equipList.setPosition(sf::Vector2f(200.f, 121.f));
 		inventoryList.setPosition(sf::Vector2f(200.f, 121.f));
 		questList.setPosition(sf::Vector2f(200.f, 121.f));
+
+		info.setFillColor(sf::Color::Black);
 	}
 	else {
 		std::cout << "Times New Normal Regular.ttf failed to load" << std::endl;

@@ -899,6 +899,8 @@ void Trade::SetUpGamePanel(Player player, NPC npc, std::string previousState)
 	std::uniform_int_distribution<int> distr1(1, 4); // Range from 1 to 4
 	std::uniform_int_distribution<int> distr2(1, 3); // Range from 1 to 3
 
+	vElements.clear();
+
 	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < 5; i++) {
 			if (HaveLuck())
@@ -911,10 +913,10 @@ void Trade::SetUpGamePanel(Player player, NPC npc, std::string previousState)
 			ele.setCharacterSize(50);
 
 			switch (random) {
-			case 1:	gamepanel[i][j] = observation; ele.setString(observation); ele.setFillColor(sf::Color::Blue); break;
-			case 2: gamepanel[i][j] = conversation; ele.setString(conversation); ele.setFillColor(sf::Color::Red); break;
-			case 3: gamepanel[i][j] = knowledge; ele.setString(knowledge); ele.setFillColor(sf::Color::Green); break;
-			case 4: gamepanel[i][j] = luck; ele.setString(luck); ele.setFillColor(sf::Color::Yellow); break;
+			case 1:	gamepanel[j][i] = observation; ele.setString(observation); ele.setFillColor(sf::Color::Blue); break;
+			case 2: gamepanel[j][i] = conversation; ele.setString(conversation); ele.setFillColor(sf::Color::Red); break;
+			case 3: gamepanel[j][i] = knowledge; ele.setString(knowledge); ele.setFillColor(sf::Color::Green); break;
+			case 4: gamepanel[j][i] = luck; ele.setString(luck); ele.setFillColor(sf::Color::Yellow); break;
 			}
 
 			vElements.push_back(ele);
@@ -952,8 +954,9 @@ bool Trade::HaveLuck()
 {
 	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < 5; i++) {
-			if (gamepanel[i][j] == luck)
+			if (gamepanel[i][j] == luck) {
 				return true;
+			}
 		}
 	}
 	return false;
@@ -1393,6 +1396,13 @@ void Trade::PrintPanel(Player player, NPC npc)
 				+ "OSV:\t" + std::to_string(observationScore) + "\n"
 				+ "CVS:\t" + std::to_string(conversationScore) + "\n"
 				+ "KLG:\t" + std::to_string(knowledgeScore) + "\n");
+
+	for (int y = 0; y < 5; y++) {
+		for (int x = 0; x < 5; x++) {
+			std::cout << gamepanel[y][x] << " ";
+		}
+		std::cout << std::endl;
+	}
 }
 
 /*

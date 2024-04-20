@@ -149,7 +149,7 @@ void Player::Load()
 		finish.setCharacterSize(24);
 		dia.setCharacterSize(20);
 
-		dia.setPosition(sf::Vector2f((width - tbgwidth * tbgscale) / 2.f + 20.f, height - tbgheight * tbgscale + 15.f));
+		dia.setFillColor(sf::Color::Black);
 
 		cancel.setString("Cancel");
 		trade.setString("Trade");
@@ -605,6 +605,7 @@ void Player::DrawInterface(sf::RenderWindow& window)
 	if (playerState == "Talking") {
 		window.draw(tbgSprite);
 		window.draw(dia);
+		dia.setPosition(sf::Vector2f((width - tbgwidth * tbgscale) / 2.f + 20.f, height - tbgheight * tbgscale + 15.f));
 
 		if (!talkSelected) {
 			switch (talkSelectMax) {
@@ -648,15 +649,15 @@ void Player::DrawInterface(sf::RenderWindow& window)
 			switch (questSelectMax) {
 			case 1:
 				ts1Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f))); window.draw(ts1Sprite);
-				cancel.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f))); window.draw(cancel);
+				cancel.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f + 20.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f + 7.f))); window.draw(cancel);
 				
 				tsSprite.setPosition(ts1Sprite.getPosition());
 				break;
 			case 2:
-				ts1Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale) / 2.f))); window.draw(ts1Sprite);
-				cancel.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale) / 2.f))); window.draw(cancel);
-				ts2Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale) / 2.f + tsheight * tsscale))); window.draw(ts2Sprite);
-				finish.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale) / 2.f + tsheight * tsscale))); window.draw(finish);
+				ts1Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale) / 2.f + tsheight * tsscale))); window.draw(ts1Sprite);
+				cancel.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f + 20.f, height - ((tbgheight * tbgscale) / 2.f + tsheight * tsscale) + 7.f)); window.draw(cancel);
+				ts2Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale) / 2.f))); window.draw(ts2Sprite);
+				finish.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f + 20.f, height - ((tbgheight * tbgscale) / 2.f) + 7.f)); window.draw(finish);
 				
 				switch (questSelect) {
 				case 1: tsSprite.setPosition(ts1Sprite.getPosition()); break;
@@ -669,7 +670,7 @@ void Player::DrawInterface(sf::RenderWindow& window)
 
 		if (showQuestAccept) {
 			ts1Sprite.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f))); window.draw(ts1Sprite);
-			cancel.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f))); window.draw(cancel);
+			cancel.setPosition(sf::Vector2f((width + tbgwidth * tbgscale) / 2.f + 20.f, height - ((tbgheight * tbgscale + tsheight * tsscale) / 2.f) + 7.f)); window.draw(cancel);
 
 			tsSprite.setPosition(ts1Sprite.getPosition());
 		}
