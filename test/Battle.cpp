@@ -661,9 +661,20 @@ void Battle::Draw(sf::RenderWindow& window)
 		}
 	}
 
-	window.draw(e1Sprite);
-	window.draw(e2Sprite);
-	window.draw(e3Sprite);
+	switch (enemyNumber) {
+	case 1:
+		window.draw(e1Sprite);
+		break;
+	case 2:
+		window.draw(e1Sprite);
+		window.draw(e2Sprite);
+		break;
+	case 3:
+		window.draw(e1Sprite);
+		window.draw(e2Sprite);
+		window.draw(e3Sprite);
+		break;
+	}
 
 	window.draw(rbgSprite);
 	window.draw(roundtxt);
@@ -832,9 +843,9 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousSt
 	
 	//------------------------------------------
 	//sprites
-	e1TextureName = "";
-	e2TextureName = "";
-	e3TextureName = "";
+	e1TextureName.clear();
+	e2TextureName.clear();
+	e3TextureName.clear();
 
 	switch (enemyNumber) {
 	case 1:	e1TextureName = enemy[0].GetTextureName(); break;
