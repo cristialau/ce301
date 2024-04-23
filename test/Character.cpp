@@ -3,24 +3,20 @@
 Character::Character(std::string name, int hpMax, int attack, int defence,
 	int luck, int observation, int conversation, int knowledge)
 {
-	this->name = name;
-	this->hpMax = hpMax;
-	this->hp = hpMax;
-	this->attack = attack;
+	SetName(name);
+	SetHpMax(hpMax);
+	SetHp(hpMax);
+	SetAttack(attack);
 	attackEx = 0;
-	this->defence = defence;
+	SetDefence(defence);
 	defenceEx = 0;
-	this->luck = luck;
+	SetLuck(luck);
 	SetObservation(observation);
 	SetConversation(conversation);
 	SetKnowledge(knowledge);
 }
 
 Character::~Character()
-{
-}
-
-void Character::Initialize()
 {
 }
 

@@ -46,8 +46,6 @@ public:
 		int knowledge);
 	~Character();
 
-	void Initialize();
-
 	//getter setter
 	std::string GetName();
 	void SetName(std::string name);

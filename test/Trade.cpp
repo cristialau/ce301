@@ -65,6 +65,9 @@ Trade::Trade(float width, float height)
 	setUp = false;
 	temp2 = 0;
 
+	showInstru = true;
+	count = 0;
+
 	//sprites
 	tbgTextureName = "Textures/trade/tradebg.png";
 	tsTextureName = "Textures/player3.png";
@@ -74,6 +77,12 @@ Trade::Trade(float width, float height)
 	tpTextureName = "Textures/trade/tp.png";
 	conTextureName = "Textures/trade/con.png";
 	chTextureName = "Textures/trade/ch.png";
+
+	in1TextureName = "Textures/trade/in1.png";
+	in2TextureName = "Textures/trade/in2.png";
+	in3TextureName = "Textures/trade/in3.png";
+	in4TextureName = "Textures/trade/in4.png";
+	in5TextureName = "Textures/trade/in5.png";
 }
 
 Trade::~Trade()
@@ -209,6 +218,61 @@ void Trade::Load()
 	else {
 		std::cout << "chTexture failed to load" << std::endl;
 	}
+	//-----------------------------------------------------------
+	if (in1Texture.loadFromFile(in1TextureName)) {
+		std::cout << "in1Texture loaded" << std::endl;
+		in1Sprite.setTexture(in1Texture);
+
+		in1Sprite.setPosition(sf::Vector2f(0.f, 0.f));
+		in1Sprite.setScale(1.f, 1.f);
+	}
+	else {
+		std::cout << "in1Texture failed to load" << std::endl;
+	}
+
+	if (in2Texture.loadFromFile(in2TextureName)) {
+		std::cout << "in2Texture loaded" << std::endl;
+		in2Sprite.setTexture(in2Texture);
+
+		in2Sprite.setPosition(sf::Vector2f(0.f, 0.f));
+		in2Sprite.setScale(1.f, 1.f);
+	}
+	else {
+		std::cout << "in2Texture failed to load" << std::endl;
+	}
+
+	if (in3Texture.loadFromFile(in3TextureName)) {
+		std::cout << "in3Texture loaded" << std::endl;
+		in3Sprite.setTexture(in3Texture);
+
+		in3Sprite.setPosition(sf::Vector2f(0.f, 0.f));
+		in3Sprite.setScale(1.f, 1.f);
+	}
+	else {
+		std::cout << "in3Texture failed to load" << std::endl;
+	}
+
+	if (in4Texture.loadFromFile(in4TextureName)) {
+		std::cout << "in4Texture loaded" << std::endl;
+		in4Sprite.setTexture(in4Texture);
+
+		in4Sprite.setPosition(sf::Vector2f(0.f, 0.f));
+		in4Sprite.setScale(1.f, 1.f);
+	}
+	else {
+		std::cout << "in4Texture failed to load" << std::endl;
+	}
+
+	if (in5Texture.loadFromFile(in5TextureName)) {
+		std::cout << "in5Texture loaded" << std::endl;
+		in5Sprite.setTexture(in5Texture);
+
+		in5Sprite.setPosition(sf::Vector2f(0.f, 0.f));
+		in5Sprite.setScale(1.f, 1.f);
+	}
+	else {
+		std::cout << "in5Texture failed to load" << std::endl;
+	}
 }
 
 void Trade::Update(Player& player, NPC& npc, std::string previousState, Location& location, bool& isPressed)
@@ -227,73 +291,89 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, Loca
 		if (!StartTrading)
 			SetUpGamePanel(player, npc, previousState);
 
-		if (move > 0) {
+		if (showInstru) {
+			if (count > 4) {
+				showInstru = false;
+			}
+
 			if (!isPressed) {
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
-					playerGamepanel[y + 1][x] != 0) {
-					y++;
-
-					tsSprite.move(0.f, 92.f);
-
-					PrintPanel(player, npc);
-				}
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
-					playerGamepanel[y - 1][x] != 0) {
-					y--;
-
-					tsSprite.move(0.f, -92.f);
-
-					PrintPanel(player, npc);
-				}
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
-					playerGamepanel[y][x - 1] != 0) {
-					x--;
-
-					tsSprite.move(-92.f, 0.f);
-
-					PrintPanel(player, npc);
-				}
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
-					playerGamepanel[y][x + 1] != 0) {
-					x++;
-
-					tsSprite.move(92.f, 0.f);
-
-					PrintPanel(player, npc);
-				}
-
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-					ChangeElement(y - 1, x - 1, move);
-
-					PrintPanel(player, npc);
+					count++;
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+					count = 5;
 				}
 			}
 		}
 		else {
-			if (!showResult) {
-				showResult = true;
+			if (move > 0) {
+				if (!isPressed) {
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
+						playerGamepanel[y + 1][x] != 0) {
+						y++;
 
-				CalculateScore(player);
+						tsSprite.move(0.f, 92.f);
 
-				if (observationScore > npc.GetC().GetObservation() * 2 &&
-					conversationScore > npc.GetC().GetConversation() * 2 &&
-					knowledgeScore > npc.GetC().GetKnowledge() * 2) {
-					player.Reward(npc.GetNPCReward());
-					npc.SetPassTradeGame(true);
-					player.AddTradeGameWin(1);
-					result.setString("You win");
-				}
-				else {
-					result.setString("Try it next time");
+						PrintPanel(player, npc);
+					}
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
+						playerGamepanel[y - 1][x] != 0) {
+						y--;
+
+						tsSprite.move(0.f, -92.f);
+
+						PrintPanel(player, npc);
+					}
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
+						playerGamepanel[y][x - 1] != 0) {
+						x--;
+
+						tsSprite.move(-92.f, 0.f);
+
+						PrintPanel(player, npc);
+					}
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
+						playerGamepanel[y][x + 1] != 0) {
+						x++;
+
+						tsSprite.move(92.f, 0.f);
+
+						PrintPanel(player, npc);
+					}
+
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+						ChangeElement(y - 1, x - 1, move);
+
+						PrintPanel(player, npc);
+					}
 				}
 			}
+			else {
+				if (!showResult) {
+					showResult = true;
 
-			if (!isPressed) {
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
-					sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-					StartTrading = false;
-					showResult = false;
-					played = true;
+					CalculateScore(player);
+
+					if (observationScore > npc.GetC().GetObservation() * 2 &&
+						conversationScore > npc.GetC().GetConversation() * 2 &&
+						knowledgeScore > npc.GetC().GetKnowledge() * 2) {
+						player.Reward(npc.GetNPCReward());
+						npc.SetPassTradeGame(true);
+						player.AddTradeGameWin(1);
+						result.setString("You win");
+					}
+					else {
+						result.setString("Try it next time");
+					}
+				}
+
+				if (!isPressed) {
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
+						sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+						StartTrading = false;
+						showResult = false;
+						played = true;
+					}
 				}
 			}
 		}
@@ -792,21 +872,34 @@ void Trade::Draw(sf::RenderWindow& window)
 	window.draw(tbgSprite);
 
 	if (!played) {
-		window.draw(gp1Sprite);
-		window.draw(gp2Sprite);
-		window.draw(gp3Sprite);
+		if (showInstru) {
+			switch (count) {
+			case 0: window.draw(in1Sprite); break;
+			case 1: window.draw(in2Sprite); break;
+			case 2: window.draw(in3Sprite); break;
+			case 3: window.draw(in4Sprite); break;
+			case 4: window.draw(in5Sprite); break;
+			}
 
-		window.draw(info);
-		
-		if (move <= 0) {
-			window.draw(result);
+			tsSprite.setScale(0.f, 0.f);
 		}
+		else {
+			window.draw(gp1Sprite);
+			window.draw(gp2Sprite);
+			window.draw(gp3Sprite);
 
-		for (int i = 0; i < vElements.size(); i++) {
-			window.draw(vElements[i]);
+			window.draw(info);
+
+			if (move <= 0) {
+				window.draw(result);
+			}
+
+			for (int i = 0; i < vElements.size(); i++) {
+				window.draw(vElements[i]);
+			}
+
+			tsSprite.setScale(5.75f, 5.75f);
 		}
-
-		tsSprite.setScale(5.75f, 5.75f);
 	}
 	else {
 		if (showShop) {
@@ -859,6 +952,9 @@ void Trade::Draw(sf::RenderWindow& window)
 //Functions
 void Trade::SetUpGamePanel(Player player, NPC npc, std::string previousState)
 {
+	showInstru = true;
+	count = 0;
+
 	this->previousState = previousState;
 	StartTrading = true;
 	move = 10;

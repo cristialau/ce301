@@ -86,6 +86,10 @@ Battle::Battle(float width, float height)
 	ehpbgTextureName = "Textures/battle/hpbg.png";
 
 	hpTextureName = "Textures/battle/hp.png";
+
+	e1TextureName = "Textures/npcs/b.png";
+	e2TextureName = "Textures/npcs/b.png";
+	e3TextureName = "Textures/npcs/b.png";
 }
 
 Battle::~Battle()
@@ -285,6 +289,39 @@ void Battle::Load()
 	for (int i = 0; i < 100; i++) {
 		hpSprite.setPosition(sf::Vector2f(750.f - 2.f * i, 55.f));
 		ehpbar.push_back(hpSprite);
+	}
+	//----------------------------------------------
+	if (e1Texture.loadFromFile(e1TextureName)) {
+		std::cout << "e1Texture texture loaded" << std::endl;
+		e1Sprite.setTexture(e1Texture);
+
+		e1Sprite.setPosition(sf::Vector2f(width / 2.f - 4 * tileSize, height / 2.f - 50.f));
+		e1Sprite.setScale(sf::Vector2f(8.f, 8.f));
+	}
+	else {
+		std::cout << "e1Texture texture failed to load" << std::endl;
+	}
+
+	if (e2Texture.loadFromFile(e2TextureName)) {
+		std::cout << "e2Texture texture loaded" << std::endl;
+		e2Sprite.setTexture(e2Texture);
+
+		e2Sprite.setPosition(sf::Vector2f(width / 2.f - 4 * tileSize - 200.f, height / 2.f - 100.f));
+		e2Sprite.setScale(sf::Vector2f(8.f, 8.f));
+	}
+	else {
+		std::cout << "e2Texture texture failed to load" << std::endl;
+	}
+
+	if (e3Texture.loadFromFile(e3TextureName)) {
+		std::cout << "e3Texture texture loaded" << std::endl;
+		e3Sprite.setTexture(e3Texture);
+
+		e3Sprite.setPosition(sf::Vector2f(width / 2.f - 4 * tileSize + 200.f, height / 2.f - 100.f));
+		e3Sprite.setScale(sf::Vector2f(8.f, 8.f));
+	}
+	else {
+		std::cout << "e3Texture texture failed to load" << std::endl;
 	}
 }
 
@@ -841,50 +878,6 @@ void Battle::SetUp(Player player, std::vector<NPC> enemy, std::string previousSt
 
 	useEnemyAttack = false;
 	
-	//------------------------------------------
-	//sprites
-	e1TextureName.clear();
-	e2TextureName.clear();
-	e3TextureName.clear();
-
-	switch (enemyNumber) {
-	case 1:	e1TextureName = enemy[0].GetTextureName(); break;
-	case 2: e1TextureName = enemy[0].GetTextureName(); e2TextureName = enemy[1].GetTextureName(); break;
-	case 3: e1TextureName = enemy[0].GetTextureName(); e2TextureName = enemy[1].GetTextureName(); e3TextureName = enemy[2].GetTextureName(); break;
-	}
-
-	if (e1Texture.loadFromFile(e1TextureName)) {
-		std::cout << "e1Texture texture loaded" << std::endl;
-		e1Sprite.setTexture(e1Texture);
-
-		e1Sprite.setPosition(sf::Vector2f(width / 2.f - 4 * tileSize, height / 2.f - 50.f));
-		e1Sprite.setScale(sf::Vector2f(8.f, 8.f));
-	}
-	else {
-		std::cout << "e1Texture texture failed to load" << std::endl;
-	}
-
-	if (e2Texture.loadFromFile(e2TextureName)) {
-		std::cout << "e2Texture texture loaded" << std::endl;
-		e2Sprite.setTexture(e2Texture);
-
-		e2Sprite.setPosition(sf::Vector2f(width / 2.f - 4 * tileSize - 200.f, height / 2.f - 100.f));
-		e2Sprite.setScale(sf::Vector2f(8.f, 8.f));
-	}
-	else {
-		std::cout << "e2Texture texture failed to load" << std::endl;
-	}
-
-	if (e3Texture.loadFromFile(e3TextureName)) {
-		std::cout << "e3Texture texture loaded" << std::endl;
-		e3Sprite.setTexture(e3Texture);
-
-		e3Sprite.setPosition(sf::Vector2f(width / 2.f - 4 * tileSize + 200.f, height / 2.f - 100.f));
-		e3Sprite.setScale(sf::Vector2f(8.f, 8.f));
-	}
-	else {
-		std::cout << "e3Texture texture failed to load" << std::endl;
-	}
 	//log
 	logstr.clear();
 

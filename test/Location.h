@@ -22,12 +22,10 @@ struct Location
 	int playerPositionX = 0;
 	int playerPositionY = 0;
 
-	//map texture
-	std::string mapTextureName = "Textures/Pipoya RPG Tileset 16x16/Pipoya RPG Tileset 16x16/[Base]BaseChip_pipo.png";
 	//map
+	std::string mapTextureName = "Textures/Pipoya RPG Tileset 16x16/Pipoya RPG Tileset 16x16/[Base]BaseChip_pipo.png";
 	const static int mapSize = 20;
 	std::vector<int> map[mapSize][mapSize];
-	//std::vector<std::vector<std::vector<int>>> map;
 	//player map
 	const static int playerMapSize = mapSize + 2;
 	int playerMap[playerMapSize][playerMapSize] =

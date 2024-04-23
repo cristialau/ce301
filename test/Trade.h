@@ -64,6 +64,9 @@ private:
 
 	int temp2;
 
+	bool showInstru;
+	int count;
+
 	//sprites
 	float tileSize;
 	float scale;
@@ -121,6 +124,22 @@ private:
 	std::string chTextureName;
 	sf::Texture chTexture;
 	sf::Sprite chSprite;
+
+	std::string in1TextureName;
+	sf::Texture in1Texture;
+	sf::Sprite in1Sprite;
+	std::string in2TextureName;
+	sf::Texture in2Texture;
+	sf::Sprite in2Sprite;
+	std::string in3TextureName;
+	sf::Texture in3Texture;
+	sf::Sprite in3Sprite;
+	std::string in4TextureName;
+	sf::Texture in4Texture;
+	sf::Sprite in4Sprite;
+	std::string in5TextureName;
+	sf::Texture in5Texture;
+	sf::Sprite in5Sprite;
 
 public:
 	Trade(float width, float height);

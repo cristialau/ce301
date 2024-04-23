@@ -14,9 +14,6 @@
 //#include "SFML/Window.hpp"
 //#include "SFML/Audio.hpp"
 
-/*
-std::cout << "bug?" << std::endl;
-*/
 class Game
 {
 private:
@@ -43,9 +40,7 @@ private:
 
 	std::vector<NPC> enemyList;
 	
-	Map map = Map();				//Map
-	//map texture
-	//location[1].mapTextureName = "Textures/Pipoya RPG Tileset 16x16/Pipoya RPG Tileset 16x16/[Base]BaseChip_pipo.png";
+	Map map = Map();		//Map
 	MainMenu* mainMenu;		//MainMenu
 	Player* player;			//Player
 	Menu* menu;				//Menu
@@ -54,16 +49,16 @@ private:
 
 	//variables
 	int mapNumber = 1;
+	int mapNum = 0;
 
 	std::string gameState;	//Game State
-	
-	bool isPressed = false;	//Press keys
 
 	std::string previousState;	//previousState
 	std::string temp;
 	bool changeState = false;
 	bool changePercent = false;
-	int mapNum = 0;
+	
+	bool isPressed = false;	//Press keys
 	
 public:
 	Game();

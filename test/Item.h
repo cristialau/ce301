@@ -20,10 +20,10 @@ struct Item
 	int durability = 100;
 	int weight = 1;
 
-	int gold = 0;
 	float penalty = 1.f;
 	float percent = 1.f;
 	int bonus = 0;
+	int gold = 0;
 	
 	int price = 0;
 	//int price = (int)(gold * percent * penalty) + bonus;
