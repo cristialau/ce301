@@ -220,7 +220,7 @@ void NPC::Effect()
 
 		e1previousID = c.GetEquip(1).id;
 	}
-
+	
 	if (s1previousID != c.GetSkill(1).id) {
 
 		switch (s1previousID) {

@@ -130,10 +130,10 @@ void Menu::Load(std::vector<Location> locationList)
 		c2info.setCharacterSize(24);
 		detail.setCharacterSize(24);
 		ask.setCharacterSize(24);
-		skillList.setCharacterSize(29.5);
-		equipList.setCharacterSize(29.5);
-		inventoryList.setCharacterSize(29.5);
-		questList.setCharacterSize(29.5);
+		skillList.setCharacterSize(29);
+		equipList.setCharacterSize(29);
+		inventoryList.setCharacterSize(29);
+		questList.setCharacterSize(29);
 
 		c1info.setPosition(sf::Vector2f(150.f, 200.f));
 		c2info.setPosition(sf::Vector2f(470.f, 200.f));

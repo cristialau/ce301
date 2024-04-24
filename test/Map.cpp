@@ -79,11 +79,6 @@ void Map::Load(Location location)
 	}
 }
 
-void Map::Update(Location location)
-{
-
-}
-
 void Map::Draw(sf::RenderWindow &window, Player player)
 {
 	fromX = player.GetMapPositionX() - sightX;

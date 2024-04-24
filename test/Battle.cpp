@@ -116,9 +116,9 @@ void Battle::Load()
 		pinfo.setFont(font);
 		einfo.setFont(font);
 		
-		roundtxt.setCharacterSize(29.5);
+		roundtxt.setCharacterSize(29);
 		log.setCharacterSize(28);
-		endbattle.setCharacterSize(29.5);
+		endbattle.setCharacterSize(29);
 		s1.setCharacterSize(28);
 		s2.setCharacterSize(28);
 		s3.setCharacterSize(28);

@@ -113,13 +113,13 @@ void Trade::Load()
 		info.setCharacterSize(30);
 		result.setCharacterSize(26);
 		shopTitle.setCharacterSize(40);
-		shopCat.setCharacterSize(29.5);
-		inventoryName.setCharacterSize(29.5);
-		inventoryType.setCharacterSize(29.5);
-		inventoryPrice.setCharacterSize(29.5);
-		inventoryDua.setCharacterSize(29.5);
-		shopCon.setCharacterSize(29.5);
-		check.setCharacterSize(29.5);
+		shopCat.setCharacterSize(29);
+		inventoryName.setCharacterSize(29);
+		inventoryType.setCharacterSize(29);
+		inventoryPrice.setCharacterSize(29);
+		inventoryDua.setCharacterSize(29);
+		shopCon.setCharacterSize(29);
+		check.setCharacterSize(29);
 
 		info.setPosition(sf::Vector2f(590.f, 90.f));
 		result.setPosition(sf::Vector2f(570.f, 480.f));
@@ -555,11 +555,11 @@ void Trade::StartShop(Player& player, NPC& npc, Location& location, bool& isPres
 
 					location.rls += 25;
 
-					for (int i = 1; i < npcTrolley.size(); i++) {
+					for (int i = 1; i < (int)npcTrolley.size(); i++) {
 						player.GetCartInventory().push_back(npcTrolley[i]);
 					}
 
-					for (int i = 1; i < playerTrolley.size(); i++) {
+					for (int i = 1; i < (int)playerTrolley.size(); i++) {
 						npc.GetShop().push_back(playerTrolley[i]);
 					}
 

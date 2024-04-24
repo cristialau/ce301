@@ -36,13 +36,13 @@ void Game::InitWindow()
         ifs >> vertical_sync_enabled;
     }
     ifs.close();
-
+    
     this->window = new sf::RenderWindow(window_bounds, title, sf::Style::Close);
     this->window->setFramerateLimit(framerate_limit);
     this->window->setVerticalSyncEnabled(vertical_sync_enabled);
 
     view.setSize(window_bounds.width, window_bounds.height);
-    view.setCenter(window->getSize().x / 2.f, window->getSize().y / 2);
+    view.setCenter(window->getSize().x / 2.f, window->getSize().y / 2.f);
 
     this->windowWidth = window_bounds.width;
     this->windowHeight = window_bounds.height;

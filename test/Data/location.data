@@ -13,7 +13,7 @@ mapTextureName = none
 ----------------------------------------------
 //location[1]
 id = 1
-iconTextureName = none
+iconTextureName = Textures/location/location1.png
 spritePositionX = 250
 spritePositionY = 100
 name = Star
@@ -25,7 +25,7 @@ mapTextureName = Textures/Pipoya RPG Tileset 16x16/Pipoya RPG Tileset 16x16/[Bas
 ----------------------------------------------
 //location[2]
 id = 2
-iconTextureName = none
+iconTextureName = Textures/location/location2.png
 spritePositionX = 350
 spritePositionY = 100
 name = Resfeber
@@ -37,7 +37,7 @@ mapTextureName = Textures/Pipoya RPG Tileset 16x16/Pipoya RPG Tileset 16x16/[Bas
 ----------------------------------------------
 //location[3]
 id = 3
-iconTextureName = none
+iconTextureName = Textures/location/location3.png
 spritePositionX = 300
 spritePositionY = 200
 name = Komorebi
@@ -49,7 +49,7 @@ mapTextureName = none
 ----------------------------------------------
 //location[4]
 id = 4
-iconTextureName = none
+iconTextureName = Textures/location/location4.png
 spritePositionX = 350
 spritePositionY = 350
 name = On The Way
@@ -61,7 +61,7 @@ mapTextureName = none
 ----------------------------------------------
 //location[5]
 id = 5
-iconTextureName = none
+iconTextureName = Textures/location/location5.png
 spritePositionX = 450
 spritePositionY = 300
 name = Gate
@@ -73,7 +73,7 @@ mapTextureName = none
 ----------------------------------------------
 //location[6]
 id = 6
-iconTextureName = none
+iconTextureName = Textures/location/location6.png
 spritePositionX = 500
 spritePositionY = 400
 name = MidNight
@@ -85,7 +85,7 @@ mapTextureName = none
 ----------------------------------------------
 //location[7]
 id = 7
-iconTextureName = none
+iconTextureName = Textures/location/location7.png
 spritePositionX = 675
 spritePositionY = 500
 name = Edge
