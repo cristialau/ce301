@@ -111,8 +111,6 @@ private:
 	float tsheight;
 	float tsscale;
 
-
-
 	sf::Font font;
 	sf::Text cancel;
 	sf::Text trade;

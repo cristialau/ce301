@@ -159,7 +159,6 @@ public:
 	Battle(float width, float height);
 	~Battle();
 
-	void Initialize();
 	void Load();
 	void Update(Player& player, std::vector<NPC>& enemy, std::string previousState, bool& isPressed);
 	void EndBattle(Player& player, std::vector<NPC>& enemy, bool& isPressed);

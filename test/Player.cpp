@@ -521,8 +521,7 @@ void Player::TravelState(int travelingTime, float dt, bool& isPressed)
 	if (!showTravel) {
 		showTravel = true;
 
-		dia.setString("Traveling\nDay "
-			+ std::to_string(day));
+		dia.setString("Traveling\nDay " + std::to_string(day));
 	}
 
 	if (this->travelingTime > 0) {

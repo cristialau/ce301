@@ -340,11 +340,13 @@ void Trade::StartTrade(Player& player, NPC& npc, std::string previousState, Loca
 
 						PrintPanel(player, npc);
 					}
-
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 						ChangeElement(y - 1, x - 1, move);
 
 						PrintPanel(player, npc);
+					}
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+						move = 0;
 					}
 				}
 			}

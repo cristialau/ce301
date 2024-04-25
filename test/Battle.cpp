@@ -96,10 +96,6 @@ Battle::~Battle()
 {
 }
 
-void Battle::Initialize()
-{
-}
-
 void Battle::Load()
 {
 	if (font.loadFromFile("Fonts/Times New Normal Regular.ttf")) {
